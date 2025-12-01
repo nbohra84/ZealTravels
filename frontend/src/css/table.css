@@ -1,0 +1,275 @@
+#Ticketrept tr:nth-of-type(odd){background: #FFF;}
+#Ticketrept th {background: linear-gradient(to bottom,#1e5370,#1e5370); color: white; font-weight: bold;}
+#Ticketrept td, #Ticketrept th{ padding: 7px;text-align: left;}
+        
+@media only screen and (max-width: 700px), (min-device-width: 700px) and (max-device-width: 700px)
+        {
+          #Ticketrept table, #Ticketrept thead, #Ticketrept tbody, #Ticketrept th, #Ticketrept td, #Ticketrept tr{display: block;}
+          #Ticketrept thead tr{position: absolute;top: -9999px; left: -9999px;}
+          #Ticketrept tr{border: 1px solid #ccc;}
+          #Ticketrept td {border: none;border-bottom: 1px solid #eee; position: relative;padding-left: 45%;line-height:25px;}
+          #Ticketrept td:before {position: absolute;  top: 6px; left: 6px; width: auto;padding-right: 10px;white-space: nowrap;}
+          
+          #Ticketrept.col-md-3, #Ticketrept.col-md-4,#Ticketrept.col-md-9,#Ticketrept.col-md-2,#Ticketrept.col-md-5{width:60%; text-align:left;}        
+          #Ticketrept td:nth-of-type(1):before{ content: "SNO.";}
+          #Ticketrept td:nth-of-type(2):before{content: "Company";}
+          #Ticketrept td:nth-of-type(3):before{content: "BookingRef";}
+          #Ticketrept td:nth-of-type(4):before{content: "Sector/Trip";}
+          #Ticketrept td:nth-of-type(5):before{content: "Route";}
+          #Ticketrept td:nth-of-type(6):before{content: "CarrierCode";}
+          #Ticketrept td:nth-of-type(7):before{content: "PNR";}
+          #Ticketrept td:nth-of-type(8):before{content: "Departure Date";}
+          #Ticketrept td:nth-of-type(9):before{content: "Status";}
+          #Ticketrept td:nth-of-type(10):before{content: "Event Time";}
+          #Ticketrept td:nth-of-type(11):before{content: "Invoice";}
+
+}
+
+ #trainbook tr:nth-of-type(odd){background: #FFF;}
+#trainbook th {background: linear-gradient(to bottom,#1e5370,#1e5370); color: white; font-weight: bold;}
+#trainbook td, #trainbook th{ padding: 7px;text-align: left;}
+        
+@media only screen and (max-width: 700px), (min-device-width: 700px) and (max-device-width: 700px)
+        {
+          #trainbook table, #trainbook thead, #trainbook tbody, #trainbook th, #trainbook td, #trainbook tr{display: block;}
+          #trainbook thead tr{position: absolute;top: -9999px; left: -9999px;}
+          #trainbook tr{border: 1px solid #ccc;}
+          #trainbook td {border: none;border-bottom: 1px solid #eee; position: relative;padding-left: 45%;line-height:25px;}
+          #trainbook td:before {position: absolute;  top: 6px; left: 6px; width: auto;padding-right: 10px;white-space: nowrap;}
+          
+          #trainbook.col-md-3, #trainbook.col-md-4,#trainbook.col-md-9,#trainbook.col-md-2,#trainbook.col-md-5{width:60%; text-align:left;}        
+          #trainbook td:nth-of-type(1):before{ content: "ID";}
+          #trainbook td:nth-of-type(2):before{content: "BankLogo";}
+          #trainbook td:nth-of-type(3):before{content: "Bank Name";}
+          #trainbook td:nth-of-type(4):before{content: "Account No";}
+          #trainbook td:nth-of-type(5):before{content: "Branch Name";}
+          #trainbook td:nth-of-type(6):before{content: "RTGS/IFSC/NEFT/Bank Code";}
+
+}
+
+#Table1 tr:nth-of-type(odd){background: #FFF;}
+#Table1 th {background: linear-gradient(to bottom,#1e5370,#1e5370); color: white; font-weight: bold;}
+#Table1 td, #Table1 th{ padding: 7px;text-align: left;}
+        
+@media only screen and (max-width: 700px), (min-device-width: 700px) and (max-device-width: 700px)
+        {
+          #Table1 table, #Table1 thead, #Table1 tbody, #Table1 th, #Table1 td, #Table1 tr{display: block;}
+          #Table1 thead tr{position: absolute;top: -9999px; left: -9999px;}
+          #Table1 tr{border: 1px solid #ccc;}
+          #Table1 td {border: none;border-bottom: 1px solid #eee; position: relative;padding-left: 45%;line-height:25px;}
+          #Table1 td:before {position: absolute;  top: 6px; left: 6px; width: auto;padding-right: 10px;white-space: nowrap;}
+          
+          #Table1.col-md-3, #Table1.col-md-4,#Table1.col-md-9,#Table1.col-md-2,#Table1.col-md-5{width:60%; text-align:left;}        
+          #Table1 td:nth-of-type(1):before{ content: "ID";}
+          #Table1 td:nth-of-type(2):before{content: "BankLogo";}
+          #Table1 td:nth-of-type(3):before{content: "Bank Name";}
+          #Table1 td:nth-of-type(4):before{content: "Account No";}
+          #Table1 td:nth-of-type(5):before{content: "Branch Name";}
+          #Table1 td:nth-of-type(6):before{content: "RTGS/IFSC/NEFT/Bank Code";}
+
+}
+
+
+#Domesticcc th {background: linear-gradient(to bottom,#1e5370,#1e5370); color: white; font-weight: bold;}
+#Domesticcc td, #Domesticcc th{ padding: 7px; text-align: left;}
+        
+@media only screen and (max-width: 700px), (min-device-width: 700px) and (max-device-width: 700px)
+        {
+          #Domesticcc table, #Domesticcc thead, #Domesticcc tbody, #Domesticcc th, #Domesticcc td, #Domesticcc tr{display: block;}
+          #Domesticcc thead tr{position: absolute;top: -9999px; left: -9999px;}
+          #Domesticcc tr{border: 1px solid #ccc;}
+          #Domesticcc td {border: none;border-bottom: 1px solid #eee; position: relative;padding-left: 45%;line-height:25px;}
+          #Domesticcc td:before {position: absolute;  top: 6px; left: 6px; width: auto;padding-right: 10px;white-space: nowrap;}
+          
+          #Domesticcc.col-md-3, #Domesticcc.col-md-4,#Domesticcc.col-md-9,#Domesticcc.col-md-2,#Domesticcc.col-md-5{width:60%; text-align:left;}        
+          #Domesticcc td:nth-of-type(1):before{ content: "SNO.";}
+          #Domesticcc td:nth-of-type(2):before{content: "AirLine Name";}
+          #Domesticcc td:nth-of-type(3):before{content: "MarkUpValue";}
+          #Domesticcc td:nth-of-type(4):before{content: "MArkUpType";}
+          #Domesticcc td:nth-of-type(5):before{content: "MarkUpValueOn";}
+
+}
+
+#tbleinternationalmarkup th {background: linear-gradient(to bottom,#1e5370,#1e5370); color: white; font-weight: bold;}
+#tbleinternationalmarkup td, #tbleinternationalmarkup th{ padding: 7px; text-align: left;}
+        
+@media only screen and (max-width: 700px), (min-device-width: 700px) and (max-device-width: 700px)
+        {
+          #tbleinternationalmarkup table, #tbleinternationalmarkup thead, #tbleinternationalmarkup tbody, #tbleinternationalmarkup th, #tbleinternationalmarkup td, #tbleinternationalmarkup tr{display: block;}
+          #tbleinternationalmarkup thead tr{position: absolute;top: -9999px; left: -9999px;}
+          #tbleinternationalmarkup tr{border: 1px solid #ccc;}
+          #tbleinternationalmarkup td {border: none;border-bottom: 1px solid #eee; position: relative;padding-left: 45%;line-height:25px;}
+          #tbleinternationalmarkup td:before {position: absolute;  top: 6px; left: 6px; width: auto;padding-right: 10px;white-space: nowrap;}
+          
+          #tbleinternationalmarkup.col-md-3, #tbleinternationalmarkup.col-md-4,#tbleinternationalmarkup.col-md-9,#tbleinternationalmarkup.col-md-2,#tbleinternationalmarkup.col-md-5{width:60%; text-align:left;}        
+          #tbleinternationalmarkup td:nth-of-type(1):before{ content: "SNO.";}
+          #tbleinternationalmarkup td:nth-of-type(2):before{content: "AirLine Name";}
+          #tbleinternationalmarkup td:nth-of-type(3):before{content: "MarkUpValue";}
+          #tbleinternationalmarkup td:nth-of-type(4):before{content: "MArkUpType";}
+          #tbleinternationalmarkup td:nth-of-type(5):before{content: "MarkUpValueOn";}
+
+}
+
+#tblehotelmarkup th {background: linear-gradient(to bottom,#1e5370,#1e5370); color: white; font-weight: bold;}
+#tblehotelmarkup td, #tblehotelmarkup th{ padding: 7px; text-align: left;}
+        
+@media only screen and (max-width: 700px), (min-device-width: 700px) and (max-device-width: 700px)
+        {
+          #tblehotelmarkup table, #tblehotelmarkup thead, #tblehotelmarkup tbody, #tblehotelmarkup th, #tblehotelmarkup td, #tblehotelmarkup tr{display: block;}
+          #tblehotelmarkup thead tr{position: absolute;top: -9999px; left: -9999px;}
+          #tblehotelmarkup tr{border: 1px solid #ccc;}
+          #tblehotelmarkup td {border: none;border-bottom: 1px solid #eee; position: relative;padding-left: 45%;line-height:25px;}
+          #tblehotelmarkup td:before {position: absolute;  top: 6px; left: 6px; width: auto;padding-right: 10px;white-space: nowrap;}
+          
+          #tblehotelmarkup.col-md-3, #tblehotelmarkup.col-md-4,#tblehotelmarkup.col-md-9,#tblehotelmarkup.col-md-2,#tblehotelmarkup.col-md-5{width:60%; text-align:left;}        
+          #tblehotelmarkup td:nth-of-type(1):before{ content: "SNO.";}
+          #tblehotelmarkup td:nth-of-type(2):before{content: "Sector";}
+          #tblehotelmarkup td:nth-of-type(3):before{content: "MarkUpValue";}
+          #tblehotelmarkup td:nth-of-type(4):before{content: "MArkUpType";}
+          #tblehotelmarkup td:nth-of-type(5):before{content: "";}
+
+}
+#mnchg tr:nth-of-type(odd){background: #FFF;}
+#mnchg th {background: linear-gradient(to bottom,#1e5370,#1e5370); color: white; font-weight: bold;}
+#mnchg td, #mnchg th{ padding: 7px; text-align: left;}
+        
+@media only screen and (max-width: 700px), (min-device-width: 700px) and (max-device-width: 700px)
+        {
+          #mnchg table, #mnchg thead, #mnchg tbody, #mnchg th, #mnchg td, #mnchg tr{display: block;}
+          #mnchg thead tr{position: absolute;top: -9999px; left: -9999px;}
+          #mnchg tr{border: 1px solid #ccc;}
+          #mnchg td {border: none;border-bottom: 1px solid #eee; position: relative;padding-left: 45%;line-height:25px;}
+          #mnchg td:before {position: absolute;  top: 6px; left: 6px; width: auto;padding-right: 10px;white-space: nowrap;}
+          
+          #mnchg.col-md-3, #mnchg.col-md-4,#mnchg.col-md-9,#mnchg.col-md-2,#mnchg.col-md-5{width:60%; text-align:left;}        
+          #mnchg td:nth-of-type(1):before{ content: "ID";}
+          #mnchg td:nth-of-type(2):before{content: "Description";}
+          #mnchg td:nth-of-type(3):before{content: "Charge Amount";}
+          #mnchg td:nth-of-type(4):before{content: "Sector";}
+
+}
+
+#pendingreport th {background: linear-gradient(to bottom,#1e5370,#1e5370); color: white; font-weight: bold;}
+#pendingreport td, #pendingreport th{ padding: 7px; text-align: left;}
+        
+@media only screen and (max-width: 700px), (min-device-width: 700px) and (max-device-width: 700px)
+        {
+          #pendingreport table, #pendingreport thead, #pendingreport tbody, #pendingreport th, #pendingreport td, #pendingreport tr{display: block;}
+          #pendingreport thead tr{position: absolute;top: -9999px; left: -9999px;}
+          #pendingreport tr{border: 1px solid #ccc;}
+          #pendingreport td {border: none;border-bottom: 1px solid #eee; position: relative;padding-left: 45%;line-height:25px;}
+          #pendingreport td:before {position: absolute;  top: 6px; left: 6px; width: auto;padding-right: 10px;white-space: nowrap;}
+          
+          #pendingreport.col-md-3, #pendingreport.col-md-4,#pendingreport.col-md-9,#pendingreport.col-md-2,#pendingreport.col-md-5{width:60%; text-align:left;}        
+          #pendingreport td:nth-of-type(1):before{ content: "SNO.";}
+          #pendingreport td:nth-of-type(2):before{content: "Company";}
+          #pendingreport td:nth-of-type(3):before{content: "Payment_Ref";}
+          #pendingreport td:nth-of-type(4):before{content: "Payment_Type";}
+          #pendingreport td:nth-of-type(5):before{content: "PaymentID";}
+          #pendingreport td:nth-of-type(6):before{content: "Amount";}
+          #pendingreport td:nth-of-type(7):before{content: "Issue_Date";}
+          #pendingreport td:nth-of-type(8):before{content: "Approved/Reject";}
+          #pendingreport td:nth-of-type(9):before{content: "Remark";}
+
+}
+
+#repoettable th {background: linear-gradient(to bottom,#1e5370,#1e5370); color: white; font-weight: bold;}
+#repoettable td, #repoettable th{ padding: 7px; text-align: left;}
+        
+@media only screen and (max-width: 700px), (min-device-width: 700px) and (max-device-width: 700px)
+        {
+          #repoettable table, #repoettable thead, #repoettable tbody, #repoettable th, #repoettable td, #repoettable tr{display: block;}
+          #repoettable thead tr{position: absolute;top: -9999px; left: -9999px;}
+          #repoettable tr{border: 1px solid #ccc;}
+          #repoettable td {border: none;border-bottom: 1px solid #eee; position: relative;padding-left: 45%;line-height:25px;}
+          #repoettable td:before {position: absolute;  top: 6px; left: 6px; width: auto;padding-right: 10px;white-space: nowrap;}
+          
+          #repoettable.col-md-3, #repoettable.col-md-4,#repoettable.col-md-9,#repoettable.col-md-2,#repoettable.col-md-5{width:60%; text-align:left;}        
+          #repoettable td:nth-of-type(1):before{ content: "SNO.";}
+          #repoettable td:nth-of-type(2):before{content: "Company";}
+          #repoettable td:nth-of-type(3):before{content: "Payment_Ref";}
+          #repoettable td:nth-of-type(4):before{content: "Payment_Type";}
+          #repoettable td:nth-of-type(5):before{content: "PaymentID";}
+          #repoettable td:nth-of-type(6):before{content: "Amount";}
+          #repoettable td:nth-of-type(7):before{content: "Issue_Date";}
+          #repoettable td:nth-of-type(8):before{content: "Status";}
+          #repoettable td:nth-of-type(9):before{content: "Remark";}
+
+}
+
+#fundtransfer th {background: linear-gradient(to bottom,#1e5370,#1e5370); color: white; font-weight: bold;}
+#fundtransfer td, #fundtransfer th{ padding: 7px; text-align: left;}
+        
+@media only screen and (max-width: 700px), (min-device-width: 700px) and (max-device-width: 700px)
+        {
+          #fundtransfer table, #fundtransfer thead, #fundtransfer tbody, #fundtransfer th, #fundtransfer td, #fundtransfer tr{display: block;}
+          #fundtransfer thead tr{position: absolute;top: -9999px; left: -9999px;}
+          #fundtransfer tr{border: 1px solid #ccc;}
+          #fundtransfer td {border: none;border-bottom: 1px solid #eee; position: relative;padding-left: 45%;line-height:25px;}
+          #fundtransfer td:before {position: absolute;  top: 6px; left: 6px; width: auto;padding-right: 10px;white-space: nowrap;}
+          
+          #fundtransfer.col-md-3, #fundtransfer.col-md-4,#fundtransfer.col-md-9,#fundtransfer.col-md-2,#fundtransfer.col-md-5{width:60%; text-align:left;}        
+          #fundtransfer td:nth-of-type(1):before{ content: "SNO.";}
+          #fundtransfer td:nth-of-type(2):before{content: "Company";}
+          #fundtransfer td:nth-of-type(3):before{content: "Amount";}
+          #fundtransfer td:nth-of-type(4):before{content: "ReferenceNo";}
+          #fundtransfer td:nth-of-type(5):before{content: "PaymentType";}
+          #fundtransfer td:nth-of-type(6):before{content: "BankName";}
+          #fundtransfer td:nth-of-type(7):before{content: "AccountNo";}
+          #fundtransfer td:nth-of-type(8):before{content: "Cheque_No";}
+          #fundtransfer td:nth-of-type(9):before{content: "UTR_No";}
+          #fundtransfer td:nth-of-type(10):before{content: "Status";}
+          #fundtransfer td:nth-of-type(11):before{content: "Issue_Date";}
+          #fundtransfer td:nth-of-type(12):before{content: "Remark";}
+
+}
+
+#Ticketrept th {background: linear-gradient(to bottom,#1e5370,#1e5370); color: white; font-weight: bold;}
+#Ticketrept td, #Ticketrept th{ padding: 7px; text-align: left;}
+        
+@media only screen and (max-width: 700px), (min-device-width: 700px) and (max-device-width: 700px)
+        {
+          #Ticketrept table, #Ticketrept thead, #Ticketrept tbody, #Ticketrept th, #Ticketrept td, #Ticketrept tr{display: block;}
+          #Ticketrept thead tr{position: absolute;top: -9999px; left: -9999px;}
+          #Ticketrept tr{border: 1px solid #ccc;}
+          #Ticketrept td {border: none;border-bottom: 1px solid #eee; position: relative;padding-left: 45%;line-height:25px;}
+          #Ticketrept td:before {position: absolute;  top: 6px; left: 6px; width: auto;padding-right: 10px;white-space: nowrap;}
+          
+          #Ticketrept.col-md-3, #Ticketrept.col-md-4,#Ticketrept.col-md-9,#Ticketrept.col-md-2,#Ticketrept.col-md-5{width:60%; text-align:left;}        
+          #Ticketrept td:nth-of-type(1):before{ content: "SNO.";}
+          #Ticketrept td:nth-of-type(2):before{content: "CarrierCode";}
+          #Ticketrept td:nth-of-type(3):before{content: "CarrierName";}
+          #Ticketrept td:nth-of-type(4):before{content: "TotalBasic";}
+          #Ticketrept td:nth-of-type(5):before{content: "TotalYQ";}
+          #Ticketrept td:nth-of-type(6):before{content: "TotalFare";}
+          #Ticketrept td:nth-of-type(7):before{content: "TotalCommission";}
+          #Ticketrept td:nth-of-type(8):before{content: "NoOfPassengers";}
+          #Ticketrept td:nth-of-type(9):before{content: "NoOfBookings";}
+
+}
+
+#ContentPlaceHolder1_Ledgertable th {background: linear-gradient(to bottom,#1e5370,#1e5370); color: white; font-weight: bold;}
+#ContentPlaceHolder1_Ledgertable td, #ContentPlaceHolder1_Ledgertable th{ padding: 7px; text-align: left;}
+        
+@media only screen and (max-width: 700px), (min-device-width: 700px) and (max-device-width: 700px)
+        {
+          #ContentPlaceHolder1_Ledgertable table, #ContentPlaceHolder1_Ledgertable thead, #ContentPlaceHolder1_Ledgertable tbody, #ContentPlaceHolder1_Ledgertable th, #ContentPlaceHolder1_Ledgertable td, #ContentPlaceHolder1_Ledgertable tr{display: block;}
+          #ContentPlaceHolder1_Ledgertable thead tr{position: absolute;top: -9999px; left: -9999px;}
+          #ContentPlaceHolder1_Ledgertable tr{border: 1px solid #ccc;}
+          #ContentPlaceHolder1_Ledgertable td {border: none;border-bottom: 1px solid #eee; position: relative;padding-left: 45%;line-height:25px;}
+          #ContentPlaceHolder1_Ledgertable td:before {position: absolute;  top: 6px; left: 6px; width: auto;padding-right: 10px;white-space: nowrap;}
+          
+          #ContentPlaceHolder1_Ledgertable.col-md-3, #ContentPlaceHolder1_Ledgertable.col-md-4,#ContentPlaceHolder1_Ledgertable.col-md-9,#ContentPlaceHolder1_Ledgertable.col-md-2,#ContentPlaceHolder1_Ledgertable.col-md-5{width:60%; text-align:left;}        
+          #ContentPlaceHolder1_Ledgertable td:nth-of-type(1):before{ content: "#";}
+          #ContentPlaceHolder1_Ledgertable td:nth-of-type(2):before{content: "Company";}
+          #ContentPlaceHolder1_Ledgertable td:nth-of-type(3):before{content: "Status | Refno.";}
+          #ContentPlaceHolder1_Ledgertable td:nth-of-type(4):before{content: "Created On";}
+          #ContentPlaceHolder1_Ledgertable td:nth-of-type(5):before{content: "Payments";}
+          #ContentPlaceHolder1_Ledgertable td:nth-of-type(6):before{content: "Debit";}
+          #ContentPlaceHolder1_Ledgertable td:nth-of-type(7):before{content: "Credit";}
+          #ContentPlaceHolder1_Ledgertable td:nth-of-type(8):before{content: "Balance";}
+          #ContentPlaceHolder1_Ledgertable td:nth-of-type(9):before{content: "PNR";}
+          #ContentPlaceHolder1_Ledgertable td:nth-of-type(10):before{content: "Remark";}
+
+}
+

@@ -1,0 +1,19 @@
+@media (max-width: 991.5px) {
+    #CancelFlightBookings .col-md-1,
+    #CancelFlightBookings .col-md-2,
+    #CancelFlightBookings .col-md-3,
+    #CancelFlightBookings .col-md-4,
+    #CancelFlightBookings .col-md-5,
+    #CancelFlightBookings .col-md-6,
+    #CancelFlightBookings .col-md-7,
+    #CancelFlightBookings .col-md-8,
+    #CancelFlightBookings .col-md-9,
+    #CancelFlightBookings .col-md-10,
+    #CancelFlightBookings .col-md-11,
+    #CancelFlightBookings .col-md-12 {
+        float: unset;
+    }
+    #CancelFlightBookings .pdbt.maksedkh{
+        padding-left: 10px;
+    }
+}

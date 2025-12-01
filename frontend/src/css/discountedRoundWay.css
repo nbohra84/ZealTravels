@@ -1,0 +1,651 @@
+input:focus {
+    background: #0000 !important;
+}
+
+.progress-bar-success {
+    background-color: #d9534f !important;
+}
+
+.progress-bar-warning {
+    background-color: #f0ad4e !important;
+}
+
+.progress-bar-danger {
+    background-color: #5cb85c !important;
+}
+
+.discui {
+    display: none;
+}
+
+ul.flight_sort.iudmirt {
+    background: #707374;
+}
+
+.modify_captions {
+    padding: 5px;
+}
+
+.actu {
+    display: none;
+}
+
+label {
+    font-weight: normal !important;
+}
+
+.center-div {
+    position: fixed;
+    margin: auto;
+    top: 35%;
+    right: 20%;
+    bottom: 27%;
+    left: 20%;
+    width: 445px;
+    height: 289px;
+    background-color: #fff;
+    border-radius: 3px;
+    margin-top: -6%;
+    z-index: 2222;
+}
+
+.dk {
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+    background: #2d67b2;
+    font-weight: 100;
+    margin-top: 0px;
+}
+
+.ddsf {
+    text-align: center;
+}
+
+.fixdivside1 {
+    position: fixed;
+    left: 0;
+    top: 29%;
+    width: 80px;
+    box-shadow: 0px 0px 3px #000;
+}
+
+/*progressslider css work start here*/
+
+
+.meter {
+    box-sizing: content-box;
+    height: 10px;
+    /* Can be anything */
+    position: relative;
+    margin: 0px 0 15px 0px;
+    /* Just for demo spacing */
+    border-radius: 25px;
+}
+
+.meter>span {
+    display: block;
+    height: 100%;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background-color: rgb(43, 194, 83);
+    background-image: linear-gradient(center bottom, rgb(43, 194, 83) 37%, rgb(84, 240, 84) 69%);
+    box-shadow: inset 0 2px 9px rgba(255, 255, 255, 0.3), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.meter>span:after,
+.animate>span>span {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+    z-index: 1;
+    background-size: 50px 50px;
+    animation: move 2s linear infinite;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    overflow: hidden;
+}
+
+.animate>span:after {
+    display: none;
+}
+
+.orange>span {
+    background-image: linear-gradient(#f1a165, #f36d0a);
+}
+
+.red>span {
+    background-image: linear-gradient(#f0a3a3, #f42323);
+}
+
+.nostripes>span>span,
+.nostripes>span::after {
+    background-image: none;
+}
+
+#page-wrap {
+    width: 98%;
+    /*margin: 80px auto;*/
+}
+
+
+/*progressslider css work end here*/
+
+
+.travelclass {
+    width: 94% !important;
+}
+
+.filterbtndv {
+    display: none;
+}
+
+/*calendar css work start here*/
+
+/*.ui-state-active, .ui-widget-content .ui-state-active {
+            background: #df233c !important;
+            color: #fff !important;
+            padding-right: 3px;
+        }*/
+
+td.ui-state-active {
+    background: #df233c !important;
+    color: #fff !important;
+}
+
+#ui-datepicker-div.ui-widget-header #ui-datepicker-div.ui-icon {
+    background-image: url("../img/ui-icons_444444_256x240.png.png") !important;
+}
+
+
+#ui-datepicker-div.ui-widget-header {
+    border: 1px solid #ffffff !important;
+    background: #ffffff !important;
+}
+
+#ui-datepicker-div.ui-state-default,
+#ui-datepicker-div.ui-widget-content .ui-state-default {
+    border: 1px solid #ffffff;
+    background: #fff;
+}
+
+#ui-datepicker-div.ui-widget.ui-widget-content {
+    border: 1px solid #ffffff !important;
+    box-shadow: rgb(0 0 0 / 10%) 0 50px 100px, rgb(0 0 0 / 6%) 0 5px 50px;
+}
+
+#ui-datepicker-div {
+    width: 51em !important;
+}
+
+#ui-datepicker-div.ui-datepicker td {
+    padding: 10px !important;
+    text-align: center;
+    font-size: 13px;
+}
+
+
+#ui-datepicker-div.ui-datepicker td a {
+    text-align: center;
+}
+
+#ui-datepicker-div.ui-datepicker .ui-datepicker-title {
+    font-size: 16px;
+    font-weight: 200;
+}
+
+#ui-datepicker-div.ui-datepicker-multi .ui-datepicker-group {
+    border-left: 1px solid #ececec !important;
+}
+
+#ui-datepicker-div.ui-state-hover,
+.ui-widget-content .ui-state-hover {
+    background: #dc217a4f;
+}
+
+#ui-datepicker-div.ui-datepicker-days-cell-over.ui-datepicker-current-day {
+    background: #df233c;
+}
+
+
+
+/*calendar css work start end*/
+
+
+
+
+/*tab css work end here*/
+.adtbon {
+    height: 32px !important;
+}
+
+.sidebar-toggle {
+    display: none;
+}
+
+/*fare calendar css work start*/
+table#Calendar1 tbody tr td {
+    border: none;
+}
+
+table#Calendar1 td table {
+    background: #fff !important;
+    color: #000 !important;
+    border: none;
+}
+
+table#Calendar1 tr th {
+    background-color: #fff !important;
+    font-weight: normal !important;
+    height: 1px;
+    color: #898484 !important;
+    border: 1px solid #fff;
+}
+
+table#Calendar1 {
+    color: #fff !important;
+    background-color: #FFF !important;
+    border-color: #fff !important;
+}
+
+td.disablec a {
+    color: #898484 !important;
+}
+
+tr:first-child td.enablec a {
+    color: #898484 !important;
+}
+
+td.disablec {
+    color: #908181 !important;
+    background-color: white !important;
+}
+
+div#UpdatePanel1 {
+    border: 1px solid #d4d4d4 !important;
+    width: 180px;
+}
+
+/*fare calendar css work end*/
+
+.checkbox input[type=checkbox],
+.checkbox-inline input[type=checkbox],
+.radio input[type=radio],
+.radio-inline input[type=radio] {
+    margin-left: -15px;
+    margin-top: 2px;
+}
+
+a.ui-state-default.ui-state-active {
+    background-color: #f34f4f !important;
+    color: #fff !important;
+}
+
+#imgReturn {
+    display: none;
+}
+
+.trip-box {
+    width: 131px !important;
+}
+
+/*#progressbarTop {
+                margin-bottom: 15px;
+            }*/
+
+.show_body_sub .maincontainer {
+    margin-top: 22px;
+}
+
+.ui-menu .ui-menu-item a {
+    text-decoration: none;
+    display: block;
+    padding: 10px .4em;
+    line-height: 1.5;
+    min-height: 0;
+    font-weight: normal;
+    font-family: 'Rubik', sans-serif;
+    border-top: 1px solid #efeeee !important;
+}
+
+.ui-menu {
+    padding: 0PX;
+}
+
+.ui-menu .ui-menu-item {
+    font-size: 13px;
+}
+
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-left,
+.ui-corner-tl {
+    border-radius: 0px;
+}
+
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    color: #ffffff;
+    background: #df233c !important;
+}
+
+.ui-widget-header .ui-icon {
+    background-image: url("../img/ui-icons_444444_256x240.png.png") !important;
+}
+
+
+.multicityrow {
+    border-bottom: 0px solid #ebebeb;
+}
+
+.trip-box {
+    padding-right: 20px !important;
+}
+
+
+.modify_top {
+    display: none;
+}
+
+.modifydivmain {
+    background: #64a1f4;
+}
+
+.mypadheading {
+    margin-top: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+.alignrght {
+    text-align: right;
+}
+
+.gbcolor {
+    background: #ffffff00;
+    border-radius: 0px;
+    padding-bottom: 0px;
+    padding-top: 9px;
+}
+
+.trip-box {
+    color: #fff;
+    border-left: 0px solid #ccc;
+}
+
+.boxdivdt {
+    margin-top: 11px;
+}
+
+.filterbtndv {
+    width: 70px;
+    float: right;
+    text-align: center;
+    margin-top: -26px;
+    margin-left: 15px;
+}
+
+#travlvalue {
+    padding-top: 6px;
+    padding-bottom: 8px;
+}
+
+.hasDatepicker,
+.Mdepart {
+    padding-left: 4px;
+    font-size: 15px;
+    font-weight: normal;
+    background: #0000 !important;
+    letter-spacing: 0;
+    color: #fff;
+    border-bottom: 1px solid #fff !important;
+    border: none;
+    /*padding-top: 30px;*/
+    padding-bottom: 14px;
+    border-radius: 0px !important;
+}
+
+#oricity,
+#desticity,
+#depdate,
+#retdate,
+#hotelCityAirport {
+    padding-left: 0px;
+    font-size: 17px;
+    background: #0000;
+    color: #fff;
+    border: none;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #fff;
+    border-radius: 0px !important;
+    text-overflow: ellipsis;
+}
+
+#oricity:focus {
+    border: 0px solid #000;
+}
+
+.lblclssw {
+    color: #fff !important;
+    margin-bottom: 0px;
+    margin-left: 3px;
+}
+
+label {
+    font-weight: normal;
+    font-size: 13px;
+    color: #fff !important;
+}
+
+ul#myCityDiv {
+    float: left;
+    width: 100%;
+    padding-left: 0px;
+    list-style: none;
+}
+
+.form-control {
+    height: 36px;
+}
+
+.calendar-icon {
+    right: 17px;
+    display: none;
+}
+
+.calendar-disable-icon {
+    top: 13px;
+    width: 40px;
+}
+
+.sector-center {
+    width: 28px;
+    margin-left: 22%;
+    margin-top: 29px;
+}
+
+.wertyhb {
+    margin: 40px 0px 0px 0px;
+}
+
+.search-btn {
+    margin-top: 41px;
+}
+
+.form-control[readonly] {
+    background-color: #fff;
+}
+
+.multicicond {
+    margin-top: -35px;
+}
+
+.searboxdt {
+    text-align: left;
+}
+
+.searboxdt2 {
+    text-align: right;
+}
+
+.mysearchboxmain {
+    background: #f9f9f9;
+    margin-bottom: 4px;
+}
+
+.travepopupdiv {
+    width: 281px;
+    box-shadow: 0 2px 24px 0 rgb(0 0 0 / 50%);
+    padding: 2px 23px 11px 21px;
+    position: absolute;
+    background: #fff;
+    z-index: 99;
+}
+
+.multicitysector {
+    font-size: 17px;
+    background: #0000 !important;
+    color: #fff;
+    font-family: "Rubik", sans-serif;
+    padding-left: 3px;
+    padding-top: 17px;
+    text-overflow: ellipsis;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #a54e64 !important;
+    border-radius: 0px;
+    border: none;
+}
+
+.fixdivside1 {
+    display: none;
+}
+
+.title {
+    text-align: unset;
+    margin-top: unset;
+    margin-bottom: unset;
+    text-transform: unset;
+    font-size: unset;
+}
+
+.ui-menu .ui-menu-item a {
+    text-decoration: none;
+    display: block;
+    padding: 10px .4em;
+    line-height: 1.5;
+    min-height: 0;
+    font-weight: normal;
+    font-family: 'Rubik', sans-serif;
+    border-top: 1px solid #efeeee !important;
+
+}
+
+.ui-menu .ui-menu-item div {
+    text-decoration: none;
+    display: block;
+    padding: 10px .4em;
+    line-height: 1.5;
+    min-height: 0;
+    font-weight: normal;
+    font-family: 'Rubik', sans-serif;
+    border-top: 1px solid #efeeee !important;
+}
+
+.ui-menu .ui-menu-item div.ui-state-active {
+    background-color: red;
+    color: white;
+    border: none;
+}
+
+.ui-menu .ui-menu-item {
+    font-size: 13px;
+}
+
+.margbott {
+    z-index: 10;
+    position: relative;
+}
+
+.minus {
+    float: left;
+    padding: 5px;
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 27%;
+    text-align: center;
+    padding-top: 5px;
+    border: 1px solid #bcc8d1 !important;
+    cursor: pointer;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    border-left: 0px;
+    color: #787878;
+    font-weight: 600;
+    background: #e1e1e1;
+    line-height: 20px;
+}
+
+.adplus {
+    float: left;
+    padding: 5px;
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 27%;
+    text-align: center;
+    padding-top: 5px;
+    border: 1px solid #bcc8d1;
+    cursor: pointer;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    border-left: 0px;
+    color: #787878;
+    font-weight: 600;
+    background: #e1e1e1;
+    line-height: 20px;
+}
+
+.adtbon {
+    width: 36%;
+    text-align: center;
+    float: left;
+    height: 31px !important;
+    BORDER: 1px solid #bcc8d1;
+}
+
+.center-div {
+    position: fixed;
+    margin: auto;
+    top: 35%;
+    right: 20%;
+    bottom: 5%;
+    left: 20%;
+    width: 279px;
+    height: 128px;
+    background-color: #FFF !important;
+    border-radius: 3px;
+    margin-top: -6%;
+    z-index: 2222;
+    border: 0px solid #fff !important;
+    box-shadow: 0px 0px 19px #0000001f;
+    text-align: center;
+    font-size: 16px;
+}

@@ -1,0 +1,32 @@
+.opps {
+    width: 100%;
+    background: #fff;
+    /* position: absolute; */
+    top: 1px;
+    color: #FFC107;
+    /* margin-left: 37%; */
+    font-family: cursive;
+    font-size: 44px;
+    margin-top: 44px;
+}
+
+.opps1 {
+    position: absolute;
+    top: 311px;
+    left: 264px;
+    padding-bottom: 9px;
+    font-size: 17px;
+    color: #fff;
+    background: #a0dfe5;
+}
+
+.opps2 {
+    position: absolute;
+    top: 325px;
+    /* left: 45px; */
+    width: 100%;
+    color: #FFC107;
+    /* text-align: left; */
+    padding-bottom: 9px;
+    font-size: 29px;
+}

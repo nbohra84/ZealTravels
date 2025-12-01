@@ -1,0 +1,439 @@
+ .txthead {
+     font-size: 33px;
+ }
+
+ .carousel-indicators {
+     position: absolute;
+     bottom: 10px;
+     left: 50%;
+     z-index: 15;
+     width: 60%;
+     padding-left: 0;
+     margin-left: -30%;
+     text-align: center;
+     list-style: none;
+ }
+
+ .carousel-indicators li {
+     display: inline-block;
+     width: 10px;
+     height: 10px;
+     margin: 1px;
+     text-indent: -999px;
+     cursor: pointer;
+     background-color: #0009;
+     background-color: rgba(0, 0, 0, 0);
+     border: 1px solid #fff;
+     border-radius: 10px;
+ }
+
+ .carousel-indicators .active {
+     width: 12px;
+     height: 12px;
+     margin: 0;
+     background-color: #fff;
+ }
+
+ @media screen and (max-width: 680px) {
+
+     /*mob*/
+     #Hotelsearchdiv {
+         padding-top: 15px !important;
+         padding-bottom: 15px !important;
+     }
+
+     /*mob*/
+     .crossdivbox {
+         right: 13px;
+         top: -1px;
+     }
+
+     /*mob*/
+     .multicityrow {
+         padding: 12px !important;
+     }
+
+     /*mob*/
+     #IndexSearchEngine_h_btnsubmitlocal {
+         margin-top: 10px !important;
+     }
+
+     /*mob*/
+     .midsehfg1 {
+         width: 100% !important;
+         margin-left: 0% !important;
+         margin-top: 15px;
+     }
+
+     /*mob*/
+     .buttonforsrh {
+         padding: 0px !important;
+         border-radius: 0px !important;
+     }
+
+     /*mob*/
+     div.back-box.col-md-12.col-xs-12 {
+         padding: 0px;
+     }
+
+     /*mob*/
+     td label {
+         color: #fff !important;
+     }
+
+     /*mob*/
+     .madsecxk {
+         padding-right: 0px;
+     }
+
+     /*mob*/
+     .tab-content .btn-lg {
+         border-radius: 0px !important;
+     }
+
+     /*mob*/
+     div.tab button {
+         width: 268px;
+         margin-bottom: 3px;
+     }
+
+     /*mob*/
+     .search-button {
+         margin-top: 0px;
+     }
+
+     /*mob*/
+     .tab-content .btn-lg {
+         border-top-right-radius: 0px !important;
+         border-bottom-right-radius: 0px !important;
+     }
+
+     /*mob*/
+     .tourdvxed {
+         margin-top: 0px;
+     }
+
+     /*mob*/
+     .tourdiv {}
+
+     /*mob*/
+     .leftadt {
+         padding-left: 0px;
+         padding-right: 0px;
+     }
+
+     /*mob*/
+     .misedse,
+     .paslefmerg {
+         padding-right: 0px;
+     }
+
+     /*mob*/
+     .iconspane-lg {
+         display: none;
+     }
+
+     /*mob*/
+     .checkbox input[type="checkbox"] {
+         visibility: visible !important;
+     }
+
+     /*mob*/
+     .hroom1 {
+         padding: 15px !important;
+     }
+ }
+
+ .form-control {
+     /*height: 39px !important;
+    border-radius: 5px !important;
+    border: 1px solid rgb(213, 213, 213);
+    box-shadow: 0px 0px 0px #000;
+    margin-bottom: 15px;*/
+ }
+
+
+ .select2-container .select2-choice>.select2-chosen {
+     padding-top: 0px;
+ }
+
+ .checkbox input[type="checkbox"] {
+     opacity: 10 !important;
+     margin-left: -13px;
+ }
+
+ .form-control[readonly] {
+     background-color: #fff;
+ }
+
+ .imgboxprd {
+     cursor: pointer;
+ }
+
+ h3.mainbxdr a {
+     color: #374579;
+ }
+
+ div.tab {
+     overflow: hidden;
+     border-bottom: 0px solid;
+ }
+
+ .control-label {
+     color: #fff !important;
+ }
+
+ td label {
+     font-size: 12px;
+     color: #000 !important;
+     padding-left: 0px !important;
+ }
+
+ /* Style the buttons inside the tab */
+ div.tab button {
+     background-color: inherit;
+     float: left;
+     border: none;
+     background: #fff;
+     color: #000;
+     outline: none;
+     cursor: pointer;
+     padding: 7px 20px;
+     transition: 0.3s;
+     font-size: 16px;
+     margin-left: 1px;
+ }
+
+ /* Change background color of buttons on hover */
+
+ /* Create an active/current tablink class */
+ div.tab button.active {
+     background-color: #ff9800;
+     border-top: 1px solid #c7c7c7;
+     border-bottom: 0px;
+     color: #fff;
+     border-right: 1px solid #ccc;
+ }
+
+
+ input[type=checkbox],
+ input[type=radio] {
+     margin-left: 13px;
+     margin-right: 5px;
+ }
+
+ .mainbtdk {
+     background-color: #dc3545;
+     color: #fff;
+     border: 1px solid #ccc;
+     padding: 8px 51px;
+     border-radius: 0px;
+     margin: 0px 0px;
+     font-size: 16px;
+     margin-top: 25px;
+ }
+
+
+ .list-unstyled12 {
+     padding: 0px;
+ }
+
+ .list-unstyled12 li {
+     display: inline-block;
+ }
+
+
+
+ label {
+     font-weight: 400;
+     font-size: 14px;
+ }
+
+ .mtdpekd {
+     margin-top: -20px;
+ }
+
+ /*flight route css start*/
+
+ .maesfe {
+     width: 40px;
+     background: #ffffff;
+     height: 2px;
+     position: absolute;
+     margin-top: 2px;
+     margin-left: 90px;
+ }
+
+ .mybxdrs {
+     float: left;
+     width: 140px;
+ }
+
+ .interdesvg {
+     font-size: 18px;
+     margin: 8px 3px;
+     font-weight: 700;
+
+ }
+
+ .international_dest li {
+     width: 100%;
+     height: 62px;
+     border: 1px solid #e4e4e4;
+     border-bottom: 0 none;
+     display: block;
+     background: #fff;
+     position: relative;
+     transition: all 0.8s;
+ }
+
+ .international_dest li .destination_image {
+     float: left;
+     width: 54px;
+     height: 54px;
+     border-radius: 60px;
+     margin: 3px 12px;
+     background-color: #f0f0f0;
+ }
+
+ .international_dest li .destination_information {
+     display: inline-block;
+     position: relative;
+     height: 63px;
+     width: 81%;
+     line-height: 24px;
+     padding: 10px 17px 10px 0;
+ }
+
+ .imgboxdv {
+     height: 54px;
+     width: 55px;
+ }
+
+ .international_dest li .destination_information .destination_name {
+     width: 70%;
+     font-size: 16px;
+     float: left;
+     color: #333;
+     font-weight: 500;
+     margin-top: 12px;
+ }
+
+ .international_dest li .destination_information .price_go {
+     float: left;
+     width: 30%;
+ }
+
+ .international_dest li .destination_information .destination_day_night {
+     font-size: 13px;
+     color: #9b9b9b;
+ }
+
+ .international_dest li .destination_information i.icon-go {
+     position: absolute;
+     right: 10px;
+     top: 45%;
+ }
+
+ .international_dest li .destination_information .price_go .low_price {
+     font-size: 16px;
+     color: #484ee3;
+     text-align: left;
+     display: block;
+     font-weight: 500;
+     line-height: 20px;
+     margin-bottom: 0px;
+     padding: 10px;
+     border-radius: 4px;
+     text-align: center;
+     border: 1px solid #4b4ae2;
+     transition: all 0.8s;
+ }
+
+ .international_dest li .destination_information .price_go .low_price1 {
+     font-size: 16px;
+     color: #E91E63;
+     text-align: left;
+     display: block;
+     font-weight: 500;
+     line-height: 20px;
+     margin-bottom: 0px;
+     padding: 10px;
+     border-radius: 4px;
+     text-align: center;
+     border: 1px solid #E91E63;
+     transition: all 0.8s;
+ }
+
+ .international_dest li:hover {
+     box-shadow: 1px 1px 20px 4px rgba(1, 1, 1, .1);
+     z-index: 1;
+ }
+
+ ul.international_dest {
+     padding-left: 2px;
+     width: 100%;
+     float: left;
+ }
+
+ .international_dest li .destination_information .price_go .low_price:hover {
+     background: #484ee3;
+     color: #fff;
+ }
+
+ .international_dest li .destination_information .price_go .low_price1:hover {
+     background: #E91E63;
+     color: #fff;
+ }
+
+ @media only screen and (max-width: 680px) {
+     .international_dest li .destination_information {
+         width: 72%;
+         padding-right: 0px;
+     }
+
+     .international_dest li {
+         border-bottom: 1px solid #eaeaea;
+         margin-bottom: 8px;
+     }
+
+     .maesfe {
+         display: none;
+     }
+
+     .international_dest li .destination_information .destination_name {
+         margin-top: -3px;
+         width: 59%;
+     }
+
+     .interdesvg {
+         margin-top: 33px;
+         line-height: 27px;
+         margin-bottom: 10px;
+         text-align: center;
+     }
+
+     .international_dest li .destination_information .price_go {
+         width: 40%;
+
+     }
+
+     .dtepik {
+         width: 50% !important;
+         padding-right: 0px !important;
+         margin-top: 15px;
+     }
+
+     .dtepik:last-of-type {
+         padding-left: 0px !important;
+         padding-right: 15px !important;
+     }
+
+     .slctcty {
+         margin-left: 69%;
+     }
+ }
+
+
+
+ /*flight route css end*/

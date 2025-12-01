@@ -1,0 +1,142 @@
+.imsedgse {
+    background: url('../img/imse.png'), white;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    /*height: 510px;*/
+    background-image: linear-gradient(-90deg, #c34052 50%, #685f6b 100%);
+}
+
+.oaehyy {
+    text-align: right;
+    padding: 0px;
+    font-size: 15px;
+    padding-top: 12px;
+}
+
+.welcomdiv {
+    margin-top: 0px;
+    text-align: center;
+}
+
+.uiseinpt {
+    margin-bottom: 25px;
+    border-radius: 0px !important;
+    font-size: 15px !important;
+    border: 1px solid whitesmoke;
+    box-shadow: 0 2px 2px 0 #cdcdcd;
+    height: 50px;
+}
+
+.mdhehy {
+    font-size: 17px;
+    text-align: center;
+    padding: 20px 13px;
+}
+
+.backofc-login {
+    width: 492px !important;
+    box-shadow: 0 0 8px 0 rgb(5 47 95 / 6%), 0 12px 64px 0 rgb(52 105 203 / 7%) !important;
+    margin: 6.719% auto !important;
+}
+.displaynon-cls {
+    position: relative;
+    z-index: 1;
+    width: 455px;
+    float: right;
+    background: #fff;
+    padding: 20px 10px;
+    margin: 40px 0 0 0;
+    box-shadow: -1px 1px 56px -7px rgba(0, 0, 0, 0.75);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    border: 1px solid #888;
+    width: 28%;
+    margin: 10% auto auto 34%;
+    padding-bottom: 10px;
+}
+
+.sidebar-toggle {
+    display: none;
+}
+
+.color-red {
+    color: red !important;
+
+    &.field-validation-error {
+        font-size: 12px;
+        font-weight: 700;
+    }
+}
+
+#lblMessages {
+    color: red !important;
+}
+
+.achorlk {
+    width: 29%;
+    position: absolute;
+    height: 13%;
+    bottom: 7px;
+    left: 0;
+    cursor: pointer;
+    clear: both;
+    right: 0;
+    margin: auto;
+}
+
+.disflexcls {
+    display: flex;
+    justify-content: space-between;
+}
+
+#forgetagentpassspan {
+    color: red !important;
+    font-size: 12px;
+    font-weight: 700;
+
+    &.text-success {
+        color: #72bf66 !important;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+
+    .displlaa {
+        display: none;
+    }
+
+    .main5 {
+        margin-left: 0%;
+    }
+
+    .msjcsdfs {
+        width: 100%;
+    }
+
+    .displaynon-cls {
+        width: 96%;
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+
+    .modal-content {
+        width: 100%;
+        margin: 0px;
+    }
+
+    .disflexcls {
+        display: inline;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .backofc-login {
+        width: 100% !important;
+    }
+    .backofc-login-wrap {
+        padding: 0 15px;
+    }
+}

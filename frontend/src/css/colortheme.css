@@ -1,0 +1,94 @@
+﻿
+.skin-blue .main-header .logo {
+    background-color: #00C6D7;
+    color: #fff;
+    border-bottom: 0 solid transparent;
+}
+.skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a {
+    color: #fff;
+    background: #2ecd70;
+    border-left-color: #41bd46;
+}
+    .skin-blue .sidebar-menu > li > a {
+        background: #ffffff;
+        border-bottom: 0px ridge rgba(6, 26, 68, 0.96);
+        border-left: 3px solid transparent;
+        font-size: 13px;
+        color: #1b1a1a;
+    }
+    .skin-blue .sidebar-menu > li > a {
+    border-left: 3px solid transparent;
+}
+.skin-blue .sidebar a {
+    color: #0a0a0a;
+    border-bottom: 0px ridge #002561;
+        font-family: 'Fira Sans', sans-serif !important;
+    font-size: 14px !important;
+}
+
+.skin-blue .sidebar a .fa-angle-right{
+    display:none;
+}
+
+.sidebar-menu li {
+  position: relative;
+  margin: 0;
+  border-bottom: 0px ridge rgba(255, 255, 255, 0.96);
+  padding: 0;
+  padding: 0;
+}
+
+.sidebar-menu li a:hover {
+  color: #ffffff;
+  background-color: #03a9f4;
+  transition: color 250ms ease-in-out, background-color 250ms ease-in-out;
+  border-left: 4px solid #03a9f4;
+}
+
+
+    .sidebar-menu li a {
+            color: #fff;
+            background-color: #ffffff;
+            /*border-left: 4px solid #021F4E;*/
+    }
+
+
+
+    .wrecolor {
+   background: #fe0811!important;
+   color: #fff !important;
+   font-weight: 600;
+   box-shadow: 0 0 8px 0 rgba(5,47,95,.06), 0 12px 64px 0 rgba(52, 105, 203, 0.07) !important;
+}
+.wredcolo {
+    background: #ffffff !important;
+    color: #1e5370 !important;
+} 
+.daswcolor {
+    background: #ea2330 !important;
+    color: #fff !important;
+}
+
+
+.sub-btn{background:#FF9800 !important; color:#fff; border: 1px solid rgba(255, 255, 255, 0.44);}
+
+.daswcolor {
+     background:#3bb4c1!important;
+    color:#fff !important;
+}
+.daswcolor3 {
+     background:linear-gradient(to bottom,#12a7cc 0,#0386a7 100%) !important;
+    color:#fff !important;
+}
+.wcolor {
+    background: #fe0811!important;
+    color:#fff !important;
+    font-weight: 600;
+    box-shadow: 0 0 8px 0 rgba(5,47,95,.06), 0 12px 64px 0 rgba(52, 105, 203, 0.07) !important;
+}
+.bcolor {
+     background:#8691b1 !important;
+    color:#fff !important;
+}
+
+

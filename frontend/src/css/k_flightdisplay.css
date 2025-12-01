@@ -1,0 +1,194 @@
+﻿body {
+    font-family: 'Lato', sans-serif !important;
+}
+
+
+
+.data_dv {
+    background-color: #fff;
+    -webkit-box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+    border: none;
+    border-radius: 5px;
+}
+
+.fa-map-marker {
+    background-image: linear-gradient(to right, #ff2f8b, #9035f9);
+    color: #fff;
+    height: 25px;
+    width: 26px;
+    text-align: center;
+    padding-top: 5px;
+    border-radius: 16px;
+}
+
+.loctxt {
+    font-size: 18px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.airnamec{
+    font-size: 14px;
+}
+
+.ard {
+    background: #fff;
+    padding: 2px;
+    font-size: 12px;
+    font-weight: 400 !important;
+    text-transform: uppercase;
+    margin-left: -26px;
+}
+
+.layover-txt {
+    background: #FFF;
+    border-bottom: 1px solid #DDD !important;
+    padding-bottom: 7px;
+    border: none;
+    padding-top: 7px;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: 700;
+    border-top: 1px solid #DDD !important;
+}
+
+.planedeprt, .planearrv{
+    display:none;
+}
+
+.depatdd, .depatee1, .depatee, .depatdd1{
+    padding-left: 27px;
+}
+.airnamty{
+    padding-left: 7px;
+}
+
+#flightdetailsdiv0, #flightdetailsdiv1, #flightdetailsdiv2, #flightdetailsdiv3, #flightdetailsdiv4, #flightdetailsdiv5, #flightdetailsdiv6 {
+    margin-top:0px !important;
+}
+
+.data_dv1   {
+    background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+    box-shadow: 0 0 8px 0 rgba(5,47,95,.06), 0 0px 4px 0 rgba(52,105,203,.16);
+    margin: 2px 0px;
+    border: none;
+    border-radius: 0px;
+}
+
+.data_dv {
+    background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+    box-shadow: 0 0 8px 0 rgba(5,47,95,.06), 0 0px 4px 0 rgba(52,105,203,.16);
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 0px;
+}
+
+.depatdd, .depatdd1{
+    font-size: 22px;
+}
+
+label {
+    font-size: 12px;
+    font-weight: 400 !important;
+    text-transform: uppercase;
+    font-family: 'Lato', sans-serif !important;
+}
+.form-control {
+    height: 32px !important;
+    background: #fff !important;
+    border-radius: 5px;
+}
+#showmorebtn1, #showdetails1{
+    margin-top:0px !important;
+}
+
+.fst_txt1 {
+    font-size: 21px;
+    text-align: left;
+    color: #000;
+    border-radius: 0;
+    font-weight: 700;
+    margin: 0px 0px 4px 0px !important;
+    padding: 3px;
+    background: no-repeat;
+    border: none;
+}
+.exlcami {
+    background-image: linear-gradient(to right, #ff2f8b, #9035f9);
+    color: transparent;
+    background-clip: text;
+    display:none;
+}
+
+.color-blue{
+    color:#000;
+}
+
+.clyye{
+    color: #878787;
+}
+.mydehclr{
+    background:#FF9800 !important;
+    color:#fff !important;
+    font-weight:700;
+}
+.flidewcolor1 {
+    background: #B133D900 !important;
+    color: #2276e3 !important;
+    padding: 5px 13px;
+}
+    .flidewcolor1 a {
+        color: #2276e3 !important;
+        text-decoration: underline;
+        font-size: 20px;
+    }
+
+.flidewcolor {
+background: #12B58A !important;
+color: #fff !important;
+font-size: 14px !important;
+font-weight: 700;
+
+}
+.trvl-filldtl1 {
+    background: #4a4d51 !important;
+}
+.crcle-cls {
+    width: 25px;
+    height: 25px;
+    border: 2px solid #f2f2f2;
+    border-radius: 50%;
+    background: #5d15aa;
+    color: #fff;
+    padding-top: 2px;
+}
+
+.trvl-filldtl1::after{
+    display:none;
+}
+
+.trvl-filldtl1 {
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+font-size: 16px !important;
+color: #f1f8ff;
+padding: 8px 43px;
+background-color: #2276e3 !important;
+box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px 0px;
+}
+.trvl-filldtl {
+    background: #fff;
+    color: #1a1b1e;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    cursor: pointer;
+    border-left: 0px solid #4A90E2;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    font-size: 16px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px 0px;
+}
+.trvl-filldtl::after{
+    display:none;
+}

@@ -1,0 +1,197 @@
+﻿body {
+    padding:0px;
+    margin:0px;
+    font-family: 'Open Sans', sans-serif !important;
+}
+
+th {
+    font-size: 14px !important;
+    background: #245c71 !important;
+    font-weight:normal !important;
+    padding: 7px 10px !important;
+    border-bottom: 1px solid #dddddd;     padding: 4px !important;
+    color: #fff;
+}
+
+.tabhad {
+    color: #fff;
+    background: #245c71;
+    padding: 7px 10px !important;
+    border-radius: 3px;
+    font-size: 14px !important;
+}
+.viewbt {
+    color: #075a98 !important;
+    padding: 4px;
+    font-size: 13px;
+    border-radius: 2px;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.82);
+    text-decoration: underline;
+}
+
+.mtoh{
+    /*font-size:18px !important;*/
+}
+
+table tr.agencylistt {
+    border-bottom: 0; padding-bottom: 10px;
+}
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th{
+border: 1px dotted #F0F0F0 !important;
+    border-left: 1px dotted #ddd !important;
+    border-right: 0px solid #ddd !important;
+    /* line-height: 10px; */
+    font-weight: normal;
+    font-size: 12px;
+    text-align: center;
+    padding: 0px;
+}
+
+ol, ul {
+    list-style: none;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+td {
+padding: 1px !important;
+}
+table tr.agencylistt:hover {
+    background-color:#ccc;
+}
+ 
+.table-striped > tbody > tr:nth-of-type(odd) {
+      background-color: #f9f9f9 !important;
+}
+.table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover {
+        background-color: #FFF4D1;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+}
+
+table{
+    border: 0px solid #ccc !important;
+    border-spacing:0 10px;
+}
+
+.updico{
+color: #fff;
+background-color: #00BCD4;
+border-color: #2E5BEF;
+padding: 3px 4px;
+cursor:pointer;
+}
+
+.crosssr {
+    color: #fff;
+    background-color: #F44336;
+    border-color: #2E5BEF;
+    padding: 3px 5px;
+    cursor: pointer;
+}
+
+.savek{
+    color: #fff;
+    background-color: #22cb95;
+    border-color: #2E5BEF;
+    padding: 3px 5px;
+    cursor:pointer;
+}
+
+.viewbtn{
+    color: #fff;  background-color: #466df1 !important;  border-color: #2E5BEF;padding: 0px 5px;   font-size: 13px;  line-height: 1.5;
+      
+padding: 3px 5px;
+cursor: pointer;
+}
+
+.checklimitbtn {
+    cursor: pointer;
+    padding: 4px;
+    font-size: 11px;
+    background: #03A9F4 !important;
+    color: #fff;
+    padding-top: 0px;
+    padding-bottom: 1px;
+    border: 1px solid #f4f6f7;
+} 
+      
+b, strong {
+    font-weight: 100 !important;
+    font-size: 13px;
+}
+
+label{
+            font-weight:normal !important;
+        }
+
+
+
+
+/*new calendar css start*/
+
+th.dow {
+    background: #f6f6f6 !important;
+    color: #F44336;
+    font-weight: bold;
+    font-size: 11px !important;
+    text-transform: uppercase;
+}
+
+th.prev{
+    font-weight:normal;
+        background: #f6f6f6;
+    color: #ff5722; 
+        position: absolute;
+    background: #fff !important;
+        width: 43px !important;
+    height: 40px !important;
+    margin-left: -13px;
+    /*border-top: 3px solid #FF5722 !important;*/
+        font-size: 21px !important;
+    line-height: 26px;
+}
+
+th.datepicker-switch{
+    font-weight:normal;
+        background: #fff !important;
+    color: #000;z-index:6;
+    /*border-top: 3px solid #FF5722 !important;*/
+}
+
+th.next{
+    font-weight:normal;
+        background: #f6f6f6;
+    color: #ff5722;
+        position: absolute;
+    background: #fff !important;
+ width: 46px !important;
+    height: 40px !important;
+    /*border-top: 3px solid #FF5722 !important;*/
+        font-size: 21px !important;
+    line-height: 26px;
+}
+ 
+.datepicker.dropdown-menu{
+    padding-top: 0px;
+    padding-bottom:0px;
+}
+
+td.day{
+    border-right: 1px solid #ddd !important;
+    border-top:1px solid #ddd !important;
+}
+
+.minbdr{
+    height: 1px;
+    position: absolute;
+    border:  1px solid #d0d0d040 ;
+    width: 100%;
+    margin-top: 40px;
+    margin-left: -14px;
+    box-shadow: inset 0 1px rgb(204, 204, 204);
+}
+

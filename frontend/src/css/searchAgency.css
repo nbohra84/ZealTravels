@@ -1,0 +1,345 @@
+
+b, strong {
+    font-weight: 100 !important;
+    font-size: 13px;
+}
+
+label {
+    font-weight: normal !important;
+}
+
+.m-top-10 {
+    margin-top: 5px;
+}
+
+body {
+    font-size: 12px !important;
+}
+
+.form-control {
+    font-size: 12px !important;
+}
+
+body {
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Source Sans Pro', sans-serif !important;
+}
+
+.mn {
+    background: rgba(226, 226, 226, 0.19);
+    padding: 27px;
+    border: 1px solid rgba(43, 45, 47, 0.24);
+    border-radius: 3px;
+}
+
+.datepicker table tr td, .datepicker table tr th {
+    cursor: pointer;
+}
+
+.hg {
+    background: rgba(246,246,246,1);
+    background: -moz-linear-gradient(top, rgba(246,246,246,1) 0%, rgba(224,224,224,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(246,246,246,1)), color-stop(100%, rgba(224,224,224,1)));
+    background: -webkit-linear-gradient(top, rgba(246,246,246,1) 0%, rgba(224,224,224,1) 100%);
+    background: -o-linear-gradient(top, rgba(246,246,246,1) 0%, rgba(224,224,224,1) 100%);
+    background: -ms-linear-gradient(top, rgba(246,246,246,1) 0%, rgba(224,224,224,1) 100%);
+    background: linear-gradient(to bottom, rgba(246,246,246,1) 0%, rgba(224,224,224,1) 100%);
+}
+
+.modal {
+    background-color: rgba(0,0,0,0.1) !important;
+}
+
+.modal-content {
+    margin: auto;
+    width: 77%;
+    max-width: 700px;
+}
+
+.panel-body1 {
+    padding: 9px;
+    font-weight: 400;
+    font-size: 14px;
+    background: #fff;
+}
+
+/*   @media only screen and (max-width: 680px) {
+    .mobwidthmse{width:100%;}  .paddzr{ padding-left:0px; padding-right:0px; }
+    .modal-header .close { margin-top: 17% !important; }
+} */
+
+.boxshdr {
+box-shadow: 0 0 8px 0 rgba(5,47,95,.06), 0 12px 64px 0 rgba(52, 105, 203, 0.07);
+border-radius: 4px;
+background: #fff;
+}
+
+.sidebar-menu {
+box-shadow: 0px 0px 3px #00000073;
+}
+
+nav {
+display: block;
+background: #fff;
+text-align: right;
+/*font-family: 'Poppins', sans-serif !important;*/
+font-family: math !important;
+margin-top: 9px;
+}
+
+.goog-te-gadget .goog-te-combo {
+margin: 2px 34px;
+height: 25px;
+width: 147px;
+padding: 0;
+}
+.goog-logo-link{
+display:none;
+}
+.goog-te-gadget {
+    height: 29px !important; 
+overflow: hidden !important;
+}
+
+.menu {
+display: block;
+}
+
+.menu li {
+    display: inline-block;
+    position: relative;
+    z-index: 100;
+}
+
+    .menu li:first-child {
+        margin-left: 0;
+    }
+
+    .menu li a {
+        font-weight: 600;
+        text-decoration: none;
+        padding: 5px 20px;
+        display: block;
+        color: #000;
+        font-size: 15px;
+        transition: all 0.2s ease-in-out 0s;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .menu li a:hover, .menu li:hover > a {
+            color: #0078c3;
+            background: #fff;
+        }
+
+.menu ul {
+    visibility: hidden;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    width: 258px;
+    position: absolute;
+    left: 0px;
+    background: #fff;
+    z-index: 99;
+    transform: translate(0,20px);
+    transition: all 0.2s ease-out;
+}
+
+    .menu ul:after {
+        bottom: 100%;
+        left: 20%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(255, 255, 255, 0);
+        border-bottom-color: #04c;
+        border-width: 6px;
+        margin-left: -6px;
+    }
+
+    .menu ul li {
+        display: block;
+        float: none;
+        background: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        .menu ul li a {
+            font-size: 14px;
+            font-weight: normal;
+            display: block;
+            color: #797979;
+            background: #fff;
+            text-align:left;
+        }
+
+            .menu ul li a:hover, .menu ul li:hover > a {
+                background: #fff;
+                color: #0078c3;
+                background: #e9edf5;
+text-decoration: underline;
+            }
+
+.menu li:hover > ul {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0,0);
+    text-align: center;
+    box-shadow: 0 0 8px 0 rgba(5,47,95,.06), 0 12px 64px 0 rgba(52,105,203,.16);
+}
+
+.menu ul ul {
+    left: -267px;
+    top: 0px;
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(20px,20px);
+    transition: all 0.2s ease-out;
+}
+
+    .menu ul ul:after {
+        left: 260px;
+        top: 10%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(255, 255, 255, 0);
+        border-right-color: #04c;
+        border-width: 6px;
+        margin-top: -6px;
+    }
+
+.menu li > ul ul:hover {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0,0);
+}
+
+.responsive-menu {
+display: none;
+width: 100%;
+padding: 20px 15px;
+background: #374147;
+color: #fff;
+text-transform: uppercase;
+font-weight: 600;
+}
+
+.responsive-menu:hover {
+    background: #374147;
+    color: #fff;
+    text-decoration: none;
+}
+
+a.homer {
+background: #9ca3da;
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+
+
+.mainWrap {
+    width: 768px;
+}
+
+.menu ul {
+    top: 37px;
+}
+
+.menu li a {
+    font-size: 12px;
+}
+
+a.homer {
+    background: #374147;
+}
+}
+
+@media (max-width: 767px) {
+.mainWrap {
+    width: auto;
+    padding: 50px 20px;
+}
+
+/*.menu {
+    display: none;
+}*/
+
+.responsive-menu {
+    display: none;
+}
+
+nav {
+    margin: 0;
+    background: none;
+}
+
+.menu li {
+    display: block;
+    margin: 0;
+}
+
+    .menu li a {
+        background: #fff;
+        color: #797979;
+    }
+
+        .menu li a:hover, .menu li:hover > a {
+            background: #9ca3da;
+            color: #fff;
+        }
+
+.menu ul {
+    visibility: hidden;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: initial;
+}
+
+.menu li:hover > ul {
+    visibility: visible;
+    opacity: 1;
+    position: relative;
+    transform: initial;
+
+    top: 124%;
+    left: -85%;
+    width: 312px;
+}
+
+
+.menu ul:after{
+    left: 75%;
+}
+
+.menu ul ul {
+        left: 0% !important;
+    transform: initial;
+}
+    .menu ul ul li a {
+        background: #0d82d9;
+        color: #fff;
+        border-bottom: 1px solid #ccc;
+    }
+    .menu ul ul:after{
+        display:none;
+    }
+    .menu li a{
+            padding: 10px 20px;
+    }
+
+.menu li > ul ul:hover {
+    transform: initial;
+}
+}

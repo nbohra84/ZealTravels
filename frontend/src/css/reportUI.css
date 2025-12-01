@@ -1,0 +1,304 @@
+﻿body {
+}
+
+.mnbx {
+    margin-bottom: 75px;
+    padding: 0px !important;
+    border: 1px solid #ccc;
+}
+
+
+.mnhead {
+    background: #E91E63;
+    padding: 6px;
+    font-size: 14px;
+    color: #fff;
+    margin: 0px;
+}
+
+.minhead {
+background: #ffffff;
+    font-size: 16px;
+    color: #f44336;
+    margin: 0px;
+    padding: 3px;
+    padding-top: 6px;
+    font-weight: 500;
+}
+
+.mnpad {
+    padding:4px !important;
+}
+
+.minpad {
+  padding: 4px !important;
+    padding-top: 0px;
+    margin-top: -5px;
+}
+
+.mbnpad {
+    text-align:right;
+    padding-right:3px !important;
+    padding-left:0px !important;
+    padding-top:12px;
+    padding-bottom:12px;
+}
+
+
+
+/*ticket report ui css start*/
+
+   [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+            position: inherit;
+        }
+.customer_list_popup{top:25%; left:28%; border:1px solid #D7DFF4; border-radius:8px; -webkit-border-radius:8px; -ms-border-radius:8px; width:37%; padding-bottom:1%; box-shadow:2px 2px 3px #888; position:fixed; z-index:100; }
+.bookingque_popup{ top:13%; left:28%; border:1px solid #D7DFF4; border-radius:8px; -webkit-border-radius:8px; -ms-border-radius:8px; width:37%; padding-bottom:1%; box-shadow:2px 2px 3px #D5DCEF; position:fixed; z-index:100; }
+.scroll_customer_list{ overflow-y:auto; overflow-x:hidden; }
+.request_change{ float: left; width:100%; background:#fff;  overflow: auto;}
+.req_row{ float: left; width:100%; padding:9px; border-bottom:1px solid #D7DFF4}
+.req_row Select{ float: left; width:60%; }
+.req_row span{ float: left; width:100%; padding-top:1%; padding-top:0;}
+.req_row input[type="checkbox"] { margin-right:0.5em;}
+.req_row textarea{ width:98.5%; }
+.req_row ol.note_req{ float: left; width:100%; margin:0; padding:0;}
+.req_row ol.note_req li{ margin: 0; padding:0; list-style-type:decimal; list-style-position: inside;}
+.req_row_btn{ float:left; width:100%; margin-top:1%; text-align:center; padding-top:3%;}
+        body {
+            font-family: normal 84.3%/1.1 "Lato","Helvetica Neue",sans-serif !important;
+            letter-spacing: .6px;
+        }
+        [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: relative inherit !important;
+    left:0px !important;}
+         .font10 {
+            font-size: .9em;
+        }
+        .red {
+            color: #ff0000 !important;
+        }
+         .maob {
+    font-size: 12px;
+    border: 1px solid #dee4f6;
+    border-radius: 11px;
+    BACKGROUND: #f3f3f3;
+    margin-left: 2%;
+    MARGIN-TOP: 3PX;
+    box-shadow: 0px 0px 3px #00000003;
+}
+         .pophdi {
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 6px;
+}
+       .hdr {
+    /* background: #ffffff; */
+    PADDING-TOP: 3PX;
+    PADDING-BOTTOM: 3PX;
+    color: #337ab7;
+    /* FONT-WEIGHT: 600; */
+    border-bottom: 1px solid #dee4f6;
+    text-align: center;
+}
+        .input-group-addon {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee !important; 
+        border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+}
+        @media only screen and (max-width: 680px) {
+            .mnbx {
+                background:#fff;
+            }
+            .widthhum {
+                width: 100% !important;
+            }
+        }
+        .hg {
+    background: #f9f9f9;
+    color: #3480ae;
+    font-size: 11px !important;
+}
+      
+        .cc {
+    color: #000 !important;
+}
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 0px;
+    /*font-weight: 100;*/
+    font-size: 17px;
+}
+        .datepicker.dropdown-menu th, .datepicker.datepicker-inline th, .datepicker.dropdown-menu td, .datepicker.datepicker-inline td {
+            cursor: pointer;
+        }
+        .myfade {
+            opacity: 1.0 !important;
+            background: rgba(247, 247, 247, 0.7) !important;
+        }
+
+        .mycont {
+            background: rgba(0, 0, 0, 0.59) !important;
+            color: #fff !important;
+        }
+        .myhead {
+            background: rgba(55, 69, 121, 0.21);
+            color: #fff !important;
+        }
+        .myhead1 {
+            background: rgba(255, 255, 255, 0.19);
+            color: #fff !important;
+        }
+        .mybor {
+            border-right: 1px solid #FFF;
+        }
+        .uc {
+            /* background: !important; */
+            opacity: 1 !important;
+            color: #fff !important;
+            padding: 10px !important;
+            font-weight: 100 !important;
+        }
+        .ptpop {
+              position: absolute;
+    margin-left: 80.3% !important;
+    margin-top: -11% !important;
+    border-radius: 18px !important;
+        }
+        .bd8 {
+            background: #FFF;
+            border: 1px solid rgba(33, 150, 243, 0.13);
+            border-radius: 4px;
+            padding-bottom: 3%;
+        }
+        .pd2 {
+            padding: 30px;
+        }
+        .pdbt {
+            padding: 30px;
+            padding-top: 0px;
+        }
+
+        .cc {
+            color: #fff;
+        }
+        .modal-content {
+            margin: 4% auto;
+            width: 77%;
+            max-width: 700px;
+        }
+        .padslef{
+            padding:0px;
+        }
+         
+
+        @media only screen and (max-width:680px) {
+
+
+
+            .fixedd {
+                margin-left: 68% !important;
+    margin-top: -14% !important;
+            }
+            .ptpop {
+                position: absolute;
+                margin-left: 76.3% !important;
+                margin-top: -14% !important;
+                border-radius: 18px !important;
+            }
+            .pnbox {
+                margin-left:0px !important;
+            }
+           
+            .pd4 {
+    padding-left: 30px;
+    padding-right: 31px;
+    margin-left: -1.4%;
+}
+             .pd3 {
+                     padding: 33px !important;
+        }
+        }
+
+
+
+        .widt1 {
+            width: 21% !important;
+        }
+          .not-active {
+  pointer-events: none;
+  cursor: default;
+  display:none;
+}
+        .pd3 {
+            padding-left:0px;
+            padding-right:0px;
+                margin-left: -2.5%;
+        }
+        .pd4 {
+             padding-left: 33px;
+    padding-right: 44px;
+    margin-left: -1.4%;
+        }
+        .pd5 {
+                margin-left: -4%;
+    margin-top: 15px;
+        }
+        .bgbox {
+    border: 1px solid #ccc;
+    padding: 6px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    border-radius: 3px;
+}
+        .bghd {
+    background: #394456;
+    color: #fff;
+    border: 1px solid#fff;
+}
+        .nav-tabs > li > a {
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+    background: #e4e4e4;
+    color: #394456;
+    font-size: 11px;
+}.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #131111;
+    cursor: default;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}.nav > li > a {
+    padding: 6px 12px;
+}.pnbox {
+    background: #F3F3F3;
+    margin-left: 8%;
+    border-radius: 8px;
+    padding: 0%;
+    border: 1px solid #DEE4F6;
+}b, strong {
+    font-weight: 700 !important; 
+    color: #3480ae !important;
+    font-size: 11px;
+    padding: 0px 10px 0px 10px;
+}
+
+
+ /*ticket report ui css end*/
+
+ .reportminheader {
+    color: #fff; font-size: 15px; font-weight: 600; padding: -1px; margin: 0px;
+}
+.reportminicon {
+    padding: 11px; font-size: 14px; border-left: 1px solid;
+}
+.modal .panel-body {
+    color: #444;
+    font-family: arial;
+}

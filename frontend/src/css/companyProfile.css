@@ -1,0 +1,31 @@
+
+    .hasError {
+        color: red;
+    }
+
+    .modal {
+        background-color: rgba(0,0,0,0.5) !important;
+    }
+
+    .modal-backdrop.in {
+        opacity: .0 !important;
+    }
+
+    .bgpage {
+        background: rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.22);
+    }
+
+    body {
+        font-size: 12px !important;
+        line-height: 1.42857143;
+        font-family: 'Quicksand', sans-serif !important;
+        font-weight: 700 !important;
+    }
+
+    .form-control {
+        font-size: 12px !important;
+    }
+    b, strong {
+        color: #333 !important;
+    }

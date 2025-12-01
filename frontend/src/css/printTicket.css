@@ -1,0 +1,18 @@
+.dropdownwer-content {
+    right: unset;
+    left: unset;
+    margin: unset;
+}
+
+#maindivv {
+    width: 785px;
+    margin: 0 auto;
+}
+
+#maindivv table {
+    margin: 0 auto;
+}
+.container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+}

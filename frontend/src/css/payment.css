@@ -1,0 +1,286 @@
+.TicketListPopup {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3%;
+    color: forestgreen;
+    background-color: antiquewhite;
+    z-index: 99999;
+    border-radius: 0px;
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    background: #80808066;
+}
+
+.itenbox1 {
+    width: 100% !important;
+    text-align: center !important;
+}
+
+.itindvbxsec {
+    padding-right: 0px;
+}
+
+.mainfarhadsecbx,
+.divsecadtbx,
+#sidepaymentdiv {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.msedline {
+    position: absolute;
+    border: 0.1px solid #f1f1f1;
+    width: 100%;
+    top: 22%;
+    left: 0px;
+}
+
+.padsemseg {
+    padding-left: 0px;
+}
+
+.faresummaindv {
+    box-shadow: 0 2px 4px 0 rgb(255 255 255 / 15%) !important;
+}
+
+.hisedicon {
+    width: 16px;
+    margin-right: 4px;
+}
+
+div.bhoechie-tab-menu div.list-group>a.active,
+div.bhoechie-tab-menu div.list-group>a.active .glyphicon,
+div.bhoechie-tab-menu div.list-group>a.active .fa {
+    background-color: #ffffff;
+    color: #ff9800;
+    border: 2px solid #FF9800;
+}
+
+div.bhoechie-tab-menu div.list-group>a.active:after {
+    content: '';
+    width: 25px;
+    height: 25px;
+    background: #0000;
+    position: absolute;
+    left: 44%;
+    transform: rotate(90deg);
+    top: 127%;
+    z-index: 99999999;
+    border-left: 10px solid #ff9800;
+}
+
+div.bhoechie-tab-menu div.list-group>a {
+    overflow: inherit;
+    font-weight: 600;
+}
+
+.list-group-item {
+    width: 25%;
+    float: left;
+    font-size: 16px;
+    border-left: 2px solid #FFF;
+    background: #e6e6e6;
+}
+
+.paysebsic,
+.paysebsic3,
+.paysebsic2,
+.paysebsic1 {
+    margin-left: -132px !important;
+    font-size: 15px;
+    position: absolute;
+    width: 100%;
+    margin-top: 55%;
+}
+
+
+.cd-popup-container .cd-popup-close::before,
+.cd-popup-container .cd-popup-close::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    width: 14px;
+    height: 3px;
+    background-color: #fff;
+}
+
+.cd-popup-container .cd-popup-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 26px;
+    height: 25px;
+    z-index: 6;
+    margin-left: 94.5%;
+    margin-top: 0.4%;
+}
+
+.cd-popup-container .cd-popup-close {
+    position: absolute;
+    top: -14px;
+    right: 4px;
+    width: 30px;
+    height: 30px;
+    background: red;
+    border-radius: 16px;
+    color: #fff !important;
+}
+
+.logo {
+    margin: 0px !important;
+}
+
+.btn {
+    padding: 9px 12px !important;
+    border-radius: 0px !important;
+    font-size: 13px !important;
+}
+
+/*.form-control {
+    background: #ffffff !important;
+    height: 40px !important;
+}*/
+
+.masb {
+    background: #fff;
+}
+
+.masb1 {
+    background: #fff;
+}
+
+textarea {
+    background: #ffffff !important;
+}
+
+html,
+body {
+    color: #000000 !important;
+    background: #f8f8f8 !important;
+}
+
+.myplnau {
+    transform: rotate(45deg);
+    margin-left: 28px;
+    position: absolute;
+    margin-top: 21px;
+}
+
+.myplnauty {
+    transform: rotate(-136deg);
+    margin-left: 28px;
+    position: absolute;
+    margin-top: 21px;
+}
+
+.finagrossinr {
+    color: rgb(140 137 137);
+    font-family: Rubik, sans-serif;
+    font-size: 22px;
+}
+
+.bhoechie-tab {
+    /*box-shadow: 0 1px 2px rgba(0,0,0,.175);
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.175);*/
+    margin-bottom: 15px;
+}
+
+.padinggert {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    padding-top: 6px;
+}
+
+.modifar {
+    background: #f9f9f9;
+    text-align: center !important;
+    border-bottom: 1px solid #ddd;
+    font-size: 12px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.muiirt15 {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.modifar2 {
+    background: #f9f9f9;
+    text-align: center !important;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    font-size: 12px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.m-bottom25 {
+    margin-bottom: 60px;
+}
+
+.close {
+    opacity: 10 !important;
+}
+
+@media screen and (max-width: 680px) {
+    #siddivdetail {
+        padding-left: 0px !important;
+    }
+
+    .maindisplaybox {
+        width: 100% !important;
+    }
+
+    div.col-md-2.col-xs-12.img-responsive.hidef.yuu {
+        display: none;
+    }
+
+    .mywid {
+        width: 100% !important;
+    }
+
+    .mywid1 {
+        width: 100% !important;
+    }
+}
+
+.pgbox {
+    width: 100%;
+}
+
+.paymat {
+    width: 18% !important;
+    margin-top: 16px;
+    margin-right: 10px;
+    padding-top: 31px;
+    padding-bottom: 31px;
+    margin-left: 4%;
+    border: 1px solid #FF9800;
+}
+
+#PgNetOptionRemark {
+    width: 100% !important;
+}
+
+#DebitCardPgRemark {
+    width: 100% !important;
+}
+
+@media screen and (max-width: 680px) {
+    .paymat {
+        width: 100% !important;
+    }
+
+    div.bhoechie-tab-content {
+        padding-left: 0px;
+    }
+}

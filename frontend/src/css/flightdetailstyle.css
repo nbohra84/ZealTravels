@@ -1,0 +1,763 @@
+﻿body {
+    background: #f2f2f2 !important;
+    font-family: 'Lato', sans-serif !important;
+}
+  .leftdetabx{
+         width: 496px;
+ }
+ .detabx{
+         float: left;
+    margin-right: 15px;
+ }
+
+ .bsdse, .bsdse1{
+         color: #b1adad;
+ }
+
+.includetaxdv{
+text-align: right;
+margin-top: -8px;
+margin-bottom: 9px;
+font-size: 11px;
+padding-right: 16px;
+}
+
+.mainwrapperdetail {
+    width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    min-height: 600px;
+    margin-top: 15px;
+    padding-top: 15px;
+    box-shadow: 0 0 8px 0 rgba(5,47,95,.06), 0 12px 64px 0 rgba(52,105,203,.16);
+}
+
+.detailboxre {
+    background-color: #fff;
+    color: #000;
+    margin-bottom: 15px;
+    box-shadow: 0 0 8px 0 rgba(5,47,95,.06), 0 0px 4px 0 rgba(52,105,203,.16);
+}
+
+.headsectit {
+    font-size: 20px;
+    color: #000;
+    margin-bottom: 10px;
+    font-weight: 700; 
+    margin-top:0px;
+}
+
+.detailhadsec {
+    padding: 0px 15px;
+    border-bottom: 2px solid #f0f0f0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.peradv1 {
+    font-size: 17px;
+    padding: 0px;
+    margin: 0;
+}
+
+.peradv2 {
+    font-family: 'Lato', sans-serif;
+    padding: 0px;
+    margin: 0;
+    font-weight:700;
+}
+
+.itindvbxsec {
+    padding: 2px 15px;
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    margin-bottom: 0;
+}
+
+.airlisdetimg0 {
+    display: -ms-flexbox; 
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 196px;
+    padding-right: 5px; 
+}
+.airlogo{
+    height:40px;
+    width:40px;
+}
+
+.airlisdt {
+    display: -ms-flexbox;
+    display: flex;
+    height: 40px;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin-left: 15px;
+    width: calc(100% - 60px);
+}
+.depatdvi {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+}
+.destconde {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+}
+
+.airdtname, .airdtcode{
+    margin:0px;
+    padding:0px;
+}
+
+.airdtname {
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+}
+.airdtcode {
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+}
+
+.detaairbox1 {
+    width: 157px;
+    margin-right: 10px;
+    padding-right: 0;
+}
+.timesecdv{
+    font-size: 17px;
+    font-weight: 700;
+}
+.terstationdv{
+    color: #9f9c9c;
+}
+
+.layoverdgt {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #979797;
+    font-size: 16px;
+    margin-right: 50px;
+    padding-right: 0;
+    width: 120px;
+    text-align:center;
+}
+
+.maindbagdvbx {
+    width: 73px;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+.maindbagdvbx1 {
+    width: 110px;
+    font-size: 11px;
+    color: #7b7878;
+}
+
+.bagglad1, .bagglad2, .bagglad3 {
+    width:110px;
+}
+
+.righfdebox{
+    width: 335px;
+    padding-top: 7px;
+}
+
+.refundnonbx {
+    padding: 1px 10px;
+    color: #fff;
+    border-radius: 14px;
+    font-size: 11px;
+    width: 133px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 18px;
+    background: linear-gradient(to bottom,#4caf50,#4caf50) !important;
+}
+
+.faresummaindv {
+    /*border-radius: 10px;*/
+    background-color: #fff;
+    -webkit-box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+    color: #000;
+}
+
+.mainfarhadsecbx {
+    font-weight: 700;
+    /*border-bottom: 2px solid #f0f0f0;*/
+    padding: 8px 15px;
+    cursor: pointer;
+    justify-content: space-between;
+    display: flex;
+}
+
+.bullstdx{
+    padding-right: 6px;
+}
+.divsecadtbx {
+    justify-content: space-between;
+    display: flex; 
+    padding: 6px 17px;
+}
+.divsortsec{
+       padding: 6px 17px;
+}
+
+.adtfarbx {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.padbox-0{
+    padding-left:0px !important;
+    padding-right:0px !important;
+}
+.mainfarsecbx{
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.totalamtbx {
+    font-size: 17px;
+    font-weight: 700;
+}
+.mainidsecbx{
+    /*display:none;*/
+}
+
+.inrserv {
+    font-size: 18px;
+}
+
+.mandvplmns {
+    width: 17px;
+    float: left;
+    margin-top: 4px;
+}
+
+.mainfarhadsecbx {
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.maindehy {
+    padding: 20px 15px;
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    margin-bottom: 0;
+}
+
+.alreadragisdv {
+    width: 100%; 
+    padding-bottom:15px;
+}
+
+.cantrinput{
+    height: 45px !important;
+    float:left;
+}
+
+.btnlogin {
+    background: #574040;
+    color: #fff !important;
+    padding: 13px 13px;
+    font-size: 15px;
+    border-radius: 3px;
+    float: left;
+    margin-top: 5px;
+}
+
+.maindehyuj{
+    /*display: flex;*/ 
+    padding: 20px 15px;
+}
+
+.emailbx{
+    width: 100%;
+    float:left;
+    margin-right: 11px;padding-bottom: 14px;
+}
+
+.btnlogintab {
+    background: #f09300;
+    color: #fff !important;
+    padding: 10px 6px;
+    font-size: 15px;
+    border-radius: 3px;
+    float: left;
+    width: 100%;
+    border: none;
+}
+
+.fontwdth{
+    font-weight:700;
+    padding: 5px 10px;
+}
+
+.codeinpu {
+    margin-bottom: 17px;
+    float: left;
+}
+
+.puemyhw {
+    width: 200px;
+    float: left;
+    height: 36px;
+    border: 1px solid #c3c3c3;
+    float: left;
+}
+.btnloginny {
+    margin: 0px 0px;
+    font-size: 11px;
+    padding: 10px 17px;
+    border-radius: 0;
+    background-image: linear-gradient(to right, #ff2f8b, #9035f9);
+    color: rgb(255, 255, 255) !important;
+    float: left;
+}
+.procod {
+    padding: 7px 10px;
+    border: 1px dotted #a534e5;
+    color: #a534e5;
+    margin-left: 13px;
+    font-size: 12px;
+    cursor:pointer;
+}
+.promoperadv {
+    display: block;
+    margin: 9px 23px 6px 30px;
+    font-size: 12px;
+    color: #6b6666;
+}
+
+.bookbutton {
+    background: red;
+    color: #fff !important;
+    padding: 13px 13px;
+    font-size: 15px;
+    border-radius: 3px;
+    margin-top: 5px;
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 60px;
+}
+
+/*hotel itinerary css work start*/
+.oneStar:after,
+.oneHStar:after,
+.twoStar:after,
+.twoHStar:after,
+.threeStar:after,
+.threeHStar:after,
+.fourStar:after,
+.fourHStar:after,
+.fiveStar:after {
+content: "\f005";
+color:#fa2f90;
+display: inline-block;
+font: normal normal normal 14px/1 FontAwesome;
+font-size: 14px;
+text-rendering: auto;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+
+
+.oneHStar:after {
+content: "\f005  " "\f123";
+}
+
+.twoStar:after {
+content: "\f005  " "\f005";
+}
+
+.twoHStar:after {
+content: "\f005  " "\f005" " \f123";
+}
+
+.threeStar:after {
+content: "\f005  " "\f005  " "\f005";
+}
+
+.threeHStar:after {
+content: "\f005  " "\f005  " "\f005" " \f123";
+}
+
+.fourStar:after {
+content: "\f005  " "\f005  " "\f005  " "\f005";
+}
+
+.fourHStar:after {
+content: "\f005  " "\f005  " "\f005  " "\f005" " \f123";
+}
+
+.fiveStar:after {
+content: "\f005  " "\f005  " "\f005  " "\f005  " "\f005";
+}
+ .box-content.itin-htl-padd {
+    padding: 2.143rem;
+}
+ .box-content {
+    background: #fff;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 2px 4px 0 #c8c8c8;
+    -moz-box-shadow: 0 2px 4px 0 #c8c8c8;
+    box-shadow: 0 2px 4px 0 #c8c8c8;
+    padding: 2.143rem 3.214rem;
+}
+ .disp-table {
+    display: table;
+    width: 100%;
+}
+ .disp-table-cell {
+    width: 100%;
+}
+.itin-img-wrap {
+    max-width: 248px;
+    min-width: 248px;
+    margin-right: 2.143rem;
+    width: 248px;
+    height: 200px;
+    float: left;
+}
+.disp-table .disp-table-cell {
+    display: table-cell;
+    vertical-align: top;
+}
+.pr {
+    position: relative;
+}
+.itin-img-wrap .ovf-hidden {
+    border-radius: 4px;
+}
+.ovf-hidden {
+    overflow: hidden;
+}
+.itin-img-wrap .itin-img {
+    transition: opacity 100ms ease-in-out;
+    opacity: 1;
+    height: 200px;
+}
+.disp-table-cell .text-truncate {
+    max-width: 460px;
+    display: inline-block;
+    vertical-align: top;
+}
+.img-grad {
+    left: 0;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    color: #fff;
+    bottom: 0px;
+    font-size: 14px;
+    padding: 2px 6px 4px 6px;
+    background: -webkit-linear-gradient(bottom, #000, transparent);
+    background: -o-linear-gradient(top, #000, transparent);
+    background: -moz-linear-gradient(top, #000, transparent);
+    background: linear-gradient(to top, #000000,rgba(0,0,0,0));
+    border-radius: 4px;
+}
+ .text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.img-grad a {
+    color: #FFFFFF !important;
+    cursor:pointer;
+}
+.img-grad {
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+}
+.text-truncate {
+    white-space: nowrap;
+}
+.disp-table-cell {
+    width: 100%;
+}
+.disp-table .disp-table-cell {
+    display: table-cell;
+    vertical-align: top;
+}
+.itinerary .disp-table-cell h3 {
+    line-height: 24px;
+    position: relative;
+    top: -3px;
+    margin-top: 0;
+    margin-bottom: .5rem;
+}
+.disp-table-cell .text-truncate {
+    max-width: 460px;
+    display: inline-block;
+    vertical-align: top;
+} 
+.text-truncate {
+font-family: 'Lato', sans-serif;
+font-weight: 700;
+font-size: 18px;
+}
+.address-txt {
+    line-height: 20px;
+    padding-top: 5px;
+}
+.gray-light {
+    color: #999;
+}
+.fs-base {
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    width: 100%;
+    float: left;
+} 
+.ml10 {
+    margin-left: 10px;
+}
+.mt20 {
+    margin-top: 20px;
+}
+.stay-dates {
+    width: 240px;
+    float: left;
+}
+
+.stay-dates .cal-block {
+    width: 103px;
+    height: 113px;
+    border-radius: 2.8px;
+    border: 1px solid #f1f1f1;
+    background-color: #f1f1f1;
+    text-align: center;
+    position: relative;
+    margin-right: 8px;
+    color: #666;
+    display: inline-block;
+}
+    .stay-dates .cal-block .cb-top .checkin-text {
+        position: relative;
+        bottom: 2px;
+        font-size: 15px;
+    }
+.bkg-date {
+    font-size: 30px;
+    font-weight: 700;
+    color: #333;
+    display: block;
+}
+.cb-top {
+    padding: 10px;
+}
+.cb-footer {
+    color: rgb(255, 255, 255) !important;
+    font-size: 12px;
+    line-height: 1.39;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 4px 0;
+    background: linear-gradient(to bottom,#2675c1,#073d5f);
+}
+.pb2 {
+    padding-bottom: 2px;
+}
+.list {
+    list-style: none !important;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 0 !important; 
+    font-size: 17px; 
+}
+.horz-separator {
+    border-top: 1px solid #e4e4e4;
+}
+.horz-separator {
+    margin-top: 7px;
+    margin-bottom: 7px;
+    border: 0; 
+    border-top: 1px solid #e4e4e4;
+}
+.mudu {
+    padding: 0;
+    font-size: 17px;
+    color: #636363;
+    font-weight: bold;
+}
+    .mudu li {
+        display: inline-block;
+        margin-right: 19px;
+    }
+
+.mainfarhadsecbxwe {
+    font-weight: 700;
+    padding: 0px 15px;
+    cursor: pointer;
+    justify-content: space-between;
+    display: flex;
+}
+.faresummaindvhot{
+    border-radius: 10px;
+background-color: #fff;
+-webkit-box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+color: #000;
+padding-top: 12px;
+}
+
+/*hotel itinerary css work end*/
+
+
+
+
+/*responsive css work start*/
+@media only screen and (max-width: 680px) {
+
+    .leftdetabx{
+        width:100%;
+    }
+
+    .adticmo{
+        position:relative !important;
+        text-align:center;
+    }
+
+    .ovf-hidden{
+        width: 288px !important;
+    }
+
+    .disp-table-cell{
+        float:left;
+    }
+    .disp-table .disp-table-cell{
+        margin-bottom: 19px;
+    }
+
+    .mainwrapperdetail{
+        width:100%;
+    }
+    .respmovpad{
+        padding-left:0px !important;
+        padding-right:0px !important;
+    }
+    .detailhadsec{
+        display:block;
+    }
+    .layoverdgt{
+        margin-right: 43px;
+        width: 30px;
+    }
+    .detaairbox1{
+        width: 157px;
+    }
+    .alreadragisdv{
+        width:100%;
+        margin:0%;
+    }
+    .btnlogin{
+        width:100%;
+        text-align:center;
+    }
+    .maindehyuj{
+        display:block;
+    }
+    .emailbx {
+        width: 100%;
+        float: left;
+        margin-bottom: 9px;
+        
+    }
+    .btnlogintab {
+        width: 100%;
+        text-align: center;
+    }
+}
+@media only screen and (max-width: 800px) {
+    .mainwrapperdetail{
+        width:100%;
+    }
+}
+
+/*responsive css work end*/
+
+
+
+
+
+   .mainpromodv {
+            position: absolute;
+            float: left;
+            left: 74.5%;
+            background: #fff;
+            top: 40%;
+            width: 24.5%;
+            border-radius: 10px;
+            -webkit-box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+        }
+
+        .mainulinclusion {
+            padding: 0px;
+            display: inline-flex;
+            list-style: none;
+            margin-left: -2.5%;
+            color: #000;
+            padding: 12px 19px !important;
+            background: #f1f1f1;
+            width: 105.1%;
+            margin-top: 15px;
+            margin-bottom: 0;
+        }
+
+        .mainulinclusion li{
+            margin-right: 29px;
+        }
+
+        .disp-table-cell .text-truncate{
+            color:#000;
+        }
+
+        .mudu li{
+            color:#000 !important;
+        }
+
+        @media only screen and (max-width: 680px) {
+            .mainpromodv {
+                position: relative;
+                float: left;
+                left: 0;
+                background: #fff;
+                width: 100%;
+                border-radius: 10px;
+                -webkit-box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+                box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+                margin-top: 32px;
+                margin-bottom: 65px;
+            } 
+            .mainulinclusion {
+                padding: 0px;
+                display: inline-table;
+                list-style: none;
+                margin-left: -2.5%;
+                color: #000;
+                padding: 12px 19px !important;
+                background: #f1f1f1;
+                width: 105.1%;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+        }
+        @media screen and (max-width:1280px){
+            .mainwrapperdetail{width:100% !important;}
+        }

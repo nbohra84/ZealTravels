@@ -1,0 +1,917 @@
+.mainwrapper {
+    width: 1560px;
+    margin: 0 auto;
+}
+
+.ItnaryWithFarerulepopup {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3%;
+    color: forestgreen;
+    background-color: antiquewhite;
+    z-index: 99999;
+    border-radius: 0px;
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    background: #80808066;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    background: linear-gradient(to bottom, #2196f3, #0982d8);
+    color: #fff;
+}
+
+.discui {
+    display: none;
+}
+
+.actu {
+    display: none;
+}
+
+.tooltip>.tooltip-inner {
+    background-color: #009688;
+}
+
+/*new waiting loader popup css work start here*/
+.minheadsec {
+    text-align: center;
+    padding: 10px;
+    color: #060606;
+    background: #2d67b200;
+    font-weight: 100;
+    margin-top: 13px;
+    margin-bottom: 6px;
+    font-size: 27px;
+}
+
+.addignminpopui {
+    width: 614px !important;
+    height: 379px !important;
+    margin: -4% auto !important;
+    border-radius: 37px;
+}
+
+.imgtxtmndv {
+    height: 129px !important;
+    margin-top: -15px !important;
+}
+
+.cntloadimgdv {
+    width: 46%;
+    position: absolute;
+    z-index: -1 !important;
+    margin-top: -45px !important;
+    margin-left: -147px !important;
+}
+
+.depttxtdv {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-size: 25px;
+}
+
+
+.retdaicndv {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-size: 25px;
+}
+
+.selected {
+    background-color: #ffcccb;
+}
+
+/*new waiting loader popup css work end here*/
+
+.ItnaryWithFarerulepopup {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3%;
+    color: forestgreen;
+    background-color: antiquewhite;
+    z-index: 99999;
+    border-radius: 0px;
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    background: #80808066;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    background: linear-gradient(to bottom, #2196f3, #0982d8);
+    color: #fff;
+}
+
+.discui {
+    display: none;
+}
+
+.actu {
+    display: none;
+}
+
+.tooltip>.tooltip-inner {
+    background-color: #009688;
+}
+
+/*new waiting loader popup css work start here*/
+.minheadsec {
+    text-align: center;
+    padding: 10px;
+    color: #060606;
+    background: #2d67b200;
+    font-weight: 100;
+    margin-top: 13px;
+    margin-bottom: 6px;
+    font-size: 27px;
+}
+
+.addignminpopui {
+    width: 614px !important;
+    height: 379px !important;
+    margin: -4% auto !important;
+    border-radius: 37px;
+}
+
+.imgtxtmndv {
+    height: 129px !important;
+    margin-top: -15px !important;
+}
+
+.cntloadimgdv {
+    width: 46%;
+    position: absolute;
+    z-index: -1 !important;
+    margin-top: -45px !important;
+    margin-left: -147px !important;
+}
+
+.depttxtdv {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-size: 25px;
+}
+
+
+.retdaicndv {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-size: 25px;
+}
+
+.selected {
+    background-color: #ffcccb;
+}
+
+/*new waiting loader popup css work end here*/
+
+/*new waiting loader popup css work start here*/
+.minheadsec {
+    text-align: center;
+    padding: 10px;
+    color: #060606;
+    background: #2d67b200;
+    font-weight: 100;
+    margin-top: 13px;
+    margin-bottom: 6px;
+    font-size: 27px;
+}
+
+.addignminpopui {
+    width: 614px !important;
+    height: 379px !important;
+    margin: -4% auto !important;
+    border-radius: 37px;
+    box-shadow: 0 0 8px 0 rgba(5, 47, 95, .06), 0 12px 64px 0 rgba(52, 105, 203, .16);
+}
+
+.imgtxtmndv {
+    height: 129px !important;
+    margin-top: -15px !important;
+}
+
+.cntloadimgdv {
+    width: 46%;
+    position: absolute;
+    z-index: -1 !important;
+    margin-top: -45px !important;
+    margin-left: -147px !important;
+}
+
+.depttxtdv {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-size: 25px;
+}
+
+
+.retdaicndv {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-size: 25px;
+}
+
+/*new waiting loader popup css work end here*/
+
+
+.form-control {
+    height: 36px;
+}
+
+.form-control[readonly] {
+    background-color: #fff;
+}
+
+.wertyhb {
+    margin: 40px 0px 0px 0px;
+}
+
+.multicicond {
+    margin-top: -35px;
+}
+
+.calendar-icon {
+    right: 17px;
+}
+
+.calendar-disable-icon {
+    top: 16px;
+    width: 40px;
+}
+
+.sector-center {
+    width: 28px;
+    margin-left: 22.7%;
+}
+
+.adtbon {
+    height: 35px;
+}
+
+.adplus {
+    padding-top: 2px !important;
+    padding-bottom: 8px !important;
+    height: 34px;
+    border-radius: 0;
+}
+
+.minus {
+    padding-top: 2px !important;
+    padding-bottom: 8px !important;
+    height: 34px;
+    border-radius: 0;
+}
+
+ul#myCityDiv {
+    float: left;
+    width: 100%;
+    padding-left: 0px;
+    list-style: none;
+}
+
+.mduehw {
+    padding-bottom: 0px;
+    float: right;
+    margin-bottom: -27px;
+}
+
+.ioet {
+    margin-top: 43px;
+}
+
+.searboxdt {
+    text-align: left;
+}
+
+.searboxdt2 {
+    text-align: right;
+}
+
+.mysearchboxmain {
+    background: #f9f9f9;
+    margin-bottom: 4px;
+}
+
+@media screen and (max-width:680px) {
+    .mydgd {
+        position: relative;
+        margin-left: 0;
+        text-align: center;
+        display: block;
+    }
+
+    .adplus {
+        padding: 9px !important;
+        padding-top: 8px !important;
+    }
+
+    .minus {
+        padding-top: 9px !important;
+    }
+
+    #main {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .cf {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .trip-box {
+        width: 110px !important;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    select {
+        width: 100%;
+    }
+
+    .center-div {
+        background-size: 394px 360px !important;
+    }
+}
+
+#Chkbocpreferedairline label {
+    color: #000000
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active {
+    background: linear-gradient(to bottom, #2196f3, #0982d8);
+    color: #fff;
+    font-weight: normal;
+    margin: -1px;
+    border: 0px solid #999999;
+}
+
+.slidesidefilterbox2 {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.divRow {
+    box-shadow: 0 1px 3px #212121;
+}
+
+.fareruleowaycls {
+    z-index: 9999999;
+    position: fixed;
+    width: 550px;
+    background-color: Black;
+    color: White;
+    margin-left: 100px;
+    top: 10px;
+    font-size: 8pt;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 8pt;
+}
+
+li {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    font-size: 8pt;
+}
+
+.panel-body #flightRow ul {
+    float: left;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.flightdtloway {
+    float: left;
+    margin: 0;
+    padding: 1%;
+    display: block;
+    width: 10%;
+}
+
+.flightdeptimeoway {
+    float: left;
+    margin: 0;
+    width: 7%;
+}
+
+.durationlin {
+    float: left;
+    width: 2%;
+    margin-top: 11px;
+}
+
+.seatdivoway {
+    float: left;
+    margin: 0;
+    padding: 1%;
+    width: 18%;
+    width: 10%;
+    display: block;
+}
+
+.stopclsoway {
+    float: left;
+    margin: 0;
+    padding: 1%;
+    width: 11%;
+}
+
+.mydivmob5.priceclsoway {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.priceclsoway {
+    margin: 0;
+    width: 18%;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-top: 0;
+}
+
+.flightrefcls {
+    float: left;
+    margin: 0;
+    padding: 1%;
+}
+
+.flightimg {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 50px;
+}
+
+.flightnamecls {
+    display: block;
+    margin: 0;
+    width: 22px;
+    padding-top: 13px;
+    float: left;
+    font-weight: bold;
+    padding-bottom: 0px;
+    padding-left: 1px;
+}
+
+.showfontsize {
+    font-size: 8pt;
+    font-family: verdana;
+    color: #000;
+    padding: 0px;
+}
+
+.flightnumcls {
+    font-weight: normal;
+    float: left;
+    padding-top: 13px;
+    padding-left: 1px;
+}
+
+span.showfontsize.mobdevi1 {
+    font-size: 10pt;
+    padding: 0px;
+    color: #333;
+    font-family: "Rubik", sans-serif;
+}
+
+.deptimecls {
+    font-weight: normal;
+    float: left;
+}
+
+
+.colr999 {
+    color: #999;
+}
+
+span.showfontsize.mobdevi1 {
+    font-size: 10pt;
+    padding: 0px;
+    color: #333;
+    font-family: "Rubik", sans-serif;
+}
+
+.flightarrtime {
+    font-weight: normal;
+    float: left;
+    width: 6%;
+    margin: 0;
+}
+
+.panel-body #flightRow ul li {
+    float: left;
+    margin: 0;
+    padding: 1% 2% 1% 2%;
+    font: normal 13px verdana;
+    color: #52b6ec;
+}
+
+.layovercls {
+    font-weight: normal;
+    float: left;
+    padding-top: 0px;
+    padding-left: 0px;
+    text-align: center;
+}
+
+.layovercls {
+    font-weight: normal;
+    float: left;
+    padding-top: 0px;
+    padding-left: 0px;
+    text-align: center;
+}
+
+.viadivcls {
+    float: left;
+    width: 100%;
+    padding-left: 13px;
+    padding-top: 7px;
+}
+
+.viadivcls {
+    float: left;
+    width: 100%;
+    padding-left: 13px;
+    padding-top: 7px;
+}
+
+.flight-details {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    /* justify-content: space-between; */
+    width: 450px;
+    /* border: 5px solid red; */
+    margin-top: 0;
+    padding-top: 0;
+    border-color: #e2e2e2;
+    border: 1px solid #e2e2e2;
+}
+
+.flight-book-now {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 4px;
+    height: 100%;
+}
+
+.flight-amount {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 4px;
+    flex: 0 0 80px;
+    height: 100%;
+}
+
+.flight-amount-offer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    flex: 0 0 80px;
+    height: 100%;
+    margin-top: 4px;
+}
+
+.detailsm {
+    display: flex;
+    margin-right: 10px;
+    margin-top: 4px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.mydivsrefund3 {
+    display: flex;
+    /* margin-right: 30px; */
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 4px;
+    flex: 0 0 100px;
+}
+
+
+.panel-body #flightRow .detail_view {
+    font: normal 12px tahoma;
+    color: #52b6ec;
+    float: left;
+    padding-top: 1px;
+}
+
+.pluss {
+    /* background-image: url(../img/plus.png); */
+    background-repeat: no-repeat;
+    background-position: left center;
+    display: block;
+    color: #0380db;
+    font-size: 8pt;
+    padding-left: 2px;
+}
+
+.minuss {
+    /* background-image: url(../img/minus.png); */
+    background-repeat: no-repeat;
+    background-position: left center;
+    display: none;
+    color: #0380db;
+    font-size: 8pt;
+    padding-left: 3px;
+}
+
+.sendSMS {
+    color: black;
+    font-weight: bold;
+    display: block;
+    font-size: 8pt;
+}
+
+.div-Blur {
+    background: #fff;
+    box-shadow: 0 0 5px #ddd inset;
+    margin-bottom: 9px;
+    margin-top: 9px;
+    height: auto;
+    width: 98%;
+    position: relative;
+    float: left;
+    left: 1%;
+    display: none;
+    font-size: 8pt;
+}
+
+.badkk {
+    border-top: 1px solid #e2e2e2;
+}
+
+.divRow:hover {
+    box-shadow: 0 1px 3px #212121;
+}
+
+a {
+    color: #000;
+    -webkit-transition: 300ms;
+    -moz-transition: 300ms;
+    -o-transition: 300ms;
+    transition: 300ms;
+}
+
+a:hover,
+a:focus {
+    color: #80c9f1;
+    text-decoration: none;
+    outline: none;
+}
+
+.detashemh {
+    position: absolute;
+    margin-left: -4px;
+    margin-top: 1px;
+}
+
+.detashemhnm {
+    position: absolute;
+    margin-left: -5px;
+    margin-top: 6px;
+}
+
+.FareSummaryClass {
+    display: none;
+    text-align: left;
+    width: 15.5%;
+    padding: 10px;
+    margin-left: -17%;
+    margin-top: -5%;
+    z-index: 9999999;
+    position: absolute;
+    background: #ffffff;
+    border-radius: 2px;
+    box-shadow: 0 0 9px #000;
+    border: 1px solid #2f4264;
+    background-color: #fff;
+}
+
+.FareSummaryClass .ponter {
+    position: absolute;
+    right: -17px;
+    top: 50%;
+    z-index: 0;
+}
+
+.refinefol {
+    background: #ffffff;
+    color: #333;
+    padding: 5px 10px 5px 10px;
+    border-radius: 3px;
+    border: 1px solid #ffffff;
+    text-shadow: 1px 1px 1px #ffffff;
+    font-size: 13px;
+}
+
+.FareSummaryClassTitle {
+    background-color: #fff;
+    color: #000;
+}
+
+ul.mhyusummerdd {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+li.summerbox1 {
+    width: 64%;
+    float: left !important;
+    font-size: 11px !important;
+}
+
+li.summerbox2 {
+    width: 36%;
+    float: left;
+    text-align: right;
+    font-size: 11px !important;
+}
+
+.bordbot {
+    border-bottom: 1px dotted #52b6ec;
+}
+
+.grossbor {
+    border-top: 1px solid #ccc;
+    color: #000;
+    font-size: 13px;
+}
+
+.flightnamecls {
+    display: block;
+    margin: 0;
+    width: 22px;
+    padding-top: 13px;
+    float: left;
+    font-weight: bold;
+    padding-bottom: 0px;
+    padding-left: 1px;
+}
+
+.flightnumcls {
+    font-weight: normal;
+    float: left;
+    padding-top: 13px;
+    padding-left: 1px;
+}
+
+.book_now_button {
+    background-color: #fff;
+    background-repeat: repeat-x;
+    border: 1px solid #f09300;
+    border-radius: 0px;
+    color: #f09300;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 6px;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+    margin: 5px 0 0 0;
+    width: 90px;
+    z-index: 999999;
+}
+
+.book_now_button:hover {
+    background-color: #f09300;
+    background-image: linear-gradient(to bottom, #f09300, #f09300);
+    background-repeat: repeat-x;
+    border: 1px solid #f09300;
+    border-radius: 0px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 6px;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+    /* margin: 5px 0 0 0; */
+    width: 90px;
+    z-index: 999999;
+}
+
+ul.flight_sort.iudmirt {
+    background: #707374;
+}
+
+a.colordiv1 {
+    color: #fff;
+}
+
+.FareSummaryClassTitle {
+    background-color: #fff;
+    color: #000;
+}
+
+.faredivbox {
+    margin-top: unset;
+}
+
+.StopsChkinfo {
+    width: 83%;
+}
+
+#tblBookSummary a {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+#tblBookSummary a:hover,
+#tblBookSummary a:focus {
+    color: #23527c;
+    text-decoration: underline;
+}
+
+.AirlinesChkinfo {
+    width: 83%;
+}
+
+.slidesidefilterbox2 .inline-block {
+    width: 83%;
+}
+
+.flight_sort ul li:nth-of-type(1) {
+    margin-left: unset;
+}
+
+.flight_sort ul {
+    margin-left: 22px;
+    float: left;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    background-color: #e5e7eb;
+}
+
+.flight_sort.mdiqwO {
+    background: transparent !important;
+}
+
+.flight_sort ul li {
+    display: inline-block !important;
+    padding: 1% 2% 1% 2% !important;
+    border: none !important;
+    border-bottom: none !important;
+    background: transparent;
+    text-align: left;
+}
+
+@media only screen and (min-width: 751px) {
+    .row .left {
+        width: 25%;
+    }
+
+    .row .right {
+        width: 75%
+    }
+}

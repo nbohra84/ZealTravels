@@ -1,0 +1,313 @@
+.log1 {
+  display: none;
+}
+
+form.flex-row {
+  width: 100% !important;
+}
+
+form.deleteForm {
+  border-bottom: none !important;
+}
+
+.hidden-insert {
+  margin-bottom: 20px;
+  border-left: 1px solid #ccc;
+}
+/* Remove arrows from number input */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* For Firefox */
+    appearance: none; /* For other browsers */
+}
+.tur_banner {
+  background-color: #fff;
+  background-position: left -7px, center bottom;
+  background-repeat: repeat-x, repeat-x;
+  width: 100%;
+  float: left;
+  height: 89px;
+}
+
+.log {
+  display: none;
+}
+
+.drop-txt {
+  width: 200px;
+  background: #fff;
+  height: auto !important;
+  line-height: 19px !important;
+  padding-left: 11px !important;
+  padding-top: 5px !important;
+}
+
+.lgn-cls {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding-bottom: 30px;
+  padding-top: 20px;
+  margin-bottom: 10%;
+}
+
+.form-control {
+  box-shadow: none;
+}
+
+.form-control:focus {
+  box-shadow: none;
+}
+
+.btn-add {
+  height: 40px;
+  width: 140px;
+}
+
+.btn-add:hover {
+  color: #fff;
+}
+
+.aj {
+  display: none;
+}
+
+.displaynon-cls {
+  position: relative;
+  z-index: 1;
+  width: 492px;
+  padding: 60px 15px;
+  margin: 12% auto;
+  box-shadow: 0 0 8px 0 rgb(5 47 95 / 6%), 0 12px 64px 0 rgb(52 105 203 / 7%);
+  border-radius: 4px;
+  background: #fff;
+}
+
+.uiseinpt {
+  margin-bottom: 25px;
+  border-radius: 0px !important;
+  font-size: 15px !important;
+  border: 1px solid whitesmoke;
+  box-shadow: 0 2px 2px 0 #cdcdcd;
+  height: 50px;
+}
+
+.mdhehy {
+  font-size: 17px;
+  text-align: center;
+  padding: 20px 13px;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding-left: 0px;
+}
+
+@media screen and (max-width: 680px) {
+  .displaynon-cls {
+    width: 100%;
+  }
+}
+
+@media all and (max-width: 880px) and (min-width: 700px) {
+  .content-wrapper,
+  .right-side,
+  .topminhadd,
+  .mainhadsec {
+    width: 100% !important;
+  }
+
+  .minfoorerbox {
+    width: 100% !important;
+  }
+
+  .fooleftlink {
+    margin-left: 0%;
+  }
+
+  #google_translate_element {
+    display: none;
+  }
+}
+
+.header {
+  height: 100%;
+}
+
+.control-group {
+  height: 100% !important;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.popupboxcreden {
+  background: #fff;
+  box-shadow: 0px 2px #0000001a;
+  border-radius: 2px;
+}
+
+.crossdiv {
+  text-align: right;
+  color: #f91111;
+  margin-top: -8px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.modalBackground {
+  background-color: Gray;
+  filter: alpha(opacity=70);
+  opacity: 0.7;
+}
+
+table td {
+  padding: 8px;
+}
+
+.minii {
+  float: left;
+}
+
+body {
+  font-size: 12px !important;
+}
+
+.form-control {
+  font-size: 12px !important;
+}
+
+.container-fluid {
+  padding: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+div.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  border-bottom: 0px solid;
+}
+
+/* Style the buttons inside the tab */
+div.tab a {
+  background-color: inherit;
+  float: left;
+  border: none;
+  background: #00a5a5;
+  color: #fff;
+  outline: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: 0.3s;
+  font-size: 12px;
+}
+
+/* Change background color of buttons on hover */
+div.tab a:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab a.active {
+  background-color: #f2f2f2;
+  border-top: 1px solid #c7c7c7;
+  border-bottom: 0px;
+  color: #000;
+}
+
+/* Style the tab content */
+.error {
+  border: 1px solid red !important;
+}
+
+.pophdi {
+  text-align: center;
+  color: #fff;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 6px;
+}
+
+table a {
+  color: #374579 !important;
+  cursor: pointer;
+  text-decoration: underline !important;
+}
+
+table {
+  margin: 0px;
+}
+
+table.table-striped tbody tr.table-row.even {
+  background: transparent;
+}
+
+table.table-striped tbody tr.table-row.odd {
+  background: #fff;
+}
+
+table.table-striped tbody tr.edit-row.even {
+  background: transparent;
+}
+
+table.table-striped tbody tr.edit-row.odd {
+  background: #fff;
+}
+
+.credential-btn {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.credential-btn :hover,
+.credential-btn :active,
+.credential-btn :focus {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+.flex-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-bottom: none;
+}
+
+.flex-row {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+
+.flex-row.header {
+  font-weight: bold;
+  background-color: #ffffff;
+  margin: unset;
+}
+.flex-row.even {
+  background-color: transparent;
+}
+.flex-row.odd {
+  background-color: #ffffff;
+}
+
+.cell {
+  padding: 8px;
+  text-align: left;
+  border-right: 1px solid #ccc;
+  box-sizing: border-box; /* Ensures padding and border are included in width */
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+.cell:last-child {
+  border-right: none;
+}

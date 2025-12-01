@@ -1,0 +1,391 @@
+﻿.iconbox {
+    width: 100%;
+    font-size: 17px;
+    padding-top: 10px;
+}
+
+.cruise-deal-item .cruise-text {
+    float: left;
+}
+
+.cruise-deal-item {
+    float: left;
+}
+
+.cruise-name {
+    float: left;
+    width: 100%;
+}
+
+.cruise-night {
+    float: left;
+}
+
+.price-box {
+    float: left;
+    width: 100%;
+    height: 11px;
+}
+
+.destis {
+    height: 22px;
+    float: left;
+    overflow: hidden;
+}
+
+.effeckt-caption figcaption {
+    display: none;
+}
+
+.lSAction {
+    position: absolute;
+    top: 6%;
+    right: 8%;
+}
+
+h1 span {
+    display: inline !important;
+}
+
+.btn.btn-wewre.book-in-pic {
+    background: #000;
+}
+
+.mainytr {
+    font-size: 46px;
+    padding-left: 13px;
+    margin-top: 40px;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Quicksand-Bold', sans-serif;
+    background: none !important;
+    text-transform: capitalize !important;
+}
+
+.maincurrenc {
+    background: #00000047;
+}
+
+.featured-back {
+    padding: 25px 0 25px 0;
+}
+
+.shad {
+    max-height: 0% !important;
+}
+
+.tour-mig-like-com {
+    position: relative;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background: #14addb;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.tour-mig-lc-img img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.tour-mig-lc-con {
+    position: absolute;
+    width: 100%;
+    margin-top: -125px;
+    padding: 20px 20px 0px 20px;
+    display: block;
+    text-align: right;
+}
+
+    .tour-mig-lc-con h5 {
+        font-size: 19px;
+        color: #fff;
+        padding-top: 4px;
+        padding-bottom: 0px;
+        white-space: nowrap;
+        font-family: 'Quicksand-Bold', sans-serif;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        margin-bottom: 2px;
+        font-weight: 600;
+    }
+
+    .tour-mig-lc-con p {
+        color: #c1c1c1;
+        font-family: 'Quicksand-Bold', sans-serif;
+    }
+
+.tour-mig-like-com:before {
+    content: '';
+    position: absolute;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.82) 10%, rgba(84, 84, 84, 0.35) 80%);
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.tour-mig-lc-con p span {
+    text-align: right;
+    float: right;
+    font-size: 12px;
+    color: #eee;
+    width: 100%;
+}
+
+#mndivnn {
+    width: 1170px;
+    margin: 0 auto;
+}
+
+.hedg {
+    height: 400px;
+}
+
+.fdh {
+    height: 190px;
+}
+
+.international_dest1 li .destination_information {
+    width: 85%;
+}
+
+.international_dest1 li {
+    width: 33%;
+    height: 70px;
+    border-bottom: 0 none;
+    display: block;
+    background: #fff;
+    position: relative;
+    float: left;
+}
+
+    .international_dest1 li .destination_image1 {
+        float: left;
+        width: 54px;
+        height: 54px;
+        border-radius: 60px;
+        margin: 19px;
+        background-color: #787498;
+        margin-top: 3px;
+        margin-bottom: 0px;
+    }
+
+    .international_dest1 li .destination_information {
+        display: inline-block;
+        position: relative;
+        height: 92px;
+        width: 71%;
+        line-height: 24px;
+        padding: 10px 20px 10px 0;
+    }
+
+        .international_dest1 li .destination_information .destination_name {
+            width: 70%;
+            font-size: 15px;
+            float: left;
+            color: #333;
+            font-weight: 700;
+            margin-bottom: -6px;
+        }
+
+        .international_dest1 li .destination_information .price_go {
+            display: inline-flex;
+            width: 100%;
+        }
+
+            .international_dest1 li .destination_information .price_go .low_price {
+                font-size: 18px;
+                color: #f34f4f;
+                text-align: left;
+                display: block;
+                font-weight: 500;
+                line-height: 20px;
+                margin-bottom: 0px;
+            }
+
+        .international_dest1 li .destination_information .destination_day_night {
+            font-size: 13px;
+            color: #9b9b9b;
+        }
+
+        .international_dest1 li .destination_information i.icon-go {
+            position: absolute;
+            right: 10px;
+            top: 45%;
+        }
+
+    .international_dest1 li:hover {
+        box-shadow: 1px 1px 20px 4px rgba(1,1,1,.1);
+        z-index: 1;
+    }
+
+.popular_destination h2 {
+    font-size: 20px;
+    font-weight: 400;
+    text-transform: capitalize;
+    color: #333;
+    padding: 0 0 5px 15px;
+    letter-spacing: .4px;
+}
+
+.international_dest1 li:last-child {
+    border-bottom: 0px solid #e4e4e4;
+    border-radius: 0 0 5px 5px;
+}
+
+.imgboxdv1 {
+    height: 54px;
+    border-radius: 35px;
+    width: 54px;
+}
+
+@media only screen and (max-width: 680px) {
+    #mndivnn {
+        width: 100%;
+    }
+
+    .hedg {
+        height: 100%;
+    }
+
+    .fdh {
+        height: 100%;
+    }
+}
+
+
+    .m-btm-0 {
+        margin-bottom: 0px;
+    }
+
+    .pad-top-47 {
+        padding-top: 47px;
+    }
+
+    .pad-bot-0 {
+        padding-bottom: 0px;
+    }
+
+    .pad-lft-40 {
+        padding-left: 0px;
+    }
+
+    .offrhotelhead {
+        background: linear-gradient(to right, rgb(254 122 0) 46%, rgb(254 213 0) 100%);
+        box-shadow: 0 3px 30px 0 rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+    .width80per {
+        width: 80%;
+    }
+
+/*new waiting loader popup css work start here*/
+.minheadsec {
+    text-align: center;
+    padding: 10px;
+    color: #060606;
+    background: #2d67b200;
+    font-weight: 100;
+    margin-top: 13px;
+    margin-bottom: 6px;
+    font-size: 23px;
+}
+
+.addignminpopui {
+    margin: -4% auto !important;
+    border-radius: 5px;
+    width: 279px;
+    height: 128px;
+}
+
+.imgtxtmndv {
+    height: 129px !important;
+    margin-top: -15px !important;
+}
+
+.cntloadimgdv {
+    width: 21%;
+    margin-top: 10px;
+}
+
+.depttxtdv {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-size: 25px;
+}
+
+
+.retdaicndv {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-size: 25px;
+}
+
+.box-index1{width:19%; margin-left:.5%; margin-right:.5%; float:left;}
+.box-index2{width:19%; margin-left:.5%; margin-right:.5%; float:left;}
+.box-index3{width:19%; margin-left:.5%; margin-right:.5%; float:left;}
+.box-index4{width:19%; margin-left:.5%; margin-right:.5%; float:left;}
+.box-index5{width:19%; margin-left:.5%; margin-right:.5%; float:left;}
+
+@media screen and (max-width:1280px) {
+
+    .width80per {
+        width: 100%;
+    }
+
+    .ol-5 {
+        font-size: 50px;
+    }
+    
+.box-index1{width:30%; margin-left:3%; margin-right:1%;}
+.box-index2{width:30%; margin-left:1%; margin-right:1%;}
+.box-index3{width:30%; margin-left:1%; margin-right:3%;}
+.box-index4{width:30%; margin-left:3%; margin-right:1%; margin-top:10px;}
+.box-index5{width:30%; margin-left:1%; margin-right:1%; margin-top:10px;}
+}
+
+@media screen and (max-width:1020px) {
+    
+.box-index1{width:45%; margin-left:4%; margin-right:1%;}
+.box-index2{width:45%; margin-left:1%; margin-right:4%;}
+.box-index3{width:45%; margin-left:4%; margin-right:1%; margin-top:10px;}
+.box-index4{width:45%; margin-left:1%; margin-right:4%; margin-top:10px;}
+.box-index5{width:45%; margin-left:4%; margin-right:1%; margin-top:10px;}
+}
+
+@media screen and (max-width: 720px) {
+    /*mob*/
+    .addignminpopui {
+        width: 341px !important;
+        margin: 0 !important;
+        left: 9px;
+        border-radius: 5px;
+    }
+
+    .cntloadimgdv {
+        width: 56px;
+    }
+
+    .width80per {
+        width: 100%;
+    }
+    .ol-5 {
+        font-size: 50px;
+    }
+    
+.box-index1{width:90%; margin-left:5%; margin-right:5%;}
+.box-index2{width:90%; margin-left:5%; margin-right:5%; margin-top:10px;}
+.box-index3{width:90%; margin-left:5%; margin-right:5%; margin-top:10px;}
+.box-index4{width:90%; margin-left:5%; margin-right:5%; margin-top:10px;}
+.box-index5{width:90%; margin-left:5%; margin-right:5%; margin-top:10px;}
+}
+
+
+    /*new waiting loader popup css work end here*/
+
+

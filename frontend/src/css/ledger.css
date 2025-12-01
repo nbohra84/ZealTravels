@@ -1,0 +1,378 @@
+
+
+body{     font-family: math !important; }
+
+.boxshdr {
+    box-shadow: 0 0 8px 0 rgba(5,47,95,.06), 0 12px 64px 0 rgba(52, 105, 203, 0.07);
+    border-radius: 4px;
+    background: #fff;
+}
+.sidebar-menu{
+box-shadow: 0px 0px 3px #00000073;
+}
+
+nav {
+display: block;
+background: #fff;
+text-align: right;
+/*font-family: 'Poppins', sans-serif !important;*/
+font-family: math !important;
+margin-top: 9px;
+}
+
+.daily-serach-result a {
+    text-decoration: none;
+    display: none;
+    padding: .2em .4em;
+    line-height: 1.5;
+    zoom: 1;
+    color: #212121;
+    font-size: 13.2px;
+    margin-top: -1px;
+}
+
+.result-active-item {
+    display: block !important;
+    background-color: #dadada;
+    border: 1px solid #000000;
+}
+
+.searchResults {
+    padding-left: 15px;
+}
+
+.searchResults:hover {
+    color: #212121;
+}
+.goog-te-gadget .goog-te-combo {
+margin: 2px 34px;
+height: 25px;
+width: 147px;
+padding: 0;
+}
+.goog-logo-link{
+display:none;
+}
+.goog-te-gadget {
+    height: 29px !important; 
+overflow: hidden !important;
+}
+
+.menu {
+display: block; white-space:pre
+}
+
+.menu li {
+    display: inline-block;
+    position: relative;
+    z-index: 100;
+}
+
+    .menu li:first-child {
+        margin-left: 0;
+    }
+    #resp-menu{
+        border-bottom: 0px solid #ccc;
+    }
+    .menu li a {
+        font-weight: 600;
+        text-decoration: none;
+        padding: 6px 16px;
+        display: block;
+        color: #000;
+        font-size: 15px;
+        transition: all 0.2s ease-in-out 0s;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .menu li a:hover, .menu li:hover > a {
+            color: #0078c3;
+            background: #fff;
+        }
+
+.menu ul {
+    visibility: hidden;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    width: 258px;
+    right:0;
+    position: absolute;
+    left: auto;
+    background: #fff;
+    z-index: 99;
+    transform: translate(0,20px);
+    transition: all 0.2s ease-out;
+}
+
+    .menu ul:after {
+        bottom: 100%;
+        right: 20%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(255, 255, 255, 0);
+        border-bottom-color: #04c;
+        border-width: 6px;
+        margin-left: -6px;
+    }
+
+    .menu ul li {
+        display: block;
+        float: none;
+        background: none;
+        margin: 0;
+        padding: 0;
+    }
+
+        .menu ul li a {
+            font-size: 14px;
+            font-weight: normal;
+            display: block;
+            color: #797979;
+            background: #fff;
+            text-align:left;
+        }
+
+            .menu ul li a:hover, .menu ul li:hover > a {
+                background: #fff;
+                color: #0078c3;
+                background: #e9edf5;
+text-decoration: underline;
+            }
+
+.menu li:hover > ul {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0,0);
+    text-align: center;
+    box-shadow: 0 0 8px 0 rgba(5,47,95,.06), 0 12px 64px 0 rgba(52,105,203,.16);
+}
+
+.menu ul ul {
+    left: -267px;
+    top: 0px;
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(20px,20px);
+    transition: all 0.2s ease-out;
+}
+
+    .menu ul ul:after {
+        left: 260px;
+        top: 10%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(255, 255, 255, 0);
+        border-right-color: #04c;
+        border-width: 6px;
+        margin-top: -6px;
+    }
+
+.menu li > ul ul:hover {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(0,0);
+}
+
+.responsive-menu {
+display: none;
+width: 100%;
+padding: 20px 15px;
+background: #374147;
+color: #fff;
+text-transform: uppercase;
+font-weight: 600;
+}
+
+.responsive-menu:hover {
+    background: #374147;
+    color: #fff;
+    text-decoration: none;
+}
+
+a.homer {
+background: #9ca3da;
+}
+
+.daterestrict p {
+    color: #fe0811;
+    float: left;
+    padding-left: 15px;
+}
+
+.ptpop {
+    margin-left: 83.3% !important;
+    margin-top: -7% !important;
+}
+b, strong {
+    font-weight: 500 !important;
+    color: #000 !important;
+}
+@media (min-width: 768px) and (max-width: 979px) {
+
+
+.mainWrap {
+    width: 768px;
+}
+
+.menu ul {
+    top: 37px;
+}
+
+.menu li a {
+    font-size: 12px;
+}
+
+a.homer {
+    background: #374147;
+}
+}
+
+@media (max-width: 767px) {
+.mainWrap {
+    width: auto;
+    padding: 50px 20px;
+}
+
+/*.menu {
+    display: none;
+}*/
+
+.responsive-menu {
+    display: none;
+}
+
+nav {
+    margin: 0;
+    background: none;
+}
+
+.menu li {
+    display: block;
+    margin: 0;
+}
+
+    .menu li a {
+        background: #fff;
+        color: #797979;
+    }
+
+        .menu li a:hover, .menu li:hover > a {
+            background: #9ca3da;
+            color: #fff;
+        }
+
+.menu ul {
+    visibility: hidden;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: initial;
+}
+
+.menu li:hover > ul {
+    visibility: visible;
+    opacity: 1;
+    position: relative;
+    transform: initial;
+
+    top: 124%;
+    left: 0%;
+    width: 312px;
+}
+
+
+.menu ul:after{
+    left: 75%;
+}
+
+.menu ul ul {
+        left: 0% !important;
+    transform: initial;
+}
+    .menu ul ul li a {
+        background: #0d82d9;
+        color: #fff;
+        border-bottom: 1px solid #ccc;
+    }
+    .menu ul ul:after{
+        display:none;
+    }
+    .menu li a{
+            padding: 10px 10px;
+    }
+
+.menu li > ul ul:hover {
+    transform: initial;
+}
+
+
+
+}
+
+@media (max-width: 480px) {
+}
+
+@media (max-width: 320px) {
+}
+
+.ptpop {
+    margin-left: 83.3% !important;
+    margin-top: -7% !important;
+}
+.pophdi {
+    font-size: 17px !important;
+    font-weight: 400;
+}
+.modal .panel-body {
+    font-size: 15px;
+}
+.pophdi {
+    font-size: 17px;
+    font-weight: 500;
+}
+.panel-body1{
+    padding:9px;
+}
+.cc {
+    color: #131111 !important;
+    font-weight: 100;
+}
+
+tr td {
+    font-size: 11px;
+}
+
+b, strong {
+    font-weight: 500 !important;
+    color: #000;
+}
+
+@media only screen and (max-width: 680px) {
+    .widthhum {
+        width: 100% !important;
+    }
+    .mqwrhg{
+        padding-left:15px !important;
+        padding-right:15px !important;
+    }
+    #Div1s {
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+}
+
+.mainhead{
+    width:150px; float:left;
+}

@@ -1,0 +1,174 @@
+﻿.radio-toolbar input[type="radio"] {
+    opacity: 0;
+    position: fixed;
+    width: 0;
+}
+#oneshowa {
+    width: 75px;
+}
+#roundshowa {
+    width: 82px;
+}
+#DiscRTa {
+    width: 75px;
+}
+#multiRT {
+    width: 84px;
+}
+.radio-toolbar label {
+    display: inline-block;
+    background-color: #fff;
+    padding: 0px 12px;
+    font-family: sans-serif, Arial;
+    font-size: 12px;
+    border: 2px solid #040404;
+    border-radius: 4px;
+    color: #0e4974;
+}
+    .radio-toolbar label:hover {
+        background: linear-gradient(to bottom,#2675c1,#073d5f);
+        color: #fff;
+    }
+
+    .radio-toolbar input[type="radio"]:checked + label {
+    background: linear-gradient(to bottom,#070808,#000000);
+    border-color: #000000;
+    color: #fff;
+}
+
+.trip-box {
+    width: 120px;
+    border: 0px solid #ccc !important;
+    margin-right: 4px;
+    background: #0000;
+    cursor: pointer;
+    padding-top: 10px;
+    padding-bottom: 16px;
+}
+
+.mainbgflgh {
+    background: #fff;
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.4);
+    padding-bottom: 4px;
+    border-radius: 5px;
+    padding: 20px 20px !important;
+}
+
+.mybordeline {
+     height: 42px;
+    border-radius: 5px !important;
+    margin-bottom: 11px;
+    border: 1px solid rgb(213, 213, 213);
+}
+
+#outdatepicker, #retdate, #depdate{
+    border:none !important;
+}
+#counter {
+    font-size: 13px;
+    padding-left: 38px;
+}
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}.icondekww {
+    font-size: 17px !important;
+    position: absolute;
+    top: 12px;
+    left: 27px !important;
+    color: #171717;
+    z-index: 9;
+}
+ #depdate, #retdate{
+     padding-left:34px;
+ }
+
+ .swipp1{
+         position: absolute;
+         width: 27px;
+         height: 28px;
+         top: 33px;
+         left: 48%;
+         cursor: pointer;
+         z-index: 5;
+         transform: rotate(90deg);
+ }
+
+ .adtinfchldvibox{
+           width: 100% !important;
+    float: none !important;
+    height: 41px !important;
+ }.icondek {
+    font-size: 17px !important;
+    position: absolute;
+    top: 11px;
+    left: 29px;
+    color: #171717;
+}
+
+  .label-text{
+          font-size: 13px !important;
+    font-weight: 700;
+  }
+
+  .searchboxdiv{
+          margin-top: 12px !important;
+    width: 100% !important;
+  }
+
+#oricity, #desticity, #counter  {
+          height: 40px !important;
+    border-radius: 4px !important;
+    margin-bottom: 11px;
+  }
+
+.chseleft {
+    padding-left: 0px;
+    padding-right: 7px;
+    margin-top: 10px;
+}
+
+.cherixs {
+    padding-left: 7px;
+    padding-right: 0px;
+    margin-top: 10px;
+}
+
+.paslefmerg{
+    padding-left: 0px;
+    padding-right: 7px;
+    margin-top: 10px;
+}
+
+.misedse{
+      padding-left: 0px;
+}
+ 
+.leftadt {
+    margin-top: -2px;
+    padding-left: 2px;
+    padding-right: 16px;
+}
+
+.leftch {
+    padding-left: 0px;
+    padding-right: 7px;
+}
+
+select.input-lg, #hotelCheckIn, #hotelCheckOut, #hotelCityAirport{
+    height:40px;
+}
+
+.hoiclc{
+        top: 29px !important;
+}
+
+.clsicn{
+        margin-top: 19px !important;
+}
+
+.whirw{
+    text-align:center;
+}

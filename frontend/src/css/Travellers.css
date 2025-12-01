@@ -1,0 +1,207 @@
+.datepicker table thead tr {
+    color: #1d1a1a;
+}
+
+
+.fonxvse {
+    font-size: 22px;
+}
+
+.hisedse {
+    text-align: left;
+    font-size: 15px;
+    margin-left: 23px;
+}
+
+.maindisplaybox {
+    width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 0 8px 0 rgba(5, 47, 95, .06), 0 12px 64px 0 rgba(52, 105, 203, .16);
+    background: #fff;
+    margin-top: 10px;
+}
+
+.cd-popup-container .cd-popup-close::before,
+.cd-popup-container .cd-popup-close::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    width: 14px;
+    height: 3px;
+    background-color: #fff;
+}
+
+.cd-popup-container .cd-popup-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 26px;
+    height: 25px;
+    z-index: 6;
+    margin-left: 94.5%;
+    margin-top: 0.4%;
+}
+
+.cd-popup-container .cd-popup-close {
+    position: absolute;
+    top: -14px;
+    right: 4px;
+    width: 30px;
+    height: 30px;
+    background: red;
+    border-radius: 16px;
+    color: #fff !important;
+}
+
+.logo {
+    margin: 0px !important;
+}
+
+.btn {
+    padding: 9px 12px !important;
+    border-radius: 0px !important;
+    font-size: 13px !important;
+}
+
+/*.form-control {
+background: #ffffff !important;
+height: 40px !important;
+}*/
+
+.masb {
+    background: #fff;
+}
+
+.masb1 {
+    background: #fff;
+}
+
+textarea {
+    background: #ffffff !important;
+}
+
+html,
+body {
+    color: #000000 !important;
+    background: #f8f8f8 !important;
+}
+
+.myplnau {
+    transform: rotate(45deg);
+    margin-left: 28px;
+    position: absolute;
+    margin-top: 21px;
+}
+
+.myplnauty {
+    transform: rotate(-136deg);
+    margin-left: 28px;
+    position: absolute;
+    margin-top: 21px;
+}
+
+.finagrossinr {
+    color: rgb(51, 51, 51);
+    font-family: Rubik, sans-serif;
+    font-size: 22px;
+}
+
+.bhoechie-tab {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .175);
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .175);
+}
+
+.padinggert {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    padding-top: 6px;
+}
+
+.modifar {
+    background: #f9f9f9;
+    text-align: center !important;
+    border-bottom: 1px solid #ddd;
+    font-size: 12px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.muiirt15 {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.modifar2 {
+    background: #f9f9f9;
+    text-align: center !important;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    font-size: 12px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.m-bottom25 {
+    margin-bottom: 60px;
+}
+
+.close {
+    opacity: 10 !important;
+}
+
+@media screen and (max-width: 680px) {
+
+    .travellmobpad {
+        padding-right: 15px !important;
+    }
+
+    .padseki {
+        padding-left: 0px;
+    }
+
+    .leftdetabx {
+        width: 100%;
+    }
+
+    .flidewcolor1 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    #siddivdetail {
+        padding-left: 0px !important;
+    }
+
+    .maindisplaybox {
+        width: 100% !important;
+    }
+
+    div.col-md-2.col-xs-12.img-responsive.hidef.yuu {
+        display: none;
+    }
+
+    .mywid {
+        width: 100% !important;
+    }
+
+    .mywid1 {
+        width: 100% !important;
+    }
+}
+
+.pgbox {
+    width: 100%;
+}
+
+.paymat {
+    width: 100% !important;
+}
+
+#PgNetOptionRemark {
+    width: 100% !important;
+}
+
+#DebitCardPgRemark {
+    width: 100% !important;
+}

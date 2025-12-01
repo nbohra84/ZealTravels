@@ -1,0 +1,87 @@
+/* General Body and Font Styling */
+body {
+    font-size: 12px !important; /* This combines both the body font size settings */
+    font-family: 'Quicksand', sans-serif !important;
+    background: #F6F4F5;
+}
+
+/* Form Control Styling */
+.form-control {
+    font-size: 12px !important;
+    padding: 6px 40px !important;
+}
+
+/* Label Styling */
+label {
+    font-size: 13px !important;
+}
+
+/* Icon Styling */
+.icon_new, .icon_new1, .icon_new2 {
+    position: absolute;
+}
+
+.icon_new {
+    top: 25%;
+    left: 5%;
+}
+
+.icon_new1 {
+    top: 6px;
+    left: 5%;
+}
+
+.icon_new2 {
+    top: 11px;
+    left: 5%;
+}
+
+/* Button Styling */
+.btn-add {
+    background: #1A3A93;
+    color: #fff;
+}
+
+.btn-add:hover {
+    color: #fff;
+}
+
+/* Heading Styling */
+h3 {
+    font-size: 16px;
+}
+
+/* Checkbox Styling */
+input[type=checkbox] {
+    -ms-transform: scale(1.7); /* IE */
+    -moz-transform: scale(1.7); /* Firefox */
+    -webkit-transform: scale(1.7); /* Safari and Chrome */
+    -o-transform: scale(1.7); /* Opera */
+    padding: 10px;
+}
+
+/* Strong and Bold Styling */
+b, strong {
+    font-size: 13px;
+}
+
+/* Padding Class */
+.pdng-cls {
+    padding: 6px 8px;
+}
+
+/* Mobile-Specific Styles - Media Query */
+@media screen and (max-width: 680px) {
+    .icon_new, .icon_new1, .icon_new2 {
+        left: 9%;
+    }
+
+    .mobwidthmse {
+        width: 100%;
+    }
+
+    .paddzr {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
