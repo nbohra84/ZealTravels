@@ -1,0 +1,236 @@
+﻿@model ZealTravel.Backoffice.Web.Models.AirSheetResponse
+
+@{
+    Layout = "~/Views/Master.cshtml";
+    var options = new List<string> { "Air Billing", "Air Cancel Billing" };
+}
+}
+
+<link href="~/assets/css/mydatepicker.css" rel="stylesheet" />
+<link href="~/assets/css/reportdi.css" rel="stylesheet" />
+<link href="~/assets/css/AdminLTE.css" rel="stylesheet" />
+<link href="~/assets/css/table.css" rel="stylesheet" />
+<link href="~/assests/css/newdashB.css" rel="stylesheet" />
+<link href="~/assests/css/ValidationEngine.css" rel="stylesheet" />
+<link href="~/assets/css/dailyBooking.css" rel="stylesheet" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+<link href="~/assets/css/colortheme.css" rel="stylesheet" />
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+
+
+
+
+@using (Html.BeginForm("AirSheet", "Report", FormMethod.Post, new { id = "AirSheetForm" }))
+{
+    <div class="wrapper">
+        <div id="ContentPlaceHolder1_UpdatePanel1">
+            <div class="content-wrapper">
+                <section class="content">
+                    @using (Html.BeginForm("AirSheet", "Report", FormMethod.Post, new { id = "AirSheetForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="container-fluid">
+                            <div style="width: 100%; margin: 0 auto; ">
+                                <div class="col-md-12 col-xs-12 offset-0">
+                                    <h5 class="reportminheader">
+                                        <i class="fa fa-sitemap wredcolo reportminicon" aria-hidden="true"></i> Report List
+                                        <span class="" style="position:absolute;right: 9px;top: 14px;">
+                                            <button type="submit" class="btn btn-danger" style="background-color: transparent; border: none; padding:0;" formmethod="post" formaction="@Url.Action("AirSheetExportToPDF", "Report")"
+                                            @(Model.AirSheetItems != null && Model.AirSheetItems.Any() ? "" : "disabled")>
+                                                <img src="\assets\img\pdf.png" style="width: 26px;">
+                                            </button>
+                                            <button type="submit" class="btn btn-success" style="background-color: transparent; border: none; padding:0;" formmethod="post" formaction="@Url.Action("AirSheetExportToExcel", "Report")"
+                                            @(Model.AirSheetItems != null && Model.AirSheetItems.Any() ? "" : "disabled")>
+                                                <img src="\assets\img\excl.png" style="width: 29px;">
+                                            </button>
+                                        </span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="panel-body" style="min-height: 500px; padding-top:5px;">
+
+                            <div class="col-md-12 col-xs-12 boxshdrr" style="padding-top:20px;">
+
+                                <div class="col-md-12 col-xs-12" style="padding:20px 0 0 0;">
+                                    <div class="col-md-3 col-xs-12 widthhum">
+                                        <label class="font17">From</label>
+                                        <div class="col-md-12 col-xs-12 widthhum input-group input-append date datetopic" id="Div1">
+
+                                            <input name="FromDate" id="txtFromDate" class="form-control" value="@Model.FromDate.ToString("yyyy-MM-dd")" required autocomplete="off" data_provide="datepicker" />
+                                            <span class="input-group-addon add-on" id="calendarIcon">
+                                                <span class="fa fa-calendar"></span>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-3 col-xs-12 widthhum">
+                                        <label class="font17">To</label>
+                                        <div class="col-md-12 col-xs-12 widthhum input-group input-append date datetopic" id="Div2">
+
+                                            <input name="ToDate" id="txtFromDate1" class="form-control" value="@Model.ToDate.ToString("yyyy-MM-dd")" required autocomplete="off" data_provide="datepicker" />
+                                            <span class="input-group-addon add-on" id="calendarIcon2">
+                                                <span class="fa fa-calendar"></span>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4 col-xs-12" style="margin-top: 15px; display: flex; justify-content: space-around;">
+                                        <div class="airsheet-options">
+                                            <input type="radio" id="AB" name="ReportType" value="AB" @(Model.ReportType == "AB" ? "checked" : "") />
+                                            <label for="AB">Air Billing</label>
+                                        </div>
+                                        <div class="airsheet-options">
+                                            <input type="radio" id="ACB" name="ReportType" value="ACB" @(Model.ReportType == "ACB" ? "checked" : "") />
+                                            <label for="ACB">Air Cancel Billing</label>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Hidden input for ReportType (without value) -->
+                                    <input type="hidden" id="HiddenReportType" name="ReportType" />
+
+
+
+
+                                    <div class="col-md-2 col-xs-12 pdbt maksedkh" style="padding-top: 12px;">
+                                        <button type="submit" class="search-btn1" style="background-color: transparent; border: none;padding: 0" aria-label="Search"><img src="\assets\img\search.png" style="width: 43px;margin-top: 13px;"></button>
+                                    </div>
+                                    <div class="col-md-2 col-xs-12 text-right" style="padding-top: 12px;">
+                                        <input type="hidden" name="StartDate" value="@Model.FromDate.ToString("yyyy-MM-dd")" />
+                                        <input type="hidden" name="EndDate" value="@Model.ToDate.ToString("yyyy-MM-dd")" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12 col-xs-12 table-responsive" style="width: 100%; margin-top: 15px;overflow-x: auto; -webkit-overflow-scrolling: touch;" id="ContentPlaceHolder1_tbl">
+                                    @if (Model.AirSheetItems != null && Model.AirSheetItems.Any())
+                                    {
+                                        <table cellspacing="0" cellpadding="2" id="ContentPlaceHolder1_grdReport" style="color:#333333;font-size:7px;border-collapse:collapse;">
+                                            <thead>
+                                                <tr class="airsheet-table" style="color:White;background-color:#1C5E55;font-weight:bold;">
+                                                    <th scope="col">PaxNo</th>
+                                                    <th scope="col">Staff</th>
+                                                    <th scope="col">CreatedOn</th>
+                                                    <th scope="col">BookingRef</th>
+                                                    <th scope="col">CarrierCode</th>
+                                                    <th scope="col">FlightNo</th>
+                                                    <th scope="col">AccountNo</th>
+                                                    <th scope="col">Company</th>
+                                                    <th scope="col">RecordLocator</th>
+                                                    <th scope="col">TicketNo</th>
+                                                    <th scope="col">Adt</th>
+                                                    <th scope="col">Chd</th>
+                                                    <th scope="col">Inf</th>
+                                                    <th scope="col">PassengerType</th>
+                                                    <th scope="col">Passenger</th>
+                                                    <th scope="col">Sector</th>
+                                                    <th scope="col">DOJ</th>
+                                                    <th scope="col">BasicFare</th>
+                                                    <th scope="col">YQ</th>
+                                                    <th scope="col">TxnFee</th>
+                                                    <th scope="col">Taxes</th>
+                                                    <th scope="col">Meal</th>
+                                                    <th scope="col">Baggage</th>
+                                                    <th scope="col">ServiceCharge</th>
+                                                    <th scope="col">TDS</th>
+                                                    <th scope="col">Commission</th>
+                                                    <th scope="col">Net_Paid_By_Agent</th>
+                                                    <th scope="col">Supplier</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @foreach (var item in Model.AirSheetItems)
+                                                {
+                                                    <tr class="airsheet-table" style="background-color:#E3EAEB;">
+                                                        <td>@item.PaxNo</td>
+                                                        <td>@item.StaffName</td>
+                                                        <td>@item.CreatedOn</td>
+                                                        <td>@item.BookingRef</td>
+                                                        <td>@item.CarrierCode</td>
+                                                        <td>@item.FlightNo</td>
+                                                        <td>@item.AccountNo</td>
+                                                        <td>@item.Company</td>
+                                                        <td>@item.RecordLocator</td>
+                                                        <td>@item.TicketNo</td>
+                                                        <td>@item.Adt</td>
+                                                        <td>@item.Chd</td>
+                                                        <td>@item.Inf</td>
+                                                        <td>@item.PassengerType</td>
+                                                        <td>@item.Passenger</td>
+                                                        <td>@item.Sector</td>
+                                                        <td>@item.DOJ</td>
+                                                        <td>@item.BasicFare</td>
+                                                        <td>@item.YQ</td>
+                                                        <td>@item.TxnFee</td>
+                                                        <td>@item.Taxes</td>
+                                                        <td>@item.Meal</td>
+                                                        <td>@item.Baggage</td>
+                                                        <td>@item.ServiceCharge</td>
+                                                        <td>@item.TDS</td>
+                                                        <td>@item.Commission</td>
+                                                        <td>@item.NetPaidByAgent</td>
+                                                        <td>@item.Supplier</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    }
+                                    else if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                                    {
+                                        <tr style="width: 100%;" id="Tr2">
+                                            <td style="border:0px;">
+
+                                                <h2 class="text-center" style="color: Red;">@Model.ErrorMessage</h2>
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </section>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script src="~/assets/js/mydatepicker.js"></script>
+<script src="~/assets/js/dailybooking.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".export-pdf, .export-excel").forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+                let fromDate = document.getElementById("txtFromDate").value;
+                let toDate = document.getElementById("txtFromDate1").value;
+                document.getElementById("hiddenFromDate").value = fromDate;
+                document.getElementById("hiddenToDate").value = toDate;
+                document.getElementById("AirSheetForm").action = this.getAttribute("formaction");
+                document.getElementById("AirSheetForm").submit();
+            });
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        const reportTypeRadios = document.querySelectorAll('input[name="ReportType"]');
+        const hiddenReportType = document.getElementById('HiddenReportType');
+
+        // Initialize hidden field with the checked radio value when the page loads
+        hiddenReportType.value = document.querySelector('input[name="ReportType"]:checked').value;
+
+        // Update the hidden field whenever a radio button is selected
+        reportTypeRadios.forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                hiddenReportType.value = this.value;  // Set the hidden field value to the selected radio's value
+            });
+        });
+    });>
+</script>

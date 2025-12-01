@@ -1,0 +1,170 @@
+﻿@model ZealTravel.Front.Web.Models.Agency.Dashboard.AgencyDashboardResponse
+@*
+*@
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+
+<link href="~/assets/css/table.css" rel="stylesheet" />
+<link href="~/assets/css/dashboard.css" rel="stylesheet" />
+<link href="~/assets/css/style.css" rel="stylesheet" />
+<link href="~/assets/css/destyle.css" rel="stylesheet" />
+<link href="~/assets/css/newd.css" rel="stylesheet" />
+<link href="~/assets/css/newdashB.css" rel="stylesheet" />
+<link href="~/assets/css/mydatepicker.css" rel="stylesheet" />
+<link href="~/assets/css/ValidationEngine.css" rel="stylesheet" />
+<link href="~/assets/css/colortheme.css" rel="stylesheet" />
+<link href="~/assets/css/AdminLTE.css" rel="stylesheet" />
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+
+@Html.HiddenFor(m => m.DashboardChartXML)
+<div class="wrapper">
+    <div class="content-wrapper m-top-10">
+        <section class="content" style="padding: 0px;">
+            <div class="container-fluid paddding35">
+                <div class="col-md-12 col-xs-12 offset-0">
+                    <!-- Search and Booking sections -->
+                    <!-- Airline Booking Progress -->
+                    @foreach (var corporate in Model.DashboardCorporate)
+                    {
+                        <div class="col-md-3 col-sm-6 col-xs-12 boxdwe boxgra">
+                            <div style="margin-top: 24px; margin-left: -16px; margin-right: 6px;" class="icon bg-red">
+                                <i class="fa fa-plane dashboard-fa"></i>
+                            </div>
+                            <div class="item d-flex align-items-center">
+                                <div class="">
+                                    <span class="werers">Airline Bookings</span>
+                                    <!-- Display Airline Bookings (flt) -->
+                                    <span id="spnAirdombooking" style="color: #fff;"><strong class="str1">@corporate.flt</strong></span>
+                                    <div class="progress" style="width: 30%">
+                                        <div role="progressbar" style="width: 25%; height: 4px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-green"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 col-xs-12 boxdwe boxgra1">
+                            <div style="margin-top: 24px; margin-left: -16px; margin-right: 6px;" class="icon bg-green">
+                                <i class="fa fa-building-o dashboard-fa"></i>
+                            </div>
+                            <div class="item d-flex align-items-center">
+                                <div class="">
+                                    <span class="werers">Hotel Bookings</span>
+                                    <!-- Display Hotel Bookings (hot) -->
+                                    <span id="spnHoteldombooking" style="color: #fff;"><strong class="str1">@corporate.hot</strong></span>
+                                    <div class="progress" style="width: 30%;">
+                                        <div role="progressbar" style="width: 25%; height: 4px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-green"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 col-xs-12 boxdwe boxgra2">
+                            <div style="margin-top: 24px; margin-left: -16px; margin-right: 6px;" class="icon bg-green">
+                                <i class="fa fa-angellist dashboard-fa"></i>
+                            </div>
+                            <div class="item d-flex align-items-center">
+                                <div class="">
+                                    <span class="werers">Tour Bookings</span>
+                                    <!-- Display Tour Bookings (tor) -->
+                                    <span id="spntourdombooking" style="color: #fff;"><strong class="str1">@corporate.tor</strong></span>
+                                    <div class="progress" style="width: 30%;">
+                                        <div role="progressbar" style="width: 25%; height: 4px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-green"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                    <!-- Available Balance Progress -->
+                    <div class="col-md-3 col-sm-6 col-xs-12 boxdwe boxgra3">
+                        <div style="margin-top: 24px; margin-left: -16px; margin-right: 6px;" class="icon bg-green">
+                            <i class="fa fa-inr dashboard-fa"></i>
+                        </div>
+                        <div class="item d-flex align-items-center">
+                            <div class="">
+                                <span class="werers">Available Balance</span>
+                                <span id="SpanAvlbal" style="color: #fff;"><strong class="str1">Rs. @Model.AvailableBalance</strong></span>
+                                <div class="progress" style="width: 30%;">
+                                    <div role="progressbar" style="width: 25%; height: 4px;" aria-valuenow="25"
+                                         aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-green"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agency Details Section -->
+            <div class="container-fluid paddding35">
+                <div class="col-md-12 col-xs-12 offset-0">
+                    @await Html.PartialAsync("~/Views/Partials/AgencyDashboard/_agencyDetails.cshtml")
+                    @await Html.PartialAsync("~/Views/Partials/AgencyDashboard/_salesReport.cshtml")
+
+                </div>
+            </div>
+
+            <div class="container-fluid paddding35 " style="padding-top: 0px !important;">
+                <div class="col-md-8 offset-0 ">
+                    @await Html.PartialAsync("~/Views/Partials/AgencyDashboard/_ledgerStatement.cshtml")
+
+                </div>
+                <div class="col-md-4 col-xs-12 maksepadw" style="padding-left: 20px; padding-right: 0px;">
+                    <div id="ContentPlaceHolder1_divTable" class="box">
+                        @await Html.PartialAsync("~/Views/Partials/AgencyDashboard/_notifications.cshtml")
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </div>
+</div>
+
+   <script src="~/assets/js/app.js"></script>
+    <script src="~/assets/js/dashboard.js"></script>
+<script src="~/assets/js/dashboard1.js"></script>
+    <script src="~/assets/js/demo.js"></script>
+
+<script src="~/assets/js/highcharts.js"></script>
+
+
+    <script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+<script src="/WebResource.axd?d=b4vQ3nkh0YXusI1oDGqwQ5a5KKewaWb8_1qvP0dGaOqIOMxvNaf4lkSzCloeNbwlnjWKtsrIqSA1BblYA66i387wgVNqQ3rgSI9vxMzsX9o1&amp;t=637814851746327080" type="text/javascript"></script>
+
+<script src="/ScriptResource.axd?d=_s1ZJtO9CB6kwsSoN0HemdkgnSdC9gZ0hbZVFeYywjcupXTJOcEaJFNTgMBgWQV2geaw_6J1sDbTGQnIltmZumwb9aNidN2lPyuVK9K66n_KLTKo3Jilt75zHvAcIW0HymkLXRU7hbPW8GDoNguGoQ2&amp;t=f2cd5c5" type="text/javascript"></script>
+
+@* <script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script> *@
+
+<script src="/ScriptResource.axd?d=4mAN4EvI3A_yqXfgYLz4Aa3luxy6rVDP5Ewo2pjUqw6i-btRsl6GEJHONE8EYEd3gAyRC9dIG_CcxuBW9MVYH-UDIIlfvrWPiwbPu3pDvTOOJaQbbyo1xxlX1r-ExdpuKFJJldCW28QdrY-l2k75zA2&amp;t=f2cd5c5" type="text/javascript"></script>
+
+ <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$scriptmnger1', 'form1', [], [], [], 90, 'ctl00');
+//]]>
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+

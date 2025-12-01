@@ -1,0 +1,125 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CommonComponents\**" />
+    <Compile Remove="DBCommon\**" />
+    <Compile Remove="FlightObject\**" />
+    <Compile Remove="Spicejet\**" />
+    <EmbeddedResource Remove="CommonComponents\**" />
+    <EmbeddedResource Remove="DBCommon\**" />
+    <EmbeddedResource Remove="FlightObject\**" />
+    <EmbeddedResource Remove="Spicejet\**" />
+    <None Remove="CommonComponents\**" />
+    <None Remove="DBCommon\**" />
+    <None Remove="FlightObject\**" />
+    <None Remove="Spicejet\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="DBCommon\Airline_Detail.cs" />
+    <Compile Include="DBCommon\CommonFunction.cs" />
+    <Compile Include="DBCommon\Credential.cs" />
+    <Compile Include="DBCommon\DateTimeFormatter.cs" />
+    <Compile Include="DBCommon\db_Company.cs" />
+    <Compile Include="DBCommon\GetRequestData.cs" />
+    <Compile Include="DBCommon\GetResponseData.cs" />
+    <Compile Include="DBCommon\Logger.cs" />
+    <Compile Include="DBCommon\Schema.cs" />
+    <Compile Include="Spicejet\ContentManagerClient.Custom.cs" />
+    <Compile Include="Spicejet\BookingManagerClient.Custom.cs" />
+    <Compile Include="Spicejet\BookingAsHold.cs" />
+    <Compile Include="Spicejet\CommonSpiceJet.cs" />
+    <Compile Include="Spicejet\GetAddOn.cs" />
+    <Compile Include="Spicejet\GetApiAddPayment.cs" />
+    <Compile Include="Spicejet\GetApiApplyPromotionRequest.cs" />
+    <Compile Include="Spicejet\GetApiAvailabilityFare.cs" />
+    <Compile Include="Spicejet\GetApiAvailabilityFlight.cs" />
+    <Compile Include="Spicejet\GetApiBaggage.cs" />
+    <Compile Include="Spicejet\GetApiBookingCommitRequest.cs" />
+    <Compile Include="Spicejet\GetApiBookings.cs" />
+    <Compile Include="Spicejet\GetApiFlightFareRule.cs" />
+    <Compile Include="Spicejet\GetApiHoldBookingCommitRequest.cs" />
+    <Compile Include="Spicejet\GetApiLogin.cs" />
+    <Compile Include="Spicejet\GetApiMeal.cs" />
+    <Compile Include="Spicejet\GetApiSell.cs" />
+    <Compile Include="Spicejet\GetApiUpdateContacts.cs" />
+    <Compile Include="Spicejet\GetApiUpdatePassenger.cs" />
+    <Compile Include="Spicejet\GetAvailability.cs" />
+    <Compile Include="Spicejet\GetAvailabilityThread.cs" />
+    <Compile Include="Spicejet\GetAvailabilityThreadMethod.cs" />
+    <Compile Include="Spicejet\GetBooking.cs" />
+    <Compile Include="Spicejet\GetCombineAvailability.cs" />
+    <Compile Include="Spicejet\GetCommit.cs" />
+    <Compile Include="Spicejet\GetCommonFunctions.cs" />
+    <Compile Include="Spicejet\GetConfirmForHoldBooking.cs" />
+    <Compile Include="Spicejet\GetDataBaseData.cs" />
+    <Compile Include="Spicejet\GetFare.cs" />
+    <Compile Include="Spicejet\GetServices.cs" />
+    <Compile Include="Spicejet\GetSsrAvailability.cs" />
+    <Compile Include="Spicejet\AccountManagerClient.Custom.cs" />
+    <Compile Include="Spicejet\SessionManagerClient.Custom.cs" />
+    <Compile Include="Spicejet\SetAvailabilityModifier.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Compile Remove="Migrations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="ClosedXML" Version="0.104.1" />
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="itext" Version="8.0.5" />
+    <PackageReference Include="itext7" Version="8.0.5" />
+    <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.5" />
+    <PackageReference Include="itext7.pdfhtml" Version="5.0.0" />
+    <PackageReference Include="log4net" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="RtfPipe" Version="2.0.7677.4303" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ZealTravel.Domain\ZealTravel.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BookingXMLObject">
+      <HintPath>..\DLL\BookingXMLObject.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonComponents">
+      <HintPath>..\DLL\CommonComponents.dll</HintPath>
+    </Reference>
+    <Reference Include="FlightDBOperation">
+      <HintPath>..\DLL\FlightDBOperation.dll</HintPath>
+    </Reference>
+    <Reference Include="FlightObject">
+      <HintPath>..\DLL\FlightObject.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,69 @@
+﻿@model ZealTravel.Front.Web.Models.Agency.Dashboard.AgencyDashboardResponse
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="col-md-4 col-xs-12 paseksdf m-top-10 padlft0 padright6">
+    <div class="box2 box-info box-header" style="margin-bottom: 0px;">
+        <div class="box-header with-border">
+            <h3 class="box-title">Agency Details</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-xs-12" style="text-align: center;">
+            <img src="~/assets/img/profiledash.png" class="imgprof" alt="togglemenu">
+        </div>
+        @foreach (var representative in Model.Agency)
+        {
+            <div class="col-md-12 col-xs-12 table-responsive">
+                <table class="table table-striped uisekose" style="margin-top: 17px;">
+                    <tr>
+                        <td colspan="2">
+                            <div class="fontse">
+                                Representative Detail
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>@representative.CompanyFullName</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>@representative.CompanySupportEmail</td>
+                    </tr>
+                    <tr>
+                        <td>Contact No.</td>
+                        <td>@($"{representative.CompanyMobile} | {representative.CompanyPhone}")</td>
+                    </tr>
+                    <tr>
+                        <td>Tour & Packages</td>
+                        <td>@representative.CompanyPackage</td>
+                    </tr>
+                    <tr>
+                        <td>Visa & Forex</td>
+                        <td>@representative.CompanyVisa</td>
+                    </tr>
+                    <tr>
+                        <td>Group Bookings</td>
+                        <td>@representative.CompanyPackage</td>
+                    </tr>
+                    <tr>
+                        <td>Others</td>
+                        <td>@representative.companyOther</td>
+                    </tr>
+                </table>
+            </div>
+        }
+    </div>
+</div>

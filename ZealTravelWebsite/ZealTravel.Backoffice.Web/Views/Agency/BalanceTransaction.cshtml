@@ -1,0 +1,225 @@
+﻿@model ZealTravel.Backoffice.Web.Models.BalanceTransactionResponse
+@inject IConfiguration Configuration
+﻿@{
+    Layout = "~/Views/Master.cshtml";
+    ViewData["Title"] = "Balance Transaction";
+}
+
+<link href="~/assets/css/newd.css" rel="stylesheet" />
+<link href="~/assets/css/newdashB.css" rel="stylesheet" />
+<link href="~/assets/css/mydatepicker.css" rel="stylesheet" />
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<link href="~/assets/css/ValidationEngine.css" rel="stylesheet" />
+<link href="~/assets/css/reportdi.css" rel="stylesheet" />
+<link href="~/assets/css/colortheme.css" rel="stylesheet" />
+<link href="~/assets/css/AdminLTE.css" rel="stylesheet" />
+<link href="~/assets/css/flightbookings.css" rel="stylesheet" />
+<div class="wrapper">
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <div style="width: 100%; margin: 0 auto;">
+                <div class="col-md-12 col-xs-12 offset-0">
+                    <h5 class="reportminheader"><i class="fa fa-bullseye wredcolo reportminicon" aria-hidden="true"></i>
+                        Balance Transaction</h5>
+                </div>
+            </div>
+        </div>
+        <section class="content" style="padding: 0px;">
+            <div class="panel-body offset-0" style="min-height: 500px;">
+                <div class="col-md-12 col-xs-12">
+                    <div class="col-md-12 col-xs-12 offset-1" style="padding: 0px; margin-top: -1.5%;">
+
+                        @using (Html.BeginForm("BalanceTransaction", "Agency", FormMethod.Post, new
+                        {
+                            id =
+                        "BalanceTransaction.cshtml"
+                        }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 m-top-20 boxshdr pdng-btm"
+                                style="background-color: #fff; padding: 20px; margin-top: 7px;">
+                                <div class="col-md-12 col-sm-12 col-xs-12 m-top-10 offset-0">
+                                    <div class="col-md-3 col-sm-3 col-xs-12"><strong
+                                            class="col-md-9 col-xs-12 mobhedsec">Company Name </strong></div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        @Html.TextBoxFor(model => model.CompanyNameWithAccountId, new
+                                            {
+                                                id =
+                                                 "ContentPlaceHolder1_companyname",
+                                                @class = "form-control"
+                                            })
+                                      <ul class="col-md-12 col-xs-12 daily-serach-result ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all"
+                            role="listbox" aria-activedescendant="ui-active-menuitem"
+                            style="z-index: 1;display: block;border: none;padding: 0;">
+                            <li class="ui-menu-item" role="menuitem"><a class="searchResults ui-corner-all" tabindex="-1"
+                                    style="display: none;"></a></li>
+                        </ul>
+                                    </div>
+                                    <input type="hidden" id="HiddenField1" />
+
+                                </div>
+                                <input type="hidden" name="name" value="@Model.CompanyNameWithAccountId" />
+
+                                <div id="hiddenonload">
+                                    <input type="hidden" id="hdnbalance" />
+                                    <div id="updatePanel1">
+                                        <!-- Total Balance -->
+                                        <div class="col-md-12 col-sm-12 col-xs-12 m-top-10 offset-0">
+                                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                                <strong class="col-md-9 col-xs-12 mobhedsec">Total Balance </strong>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label id="totbal" class="labelcls">@Model.AvailableBalance.ToString("F2")</label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Transaction Type Dropdown -->
+                                        <div class="col-md-12 col-sm-12 col-xs-12 m-top-10 offset-0">
+                                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                                <strong class="col-md-9 col-xs-12 mobhedsec">
+                                                    Transaction Type<span class="text-danger">*</span>
+                                                </strong>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                               @Html.DropDownListFor(
+                                                model => model.TransactionType,
+                                                new SelectList(new[] {
+                                                    new { Value = "C", Text = "Credit" },
+                                                    new { Value = "D", Text = "Debit" }
+                                                }, "Value", "Text", Model.TransactionType),
+                                                "Select Transaction type",
+                                                new { @class = "form-control", @id = "TransactionType" }
+                                            )
+                                                @Html.ValidationMessageFor(model => model.TransactionType, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-sm-12 col-xs-12 m-top-10 offset-0">
+                                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                                <strong class="col-md-9 col-xs-12 mobhedsec">
+                                                    RemarkType<span class="text-danger">*</span>
+                                                </strong>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                @Html.DropDownListFor(
+                                                         m => m.EventId,
+                                                         new SelectList(Enumerable.Empty<SelectListItem>(), "Value", "Text"),
+                                                         "",
+                                                         new { @class = "form-control", @id = "EventId" }
+                                                         )
+                                                @Html.ValidationMessageFor(model => model.EventId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <!-- Transaction Amount Input -->
+                                        <div class="col-md-12 col-sm-12 col-xs-12 m-top-10 offset-0">
+                                            <div class="col-md-3 col-sm-3 col-xs-12"><strong
+                                                    class="col-md-9 col-xs-12 mobhedsec">Amount<span class="text-danger">*</span> </strong></div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                @Html.TextBoxFor(model => model.TransactionAmount, new
+                                                    {
+                                                        id =
+                                                         "companyname2",
+                                                        @class = "form-control",
+                                                        value = " "
+                                                    })
+                                                @Html.ValidationMessageFor(model => model.TransactionAmount, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <!-- BookingRef Input -->
+                                        <div class="col-md-12 col-sm-12 col-xs-12 m-top-10 offset-0">
+                                            <div class="col-md-3 col-sm-3 col-xs-12"><strong
+                                                    class="col-md-9 col-xs-12 mobhedsec">BookingRef<span class="text-danger">*</span> </strong></div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                @Html.TextBoxFor(model => model.BookingRef, new
+                                                    {
+                                                        id = "companyname3",
+                                                        @class = "form-control"
+                                                    })
+                                                @Html.ValidationMessageFor(model => model.BookingRef, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <!-- Payment For Radio Buttons -->
+                                        <div class="col-md-12 col-sm-12 col-xs-12 m-top-10 offset-0">
+                                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                                <strong class="col-md-9 col-xs-12 mobhedsec">Payment For</strong>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <table id="ContentPlaceHolder1_radiopaymentfor">
+                                                    <tbody>
+                                                        <tr>
+                                                            <!-- Hotel Radio Button -->
+                                                            <td>
+                                                                @Html.RadioButtonFor(model => model.PaymentType, "Hotel", new { id = "radiopaymentforHotel", @class = "radio-inline", name = "paymentType" })
+                                                                <strong>Hotel</strong>
+                                                            </td>
+
+                                                            <!-- Flight Radio Button -->
+                                                            <td>
+                                                                @Html.RadioButtonFor(model => model.PaymentType, "Flight", new { id = "radiopaymentforFlight", @class = "radio-inline", name = "paymentType" })
+                                                                <strong>Flight</strong>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- Remark Textarea -->
+                                        <div class="col-md-12 col-sm-12 col-xs-12 m-top-10 offset-0">
+                                            <div class="col-md-3 col-sm-3 col-xs-12"><strong
+                                                    class="col-md-9 col-xs-12 mobhedsec">Remark<span class="text-danger">*</span> </strong></div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                @Html.TextAreaFor(model => model.Remark, new
+                                                    {
+                                                        id = "remarks",
+                                                        @class =
+                                                         "form-control",
+                                                        rows = "4"
+                                                    })
+                                                @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                                                    <div class="d-flex">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 m-top-10" style="padding-left: 0">
+                                                        <input type="submit" name="ctl00$ContentPlaceHolder1$update" value="Update Transaction" id="ContentPlaceHolder1_update" class="btn btn-primary mobwidthmse" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; background: #04c !important; color: #fff !important; font-size: 12px;">
+                                                    </div>
+                                                    <div>
+                                                        <!-- Success and Error Labels -->
+                                                        <!-- Success Message -->
+                                                        @if (TempData["SuccessMessage"] != null)
+                                                        {
+                                                            <div class="text-center">
+                                                                <p style="color: green;">@TempData["SuccessMessage"]</p>
+                                                            </div>
+                                                        }
+
+                                                        <!-- Error Message -->
+                                                        @if (TempData["ErrorMessage"] != null)
+                                                        {
+                                                            <div class="text-center">
+                                                                <p style="color: red;">@TempData["ErrorMessage"]</p>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                   </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="~/assets/js/balanceTransaction.js"></script>
+

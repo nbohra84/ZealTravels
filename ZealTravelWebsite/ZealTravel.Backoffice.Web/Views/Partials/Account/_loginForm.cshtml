@@ -1,0 +1,78 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @inject IConfiguration Configuration
+    @model ZealTravel.Backoffice.Web.Models.Login
+    <link href="~/assets/css/loginAgent.css" rel="stylesheet" />
+    <script src="~/assets/js/loginAgent.js"></script>
+    <div class="imsedgse">
+        <div class="mainhadsec backofc-login-wrap" style="background: #f7f7f8; width: unset;">
+            <div class="panel-body disflexcls">
+                <div id="loginpart" class="displaynon-cls backofc-login" style="z-index: 4;padding: 35px 15px 45px 15px;">
+                    <div class="col-md-12 col-sm-12 col-xs-12 m-top-10 pstn-mrgn">
+                        <div id="Panel1" onkeypress="javascript:return WebForm_FireDefaultButton(event, 'agentbtn')">
+                            <div id="agentdivupdate">
+                                <div id="agentdiv" class="offset-0 panel-body ">
+                                    <div class="mainlogindiv clearfix">
+
+                                        <div class="col-md-12 col-xs-12 mdhehy">Welcome! Login to continue.</div>
+
+                                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm", @class = "" }))
+                                            {
+                                                <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                    <div class="form-group">
+                                                        @Html.TextBoxFor(m => m.Email, new 
+                                                            {
+                                                                @class = "form-control uiseinpt",
+                                                                @placeholder = "Email",
+                                                                @required = "required",
+                                                                @type = "email",
+                                                                @minlength = "5",
+                                                                @maxlength = "150"
+                                                            })
+                                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "color-red" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                    <div class="form-group">
+                                                        @Html.PasswordFor(m => m.Password, new
+                                                            {
+                                                                @class = "form-control uiseinpt",
+                                                                @placeholder = "Password",
+                                                                @required = "required",
+                                                                @minlength = "2",
+                                                                @maxlength = "150"
+                                                            })
+                                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "color-red" })
+                                                    </div>
+                                                </div>
+                                                @Html.HiddenFor(m => m.ReturnUrl)
+
+                                                <label id="lblMessages" class="color-red">
+                                                    @Html.ValidationSummary(true)
+                                                </label>
+
+
+
+                                                <div class="col-md-12 col-sm-12 col-xs-12 text-center offset-0">
+                                                    <button type="submit" class="btn sub-btn wcolor" style="background: #04c !important; color: #fff !important; font-size: 17px; padding: 11px 49px; box-shadow: 0px 0px 14px #0000005e;width: 100%;">
+                                                        Login
+                                                    </button>
+                                                </div>
+
+                                                <span id="loginerror" class="color-red"></span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

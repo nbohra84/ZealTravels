@@ -1,0 +1,81 @@
+﻿@model ZealTravel.Front.Web.Models.Agency.Booking.PrintPopupResponse
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Print Ticket";
+    Layout = "~/Views/Popup.cshtml";
+}
+<link href="/assets/css/global.css" rel="stylesheet" />
+<link href="/assets/css/destyle.css" rel="stylesheet" />
+<link href="/assets/css/printTicket.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/assets/js/printPDF.js"></script>
+@await Html.PartialAsync("~/Views/Partials/Shared/_Header.cshtml")
+
+<form id="form1" runat="server">
+
+    <div id="maindivv" runat="server">
+        @if (Model.ReportTableHTML != null)
+        {
+            @Html.Raw(Model.ReportTableHTML)
+        }
+        else
+        {
+            <div class="alert alert-warning text-center">No records found.</div>
+        }
+    </div>
+
+
+    <input type="hidden" id="bookingRef" name="bookingRef" value="@Model.BookingRef" />
+    <input type="hidden" name="pnr" value="@Model.PNR" />
+    <input type="hidden" name="ticketNumber" value="@Model.TicketNumber" />
+    <input type="hidden" name="passengerName" value="@Model.PassengerName" />
+    <input type="hidden" name="hdntktdetails" id="hdntktdetails" value="@Model.Hdntktdetails" />
+    <input type="hidden" name="hdnhostName" id="hdnhostName" value="@Model.HdnhostName" />
+    <input type="hidden" name="Action" id="Action" />
+    <input type="hidden" name="discount" id="hdndiscount" value="@Model.Discount" />
+    <input type="hidden" name="tax" id="hidntaxx" value="@Model.Tax" />
+    <input type="hidden" name="hidnshowlogo" id="hidnshowlogo" value="@Model.ShowLogo.ToString()" />
+    <input type="hidden" name="hidnhidefare" id="hidnhidefare" value="@Model.HideFare.ToString()" />
+    <input type="hidden" name="hdnisSinglefare" id="hdnisSinglefare" value="@Model.IsSingleFare.ToString()" />
+
+    <table width="100%">
+        <tr>
+            <td>
+                <table style="" align="center">
+                    <tr id="btnPanel">
+                        <td><span><input type="button" id="printTicketId" onclick="printDiv('maindivv')" class="btnics" value="Print" /></span></td>
+                        <td><span><input type="button" id="emailTicket" class="btnics" value="Email" /></span></td>
+                        <td><span><input type="button" id="createPdfPrintTicket" class="btnics" value="Pdf" /></span></td>
+                        <td><span><input type="button" id="logobutton" class="btnics" value="Hide logo" /></span></td>
+                        <td><span><input type="button" id="btnhidefare" class="btnics" value="Hide Fare" /></span></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+<div id="emailBlock" class="width-200" style="display: none;">
+    <div class="ipad_position" style="border: 1px solid #D7DFF4; background: #fff; border-radius: 8px; -webkit-border-radius: 8px; -ms-border-radius: 8px; width: 240px; padding-bottom: 1%; box-shadow: 2px 2px 3px #D5DCEF; z-index: 100; position: absolute; left: 510px; top: 550px;">
+        <div style="float: right; margin: -6px -6px 0 0;">
+            <img alt="Close" id="emailClose" src="~/assets/img/close.gif">
+        </div>
+        <div style="float: left; width: 90%; padding: 5%;">
+            <span id="emailMsg" style="font-size: 10px; height: 20px;"></span>
+            <div style="float: left; font-weight: bold; padding-bottom: 15px; width: 100%; margin-left: 10px;">
+                <span style="width: 150px; float: left; font-size: 12px; padding-bottom: 10px;">
+                    Enter
+                    email address :
+                </span>
+                <input name="addressBox" type="text" id="addressBox" style="width: 180px; padding: 3px;">
+            </div>
+            <div style="float: left; width: 80%; text-align: left; margin-left: 10px;">
+                <input id="ColoredsendEmail" type="button" value="Send mail" style="margin-right: 10px;">
+                <input id="emailCancel" type="button" value="Cancel">
+            </div>
+        </div>
+    </div>
+</div>
+

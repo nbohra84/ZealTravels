@@ -1,0 +1,386 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<link href="/assets/css/global.css" rel="stylesheet" />
+<div id="mainbgboxqwe" class="mainbgbox1"></div>
+<div class="cell">
+
+    <div class="container">
+        <div class="row">
+            <div class="hidden-xs">
+                <div style="margin-top:125px"></div>
+            </div>
+            <div class="col-md-12 col-xs-12 form-group margnehtop">
+                <div class="col-md-12 col-xs-12 offset-0">
+                    <div class="mymaindivico">
+                        <ul>
+                            <li id="fls" role="presentation" class="active text-center" data-title="flight">
+                                <a id="f1" class="text-center" href="#flight" data-toggle="tab" aria-controls="home" aria-expanded="true" onclick="flightsearch_1();">
+                                    <img src="../assets/img/visa1.png">
+                                    Flights
+                                </a>
+                            </li>
+
+                            <li role="presentation" class="text-center" id="toursbxdq" data-title="toursbxd">
+                                <a href="/holidays/Index">
+                                    <img src="../assets/img/holiday1.png"> Holidays
+                                </a>
+                            </li>
+
+                            <li role="presentation" class="text-center" id="visadivid" data-title="VISA">
+                                <a href="/Visa/Index">
+                                    <img src="../assets/img/visaicon.png">
+                                    Visa
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content shad" id="pro">
+                    <div role="tabpanel" class="tab-pane fade active in" id="flight" aria-labelledby="home-tab" style="">
+                        <div class="col-md-12 col-xs-12 middletextbann">
+                            Book Flights
+                        </div>
+
+                        <div class="col-md-6 col-sm-12 col-xs-12 mainbgflgh" id="flightsearch" style="">
+                            <div id="fdata" class="col-md-12 col-sm-12 col-xs-12 offset-0 radio-toolbar" style="margin-top: 2px;margin-left: 32px;margin-bottom: 12px;">
+                                <div style="text-align:center;" class="col-md-2 col-xs-4 trip-box offset-0" id="oneshowa" onclick="oneshow();">
+                                    <input type="radio" value="O" id="Trip1" name="r1" />
+                                    <label class="respondiv"> One Way </label>
+                                </div>
+                                <div class="col-md-2 col-xs-4 trip-box offset-0" style="text-align:center;" id="roundshowa" onclick="roundshow();">
+                                    <input type="radio" value="R" id="Trip2" checked="checked" name="r1" />
+                                    <label class="respondiv"> Round Way </label>
+                                </div>
+                                <div class="col-md-2 col-xs-4 trip-box offset-0" style="text-align:center;" id="DiscRTa" onclick="DiscRTshow();">
+                                    <input type="radio" name="r1" id="Trip3" value="DRT" />
+                                    <label class="respondiv"> Dis. RoundTrip </label>
+                                </div>
+                                <div class="col-md-2 col-xs-4 trip-box offset-0" id="multiRT" onclick="Multicityshow();" style="text-align:center;">
+                                    <input type="radio" name="r1" id="Trip4" value="MRT" />
+                                    <label class="respondiv"> Multi-City </label>
+                                </div>
+                                <div class="col-md-6 bxcurreny">
+                                    <div class="col-md-12 col-xs-12" id="divcurreny" style="display:none;">
+                                        <label>Currency: </label>
+                                        <asp:DropDownList ID="ddlcurrency" runat="server" CssClass=""> </asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="back-box col-md-12 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12 offset-0" id="fltOWRW">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                        <div class="col-md-12 col-sm-6 offset-0">
+                                            <div class="col-md-3 col-xs-12">
+                                                <label for="fromsector" class="label-text">From</label>
+                                            </div>
+                                            <div class="col-md-9 col-xs-12">
+                                                <input type="text" id="oricity" placeholder="Type Departure Location Here" onfocus="if (this.value == 'Type Departure Location Here') {this.value=''};" class="classic form-control input-lg" name="AirlineData[0].From" autocomplete="off" onkeydown="return (event.keyCode!=13);" onclick="this.setSelectionRange(0, this.value.length)">
+                                            </div>
+                                        </div>
+                                        <div class="swipp1" id="swped" onclick="Fromtoswap();">
+                                            <img src="../assets/img/arr.png" alt="Swipe Icon" />
+                                        </div>
+                                        <div class="col-md-12 col-sm-6 offset-0">
+                                            <div class="col-md-3 col-xs-12">
+                                                <label for="ToSector" class="label-text"> To  </label>
+                                            </div>
+                                            <div class="col-md-9 col-xs-12">
+                                                <input type="text" id="desticity" placeholder="Type Arrival Location Here" onfocus="if (this.value == 'Type Departure Location Here') {this.value=''};" class="classic form-control input-lg" name="AirlineData[0].To" autocomplete="off" onkeydown="return (event.keyCode!=13);" onclick="this.setSelectionRange(0, this.value.length)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-6 offset-0">
+                                            <div class="col-md-3 col-xs-12">
+                                                <label class="label-text"> Departs on</label>
+                                            </div>
+                                            <div class="col-md-9 col-xs-12">
+                                                <div class="mybordeline">
+                                                    <i class="fa fa-calendar icondekww" aria-hidden="true" style="left: 10px;"></i>
+                                                    <div id="addingremomd" class="col-md-6 col-xs-12 offset-0">
+                                                        <input type="text" id="depdate" placeholder="dd/mm/yyyy" name="AirlineData[0].Departure" class="classic form-control" style="cursor:pointer" readonly>
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-6 offset-0" id="oneway" style="display: none;">
+                                                        <input type="text" id="outdatepicker" placeholder="dd/mm/yyyy" name="Return" disabled class="classic form-control" readonly />
+                                                    </div>
+                                                    <div class="col-md-6 col-xs-6 offset-0" id="roundway" style="">
+                                                        <input type="text" id="retdate" placeholder="dd/mm/yyyy" name="Return" readonly class="classic form-control" style="cursor:pointer">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 offset-0" id="multicitydiv" style="display:none;">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 multicityrow offset-0">
+                                        <div class="col-md-4 col-sm-6 col-xs-12 mbottpad">
+                                            <div class="">
+                                                <input type="text" id="Morigin_1" placeholder="Type Departure Location Here" onfocus="if (this.value == 'Type Departure Location Here') {this.value=''};" class="classic form-control multicitysector input-lg" name="AirlineData[0].MFrom" autocomplete="off" onkeydown="return (event.keyCode!=13);" onclick="this.setSelectionRange(0, this.value.length)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12 mbottpad">
+                                            <div class="">
+                                                <input type="text" id="Mdestination_1" placeholder="Type Arrival Location Here" onfocus="if (this.value == 'Type Departure Location Here') {this.value=''};" class="classic form-control multicitysector input-lg" name="AirlineData[0].MTo" autocomplete="off" onkeydown="return (event.keyCode!=13);" onclick="this.setSelectionRange(0, this.value.length)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12 mbottpad">
+                                            <input type="text" id="Mdepartdate_1" placeholder="dd/mm/yyyy" readonly name="AirlineData[0].MDeparture" class="classic form-control cal-1 Mdepartfirst input-lg" style="cursor:pointer">
+                                        </div>
+                                        <div class="col-md-1 col-sm-6 col-xs-4 mbottpad"></div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 multicityrow offset-0">
+                                        <div class="col-md-4 col-sm-6 col-xs-12 m-top-10 mbottpad">
+                                            <div class="">
+                                                <input type="text" id="Morigin_2" placeholder="Type Departure Location Here" onfocus="if (this.value == 'Type Departure Location Here') {this.value=''};" class="classic form-control multicitysector input-lg" name="AirlineData[0].MFrom" autocomplete="off" onkeydown="return (event.keyCode!=13);" onclick="this.setSelectionRange(0, this.value.length)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12 m-top-10 mbottpad">
+                                            <div class="">
+                                                <input type="text" id="Mdestination_2" placeholder="Type Arrival Location Here" onfocus="if (this.value == 'Type Departure Location Here') {this.value=''};" class="classic form-control multicitysector input-lg" name="AirlineData[0].MTo" autocomplete="off" onkeydown="return (event.keyCode!=13);" onclick="this.setSelectionRange(0, this.value.length)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12 m-top-10 mbottpad">
+                                            <input type="text" id="Mdepartdate_2" placeholder="dd/mm/yyyy" readonly name="AirlineData[0].MDeparture" class="classic form-control cal-1 Mdepart input-lg" style="cursor:pointer">
+                                        </div>
+                                        <div class="col-md-1 col-sm-6 col-xs-4 mbottpad"></div>
+                                    </div>
+                                    <ul id="myCityDiv"></ul>
+                                    <div class="addclsdiv" style="text-align: right;padding-bottom: 4px;font-size: 15px;"><a title="Add City" style="" href="javascript:void(0);" onclick='addCity("City","1")'>[+] Add City&nbsp;</a></div>
+                                </div>
+                                <div class="col-md-12 col-xs-12 offset-0 mishra">
+
+                                    <div class="col-md-12 col-xs-12 offset-0">
+                                        <div class="col-md-3 col-xs-12">
+                                            <label class="label-text">
+                                                Passengers | Class
+                                            </label>
+                                        </div>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="adtinfchldvibox">
+                                                <i class="fa fa-user icondek"></i>
+                                                <div id="counter" class="form-control input-lg incrCounter " data-toggle="modal" data-target="#manual_flightTravelers" style="padding-top: 9px;"><span id="totalnoofpax" style="margin-left: 0px;" class="count">1</span> Guest  </div>
+                                                <div class="paxpop" id="manual_flightTravelers" tabindex="-1" role="dialog" style="display:none;">
+                                                    <div class="modal-dialog modal-sm wow" role="document" style="margin-top:5px;">
+                                                        <div class="modal-content mduenwe">
+                                                            <div class="modal-body panel-body ">
+                                                                <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                                    <div class="adultdvbox m-top-10">
+                                                                        <label class="label-text">
+                                                                            Adult(s)<br>
+                                                                            <span>[12+years]</span>
+                                                                        </label>
+                                                                        <div class="clear">
+                                                                        </div>
+
+                                                                        <span id="adult_minus" class="minus" onclick="checksum(this,child);">-</span> <input class="adtbon" id="adult" type="text" value="1" readonly="">
+                                                                        <span id="adult_plus" class="adplus" onclick="checksum(this,child);">+</span>
+                                                                    </div>
+                                                                    <div class="childdvbox m-top-10">
+                                                                        <label class="label-text">
+                                                                            Children <br>
+                                                                            <span>[ 2- 12 Years ]</span>
+                                                                        </label>
+                                                                        <div class="clear">
+                                                                        </div>
+
+                                                                        <span id="child_minus" class="minus" onclick="checksum(this,adult);">-</span>
+                                                                        <input id="child" type="text" class="adtbon" value="0" readonly="">
+                                                                        <span id="child_plus" class="adplus" onclick="checksum(this,adult);">+</span>
+                                                                    </div>
+                                                                    <div class="infanftdvbox m-top-10">
+                                                                        <label class="label-text">
+                                                                            Infant(s) <br>
+                                                                            <span>[ 0-23 months ]</span>
+                                                                        </label>
+                                                                        <div class="clear">
+                                                                        </div>
+
+                                                                        <span id="infant_minus" class="minus" onclick="checksum(this,'');">-</span><input type="text" class="adtbon" value="0" readonly="readonly" id="infant"><span id="infant_plus" class="adplus" onclick="checksum(this,'');">+</span>
+                                                                    </div>
+                                                                    <div class="col-md-12 col-xs-12 offset-0">
+                                                                        <label class="label-text">
+                                                                            Travel Class
+                                                                        </label>
+                                                                        <div class="clear">
+                                                                        </div>
+                                                                        <select class="classic form-control" onchange="changesvalues(this);" id="ddltravelClass" style="height: 39px !important; padding: 6px;  font-size: 13px; width:100%;">
+                                                                            <option value="Y">Economy</option>
+                                                                            <option value="A">PremiumEconomy</option>
+                                                                            <option value="C">Business</option>
+                                                                            <option value="B">PremiumBusiness</option>
+                                                                        </select>
+
+                                                                    </div>
+                                                                    <div class="col-md-12 col-xs-12 offset-0 m-top-10">
+                                                                        <button type="button" class="btn btn-primary btn-btncolor" data-dismiss="modal" id="sumManualPassenger">Done</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-12 col-xs-12 offset-0">
+                                        <div class="col-md-3 col-xs-12"></div>
+                                        <div class="col-md-9 col-xs-12">
+                                            <div class="searchboxdiv" id="Fltnotmulticitybtn">
+                                                <a onclick="return getresult();" class="buttonforsrh">
+                                                    <i class="fa fa-search font-aws-srch" aria-hidden="true" id="searchicon"></i>
+                                                    <div class="searchloader" id="loadingtxt" style="display:none"> </div>
+                                                </a>
+                                            </div>
+                                            <div class="searchboxdiv" style="display:none;" id="multicitybtn">
+                                                <a onclick="return getresultMulticity();" class="buttonforsrh">
+                                                    <i class="fa fa-search font-aws-srch" aria-hidden="true" id="multisearchicon"></i>
+                                                    <div class="searchloader" id="multiloadingtxt" style="display:none"> </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-12 col-xs-12 offset-0 showmordv">
+                                    <div class="col-md-6 offset-0 akeid"> <a href="javascript:void(0)" onclick="prefer()" class="showmoretext" style="color:#000;"> Preferred Airlines  </a></div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 offset-0 dhirajK" id="flighimg" style="display:none; padding-bottom:15px;">
+                                    <div class="col-md-12 offset-0">
+                                        <label class="pointer" style="color:#000">
+                                            <input class="all" type="checkbox" checked="checked" name="" value="" id="select_all" />
+                                            Select/Unselect
+                                        </label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 offset-0 mybxdighi" id="flighimg" style="display: block; padding-bottom: 15px;">
+
+                                        <div class="col-md-12 offset-0" style="z-index:5; font-size:12px;">
+                                            <div class="col-md-12 col-xs-12 dhiraj" style="/*display:none;*/ margin-top: -7px;">
+                                                <table id="IndexSearchEngine2_Chkbocpreferedairline" name="prefair">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_0" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$0" checked="checked" value="GDS"><label for="IndexSearchEngine2_Chkbocpreferedairline_0">&nbsp;&nbsp;<img style="background:#fff;" height="20px" width="20px" src="/assets/img/airlogo_square/int.png" alt="International"> GDS(9W,AI,UK)  </label></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_1" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$1" checked="checked" value="6E"><label for="IndexSearchEngine2_Chkbocpreferedairline_1">&nbsp; <img height="20px" width="20px" src="/assets/img/airlogo_square/6E.gif" alt="6E">  Indigo </label></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_2" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$2" checked="checked" value="SG"><label for="IndexSearchEngine2_Chkbocpreferedairline_2">&nbsp; <img height="20px" width="20px" src="/assets/img/airlogo_square/SG.gif" alt="SG"> SpiceJet</label></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_3" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$3" checked="checked" value="G8"><label for="IndexSearchEngine2_Chkbocpreferedairline_3">&nbsp; <img height="20px" width="20px" src="/assets/img/airlogo_square/G8.gif" alt="G8"> Go Air</label></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_4" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$4" checked="checked" value="AK"><label for="IndexSearchEngine2_Chkbocpreferedairline_4">&nbsp; <img height="20px" width="20px" src="/assets/img/airlogo_square/I5.gif" alt="I5"> Air Asia</label></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_5" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$5" checked="checked" value="IX"><label for="IndexSearchEngine2_Chkbocpreferedairline_5">&nbsp; <img height="20px" width="20px" src="/assets/img/airlogo_square/IX.gif" alt="IX"> Air India Express</label></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_6" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$6" checked="checked" value="2T"><label for="IndexSearchEngine2_Chkbocpreferedairline_6">&nbsp; <img height="20px" width="20px" src="/assets/img/airlogo_square/2T.gif" alt="2T"> TrueJet</label></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_7" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$7" checked="checked" value="TR"><label for="IndexSearchEngine2_Chkbocpreferedairline_7">&nbsp; <img height="20px" width="20px" src="/assets/img/airlogo_square/TR.gif" alt="TR">  Tiger Airways</label></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_8" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$8" checked="checked" value="ZO"><label for="IndexSearchEngine2_Chkbocpreferedairline_8">&nbsp; <img height="20px" width="20px" src="/assets/img/airlogo_square/ZO.gif" alt="ZO"> ZoomAir</label></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_9" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$9" checked="checked" value="W5"><label for="IndexSearchEngine2_Chkbocpreferedairline_9">&nbsp; <img height="20px" width="20px" src="/assets/img/airlogo_square/W5.gif" alt="W5"> MahanAir</label></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_10" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$10" checked="checked" value="FZ"><label for="IndexSearchEngine2_Chkbocpreferedairline_10">&nbsp; <img height="20px" width="20px" src="/assets/img/airlogo_square/FZ.gif" alt="FZ"> Fly Dubai</label></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_11" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$11" checked="checked" value="G9"><label for="IndexSearchEngine2_Chkbocpreferedairline_11">&nbsp; <img height="20px" width="20px" src="/assets/img/airlogo_square/G9.gif" alt="G9"> Air Arabia</label></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="checkbox checkbox-primary"><input id="IndexSearchEngine2_Chkbocpreferedairline_12" type="checkbox" name="IndexSearchEngine2$Chkbocpreferedairline$12" checked="checked" value="TZ"><label for="IndexSearchEngine2_Chkbocpreferedairline_12">&nbsp; <img height="20px" width="20px" src="/assets/img/airlogo_square/TZ.gif" alt="TZ"> FlyScoot</label></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-3 col-sm-12 col-xs-12 m-top-20" style="display:none;">
+                                                <div class="col-md-12 col-sm-6 col-xs-12 offset-0" style="z-index:5;">
+                                                    Preferred Airlines
+                                                    <input type="checkbox" id="pref" onclick="return prefered()"> <label for="pref" style="    margin-bottom: 13px; font-weight:100;"><span class="ui"></span></label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div id="pfair" class="dropdown-mul-2 " style="display: block; line-height:3; display:none;">
+                                                        <br>
+                                                        <select size="4" name="IndexSearchEngine2$lstFruits" multiple="multiple" id="IndexSearchEngine2_lstFruits" class="dropdown-mul-2" style="height: 75px;  font-size: 13px; margin-top:10px;">
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-6 col-xs-12 m-top-10 " style=" display:none;">
+                                                <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                    Special Fare
+                                                    <input type="checkbox" id="Specialfa"> <label for="Specialfa" style="    margin-bottom: 13px; font-weight:100;"><span class="ui"></span></label>
+                                                </div>
+                                                <div id="Div1" style="display: block; display:none;">
+                                                    <br>
+                                                    <select size="4" name="IndexSearchEngine2$ListBox1" multiple="multiple" id="IndexSearchEngine2_ListBox1" class="classic form-control" style="height: 75px;  font-size: 13px; margin-top:10px;">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12 midsehfg" style="">
+                            <div class="maislidesbx" style="height: 343px;">
+                                <div id="myCarousel" class="carousel slide" data-ride="carousel" style="height: 242px;">
+                                    <!-- Indicators -->
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#myCarousel" data-slide-to="0" class=""></li>
+                                        <li data-target="#myCarousel" data-slide-to="1" class="active"></li>
+                                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                                    </ol>
+                                    <!-- Wrapper for slides -->
+                                    <div class="carousel-inner" style="border-radius: 4px;margin-top: 6%;">
+                                        <div class="item" onclick="validatechkmye()">
+                                            <img src="../assets/img/main1.jpg" title="Mona Tour and Travels" alt="Mona Tour and Travels" style="width: 100%; height: 308px">
+                                            <div class="carousel-caption">
+                                                <h3 class="txthead">Mumbai</h3>
+                                                <p>Mumbai is always so much fun!</p>
+                                            </div>
+                                        </div>
+                                        <div class="item active" onclick="validatechkmyebc()">
+                                            <img src="../assets/img/main2.jpg" title="Mona Tour and Travels" alt="Mona Tour and Travels" style="width: 100%; height: 308px">
+                                            <div class="carousel-caption">
+                                                <h3 class="txthead">Delhi</h3>
+                                                <p>Thank you, Delhi!</p>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="CenterwaitingDiv" class="modal fade in">
+    <div class="center-div addignminpopui">
+        <div class="col-md-12 col-xs-12 offset-0" style="text-align:center;">
+            <img class="hig cntloadimgdv" src="/assets/img/FNLD.gif">
+        </div>
+        <h3 class="minheadsec">Searching for the best airfares</h3>
+    </div>
+</div>

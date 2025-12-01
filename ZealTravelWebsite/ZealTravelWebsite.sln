@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZealTravel.Backoffice.Web", "ZealTravel.Backoffice.Web\ZealTravel.Backoffice.Web.csproj", "{7E7678D8-7397-467B-867C-F09BB42258B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZealTravel.Application", "ZealTravel.Application\ZealTravel.Application.csproj", "{6036BE22-152C-4AC1-8BDC-11E3D200AB55}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZealTravel.Common", "ZealTravel.Common\ZealTravel.Common.csproj", "{BEC932C0-2A59-49B6-8D49-5060B1332E3E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZealTravel.Domain", "ZealTravel.Domain\ZealTravel.Domain.csproj", "{7345A242-A06A-4100-A0FD-F2A29E3530DD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZealTravel.Infrastructure", "ZealTravel.Infrastructure\ZealTravel.Infrastructure.csproj", "{0B5CC906-75B1-443B-9142-2C78BE0F24A0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZealTravel.Front.Web", "ZealTravel.Front.Web\ZealTravel.Front.Web.csproj", "{781C26A2-B6C8-4D1E-947D-CD43CE19D211}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E7678D8-7397-467B-867C-F09BB42258B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E7678D8-7397-467B-867C-F09BB42258B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E7678D8-7397-467B-867C-F09BB42258B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E7678D8-7397-467B-867C-F09BB42258B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6036BE22-152C-4AC1-8BDC-11E3D200AB55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6036BE22-152C-4AC1-8BDC-11E3D200AB55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6036BE22-152C-4AC1-8BDC-11E3D200AB55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6036BE22-152C-4AC1-8BDC-11E3D200AB55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEC932C0-2A59-49B6-8D49-5060B1332E3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEC932C0-2A59-49B6-8D49-5060B1332E3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEC932C0-2A59-49B6-8D49-5060B1332E3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEC932C0-2A59-49B6-8D49-5060B1332E3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7345A242-A06A-4100-A0FD-F2A29E3530DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7345A242-A06A-4100-A0FD-F2A29E3530DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7345A242-A06A-4100-A0FD-F2A29E3530DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7345A242-A06A-4100-A0FD-F2A29E3530DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B5CC906-75B1-443B-9142-2C78BE0F24A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B5CC906-75B1-443B-9142-2C78BE0F24A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B5CC906-75B1-443B-9142-2C78BE0F24A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B5CC906-75B1-443B-9142-2C78BE0F24A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{781C26A2-B6C8-4D1E-947D-CD43CE19D211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{781C26A2-B6C8-4D1E-947D-CD43CE19D211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{781C26A2-B6C8-4D1E-947D-CD43CE19D211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{781C26A2-B6C8-4D1E-947D-CD43CE19D211}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {89AF60D4-22F8-4ED6-986B-51EEBF4D926B}
+	EndGlobalSection
+EndGlobal

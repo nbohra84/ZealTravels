@@ -1,0 +1,128 @@
+﻿@model ZealTravel.Front.Web.Models.Agency.Booking.PrintPopupResponse
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Print Ticket";
+    Layout = "~/Views/Popup.cshtml";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/lib/jquery/jquery.min.js"></script>
+<script src="~/js/custom-script.js"></script>
+
+<form id="form1" runat="server" method="post">
+
+    <div id="maindivv" runat="server">
+        @if (Model.ReportTableHTML != null)
+        {
+            @Html.Raw(Model.ReportTableHTML)
+        }
+        else
+        {
+            <div class="alert alert-warning text-center">No records found.</div>
+        }
+    </div>
+
+    <input type="hidden" id="bookingRef" name="bookingRef" value="@Model.BookingRef" />
+    <input type="hidden" name="hdnhostName" id="hdnhostName" value="@Model.HdnhostName" />
+    <input type="hidden" name="Action" id="Action" />
+    <table width="100%">
+        <tr>
+            <td>
+                <table style="width:800px;" align="center">
+                    <tr id="btnPanel">
+                        <td><span><input type="button" id="printTicket" class="btnics" value="Print" /></span></td>
+                        <td><span><input type="button" id="emailTicket" class="btnics" value="Email" /></span></td>
+                        <td><span><input type="button" id="createPdfInvoicee" class="btnics" value="Pdf" /></span></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<div id="emailBlock" class="width-200" style="display: none;">
+    <div class="ipad_position" style="border: 1px solid #D7DFF4; background: #fff; border-radius: 8px; -webkit-border-radius: 8px; -ms-border-radius: 8px; width: 240px; padding-bottom: 1%; box-shadow: 2px 2px 3px #D5DCEF; z-index: 100; position: absolute; left: 510px; top: 550px;">
+        <div style="float: right; margin: -6px -6px 0 0;">
+            <img alt="Close" id="emailClose" src="~/assets/img/close.gif">
+        </div>
+        <div style="float: left; width: 90%; padding: 5%;">
+            <span id="emailMsg" style="font-size: 10px; height: 20px;"></span>
+            <div style="float: left; font-weight: bold; padding-bottom: 15px; width: 100%; margin-left: 10px;">
+                <span style="width: 150px; float: left; font-size: 12px; padding-bottom: 10px;">
+                    Enter
+                    email address :
+                </span>
+                <input name="addressBox" type="text" id="addressBox" style="width: 180px; padding: 3px;">
+            </div>
+            <div style="float: left; width: 80%; text-align: left; margin-left: 10px;">
+                <input id="ColoredsendEmailInvoice" type="button" value="Send mail" style="margin-right: 10px;">
+                <input id="emailCancel" type="button" value="Cancel">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/Ticketreport.js"></script>
+ <script src="/assets/js/printPDF.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Attach click handler to the "Send Email" button
+        $("#ColoredsendEmailInvoice").click(function (e) {
+            e.preventDefault();
+
+            // Validate email input
+            var emailVal = $.trim($("#addressBox").val());
+            if (emailVal === "") {
+                $("#emailMsg").html("Please enter emailId.");
+                $("#emailMsg").css('color', 'red');
+                $("#addressBox").focus();
+                return false;
+            }
+
+            $("#emailMsg").html("Please wait, email is sending ...");
+            $("#emailMsg").css('color', 'blue');
+            $("#ColoredsendEmail").hide();
+
+            // Collecting values from hidden fields
+            var bookingId = $('#bookingRef').val();
+            var emailId = emailVal;
+            var tax = $('#hidntaxx').val();
+            var disc = $('#hdndiscount').val();
+            var logo = $('#hidnshowlogo').val();
+            var fare = $('#hidnhidefare').val();
+
+            // AJAX request to send the email
+            $.ajax({
+                url: '/PrintPopup/SendInvoiceEmail',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    BookingRef: bookingId,
+                    Email: emailId,
+                    Tax: tax,
+                    Logo: logo,
+                    HideFare: fare,
+                    Disc: disc
+                }),
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        $("#emailBlock").hide();
+                        $("#emailMsg").html("");
+                        alert("Email sent successfully!");
+                        ShowEmailDetails(response.message);
+                    } else {
+                        $("#emailBlock").hide();
+                        $("#emailMsg").html("");
+                        alert(response.message || "Error: Email could not be sent.");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Error sending email, please try again later.");
+                }
+            });
+        });
+    });
+
+</script>

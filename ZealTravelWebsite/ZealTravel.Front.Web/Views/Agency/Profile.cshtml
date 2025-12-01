@@ -1,0 +1,157 @@
+﻿@model ZealTravel.Front.Web.Models.ProfileDetail
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Master.cshtml";
+}
+<link href="~/assets/css/profile.css" rel="stylesheet" />
+<link href="~/assets/css/AdminLTE.css" rel="stylesheet" />
+<link href="~/assets/css/colortheme.css" rel="stylesheet" />
+
+<div class="wrapper" style="height: auto;">
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="container-fluid detail-container">
+                <div style="width: 100%; margin: 0 auto; ">
+                    <div class="col-md-12 offset-0">
+                        <h5 class="reportminheader"><i class="fa fa-bullseye wredcolo reportminicon" aria-hidden="true"></i> Detail </h5>
+                    </div>
+                </div>
+            </div>
+            <div id="CompanydetailDiv" class="tab-pane fade active in table-responsive panel-body boxshdr">
+                <div class="col-md-12 col-xs-12 offset-0">
+                    <div class="col-md-12 col-xs-12 offset-0 ">
+                        <div id="AgencyDetails" class="htd_databox" style="margin-top: -1px; display: block;">
+                            <div class="prefer_left">
+
+                                <div class="htd_heading desktop_not ipad_not" id="mobilemaindiv" style="outline: 0px none currentcolor; margin: 0px; font-size: 19px; padding-top: 12px;">Company Information</div>
+                                <div class="htd_databoxin mt" id="agncyDetdiv">
+                                    <div class="htd_heading" id="acyDet_btn" style="outline: 0px none currentcolor; margin: 0px;"><dfn>Company Details</dfn></div>
+                                    <div class="htd_formbox" id="agencyDet_container">
+                                        <div class="width_100 fleft">
+                                            <div class="account_seting">
+                                                <label>User name : </label>
+                                                <span id="spnusernm"><b>@Model.UserName</b></span>
+                                            </div>
+                                            <div class="account_seting">
+                                                <label>Company : </label>
+                                                <span id="Companynmspan">@Model.CompanyName</span>
+                                            </div>
+                                            <div class="account_seting">
+                                                <label>Company email : </label>
+                                                <span id="spncompanyemail">@Model.CompanyEmail</span>
+                                            </div>
+                                            <div class="account_seting eg_text" style="font-size: 12px;">
+                                                Please contact us if you want to change your EmailId
+                                            </div>
+                                            <div class="account_seting">
+                                                <label>Company Mobile : </label>
+                                                <span id="spncmpnymobile">@Model.CompanyMobile</span>
+                                            </div>
+                                        </div>
+                                        <div class="account_seting">
+                                            <label>Company Phone : </label>
+                                            <span id="spnCmpnyphone">@Model.CompanyPhone</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="prefer_right">
+                                <div class="htd_databoxin" id="">
+
+                                    @using (Html.BeginForm("UpdateProfile", "Agency", FormMethod.Post, new { id = "Profile.cshtml", enctype = "multipart/form-data" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="htd_databoxin" id="">
+                                            <div class="htd_heading" id="upldlogo" style="outline: 0; margin: 0;">
+                                                <dfn>Upload Logo</dfn>
+                                            </div>
+                                            <div class="htd_formbox" id="uplodlogo_container">
+                                                <div class="width_100 fleft">
+                                                    <div class="account_seting">
+                                                        <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                            <div class="col-md-4 col-sm-4 col-xs-12">Agency Logo*</div>
+                                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                                <div class="col-md-4 col-sm-4 col-xs-6 offset-0">
+                                                                    <img id="Image1" class="img-responsive" src="@Model.CompanyLogo" alt="Logo" style="border: 1px solid #ccc; height: 80px; width: 80px;" />
+                                                                </div>
+                                                                <div class="col-md-8 col-sm-8 col-xs-12 m-top-20">
+                                                                    <input type="file" name="LogoFile" id="LogoFile" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="account_seting">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 m-top-20 text-center">
+                                                            @if (@TempData["SuccessMessage"] != null)
+                                                            {
+                                                                <span style="color: green;">@TempData["SuccessMessage"]</span>
+                                                            }
+                                                            @if (@TempData["ErrorMessage"] != null)
+                                                            {
+                                                                <span style="color: red;">
+                                                                    @TempData["ErrorMessage"]
+                                                                </span>
+                                                            }
+
+                                                            <div>
+                                                                @Html.HiddenFor(m => m.UserName)
+                                                                @Html.HiddenFor(m => m.CompanyName)
+                                                                @Html.HiddenFor(m => m.CompanyAddress)
+                                                                @Html.HiddenFor(m => m.CompanyEmail)
+                                                                @Html.HiddenFor(m => m.CompanyMobile)
+                                                                @Html.HiddenFor(m => m.CompanyPhone)
+                                                                @Html.HiddenFor(m => m.AvailableBalance)
+                                                                @Html.HiddenFor(m => m.PanCardNo)
+                                                                @Html.HiddenFor(m => m.GstNo)
+                                                            </div>
+
+                                                            <button type="submit" class="btn btn-add wrecolor" onclick="return ValidateExtension()">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+
+
+                            </div>
+                            <div class="htd_databoxin mt " id="phnoediv">
+                                <div class="htd_heading" style="outline: 0px none currentcolor; margin: 0px;"><dfn>Financial  Details</dfn></div>
+                                <div class="htd_formbox" id="phone_container">
+                                    <div class="width_100 fleft">
+
+                                        <div class="account_seting">
+                                            <label>Cash Amount : </label>
+                                            <span id="availablebalancespan">@ViewBag.AvailableBalance</span>
+                                        </div>
+                                    </div>
+                                    <div class="account_seting">
+                                        <label>Pan Card No. : </label>
+                                        <span id="spnpancardno">@Model.PanCardNo</span>
+                                    </div>
+                                    <div class="account_seting">
+                                        <label>GST No. : </label>
+                                        <span id="spnGstno">@Model.GstNo</span>
+                                    </div> <div class="account_seting">
+                                        <label>GST Legal Name : </label>
+                                        <span id="spnGstno">@Model.GstName</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+    </div>
+    </section>
+</div>
+</div>

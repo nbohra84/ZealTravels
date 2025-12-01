@@ -1,0 +1,2350 @@
+﻿@model ZealTravel.Front.Web.Models.Flight.RoundFlightResponse
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+
+@* <link href="//fonts.googleapis.com/css?family=Rubik" rel="stylesheet" />
+<link href="Design/css/jquery-ui.css" rel="stylesheet" />
+<link href="Design/Resultpage_k/css/jquery.mCustomScrollbar.css?_tver=0020" rel="stylesheet" />
+<link href="Design/css/roundcss.css" rel="stylesheet" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+<script src="Design/js/Redirect_n_k.js"></script>
+<script type="text/javascript" src="Design/Resultpage_k/js/countUp.js?_tver=0020"></script>
+<script type="text/javascript" src="Design/Resultpage_k/js/jquery.js?_tver=0020"></script>
+<script type="text/javascript" src="Design/Resultpage_k/js/SliderRange/jquery-1.9.1.js?_tver=0020"></script>
+<script type="text/javascript" src="Design/Resultpage_k/js/SliderRange/jquery-ui.js?_tver=0020"></script>
+<script type="text/javascript" src="Design/Resultpage_k/js/jquery.mCustomScrollbar.concat.min.js?_tver=0020"></script>
+<script type='text/javascript' src="Design/Resultpage_k/js/bootstrap-progressbar.js?_tver=0020"></script>
+<script type="text/javascript" src="Design//js/grouping.js?_tver=0020"></script>
+<link href="Design/css/bootstrap.css" rel="stylesheet" />
+<script src="Design/js/bootstrap.min.js"></script> *@
+@* <link href="/assets/css/mdiengin_k.css" rel="stylesheet" /> *@
+<link href="/assets/css/jquery.mCustomScrollbar.css" rel="stylesheet" />
+<link href="/assets/css/jqueryui.css" rel="stylesheet" />
+<link href="/assets/css/roundWay.css" rel="stylesheet" />
+<script src="/assets/js/Redirect_n_k.js"></script>
+<script src="/assets/js/countUp.js"></script>
+@* <script src="/assets/js/jqueryui.js"></script> *@
+<script src="/assets/js/jquerymCustomScrollbar.js"></script>
+<script src="/assets/js/bootstrapprogressbar.js"></script>
+<script src="/assets/js/modifysearch_k.js"></script>
+<script src="/assets/js/modifyengine.js"></script>
+<script src="/assets/js/templete.js"></script>
+<script src="/assets/js/roundWay.js"></script>
+<script src="/assets/js/grouping.js"></script>
+<script id="MyTemplate" type="text/x-jquery-tmpl">
+
+
+    <div class="divRowR" id="active${FlightRefid}" >
+         <div id="divFareRules" style="z-index:9999999;position:fixed;width:550px;background-color:Black;color:White;margin-left:100px;top:10px;font-size:8pt"></div>
+           <li class="mainulboxop1">
+    @* <%-- <label class="mywraclickbox ">
+         --%> *@
+
+                <li class="liboxmain1" style="float: left; margin: 0; padding-right: 1%; display: block; width: 9%;">
+
+               <img alt="" src="${logo}" style="position:absolute; width: 25px;height:25px;" class="borderade" />
+                <br/>
+                <span style="display: block; margin: 0;padding-top: 15px; font-weight:bold" class="showfontsize padbot0 padleft0">
+                ${FlightName}
+                </span>
+                <span style="font-weight: normal;float:left; margin-top: -15px;margin-left: 20px;" class="showfontsize padtop0 padleft0">${FlightNumber}</span></li>
+
+                <li class="liboxmain2 padright0" style="float: left; margin: 0;padding:1%; padding-left: 4%; width: 10%;">
+
+                    <span style="display: block; margin: 0; padding: 0;" class="showfontsize">${SRC}</span>
+                    <span style="display: block; margin: 0; padding: 0;" class="showfontsize mobdevi">${FlightDepDate}</span>
+                    <span style="font-weight: normal; float: left; padding-top: 0px;" class="showfontsize mobdevi1">
+    @*   <%--  <img alt="" src="/assets/img/plane_right.png" style="position:relative; width: 25px;height:25px;" />&nbsp;--%> *@ ${FlightDepTime}</span>
+                </li>
+
+                <li class="durationlin">
+                    <div class="duration-stop">
+                        <div class="stop-circle abs">
+                            <i class="tipsy white-circle"></i>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="liboxmain4 padleft0" style="float: left; margin: 0; padding: 1%;padding-right:1%; width: 13%;">
+                    <span style="display: block; margin: 0; padding: 0;" class="showfontsize"> ${DEST} </span>
+                    <span style="display: block; margin: 0; padding: 0;" class="showfontsize mobdevi2">${FlightArrDate}</span>
+                    <span style="font-weight: normal; padding-top: 0px;" class="showfontsize mobdevi3">${FlightArrTime}</span>
+                    {{if ArrivalNextDayCheck==1 }}
+                         <span class="seatdiv plus1di" style="font-size: 8pt; color: red;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Arrives next day">(+ 1)</span>
+                    {{else}}
+
+                        {{/if}}
+                </li>
+                <li class="minbox3" style="padding:1%; width: 13%;">
+
+                     <span style="display: block; margin: 0; padding: 0;" class="showfontsize">${Stop}</span>
+                      <span style="font-weight: normal; float: left; padding-top: 0px;" class="showfontsize">
+
+                      ${Layover1}</span>
+
+                </li>
+
+
+           <li class="liboxmain7" style="display:inline-block;margin: 0; padding: 1%; width: 10%;" id= "Price3-${FlightNumberCmb}">
+
+                </li>
+         <div class="col-md-12 col-xs-12 offset-0 boxbdrtp" id="DR-${FlightNumberCmb}">
+
+        </div>
+                <ul class="mainwrapy uirtw">
+                    <li>{{if RuleTarrif.length>4}}
+               <div class="flight firlo" id="RuleTarrifdivO${FlightRefid}" style="">
+                   <span>${RuleTarrif}</span>
+               </div>
+                        {{/if}}
+                    </li>
+                </ul>
+
+     </div>
+</script>
+<script id="MyTemplateDetail" type="text/x-jquery-tmpl">
+    <ul class="mainulboxop yuert" style="float: left; width: 100%">
+
+           <div id="divshow${FlightRefid}" class="div-Blur">
+               <ul class="flight_sort iudmirt">
+                   <li style="float: left; margin: 0; padding: 1%; display: block; width: 15%; border-bottom: 3px solid #FEBD25" class="boxliit1" onclick="ITINERARY(${FlightRefid});" id="ITINERARY${FlightRefid}"><a href="javascript:void(0);" class="anchorcolorpop"><i class="fa fa-plane noneiconmobile" aria-hidden="true" style="transform: rotate(-44deg);"></i>Itinerary </a></li>
+                   <li style="float: left; margin: 0; padding: 1%; display: block; width: 20%; border-bottom: 0px solid #C0C0C0" class="boxliit2" onclick="FAREDETAILS(${FlightRefid});" id="FAREDETAILS${FlightRefid}"><a href="javascript:void(0);" class="anchorcolorpop"><i class="fa fa-inr noneiconmobile" aria-hidden="true"></i>Fare Details  </a></li>
+                   <li style="float: left; margin: 0; padding: 1%; display: block; width: 18%; border-bottom: 0px solid #C0C0C0" class="boxliit3" onclick="FARERULERO(${FlightRefid});" id="FARERULERO${FlightRefid}"><a href="javascript:void(0);" class="anchorcolorpop"><i class="fa fa-exclamation-circle noneiconmobile" aria-hidden="true"></i>Fare Rule</a></li>
+                   <li style="float: left; margin: 0; padding: 1%; display: block; width: 27%; border-bottom: 0px solid #C0C0C0" class="boxliit4" onclick="BAGGAGEDETAILSRO(${FlightRefid});" id="BAGGAGEDETAILSRO${FlightRefid}"><a href="javascript:void(0);" class="anchorcolorpop"><i class="fa fa-suitcase noneiconmobile" aria-hidden="true"></i>Baggage Details</a></li>
+
+               </ul>
+               <div id="divITINERARY${FlightRefid}" style="width: 100%; float: left; padding: 1%; margin-top: -1%;">
+                   {{if connection==1 }}
+
+                   {{if ArrivalNextDayCheck==1 }}
+                   <h6 class="weifmt" style="color: #333">${SRC} → ${DEST} |  ${FlightDepDate}  → ${FlightArrDate}
+                       <span class="colorredk">(+ 1) </span></h6>
+
+                   {{/if}}
+                   {{if ArrivalNextDayCheck==0 }}
+                   <h6 class="weifmt" style="color: #333">${SRC} → ${DEST} |  ${FlightDepDate}  → ${FlightArrDate} </h6>
+
+                   {{/if}}
+
+
+                   <ul style="float: left; width: 100%">
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox1">
+                           <span style="color: #333">
+                               <img alt="" src="${logo}" style="position: absolute; width: 25px; height: 25px;" />
+                               <br />
+                               <br />
+                               ${CarrierName1}<br />
+                               ${FlightName1}
+                         ${FlightNumber1}
+                           <br />
+                               ${Cabin1}(${Class1})</span>
+                       </li>
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox2">
+                           <span style="color: #333">${DepartStationName1}(${SRC1})<br />
+                               ${FlightDepTime1}
+                       ${FlightDepDate1}
+                       <br />
+                               ${DepartureStationAirport1}
+                           ${TerminalSRC}
+                           </span>
+                       </li>
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox4">
+                           <span style="color: #333">
+                               <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" />
+                               <br />
+                               ${Duration1}
+
+                           </span>
+                       </li>
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox3">
+                           <span style="color: #333">${ArrivalStationName1}(${DEST1})<br />
+                               ${FlightArrTime1}
+                       ${FlightArrDate1}
+                           <br />
+                               ${ArrivalStationAirport1}
+                           ${TerminalDEST}
+                           </span>
+                       </li>
+
+                   </ul>
+                   {{/if}}
+                     {{if connection==2 }}
+
+                   {{if ArrivalNextDayCheck==1 }}
+                   <h6 class="weifmt" style="color: #333">${SRC} → ${DEST} |  ${FlightDepDate}  → ${FlightArrDate2}
+                       <span class="colorredk">(+ 1) </span></h6>
+
+                   {{/if}}
+                   {{if ArrivalNextDayCheck==0 }}
+                   <h6 class="weifmt" style="color: #333">${SRC} → ${DEST} |  ${FlightDepDate}  → ${FlightArrDate2} </h6>
+
+                   {{/if}}
+
+                       <ul style="float: left; width: 100%">
+                           <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox1">
+                               <span style="color: #333">
+                                   <img alt="" src="${logo}" style="position: absolute; width: 25px; height: 25px;" />
+                                   <br />
+                                   <br />
+                                   ${CarrierName1}<br />
+                                   ${FlightName1}
+                         ${FlightNumber1}
+                           <br />
+                                   ${Cabin1}(${Class1})</span>
+                           </li>
+                           <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox2">
+                               <span style="color: #333">${DepartStationName1}(${SRC1})<br />
+                                   ${FlightDepTime1}
+                       ${FlightDepDate1}
+                       <br />
+                                   ${DepartureStationAirport1}
+                           ${TerminalSRC}
+                               </span>
+                           </li>
+                           <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox4">
+                               <span style="color: #333">
+                                   <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" /><br />
+                                   ${Duration1}
+
+                               </span>
+                           </li>
+                           <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox3">
+                               <span style="color: #333">${ArrivalStationName1}(${DEST1})<br />
+                                   ${FlightArrTime1}
+                       ${FlightArrDate1}
+                           <br />
+                                   ${ArrivalStationAirport1}
+                           ${TerminalDEST}
+                               </span>
+                           </li>
+
+                       </ul>
+
+                   <ul style="float: left; width: 100%">
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox1">
+                           <span style="color: #333">
+                               <img alt="" src="${logo1}" style="position: absolute; width: 25px; height: 25px;" />
+                               <br />
+                               <br />
+                               ${CarrierName2}<br />
+                               ${FlightName2}
+                         ${FlightNumber2}
+
+                              <br />
+                               ${Cabin2}(${Class2}) </span>
+                       </li>
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox2">
+                           <span style="color: #333">${DepartStationName2}(${SRC2})<br />
+                               ${FlightDepTime2}
+                       ${FlightDepDate2}
+                           <br />
+                               ${DepartureStationAirport2}
+                            ${TerminalSRC1}
+                           </span>
+                       </li>
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox4">
+                           <span style="color: #333">
+                               <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" />
+                               <br />
+                               ${Duration2}
+
+                           </span>
+                       </li>
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox3">
+                           <span style="color: #333">${ArrivalStationName2}(${DEST2})<br />
+                               ${FlightArrTime2}
+                       ${FlightArrDate2}
+                            <br />
+                               ${ArrivalStationAirport2}
+                            ${TerminalDEST1}
+                           </span>
+                       </li>
+
+                   </ul>
+                   {{/if}}
+                     {{if connection==3 }}
+
+                   {{if ArrivalNextDayCheck==1 }}
+                   <h6 class="weifmt" style="color: #333">${SRC} → ${DEST} |  ${FlightDepDate}  → ${FlightArrDate3}
+                       <span class="colorredk">(+ 1) </span></h6>
+
+                   {{/if}}
+                   {{if ArrivalNextDayCheck==0 }}
+                   <h6 class="weifmt" style="color: #333">${SRC} → ${DEST} |  ${FlightDepDate}  → ${FlightArrDate3} </h6>
+
+                   {{/if}}
+
+
+                        <ul style="float: left; width: 100%">
+                            <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox1">
+                                <span style="color: #333">
+                                    <img alt="" src="${logo}" style="position: absolute; width: 25px; height: 25px;" />
+                                    <br />
+                                    <br />
+                                    ${CarrierName1}<br />
+                                    ${FlightName1}
+                         ${FlightNumber1}
+                           <br />
+                                    ${Cabin1}(${Class1})</span>
+                            </li>
+                            <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox2">
+                                <span style="color: #333">${DepartStationName1}(${SRC1})<br />
+                                    ${FlightDepTime1}
+                       ${FlightDepDate1}
+                       <br />
+                                    ${DepartureStationAirport1}
+                           ${TerminalSRC}
+                                </span>
+                            </li>
+                            <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox4">
+                                <span style="color: #333">
+                                    <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" /><br />
+                                    ${Duration1}
+
+                                </span>
+                            </li>
+                            <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox3">
+                                <span style="color: #333">${ArrivalStationName1}(${DEST1})<br />
+                                    ${FlightArrTime1}
+                       ${FlightArrDate1}
+                           <br />
+                                    ${ArrivalStationAirport1}
+                           ${TerminalDEST}
+                                </span>
+                            </li>
+
+                        </ul>
+
+                   <ul style="float: left; width: 100%">
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox1">
+                           <span style="color: #333">
+                               <img alt="" src="${logo1}" style="position: absolute; width: 25px; height: 25px;" />
+                               <br />
+                               <br />
+                               ${CarrierName2}<br />
+                               ${FlightName2}
+                         ${FlightNumber2}
+
+                              <br />
+                               ${Cabin2}(${Class2}) </span>
+                       </li>
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox2">
+                           <span style="color: #333">${DepartStationName2}(${SRC2})<br />
+                               ${FlightDepTime2}
+                       ${FlightDepDate2}
+                           <br />
+                               ${DepartureStationAirport2}
+                            ${TerminalSRC1}
+                           </span>
+                       </li>
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox4">
+                           <span style="color: #333">
+                               <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" />
+                               <br />
+                               ${Duration2}
+
+                           </span>
+                       </li>
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox3">
+                           <span style="color: #333">${ArrivalStationName2}(${DEST2})<br />
+                               ${FlightArrTime2}
+                       ${FlightArrDate2}
+                            <br />
+                               ${ArrivalStationAirport2}
+                            ${TerminalDEST1}
+                           </span>
+                       </li>
+
+                   </ul>
+
+                   <ul style="float: left; width: 100%">
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox1">
+                           <span style="color: #333">
+                               <img alt="" src="${logo2}" style="position: absolute; width: 25px; height: 25px;" />
+                               <br />
+                               <br />
+                               ${CarrierName3}<br />
+                               ${FlightName3}
+                         ${FlightNumber3}
+                              <br />
+                               ${Cabin3}(${Class3})</span>
+                       </li>
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox2">
+                           <span style="color: #333">${DepartStationName3}(${SRC3})<br />
+                               ${FlightDepTime3}
+                       ${FlightDepDate3}
+                          <br />
+                               ${DepartureStationAirport3}
+                          ${TerminalSRC2}
+                           </span>
+                       </li>
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox4">
+                           <span style="color: #333">
+                               <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" /><br />
+                               ${Duration3}
+                           </span>
+                       </li>
+                       <li style="float: left; margin: 0; padding: 1%; display: block;" class="showfontsize popupfarebox3">
+                           <span style="color: #333">${ArrivalStationName3} (${DEST3})<br />
+                               ${FlightArrTime3}
+                       ${FlightArrDate3}
+                           <br />
+                               ${ArrivalStationAirport3}
+                           ${TerminalDEST2}
+                           </span>
+                       </li>
+
+                   </ul>
+                   {{/if}}
+               </div>
+               <div style="">
+                   <div id="FareSummaryO${FlightRefid}" style="display: none; padding: 2%">
+                       <div class="widthaaqi">
+                           <div class="FareSummaryClassTitle">Fare Details:-</div>
+                           <ul class="mhyusummerdd">
+                               <li class="summerbox1">
+                                   <span style="color: #333">Adult Fare  ${Adt_BASIC} X ${NoOFAdult}</span>
+                               </li>
+                               <li class="summerbox2">
+                                   <span id="BaseFareADTO${FlightRefid}" style="color: #333; text-align: right;">${Curr}   <span id="BaseFareAmADTO${FlightRefid}">${AdultbaseFare}</span></span>
+                               </li>
+                               {{if NoOFChild!=0 }}
+                        <li class="summerbox1">
+                            <span style="color: #333">Child Fare  ${Chd_BASIC} X ${NoOFChild}</span>
+                        </li>
+                               <li class="summerbox2">
+                                   <span id="BaseFareCHDO${FlightRefid}" style="color: #333">${Curr}   <span id="BaseFareAmCHDO${FlightRefid}">${ChildbaseFare}</span></span>
+                               </li>
+                               {{/if}}
+                         {{if NoOFInfant!=0 }}
+                        <li class="summerbox1">
+                            <span style="color: #333">Infant Fare  ${Inf_BASIC} X ${NoOFInfant}</span>
+                        </li>
+                               <li class="summerbox2">
+                                   <span id="BaseFareINF)${FlightRefid}" style="color: #333">${Curr}   <span id="BaseFareAmINFO${FlightRefid}">${InfantbaseFare}</span></span>
+                               </li>
+                               {{/if}}
+                           </ul>
+                           <ul class="mhyusummerdd">
+                               {{if CompanyID.indexOf("C-") != -1 || CompanyID == ""}}
+                               <li class="summerbox1">
+                                   <span style="color: #333;">Tax & Charges </span>
+                               </li>
+                               {{else}}
+                               <li class="summerbox1">
+                                   <span style="color: #333; text-decoration: underline;" onclick="showtaxandChargesOB(${FlightRefid});">Tax & Charges </span>
+                               </li>
+                               {{/if}}
+                               <li class="summerbox2">
+                                   <span id="TAXChargesO${FlightRefid}" style="color: #333"><span id="TAXcHARGEAmO${FlightRefid}" style="float: right;">${Curr}  ${TaxandCharges}</span></span>
+                               </li>
+                           </ul>
+                           <div id="TaxAndChargesDIVOB${FlightRefid}" style="display: none;">
+                               <ul class="mhyusummerdd">
+                                   <li class="summerbox1">
+                                       <span style="color: #333; text-decoration: underline;" onclick="showtotaltaxOB(${FlightRefid});">Total Tax</span>
+                                   </li>
+                                   <li class="summerbox2">
+                                       <span id="TotalTaxO${FlightRefid}" style="color: #333"><span id="TotalTaxAmO${FlightRefid}" style="float: right;">${Curr}   ${TotalTax}</span></span>
+                                   </li>
+                               </ul>
+
+                               <ul class="mhyusummerdd" id="TotalTaxDIVOB${FlightRefid}" style="display: none;">
+
+
+   
+                                   <li class="summerbox1">
+                                       <span style="color: #333">YQ Adult ${Adt_YQ} X ${NoOFAdult}</span>
+                                   </li>
+                                   <li class="summerbox2">
+                                       <span id="YQAdt${FlightRefid}" style="color: #333"><span id="YQAdtAm${FlightRefid}" style="float: right;">${Curr}    ${parseInt(Adt_YQ)*parseInt(NoOFAdult)}</span></span>
+                                   </li>
+                                   <li class="summerbox1">
+                                       <span style="color: #333">Tax Adult ${Adt_AcuTax} X ${NoOFAdult}</span>
+                                   </li>
+                                   <li class="summerbox2">
+                                       <span id="AdtTax${FlightRefid}" style="color: #333"><span id="AdtTaxAm${FlightRefid}" style="float: right;">${Curr}  ${parseInt(Adt_AcuTax)*parseInt(NoOFAdult)}</span></span>
+                                   </li>
+                                   {{if NoOFChild!=0 }}
+                                  <li class="summerbox1">
+                                      <span style="color: #333">YQ Child ${Chd_YQ} X ${NoOFChild}</span>
+                                  </li>
+                                   <li class="summerbox2">
+                                       <span id="YQChd${FlightRefid}" style="color: #333"><span id="YQChdAm${FlightRefid}" style="float: right;">${Curr}   ${parseInt(Chd_YQ)*parseInt(NoOFChild)}</span></span>
+                                   </li>
+                                   <li class="summerbox1">
+                                       <span style="color: #333">Tax Child ${Chd_AcuTax} X ${NoOFChild}</span>
+                                   </li>
+                                   <li class="summerbox2">
+                                       <span id="ChdTax${FlightRefid}" style="color: #333"><span id="ChdTaxAm${FlightRefid}" style="float: right;">${Curr}   ${parseInt(Chd_AcuTax)*parseInt(NoOFChild)}</span></span>
+                                   </li>
+                                   {{/if}}
+
+                                  {{if NoOFInfant!=0 }}
+
+                                  <li class="summerbox1">
+                                      <span style="color: #333">Tax Infant ${Inf_AcuTax} X ${NoOFChild} </span>
+                                  </li>
+                                   <li class="summerbox2">
+                                       <span id="InfantTax${FlightRefid}" style="color: #333"><span id="InfantTaxAm${FlightRefid}" style="float: right;">${Curr}   ${parseInt(Inf_AcuTax)*parseInt(NoOFInfant)}</span></span>
+                                   </li>
+                                   {{/if}}
+                               </ul>
+                               <ul class="mhyusummerdd">
+                                   <li class="summerbox1">
+                                       <span style="color: #333">Total Service Tax</span>
+                                   </li>
+                                   <li class="summerbox2">
+                                       <span id="TotalServiceTaxO${FlightRefid}" style="color: #333"><span id="TotalServiceTaxAmO${FlightRefid}" style="float: right;">${Curr}   ${TotalServiceTax}</span></span>
+                                   </li>
+                               </ul>
+                               <ul class="mhyusummerdd">
+                                   <li class="summerbox1">
+                                       <span style="color: #333">C.Fee</span>
+                                   </li>
+                                   <li class="summerbox2">
+                                       <span id="CFeeO${FlightRefid}" style="color: #333"><span id="CFeeAmO${FlightRefid}" style="float: right;">${Curr}   ${TotalMarkUp}</span></span>
+                                   </li>
+                               </ul>
+                               <ul class="mhyusummerdd">
+                                   <li class="summerbox1">
+                                       <span style="color: #333">Total Service Fee</span>
+                                   </li>
+                                   <li class="summerbox2">
+                                       <span id="TotalServiceFeeO${FlightRefid}" style="color: #333"><span id="TotalServiceFeeAmO${FlightRefid}" style="float: right;">${Curr}   ${TotalServiceFee}</span></span>
+                                   </li>
+                               </ul>
+                               <ul class="mhyusummerdd">
+                                   <li style="width: 100%;">
+                                       <span style="color: #333; text-decoration: underline;" onclick="showCommDetailOB(${FlightRefid});">Comm Detail</span>
+                                   </li>
+                               </ul>
+
+                               <ul class="mhyusummerdd" id="CommDetailDIVOB${FlightRefid}" style="display: none;">
+                                   <li class="summerbox1">
+                                       <span style="color: #333">Total Discount</span>
+                                   </li>
+                                   <li class="summerbox2">
+                                       <span id="TotalDiscountO${FlightRefid}" style="color: #333"><span id="TotalDiscountSAAmO${FlightRefid}" style="float: right;">${Curr}   ${TotalCommission}</span></span>
+                                   </li>
+
+                                   <li class="summerbox1">
+                                       <span style="color: #333">Total TDS</span>
+                                   </li>
+                                   <li class="summerbox2">
+                                       <span id="TotalTDSO${FlightRefid}" style="color: #333"><span id="TotalTDSSAmO${FlightRefid}" style="float: right;">${Curr}   ${TotalTds}</span></span>
+                                   </li>
+                               </ul>
+                           </div>
+
+                           <ul class="mhyusummerdd">
+                               <li class="summerbox1">
+                                   <span style="color: #000; font-size: 13px;">Gross Fare </span>
+                               </li>
+                               <li class="summerbox2">
+                                   <span id="GrossO${FlightRefid}" class="grossbor" style="color: #000; font-size: 13px; border: none;">${Curr}   ${GrossF}</span>
+                               </li>
+                           </ul>
+                       </div>
+                   </div>
+                   <br />
+               </div>
+               <div style="">
+                   <div id="BaggagesummeryO${FlightRefid}" style="display: none; padding: 2%;">
+                       <div class="widthaaqi">
+                           <div style='border-bottom: 1px dashed #ccc; padding-bottom: 5px; font-size: 13px;' class='col-md-12 col-sm-12 col-xs-12 text-center m-top-10'>
+                               <div class='col-md-4 col-sm-4 col-xs-12'>Sector</div>
+                               <div class='col-md-4 col-sm-4 col-xs-12'>Check in Baggage</div>
+                               <div class='col-md-4 col-sm-4 col-xs-12'>Cabin Baggage</div>
+                           </div>
+                           <div style='border-bottom: 1px dashed #ccc; padding-bottom: 5px;' class='col-md-12 col-sm-12 col-xs-12 text-center m-top-10'>
+                               <div class='col-md-4 col-sm-4 col-xs-12'>${SRC} - ${DEST}</div>
+                               <div class='col-md-4 col-sm-4 col-xs-12'>${CHECKINBaggage}</div>
+
+                               <div class='col-md-4 col-sm-4 col-xs-12'>${CABINBaggage}</div>
+                           </div>
+                           <div class='col-md-12 col-sm-12 col-xs-12 m-top-10 offset-0'>
+                               <p style="font-size: 11px;">The information presented above is as obtained from the airline reservation system. We does not guarantee the accuracy of this information. The baggage allowance may vary according to stop-overs, connecting flights and changes in airline rules. For exact baggage allowance for an itinerary, please call to our support team.</p>
+                           </div>
+                       </div>
+
+                   </div>
+                   <br />
+               </div>
+               <div style="">
+                   <div id="FarerulesummeryO${FlightRefid}" style="display: none; padding: 2%">
+                       <div class="widthaaqi">
+                           <div class="FareSummaryClassTitle">FareRule:  ${SRC} - ${DEST}</div>
+                           <div style="">${FareRules}</div>
+
+                       </div>
+                   </div>
+                   <br />
+               </div>
+               {{if AgentType==0}}
+            <ul style="border-top:1px solid #c1c1c1;width: 100%;float:left;">
+              <li style="color:black">${Yq} </li> <li style="color:black"> ${Dis}</li> <li style="color:black"> ${Cb}</li>
+              </ul>
+              {{/if}}
+           </div>
+
+    </ul>
+</script>
+<script id="MyTemplatePrice" type="text/x-jquery-tmpl">
+
+
+
+      <div class="flight-details">
+      <div class="flight-amount">{{if TotalCommission>0}}
+                    <span class="einr" style="display: block; margin: 0; padding: 0; font: bold 15px verdana; color: #333; font-family: 'Rubik', sans-serif;" onmouseover="FareSummaryopen('FareSummary${FlightRefid}')" onmouseout="FareSummaryclose('FareSummary${FlightRefid}')">${Curr}  ${TotalFare}</span>
+             <span class="price_info actu" style="display: none; font: bold 15px verdana; color: #333; font-family: 'Rubik', sans-serif;">${Curr}   ${FinalFare}</span>
+             {{else}}
+                <span class="" style="display: block; margin: 0; padding: 0; font: bold 15px verdana; color: #333; font-family: 'Rubik', sans-serif;" onmouseover="FareSummaryopen('FareSummary${FlightRefid}')" onmouseout="FareSummaryclose('FareSummary${FlightRefid}')">${Curr}  ${TotalFare}</span>
+             {{/if}}
+              </div>
+      <div class="flight-book-now">
+
+                     <span class="roundedOne">
+                         <input id="Check${FlightRefid}" name="refid" type="radio" onclick="flightchange(${FlightRefid})" />
+                         <label for="Check${FlightRefid}"></label>
+
+                     </span>
+                     </div>
+      <div class="detailsm" onclick="show(${FlightRefid});">
+                     <span class="detail_view" style="display: block;"><a id="DetailViewplus${FlightRefid}" href="javascript:void(0);" class="pluss">&nbsp;<i class="fa fa-sort-desc detashemh" aria-hidden="true"></i>&nbsp; Details</a><a id="DetailViewminus${FlightRefid}" href="javascript:void(0);" class="minuss">&nbsp;<i class="fa fa-sort-asc detashemhnm" aria-hidden="true"></i>&nbsp; Details</a></span>
+
+                         </div>
+      <div class="availableseat1">
+
+           <span >{{if AvailableSeat !="0" }}
+           <img alt="" src="/assets/img/Availableseat.png" style="position: relative; width: 13px; height: 18px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="${AvailableSeat} Seat(s) Left" />
+               <span class="showfontsize">${AvailableSeat}  </span>
+               {{/if}}
+
+           </span></div>
+
+       </div>
+
+              <div id="FareSummary${FlightRefid}" class="FareSummaryClass" >
+                     <div class="ponter"  style="display: block">
+              <img src="/assets/img/pointer.png" alt="Arrow" />
+          </div>
+             <div class="FareSummaryClassTitle refinefol">Fare Details:-</div>
+             <ul class="mhyusummerdd">
+                         <li class="summerbox1">
+                             <span style="color: #333">Adult Fare  ${Adt_BASIC} X ${NoOFAdult}</span>
+                         </li>
+                         <li class="summerbox2">
+                             <span id="BaseFareADTOO${FlightRefid}" style="color: #333">  <span id="BaseFareAmADTOO${FlightRefid}" style="float: right;">${Curr}  ${AdultbaseFare}</span></span>
+                         </li>
+                         {{if NoOFChild!=0 }}
+                  <li class="summerbox1">
+                      <span style="color: #333">Child Fare ${Chd_BASIC} X ${NoOFChild}</span>
+                  </li>
+                         <li class="summerbox2">
+                             <span id="BaseFareCHDOO${FlightRefid}" style="color: #333">  <span id="BaseFareAmCHDOO${FlightRefid}" style="float: right;">${Curr}  ${ChildbaseFare}</span></span>
+                         </li>
+                         {{/if}}
+                   {{if NoOFInfant!=0 }}
+                  <li class="summerbox1">
+                      <span style="color: #333">Infant Fare  ${Inf_BASIC} X ${NoOFInfant}</span>
+                  </li>
+                         <li class="summerbox2">
+                             <span id="BaseFareINFO${FlightRefid}" style="color: #333">  <span id="BaseFareAmINFOO${FlightRefid}" style="float: right;">${Curr}  ${InfantbaseFare}</span></span>
+                         </li>
+                         {{/if}}
+                     </ul>
+                     <ul>
+                           {{if CompanyID.indexOf("C-") != -1 || CompanyID == ""}}
+                         <li class="summerbox1">
+                             <span style="color: #333;">Tax & Charges </span>
+                         </li>
+                         {{else}}
+                         <li class="summerbox1">
+                             <span style="color: #333" text-decoration: underline;" onclick="showtaxandChargesOBO(${FlightRefid});">Tax & Charges </span>
+                         </li>
+                         {{/if}}
+                         <li class="summerbox2">
+                             <span id="TAXChargesOO${FlightRefid}" style="color: #333">  <span id="TAXcHARGEAmOO${FlightRefid}" style="float: right;">${Curr}  ${TaxandCharges}</span></span>
+                         </li>
+                     </ul>
+                      <div id="TaxAndChargesDIVOBO${FlightRefid}" style="display: none;">
+                     <ul>
+                         <li style="width: 45%;">
+                             <span style="color: #333;text-decoration: underline;" onclick="showtotaltaxOBO(${FlightRefid});">Total Tax</span>
+                         </li>
+                         <li style="width: 50%;">
+                             <span id="TotalTaxOO${FlightRefid}" style="color: #333">INR  <span id="TotalTaxAmOO${FlightRefid}" style="float: right;">${TotalTax}</span></span>
+                         </li>
+                     </ul>
+
+                          <ul id="TotalTaxDIVOBO${FlightRefid}" style="display: none;">
+
+
+                         <li style="width: 45%;">
+                             <span style="color: #333">YQ Adult ${Adt_YQ} X ${NoOFAdult}</span>
+                         </li>
+                         <li style="width: 50%;">
+                             <span id="YQAdtO${FlightRefid}" style="color: #333">INR  <span id="YQAdtAmO${FlightRefid}" style="float: right;">${parseInt(Adt_YQ)*parseInt(NoOFAdult)}</span></span>
+                         </li>
+                            <li style="width: 45%;">
+                             <span style="color: #333">Tax Adult ${Adt_AcuTax} X ${NoOFAdult}</span>
+                         </li>
+                         <li style="width: 50%;">
+                             <span id="AdtTaxO${FlightRefid}" style="color: #333">INR  <span id="AdtTaxAmO${FlightRefid}" style="float: right;">${parseInt(Adt_AcuTax)*parseInt(NoOFAdult)}</span></span>
+                         </li>
+                             {{if NoOFChild!=0 }}
+                            <li style="width: 45%;">
+                             <span style="color: #333">YQ Child ${Chd_YQ} X ${NoOFChild}</span>
+                         </li>
+                         <li style="width: 50%;">
+                             <span id="YQChdO${FlightRefid}" style="color: #333">INR  <span id="YQChdAmO${FlightRefid}" style="float: right;">${parseInt(Chd_YQ)*parseInt(NoOFChild)}</span></span>
+                         </li>
+                            <li style="width: 45%;">
+                             <span style="color: #333">Tax Child ${Chd_AcuTax} X ${NoOFChild}</span>
+                         </li>
+                         <li style="width: 50%;">
+                             <span id="ChdTaxO${FlightRefid}" style="color: #333">INR  <span id="ChdTaxAmO${FlightRefid}" style="float: right;">${parseInt(Chd_AcuTax)*parseInt(NoOFChild)}</span></span>
+                         </li>
+                            {{/if}}
+
+                            {{if NoOFInfant!=0 }}
+
+                            <li style="width: 45%;">
+                             <span style="color: #333">Tax Infant ${Inf_AcuTax} X ${NoOFChild} </span>
+                         </li>
+                         <li style="width: 50%;">
+                             <span id="InfantTaxO${FlightRefid}" style="color: #333">INR  <span id="InfantTaxAmO${FlightRefid}" style="float: right;">${parseInt(Inf_AcuTax)*parseInt(NoOFInfant)}</span></span>
+                         </li>
+                           {{/if}}
+                     </ul>
+                     <ul>
+                         <li style="width: 45%;">
+                             <span style="color: #333">Total Service Tax</span>
+                         </li>
+                         <li style="width: 50%;">
+                             <span id="TotalServiceTaxOO${FlightRefid}" style="color: #333">INR  <span id="TotalServiceTaxAmOO${FlightRefid}" style="float: right;">${TotalServiceTax}</span></span>
+                         </li>
+                     </ul>
+                     <ul>
+                         <li style="width: 45%;">
+                             <span style="color: #333">C.Fee</span>
+                         </li>
+                         <li style="width: 50%;">
+                             <span id="CFeeOO${FlightRefid}" style="color: #333">INR  <span id="CFeeAmOO${FlightRefid}" style="float: right;">${TotalMarkUp}</span></span>
+                         </li>
+                     </ul>
+                     <ul>
+                         <li style="width: 45%;">
+                             <span style="color: #333">Total Service Fee</span>
+                         </li>
+                         <li style="width: 50%;">
+                             <span id="TotalServiceFeeOO${FlightRefid}" style="color: #333">INR  <span id="TotalServiceFeeAmOO${FlightRefid}" style="float: right;">${TotalServiceFee}</span></span>
+                         </li>
+                     </ul>
+                     <ul>
+                          <li style="width: 100%;">
+                             <span style="color: #333;text-decoration: underline;" onclick="showCommDetailOBO(${FlightRefid});">Comm Detail</span>
+                         </li>
+
+
+                     </ul>
+
+                     <ul id="CommDetailDIVOBO${FlightRefid}" style="display: none;">
+                         <li style="width: 45%;">
+                             <span style="color: #333">Total Discount</span>
+                         </li>
+                         <li style="width: 50%;">
+                             <span id="TotalDiscountOO${FlightRefid}" style="color: #333">INR  <span id="TotalDiscountSAAmOO${FlightRefid}" style="float: right;">${TotalCommission}</span></span>
+                         </li>
+
+                          <li style="width: 45%;">
+                             <span style="color: #333">Total TDS</span>
+                         </li>
+                         <li style="width: 50%;border-bottom: 1px solid #000;">
+                             <span id="TotalTDSOO${FlightRefid}" style="color: #333">INR  <span id="TotalTDSSAmOO${FlightRefid}" style="float: right;">${TotalTds}</span></span>
+                         </li>
+
+                     </ul>
+                          </div>
+
+                     <ul class="mhyusummerdd">
+                         <li class="summerbox1">
+                             <span style="color: #000; font-size: 13px;">Gross Fare </span>
+                         </li>
+                         <li class="summerbox2" style="text-align:right;">
+                             <span id="GrossOO${FlightRefid}" class="grossbor" style="color: #000;font-size: 13px;  border:none;">${Curr}   ${GrossF}</span>
+                         </li>
+                     </ul>
+
+             </div>
+              <div  class="mydivsrefund2" >
+                   <span class="showfontsize" style="color:red;display: flex;flex-direction: row;align-items: flex-end;">
+                    <a  href="javascript:void(0);"  class="showfontsize" style="width: 40px;">
+                  {{if RefundType=="R" }}
+                <img alt="" src="/assets/img/R.png" style="position:relative; width: 18px;height:18px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Refundable"  />
+             {{else}}
+             <img alt="" src="/assets/img/N.png" style="position:relative; width: 18px;height:18px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Non Refundable"  />
+              {{/if}}
+              <span style="display:none">${RefundType}</span></a>
+                {{if PriceType.length !=0 }}
+                 ${PriceType}
+                 {{/if}}
+                </span>
+             </div>
+    @*  <%--  </li>--%>
+
+               <%--<li class="minbox2">--%>
+
+
+
+               <%--</li>--%> *@
+
+
+
+           <div onclick="show(${FlightRefid});">
+           <span class="ndidrgh" style="float: left;">{{if Via!="" && parseInt(Via)>0 }}
+
+             VIA:<span class="seatdiv" style="font-size: 8pt; color: red;"> ${Via} </span>
+               {{/if}}
+           </span>
+
+            </div>
+              <div style="width: 32%; float: left; margin-top: -2px; margin-bottom: -4px;">{{if TotalCommission>0}}
+
+     <span class="discount-amount seatdiv discui" style="font-size: 8pt">Disc: ${TotalCommission} </span>
+
+           {{else}}
+
+     {{/if}}
+       </div>
+              <div class="showfontsize" style="float: left; width: 20%; margin-left: 40px; display: none;">{{if PromoChek==1 }}
+             <a id="Promo${FlightRefid}" href="javascript:void(0);" onclick="PromoCheck(${FlightRefid})" style="color: black; font-weight: bold;">Promo Check
+                 <img alt="" id="Questionmark${FlightRefid}" style="width: 15px; height: 15px; display: inline" src="/assets/img/Questionmark.png" />
+                 <img alt="" id="Close${FlightRefid}" style="width: 15px; height: 15px; display: none" src="/assets/img/Close.png" />
+                 <img alt="" id="checkmark${FlightRefid}" style="width: 15px; height: 15px; display: none" src="/assets/img/checkmark.png" />
+             </a>
+           {{/if}}
+    </div>
+</script>
+<script id="MyTemplateR" type="text/x-jquery-tmpl">
+
+    <div class="divRowR" id="activeR${FlightRefid}" >
+        <div id="divFareRulesR" class="farerulesRound"></div>
+
+        <ul class="mainulboxop1">
+            <li class="liboxmain1" style="float: left; margin: 0; padding: 1%; display: block; width: 9%;">
+
+            <img alt="" src="${logo}" style="position:absolute; width: 25px;height:25px;" class="borderade" />
+            <br/>
+            <span style="display: block; margin: 0;padding-top: 15px; font-weight:bold" class="showfontsize padbot0 padleft0">
+
+             ${FlightName}
+             </span>
+             <span style="font-weight: normal;float:left; margin-top: -15px;margin-left: 20px;" class="showfontsize padtop0 padleft0">${FlightNumber}</span></li>
+
+            <li class="liboxmain2 padleft0" style="float: left; margin: 0; padding: 1%; width: 10%;padding-left:4%">
+                 <span style="display: block; margin: 0; padding: 0;" class="showfontsize">${SRC}</span>
+                <span style="display: block; margin: 0; padding: 0;" class="showfontsize mobdevi">${FlightDepDate}</span>
+                <span style="font-weight: normal; float: left; padding-top: 0px;" class="showfontsize mobdevi1">
+                     ${FlightDepTime}</span>
+            </li>
+
+            <li class="durationlin">
+                <div class="duration-stop">
+                    <div class="stop-circle abs">
+                        <i class="tipsy white-circle"></i>
+                    </div>
+                </div>
+            </li>
+
+             <li class="liboxmain4 padleft0" style="float: left; margin: 0; padding: 1%;padding-right:1%; width: 13%;">
+               <span style="display: block; margin: 0; padding: 0;" class="showfontsize">${DEST}</span>
+                 <span style="display: block; margin: 0; padding: 0;" class="showfontsize mobdevi2">${FlightArrDate}</span>
+                <span style="font-weight: normal; float: left; padding-top: 0px;" class="showfontsize mobdevi3">${FlightArrTime}</span>
+                {{if ArrivalNextDayCheck==1 }}
+                         <span class="seatdiv plus1di" style="font-size: 8pt; color: red;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Arrives next day">(+ 1)</span>
+                {{else}}
+
+                        {{/if}}
+            </li>
+                   <li class="minbox3" style="padding:1%; width: 13%;">
+                <span style="display: block; margin: 0; padding: 0;" class="showfontsize">${Stop}</span>
+                       <span style="font-weight: normal; padding-top: 0px;padding-left:0px"  class="showfontsize mobdevi4">
+
+
+                      ${Layover1}</span>
+
+            </li>
+
+
+
+
+
+            <li class="liboxmain7"  style="display:inline-block; margin: 0; padding: 1% ; width: 10%;" id="PriceT-${FlightNumberCmb}">
+
+                      </li>
+
+
+              </ul>
+
+        <div class="col-md-12 col-xs-12 offset-0 boxbdrtp" id="DRR-${FlightNumberCmb}">
+
+            </div>
+
+
+
+
+
+
+        <ul class="mainwrapy uirtw">
+            <li>
+               {{if RuleTarrif.length>4}}
+               <div class="flight firlo" id="RuleTarrifdivR${FlightRefid}" style="" >
+                   <span>${RuleTarrif}</span>
+                   </div>
+            {{/if}}
+            </li>
+        </ul>
+
+            </div>
+
+</script>
+<script id="MyTemplateDetailR" type="text/x-jquery-tmpl">
+    <ul class="mainulboxop yuert" style="float:left;width:100%">
+
+        <div id="divshowR${FlightRefid}" class="div-Blur" >
+              <ul class="flight_sort iudmirt">
+               <li style="float: left; margin: 0; padding: 1%; display: block; width: 15%; border-bottom: 3px solid #FEBD25" class="boxliit5" onclick="ITINERARYR(${FlightRefid});" id="ITINERARYR${FlightRefid}"><a href="javascript:void(0);" class="anchorcolorpop" ><i class="fa fa-plane noneiconmobile" aria-hidden="true" style="transform: rotate(-44deg);"></i> Itinerary  </a></li>
+               <li style="float: left; margin: 0; padding: 1%; display: block; width: 20%; border-bottom: 0px solid #C0C0C0" class="boxliit6" onclick="FAREDETAILSR(${FlightRefid});" id="FAREDETAILSR${FlightRefid}"><a href="javascript:void(0);" class="anchorcolorpop" ><i class="fa fa-inr noneiconmobile" aria-hidden="true"></i> Fare Details  </a></li>
+               <li style="float: left; margin: 0; padding: 1%; display: block; width: 18%; border-bottom: 0px solid #C0C0C0" class="boxliit7" onclick="FARERULER(${FlightRefid});" id="FARERULER${FlightRefid}"><a href="javascript:void(0);" class="anchorcolorpop" ><i class="fa fa-exclamation-circle noneiconmobile" aria-hidden="true"></i> Fare Rule</a></li>
+               <li style="float: left; margin: 0; padding: 1%; display: block; width: 27%; border-bottom: 0px solid #C0C0C0" class="boxliit8" onclick="BAGGAGEDETAILSR(${FlightRefid});" id="BAGGAGEDETAILSR${FlightRefid}"><a href="javascript:void(0);" class="anchorcolorpop" ><i class="fa fa-suitcase noneiconmobile" aria-hidden="true"></i> Baggage Details</a></li>
+
+           </ul>
+               <div id="divITINERARYR${FlightRefid}" style="width: 100%; float:left; padding: 1%; margin-top: -1%;">
+
+
+               {{if connection==1 }}
+               {{if ArrivalNextDayCheck==1 }}
+               <h6 class="weifmt" style="color:#333">${SRC} → ${DEST} |  ${FlightDepDate}  → ${FlightArrDate}
+                   <span class="colorredk"> (+ 1) </span> </h6>
+
+               {{/if}}
+               {{if ArrivalNextDayCheck==0 }}
+               <h6 class="weifmt" style="color:#333">${SRC} → ${DEST} |  ${FlightDepDate}  → ${FlightArrDate}
+               </h6>
+
+               {{/if}}
+               <ul style="float:left;width:100%">
+                   <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox1">
+                  <span style="color:#333"> <img alt="" src="${logo}" style="position:absolute; width: 25px;height:25px;" /><br/><br/>
+                       ${CarrierName1}<br />
+                           ${FlightName1}
+                     ${FlightNumber1}
+                       <br />
+                           ${Cabin1}(${Class1})</span>
+                   </li>
+                    <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox2">
+                   <span style="color:#333"> ${DepartStationName1}(${SRC1})<br/>
+                   ${FlightDepTime1}
+                   ${FlightDepDate1}
+                       <br />
+                           ${DepartureStationAirport1}
+                       ${TerminalSRC}
+
+                    </span>
+                   </li>
+                                            <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox4">
+                  <span style="color:#333">  <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" /> <br /> ${Duration1}
+                  </span>
+                   </li>
+                    <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox3">
+                   <span style="color:#333">  ${ArrivalStationName1}(${DEST1})<br/>
+                    ${FlightArrTime1}
+                   ${FlightArrDate1}
+                       <br />
+                           ${ArrivalStationAirport1}
+                       ${TerminalDEST}
+                  </span>
+                   </li>
+
+                </ul>
+
+                {{/if}}
+                 {{if connection==2 }}
+
+               {{if ArrivalNextDayCheck==1 }}
+               <h6 class="weifmt" style="color:#333">${SRC} → ${DEST} |  ${FlightDepDate}  → ${FlightArrDate2}
+                   <span class="colorredk"> (+ 1) </span> </h6>
+
+               {{/if}}
+               {{if ArrivalNextDayCheck==0 }}
+               <h6 class="weifmt" style="color:#333">${SRC} → ${DEST} |  ${FlightDepDate}  → ${FlightArrDate2}
+               </h6>
+
+               {{/if}}
+
+                   <ul style="float:left;width:100%">
+                   <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox1">
+                  <span style="color:#333"> <img alt="" src="${logo}" style="position:absolute; width: 25px;height:25px;" /><br/><br/>
+                       ${CarrierName1}<br />
+                           ${FlightName1}
+                     ${FlightNumber1}
+                       <br />
+                           ${Cabin1}(${Class1})</span>
+                   </li>
+                    <li style="float:left; margin: 0; padding: 1% ; display: block; " class="showfontsize popupfarebox2">
+                   <span style="color:#333"> ${DepartStationName1}(${SRC1})<br/>
+                   ${FlightDepTime1}
+                   ${FlightDepDate1}
+                       <br />
+                           ${DepartureStationAirport1}
+                       ${TerminalSRC}
+
+                    </span>
+                   </li>
+                                                <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox4">
+                  <span style="color:#333">  <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" /> <br /> ${Duration1}
+                  </span>
+                   </li>
+                    <li style="float:left; margin: 0; padding: 1% ; display: block; " class="showfontsize popupfarebox3">
+                   <span style="color:#333">  ${ArrivalStationName1}(${DEST1})<br/>
+                    ${FlightArrTime1}
+                   ${FlightArrDate1}
+                       <br />
+                           ${ArrivalStationAirport1}
+                       ${TerminalDEST}
+                  </span>
+                   </li>
+
+                </ul>
+
+                <ul style="float:left;width:100%">
+                   <li style="float:left; margin: 0; padding: 1% ; display: block; " class="showfontsize popupfarebox1">
+                   <span style="color:#333"> <img alt="" src="${logo1}" style="position:absolute; width: 25px;height:25px;" /><br/><br/>
+                     ${CarrierName2}<br />
+                           ${FlightName2}
+                     ${FlightNumber2}
+
+                          <br />
+                           ${Cabin2}(${Class2}) </span>
+                   </li>
+                    <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox2">
+                   <span style="color:#333"> ${DepartStationName2}(${SRC2}) <br/>
+                   ${FlightDepTime2}
+                   ${FlightDepDate2}
+                       <br />
+                           ${DepartureStationAirport2}
+                        ${TerminalSRC1}
+                   </span>
+                   </li>
+                                             <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox4">
+                  <span style="color:#333">  <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" /> <br /> ${Duration2}
+
+                    </span>
+                   </li>
+                    <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox3">
+                    <span style="color:#333"> ${ArrivalStationName2}(${DEST2})<br/>
+                    ${FlightArrTime2}
+                   ${FlightArrDate2}
+                         <br />
+                           ${ArrivalStationAirport2}
+                        ${TerminalDEST1}
+                    </span>
+                   </li>
+
+                </ul>
+                {{/if}}
+                 {{if connection==3 }}
+               {{if ArrivalNextDayCheck==1 }}
+               <h6 class="weifmt" style="color:#333">${SRC} → ${DEST} |  ${FlightDepDate}  → ${FlightArrDate3}
+                   <span class="colorredk"> (+ 1) </span> </h6>
+
+               {{/if}}
+               {{if ArrivalNextDayCheck==0 }}
+               <h6 class="weifmt" style="color:#333">${SRC} → ${DEST} |  ${FlightDepDate}  → ${FlightArrDate3}
+               </h6>
+
+               {{/if}}
+
+               <ul style="float:left;width:100%">
+                   <li style="float:left; margin: 0; padding: 1% ; display: block; " class="showfontsize popupfarebox1">
+                  <span style="color:#333"> <img alt="" src="${logo}" style="position:absolute; width: 25px;height:25px;" /><br/><br/>
+                       ${CarrierName1}<br />
+                           ${FlightName1}
+                     ${FlightNumber1}
+                       <br />
+                           ${Cabin1}(${Class1})</span>
+                   </li>
+                    <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox2">
+                   <span style="color:#333"> ${DepartStationName1}(${SRC1})<br/>
+                   ${FlightDepTime1}
+                   ${FlightDepDate1}
+                       <br />
+                           ${DepartureStationAirport1}
+                       ${TerminalSRC}
+
+                    </span>
+                   </li>
+                                          <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox4">
+                  <span style="color:#333">  <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" /> <br /> ${Duration1}
+                  </span>
+                   </li>
+                    <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox3">
+                   <span style="color:#333">  ${ArrivalStationName1}(${DEST1})<br/>
+                    ${FlightArrTime1}
+                   ${FlightArrDate1}
+                       <br />
+                           ${ArrivalStationAirport1}
+                       ${TerminalDEST}
+                  </span>
+                   </li>
+
+                </ul>
+
+                <ul style="float:left;width:100%">
+                   <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox1">
+                   <span style="color:#333"> <img alt="" src="${logo1}" style="position:absolute; width: 25px;height:25px;" /><br/><br/>
+                     ${CarrierName2}<br />
+                           ${FlightName2}
+                     ${FlightNumber2}
+
+                          <br />
+                           ${Cabin2}(${Class2}) </span>
+                   </li>
+                    <li style="float:left; margin: 0; padding: 1% ; display: block; " class="showfontsize popupfarebox2">
+                   <span style="color:#333"> ${DepartStationName2}(${SRC2}) <br/>
+                   ${FlightDepTime2}
+                   ${FlightDepDate2}
+                       <br />
+                           ${DepartureStationAirport2}
+                        ${TerminalSRC1}
+                   </span>
+                   </li>
+                                             <li style="float:left; margin: 0; padding: 1% ; display: block; " class="showfontsize popupfarebox4">
+                  <span style="color:#333">  <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" /><br />  ${Duration2}
+
+                    </span>
+                   </li>
+                    <li style="float:left; margin: 0; padding: 1% ; display: block; " class="showfontsize popupfarebox3">
+                    <span style="color:#333"> ${ArrivalStationName2}(${DEST2})<br/>
+                    ${FlightArrTime2}
+                   ${FlightArrDate2}
+                         <br />
+                           ${ArrivalStationAirport2}
+                        ${TerminalDEST1}
+                    </span>
+                   </li>
+
+                </ul>
+
+                <ul style="float:left;width:100%">
+                   <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox1">
+                   <span style="color:#333"> <img alt="" src="${logo2}" style="position:absolute; width: 25px;height:25px;" /><br/><br/>
+                         ${CarrierName3}<br />
+                    ${FlightName3}
+                     ${FlightNumber3}
+                        <br />
+                           ${Cabin3}(${Class3})
+                   </span>
+                   </li>
+                    <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox2">
+                  <span style="color:#333">  ${DepartStationName3}(${SRC3})<br/>
+                   ${FlightDepTime3}
+                   ${FlightDepDate3}
+                       <br />
+                           ${DepartureStationAirport3}
+                      ${TerminalSRC2}
+                  </span>
+                   </li>
+                                             <li style="float:left; margin: 0; padding: 1% ; display: block; " class="showfontsize popupfarebox4">
+                  <span style="color:#333">  <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" /> <br /> ${Duration3}
+                     </span>
+                   </li>
+                    <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize popupfarebox3">
+                   <span style="color:#333"> ${ArrivalStationName3} (${DEST3})<br/>
+                    ${FlightArrTime3}
+                   ${FlightArrDate3}
+                         <br />
+                           ${ArrivalStationAirport3}
+                       ${TerminalDEST2}
+                   </span>
+                   </li>
+
+                </ul>
+                {{/if}}
+               </div>
+           <div style="">
+               <div id="FareSummaryRR${FlightRefid}" style="display: none; padding:2%;">
+                   <div class="widthaaqi">
+                       <div class="FareSummaryClassTitle">Fare Details:-</div>
+                       <ul class="mhyusummerdd">
+                           <li class="summerbox1">
+                               <span style="color: #333">Adult Fare  ${Adt_BASIC} X ${NoOFAdult}</span>
+                           </li>
+                           <li class="summerbox2">
+                               <span id="BaseFareADTR${FlightRefid}" style="color: #333"> ${Curr}   <span id="BaseFareAmADTR${FlightRefid}" >${AdultbaseFare}</span></span>
+                           </li>
+                           {{if NoOFChild!=0 }}
+                    <li class="summerbox1">
+                        <span style="color: #333">Child Fare  ${Chd_BASIC} X ${NoOFChild}</span>
+                    </li>
+                           <li class="summerbox2">
+                               <span id="BaseFareCHDR${FlightRefid}" style="color: #333"> ${Curr}   <span id="BaseFareAmCHDR${FlightRefid}" >${ChildbaseFare}</span></span>
+                           </li>
+                           {{/if}}
+                     {{if NoOFInfant!=0 }}
+                    <li class="summerbox1">
+                        <span style="color: #333">Infant Fare  ${Inf_BASIC} X ${NoOFInfant}</span>
+                    </li>
+                           <li class="summerbox2">
+                               <span id="BaseFareINFR${FlightRefid}" style="color: #333"> ${Curr}   <span id="BaseFareAmINFR${FlightRefid}" >${InfantbaseFare}</span></span>
+                           </li>
+                           {{/if}}
+                       </ul>
+                       <ul class="mhyusummerdd">
+
+                           {{if CompanyID.indexOf("C-") != -1 || CompanyID == ""}}
+                           <li class="summerbox1">
+                               <span style="color: #333;">Tax & Charges </span>
+                           </li>
+                           {{else}}
+                           <li class="summerbox1">
+                               <span style="color: #333;text-decoration: underline;" onclick="showtaxandChargesIB(${FlightRefid});">Tax & Charges </span>
+                           </li>
+                           {{/if}}
+                           <li class="summerbox2">
+                               <span id="TAXChargesR${FlightRefid}" style="color: #333">  <span id="TAXcHARGEAmR${FlightRefid}" style="float: right;">${Curr}  ${TaxandCharges}</span></span>
+                           </li>
+                       </ul>
+                     <div id="TaxAndChargesDIVIB${FlightRefid}" style="display: none;">
+                       <ul class="mhyusummerdd">
+                           <li class="summerbox1">
+                               <span style="color: #333;text-decoration: underline;" onclick="showtotaltaxIB(${FlightRefid});">Total Tax</span>
+                           </li>
+                           <li class="summerbox2">
+                               <span id="TotalTaxR${FlightRefid}" style="color: #333">  <span id="TotalTaxAmR${FlightRefid}" style="float: right;"> ${Curr}  ${TotalTax}</span></span>
+                           </li>
+                       </ul>
+
+                         <ul class="mhyusummerdd" id="TotalTaxDIVIB${FlightRefid}" style="display: none;">
+
+                            
+                           <li class="summerbox1">
+                               <span style="color: #333">YQ Adult ${Adt_YQ} X ${NoOFAdult}</span>
+                           </li>
+                           <li class="summerbox2">
+                               <span id="YQAdtIB${FlightRefid}" style="color: #333">  <span id="YQAdtAmIB${FlightRefid}" style="float: right;">${Curr}  ${parseInt(Adt_YQ)*parseInt(NoOFAdult)}</span></span>
+                           </li>
+                              <li class="summerbox1">
+                               <span style="color: #333">Tax Adult ${Adt_AcuTax} X ${NoOFAdult}</span>
+                           </li>
+                           <li class="summerbox2">
+                               <span id="AdtTaxIB${FlightRefid}" style="color: #333">  <span id="AdtTaxAmIB${FlightRefid}" style="float: right;">${Curr}  ${parseInt(Adt_AcuTax)*parseInt(NoOFAdult)}</span></span>
+                           </li>
+                               {{if NoOFChild!=0 }}
+                              <li class="summerbox1">
+                               <span style="color: #333">YQ Child ${Chd_YQ} X ${NoOFChild}</span>
+                           </li>
+                           <li class="summerbox2">
+                               <span id="YQChdIB${FlightRefid}" style="color: #333"> <span id="YQChdAmIB${FlightRefid}" style="float: right;"> ${Curr}  ${parseInt(Chd_YQ)*parseInt(NoOFChild)}</span></span>
+                           </li>
+                              <li class="summerbox1">
+                               <span style="color: #333">Tax Child ${Chd_AcuTax} X ${NoOFChild}</span>
+                           </li>
+                           <li class="summerbox2">
+                               <span id="ChdTaxIB${FlightRefid}" style="color: #333">  <span id="ChdTaxAmIB${FlightRefid}" style="float: right;"> ${Curr}  ${parseInt(Chd_AcuTax)*parseInt(NoOFChild)}</span></span>
+                           </li>
+                              {{/if}}
+
+                              {{if NoOFInfant!=0 }}
+
+                              <li class="summerbox1">
+                               <span style="color: #333">Tax Infant ${Inf_AcuTax} X ${NoOFChild} </span>
+                           </li>
+                           <li class="summerbox2">
+                               <span id="InfantTaxIB${FlightRefid}" style="color: #333">  <span id="InfantTaxAmIB${FlightRefid}" style="float: right;">${Curr}  ${parseInt(Inf_AcuTax)*parseInt(NoOFInfant)}</span></span>
+                           </li>
+                             {{/if}}
+                       </ul>
+
+
+                       <ul class="mhyusummerdd">
+                           <li class="summerbox1">
+                               <span style="color: #333">Total Service Tax</span>
+                           </li>
+                           <li class="summerbox2">
+                               <span id="TotalServiceTaxR${FlightRefid}" style="color: #333">  <span id="TotalServiceTaxAmR${FlightRefid}" style="float: right;">${Curr}  ${TotalServiceTax}</span></span>
+                           </li>
+                       </ul>
+                       <ul class="mhyusummerdd">
+                           <li class="summerbox1">
+                               <span style="color: #333">C.Fee</span>
+                           </li>
+                           <li class="summerbox2">
+                               <span id="CFeeR${FlightRefid}" style="color: #333"> <span id="CFeeAmR${FlightRefid}" style="float: right;">${Curr}   ${TotalMarkUp}</span></span>
+                           </li>
+                       </ul>
+                       <ul class="mhyusummerdd">
+                           <li class="summerbox1">
+                               <span style="color: #333">Total Service Fee</span>
+                           </li>
+                           <li class="summerbox2">
+                               <span id="TotalServiceFee${FlightRefid}" style="color: #333">  <span id="TotalServiceFeeAm${FlightRefid}" style="float: right;">${Curr}  ${TotalServiceFee}</span></span>
+                           </li>
+                       </ul>
+                       <ul class="mhyusummerdd">
+                            <li style="width: 100%;">
+                               <span style="color: #333;text-decoration: underline;" onclick="showCommDetailIB(${FlightRefid});">Comm Detail</span>
+                           </li>
+                       </ul>
+                       <ul class="mhyusummerdd" id="CommDetailDIVIB${FlightRefid}" style="display: none;">
+                           <li class="summerbox1">
+                               <span style="color: #333">Total Discount</span>
+                           </li>
+                           <li class="summerbox2">
+                               <span id="TotalDiscountR${FlightRefid}" style="color: #333"> <span id="TotalDiscountSAAmR${FlightRefid}" style="float: right;">${Curr}    ${TotalCommission}</span></span>
+                           </li>
+
+                           <li class="summerbox1">
+                               <span style="color: #333">Total TDS</span>
+                           </li>
+                           <li class="summerbox2" style="">
+                               <span id="TotalTDSR${FlightRefid}" style="color: #333"> <span id="TotalTDSSAmR${FlightRefid}" style="float: right;">${Curr}   ${TotalTds}</span></span>
+                           </li>
+                       </ul>
+                   </div>
+
+                       <ul class="mhyusummerdd">
+                           <li class="summerbox1">
+                               <span style="color: #000;  font-size: 13px;">Gross Fare </span>
+                           </li>
+                           <li class="summerbox2">
+                               <span id="GrossR${FlightRefid}" class="grossbor" style="color: #000;  font-size: 13px;  border:none;">${Curr}   ${GrossF}</span>
+                           </li>
+                       </ul>
+                   </div>
+
+
+               </div>
+               <br />
+           </div>
+           <div style="">
+               <div id="BaggagesummeryR${FlightRefid}" style="display: none; padding:2%">
+                   <div class="widthaaqi">
+                       <div style='  border-bottom: 1px dashed #ccc; padding-bottom: 5px; font-size: 13px;' class='col-md-12 col-sm-12 col-xs-12 text-center m-top-10'>
+                           <div class='col-md-4 col-sm-4 col-xs-12'>Sector</div>
+                           <div class='col-md-4 col-sm-4 col-xs-12'>Check in Baggage</div>
+                           <div class='col-md-4 col-sm-4 col-xs-12'>Cabin Baggage</div>
+                       </div>
+                       <div style='border-bottom: 1px dashed #ccc; padding-bottom: 5px;' class='col-md-12 col-sm-12 col-xs-12 text-center m-top-10'>
+                           <div class='col-md-4 col-sm-4 col-xs-12'>${SRC} - ${DEST}</div>
+                           <div class='col-md-4 col-sm-4 col-xs-12'>${CHECKINBaggage}</div>
+
+                           <div class='col-md-4 col-sm-4 col-xs-12'>${CABINBaggage}</div>
+                       </div>
+                       <div class='col-md-12 col-sm-12 col-xs-12 m-top-10 offset-0'>
+                           <p style="font-size:11px;">The information presented above is as obtained from the airline reservation system. We does not guarantee the accuracy of this information. The baggage allowance may vary according to stop-overs, connecting flights and changes in airline rules. For exact baggage allowance for an itinerary, please call to our support team.</p>
+                       </div>
+                   </div>
+
+               </div>
+               <br />
+           </div>
+           <div style="">
+               <div id="FarerulesummeryR${FlightRefid}" style="display: none; padding:2%">
+                   <div class="widthaaqi" >
+                       <div class="FareSummaryClassTitle">FareRule:  ${SRC} - ${DEST}</div>
+                       <div style="">${FareRules}</div>
+
+                   </div>
+               </div>
+               <br />
+           </div>
+                {{if AgentType==0}}
+                <ul style="border-top:1px solid #c1c1c1;width: 100%;float:left;">
+          <li style="color:black">${Yq} </li> <li style="color:black"> ${Dis}</li> <li style="color:black"> ${Cb}</li>
+          </ul>
+          {{/if}}
+            </div>
+    </ul>
+</script>
+<script id="MyTemplatePriceR" type="text/x-jquery-tmpl">
+    <div class="flight-details">
+         <div class="flight-amount" >
+
+     {{if TotalCommission>0}}
+                         <span class="einr" style="display:inline-block ; margin: 0;padding: 0; font: bold 15px verdana; color: #333;     font-family: 'Rubik', sans-serif;" onmouseover="FareSummaryopenR('FareSummaryR${FlightRefid}')" onmouseout="FareSummarycloseR('FareSummaryR${FlightRefid}')">${Curr}  ${TotalFare}</span>
+                      <span class="price_info actu" style="display:none; font: bold 15px verdana; color: #333; font-family: 'Rubik', sans-serif;">${Curr}   ${FinalFare}</span>
+            {{else}}
+                        <span class="" style="display: inline-block; margin: 0;padding: 0; font: bold 15px verdana; color: #333;     font-family: 'Rubik', sans-serif;" onmouseover="FareSummaryopenR('FareSummaryR${FlightRefid}')" onmouseout="FareSummarycloseR('FareSummaryR${FlightRefid}')">${Curr}  ${TotalFare}</span>
+                      {{/if}}
+                 </div>
+         <div class="flight-book-now">
+                       <span style="display: block;margin-top: 5px;padding: 0; font: bold 15px verdana; color: #333; font-family: 'Rubik', sans-serif;">
+              <span class="roundedOne" >
+
+             <input id="CheckR${FlightRefid}" name="refidR"  type="radio" onclick="flightchangeR(${FlightRefid})" />
+              <label for="CheckR${FlightRefid}"></label>
+              </span>
+                           </div>
+         <div class="detailsm" onclick="show(${FlightRefid});" >
+               <span onclick="showR(${FlightRefid});">
+              <span class="detail_view" style="display: block"; ><a id="DetailViewplusR${FlightRefid}" href="javascript:void(0);" class="pluss">&nbsp;<i class="fa fa-sort-desc detashemh" aria-hidden="true"></i>&nbsp; Details</a><a id="DetailViewminusR${FlightRefid}" href="javascript:void(0);" class="minuss">&nbsp;<i class="fa fa-sort-asc detashemhnm" aria-hidden="true"></i>&nbsp; Details</a></span>
+            </span>
+         </div>
+         <div class="availableseat1">
+        <span>{{if AvailableSeat !="0" }}
+                  <img alt="" src="/assets/img/Availableseat.png" style="position: relative; width: 13px; height: 18px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="${AvailableSeat} Seat(s) Left" />
+            <span class="showfontsize" >${AvailableSeat}</span>
+            {{/if}}
+        </span>
+    </div>
+    </div>
+    <div id="FareSummaryR${FlightRefid}" class="FareSummaryClassR">
+
+                 <div class="ponter">
+                     <img src="/assets/img/pointer.png" alt="Arrow" />
+                 </div>
+
+                    <div class="FareSummaryClassTitle refinefol">Fare Details:-</div>
+                    <ul class="mhyusummerdd">
+                                <li class="summerbox1">
+                                    <span style="color: #333"> Adult Fare  ${Adt_BASIC} X ${NoOFAdult}</span>
+                                </li>
+                                <li class="summerbox2">
+                                    <span id="BaseFareADTRR${FlightRefid}" style="color: #333">  <span id="BaseFareAmADTRR${FlightRefid}" style="float: right;">${Curr}  ${AdultbaseFare}</span></span>
+                                </li>
+                                {{if NoOFChild!=0 }}
+                         <li class="summerbox1">
+                             <span style="color: #333">  Child Fare  ${Chd_BASIC} X ${NoOFChild}</span>
+                         </li>
+                                <li class="summerbox2">
+                                    <span id="BaseFareCHDRR${FlightRefid}" style="color: #333">  <span id="BaseFareAmCHDRR${FlightRefid}" style="float: right;">${Curr}  ${ChildbaseFare}</span></span>
+                                </li>
+                                {{/if}}
+                          {{if NoOFInfant!=0 }}
+                         <li class="summerbox1">
+                             <span style="color: #333"> Infant Fare  ${Inf_BASIC} X ${NoOFInfant}</span>
+                         </li>
+                                <li class="summerbox2">
+                                    <span id="BaseFareINFRR${FlightRefid}" style="color: #333">  <span id="BaseFareAmINFRR${FlightRefid}" style="float: right;">${Curr}  ${InfantbaseFare}</span></span>
+                                </li>
+                                {{/if}}
+                            </ul>
+                            <ul>
+
+                                {{if CompanyID.indexOf("C-") != -1 || CompanyID == ""}}
+                                <li class="summerbox1">
+                                    <span style="color: #333;">Tax & Charges </span>
+                                </li>
+                                {{else}}
+                                <li class="summerbox1">
+                                    <span style="color: #333;text-decoration: underline;" onclick="showtaxandChargesIBRS(${FlightRefid});">Tax & Charges </span>
+                                </li>
+                                {{/if}}
+                                <li class="summerbox2">
+                                    <span id="TAXChargesRR${FlightRefid}" style="color: #333">  <span id="TAXcHARGEAmRR${FlightRefid}" style="float: right;">${Curr}  ${TaxandCharges}</span></span>
+                                </li>
+                            </ul>
+                          <div id="TaxAndChargesDIVIBR${FlightRefid}" style="display: none;">
+                            <ul>
+                                <li style="width: 45%;">
+                                    <span style="color: #333;text-decoration: underline;" onclick="showtotaltaxIBC(${FlightRefid});">Total Tax</span>
+                                </li>
+                                <li style="width: 50%;">
+                                    <span id="TotalTaxRR${FlightRefid}" style="color: #333">INR  <span id="TotalTaxAmRR${FlightRefid}" style="float: right;">${TotalTax}</span></span>
+                                </li>
+                            </ul>
+
+                              <ul id="TotalTaxDIVIBR${FlightRefid}" style="display: none;">
+
+                                
+                                <li style="width: 45%;">
+                                    <span style="color: #333">YQ Adult ${Adt_YQ} X ${NoOFAdult}</span>
+                                </li>
+                                <li style="width: 50%;">
+                                    <span id="YQAdtIBR${FlightRefid}" style="color: #333">INR  <span id="YQAdtAmIBR${FlightRefid}" style="float: right;">${parseInt(Adt_YQ)*parseInt(NoOFAdult)}</span></span>
+                                </li>
+                                   <li style="width: 45%;">
+                                    <span style="color: #333">Tax Adult ${Adt_AcuTax} X ${NoOFAdult}</span>
+                                </li>
+                                <li style="width: 50%;">
+                                    <span id="AdtTaxIBR${FlightRefid}" style="color: #333">INR  <span id="AdtTaxAmIBR${FlightRefid}" style="float: right;">${parseInt(Adt_AcuTax)*parseInt(NoOFAdult)}</span></span>
+                                </li>
+                                    {{if NoOFChild!=0 }}
+                                   <li style="width: 45%;">
+                                    <span style="color: #333">YQ Child ${Chd_YQ} X ${NoOFChild}</span>
+                                </li>
+                                <li style="width: 50%;">
+                                    <span id="YQChdIBR${FlightRefid}" style="color: #333">INR  <span id="YQChdAmIBR${FlightRefid}" style="float: right;">${parseInt(Chd_YQ)*parseInt(NoOFChild)}</span></span>
+                                </li>
+                                   <li style="width: 45%;">
+                                    <span style="color: #333">Tax Child ${Chd_AcuTax} X ${NoOFChild}</span>
+                                </li>
+                                <li style="width: 50%;">
+                                    <span id="ChdTaxIBR${FlightRefid}" style="color: #333">INR  <span id="ChdTaxAmIBR${FlightRefid}" style="float: right;">${parseInt(Chd_AcuTax)*parseInt(NoOFChild)}</span></span>
+                                </li>
+                                   {{/if}}
+
+                                   {{if NoOFInfant!=0 }}
+
+                                   <li style="width: 45%;">
+                                    <span style="color: #333">Tax Infant ${Inf_AcuTax} X ${NoOFChild} </span>
+                                </li>
+                                <li style="width: 50%;">
+                                    <span id="InfantTaxIBR${FlightRefid}" style="color: #333">INR  <span id="InfantTaxAmIBR${FlightRefid}" style="float: right;">${parseInt(Inf_AcuTax)*parseInt(NoOFInfant)}</span></span>
+                                </li>
+                                  {{/if}}
+                            </ul>
+
+
+                            <ul>
+                                <li style="width: 45%;">
+                                    <span style="color: #333">Total Service Tax</span>
+                                </li>
+                                <li style="width: 50%;">
+                                    <span id="TotalServiceTaxRR${FlightRefid}" style="color: #333">INR  <span id="TotalServiceTaxAmRR${FlightRefid}" style="float: right;">${TotalServiceTax}</span></span>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li style="width: 45%;">
+                                    <span style="color: #333">C.Fee</span>
+                                </li>
+                                <li style="width: 50%;">
+                                    <span id="CFeeRR${FlightRefid}" style="color: #333">INR  <span id="CFeeAmRR${FlightRefid}" style="float: right;">${TotalMarkUp}</span></span>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li style="width: 45%;">
+                                    <span style="color: #333">Total Service Fee</span>
+                                </li>
+                                <li style="width: 50%;">
+                                    <span id="TotalServiceFeeR${FlightRefid}" style="color: #333">INR  <span id="TotalServiceFeeAmR${FlightRefid}" style="float: right;">${TotalServiceFee}</span></span>
+                                </li>
+                            </ul>
+                            <ul>
+                                 <li style="width: 100%;">
+                                    <span style="color: #333;text-decoration: underline;" onclick="showCommDetailIB(${FlightRefid});">Comm Detail</span>
+                                </li>
+                            </ul>
+                            <ul id="CommDetailDIVIBR${FlightRefid}" style="display: none;">
+                                <li style="width: 45%;">
+                                    <span style="color: #333">Total Discount</span>
+                                </li>
+                                <li style="width: 50%;">
+                                    <span id="TotalDiscountRR${FlightRefid}" style="color: #333">INR  <span id="TotalDiscountSAAmRR${FlightRefid}" style="float: right;">${TotalCommission}</span></span>
+                                </li>
+
+                                <li style="width: 45%;">
+                                    <span style="color: #333">Total TDS</span>
+                                </li>
+                                <li style="width: 50%;border-bottom: 1px solid #000;">
+                                    <span id="TotalTDSRR${FlightRefid}" style="color: #333">INR  <span id="TotalTDSSAmRR${FlightRefid}" style="float: right;">${TotalTds}</span></span>
+                                </li>
+                            </ul>
+                        </div>
+
+                            <ul>
+                                <li class="summerbox1">
+                                    <span style="color: #000; font-size:13px;">Gross Fare </span>
+                                </li>
+                                <li class="summerbox2" style="text-align:right;">
+                                    <span id="GrossRR${FlightRefid}" class="grossbor" style="color: #000;  font-size:13px;  border:none;">${Curr}   ${GrossF}</span>
+                                </li>
+                            </ul>
+                    </div>
+    <div  class="mydivsrefund2" >
+        <span class="showfontsize" style="color: red;display: flex;flex-direction: row;align-items: flex-end;">
+            <a href="javascript:void(0);" class="showfontsize" style="width: 40px;">{{if RefundType=="R" }}
+                    <img alt="" src="/assets/img/R.png" style="position: relative; width: 18px; height: 18px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Refundable" />
+            {{else}}
+                         <img alt="" src="/assets/img/N.png" style="position: relative; width: 18px; height: 18px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Non Refundable" />
+            {{/if}}
+
+           <span style="display:none">${RefundType}</span></a>
+            {{if PriceType.length !=0 }}
+                        ${PriceType}
+                        {{/if}}
+        </span>
+    </div>
+
+    <div onclick="showR(${FlightRefid});">
+
+        <span class="ndidrgh" style="float: left;">{{if Via!="" && parseInt(Via)>0 }}
+
+                    VIA:<span class="seatdiv" style="font-size: 8pt; color: red;"> ${Via} </span>
+            {{/if}}
+        </span>
+    </div>
+    <div style="width: 32%; float: left; margin-top: -2px; margin-bottom: -4px;">
+        {{if TotalCommission>0}}
+                         <span class="discount-amount discount-amount seatdiv discui" style="font-size: 8pt">Disc: ${TotalCommission} </span>
+        {{else}}
+
+                         {{/if}}
+    </div>
+    <div>
+        {{if PromoChek==1 }}
+                    <a id="PromoR${FlightRefid}" href="javascript:void(0);" onclick="PromoCheckR(${FlightRefid})" style="color: black; font-weight: bold;">Promo Check
+                        <img alt="" id="QuestionmarkR${FlightRefid}" style="width: 15px; height: 15px; display: inline" src="/assets/img/Questionmark.png" />
+                        <img alt="" id="CloseR${FlightRefid}" style="width: 15px; height: 15px; display: none" src="/assets/img/Close.png" />
+                        <img alt="" id="checkmarkR${FlightRefid}" style="width: 15px; height: 15px; display: none" src="/assets/img/checkmark.png" />
+                    </a>
+        {{/if}}
+    </div>
+</script>
+<script id="MyTemplateSelectOnwardPopupFarerule" type="text/x-jquery-tmpl">
+    <div style="padding: 1%; margin-top: -1%;">
+        <div id="FarerulesummeryPopup${FlightRefid}" style="display: none; color:#000;">
+            <div class="Farerudlivsho widthaaqi">
+                <div class="Farerudlivshotitle" style="color: #333">FareRule:  ${SRC} - ${DEST}</div>
+                <div style="color: #333">${FareRules}</div>
+            </div>
+        </div>
+        <br />
+    </div>
+</script>
+<script id="MyTemplateSelectRetuPopupFarerule" type="text/x-jquery-tmpl">
+    <div style="padding: 1%; margin-top: -1%;">
+        <div id="FarerulesummeryPopupR${FlightRefid}" style="display: none; color:#000;">
+            <div class="Farerudlivsho widthaaqi">
+                <div class="Farerudlivshotitle" style="color: #333">FareRule:  ${SRC} - ${DEST}</div>
+                <div style="color: #333">${FareRules}</div>
+            </div>
+        </div>
+        <br />
+    </div>
+</script>
+<script id="templetestops" type="text/x-jquery-tmpl">
+     <ul class="amenView">
+     <li>
+        <div class="amenViewairlineleft" >
+            <div class="roundedTwo">
+                <input type="checkbox" id="Check${Stops}" name="Check${Stops}" onclick="getCheckedFilters('N');" value="${Stops}" checked="checked" style="margin-left: 7px; float: left; margin-top: 5px;" />
+
+            </div>     <label for="Check${Stops}"></label>
+           <div class="amenViewairlineRight1">${Stops} </div>
+        </div>
+
+    </li>
+    </ul>
+</script>
+<script id="templeteAirlinesOnward" type="text/x-jquery-tmpl">
+
+    <ul class="amenViewairline">
+    <li>
+     <div class="amenViewairlineleft" >
+     <div class="roundedTwo">
+                   <input type="checkbox" id="Check${Airlines}" name="Check${Airlines}" onclick="getCheckedFilters('N');"  value="${Airlines}" checked="checked" style="margin-left: 7px; float:left; margin-top: 5px;" />
+                   <label class="udhdyt" for="Check${Airlines}"></label>
+    </div>
+          <div class="amenViewairlineRight1"  >${Airlines} </div>
+     </div>
+    </li>
+    </ul>
+</script>
+<script id="templetestopsR" type="text/x-jquery-tmpl">
+         <ul class="amenViewR" >
+             <li>
+              <div class="amenViewairlineleft">
+        <div class="roundedTwo">
+                   <input type="checkbox" id="CheckR${Stops}" name="CheckR${Stops}" onclick="getCheckedFiltersR('N')"  value="${Stops}" checked="checked" style="margin-left: 7px; float:left; margin-top: 5px;"/>
+                    <label class="udhdyt" for="CheckR${Stops}"></label>
+       </div>
+                  <div class="amenViewairlineRight1" >${Stops} </div>
+    </div>
+
+                 </li>
+         </ul>
+
+</script>
+<script id="templeteAirlinesOnwardR" type="text/x-jquery-tmpl">
+        <ul class="amenViewairlineR">
+        <li >
+       <div class="amenViewairlineleft" >
+       <div class="roundedTwo">
+                     <input type="checkbox" id="CheckR${Airlines}" name="CheckR${Airlines}" onclick="getCheckedFiltersR('N')"  value="${Airlines}" checked="checked" style="margin-left: 7px; float:left; margin-top: 5px;" />
+                     <label class="udhdyt" for="CheckR${Airlines}"></label>
+      </div>
+           <div class="amenViewairlineRight1"  >${Airlines} </div>
+    </div>
+
+    </li>
+    </ul>
+
+</script>
+<script id="TemplatedivSelectFlightNotfound" type="text/x-jquery-tmpl">
+
+    <div  class="col-md-12" >
+                  <div style="color:red;padding:50px;font-size:12pt;text-align: center;">&nbsp;&nbsp; ${F_Remark}</div>
+                </div>
+</script>
+<script id="TemplatedivSelectFlight" type="text/x-jquery-tmpl">
+
+    <div  class="div-BlurEmail rtgj" style="margin-top: 9px;">
+        <div class="showfontsize" id="divFareRules2" style="z-index:9999999;position:fixed;width:550px;background-color:Black;color:White;margin-left:100px;top:8px;display:none" ></div>
+         <div style="width: 100%; float:left; padding: 0%; margin-bottom: 0%;" class="showfontsize">
+             <div class="showfontsize" style="display:none;" > &nbsp;&nbsp; Detail Flight Information  &nbsp;&nbsp; ( Stops:  ${Stop})</div>
+                        <ul style="float:left;width:100%">
+                            <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize farepopboxw1">
+                           <span style="color:#333"> <img alt="" src="${logo}" style="position:absolute; width: 25px;height:25px;" /><br/><br/>
+                              ${CarrierName}<br />
+                                    ${FlightName}
+                              ${FlightNumber}
+                                <br />
+                                    ${Cabin}(${Class1})</span>
+                            </li>
+                             <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize farepopboxw2">
+                            <span style="color:#333">${DepartStationName}(${SRC})<br/>
+                            ${FlightDepTime}
+                            ${FlightDepDate}
+                            <br />
+                                    ${DepartureStationAirport}
+                                ${TerminalSRC}
+                             </span>
+                            </li>
+                                                     <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize farepopboxw3">
+                           <span style="color:#333">  <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" />  <br/> ${Layover1}
+
+                           </span>
+                            </li>
+                             <li style="float:left; margin: 0; padding: 1% ; display: block;" class="showfontsize farepopboxw4">
+                            <span style="color:#333"> ${ArrivalStationName}(${DEST})<br/>
+                             ${FlightArrTime}
+                            ${FlightArrDate}
+                                <br />
+                                    ${ArrivalStationAirport}
+                                ${TerminalDEST}
+                           </span>
+                            </li>
+
+                         </ul>
+
+         </div>
+         <div class="showfontsize" style="color:#333;width:100%;z-index:1; display:none;">
+                    <div style="text-align:right;padding-right:2%;"> <h6 style="color:red"> Onward Fare: Rs.  ${GrossF} </h6></div>
+                  </div>
+
+        </div>
+</script>
+<script id="TemplatedivSelectFlightR" type="text/x-jquery-tmpl">
+
+    <div  class="div-BlurEmail rtgj" style="margin-top: 9px;" >
+      <div class="showfontsize" id="divFareRules3" style="z-index:9999999;position:fixed;width:550px;background-color:Black;color:White;margin-left:100px;top:6px;display:none" ></div>
+       <div style="width: 100%; float:left; padding: 0%; margin-bottom: 0%;" class="showfontsize">
+           <div class="showfontsize" style="display:none;"  > &nbsp;&nbsp; Detail Flight Information  &nbsp;&nbsp; ( Stops:  ${Stop})  </div>
+          <ul style="float:left;width:100%">
+                          <li style="float:left; margin: 0; padding: 1% ; display: block; " class="showfontsize farepopboxw1">
+                         <span style="color:#333"> <img alt="" src="${logo}" style="position:absolute; width: 25px;height:25px;" /><br/><br/>
+                              ${CarrierName}<br />
+                                  ${FlightName}
+                            ${FlightNumber}
+                              <br />
+                                  ${Cabin}(${Class1})</span>
+                          </li>
+                           <li style="float:left; margin: 0; padding: 1% ; display: block; " class="showfontsize farepopboxw2">
+                          <span style="color:#333"> ${DepartStationName}(${SRC})<br/>
+                          ${FlightDepTime}
+                          ${FlightDepDate}
+                              <br />
+                                  ${DepartureStationAirport}
+                              ${TerminalSRC}
+
+                           </span>
+                          </li>
+                                       <li style="float:left; margin: 0; padding: 1% ; display: block; " class="showfontsize farepopboxw3">
+                         <span style="color:#333">  <img alt="" src="/assets/img/clock.png" style="position: relative; width: 13px; height: 13px;" /> <br/>  ${Layover1}
+                         </span>
+                          </li>
+                           <li style="float:left; margin: 0; padding: 1% ; display: block; " class="showfontsize farepopboxw4">
+                          <span style="color:#333">  ${ArrivalStationName}(${DEST})<br/>
+                           ${FlightArrTime}
+                          ${FlightArrDate}
+                              <br />
+                                  ${ArrivalStationAirport}
+                              ${TerminalDEST}
+                         </span>
+                          </li>
+
+                       </ul>
+       </div>
+       <div class="showfontsize" style="color:#333;width:100%;z-index:1; display:none;">
+                  <div style="text-align:right;padding-right:2%;"> <h6 style="color:red">Return Fare: Rs.  ${GrossF} </h6></div>
+                </div>
+      </div>
+
+      <div class="diek">
+           <ul> <li  class="dieslinj" style=""> <h6 class="popfareicnf" style=""> ${Curr}   ${InboundOutbound}   </h6> </li>  <li> <a  href="javascript:void(0);" style="margin-left: 4px;" class="book_now_button" onclick="finalbookround_k();">Proceed</a></li>   </ul>
+      </div>
+
+</script>
+<script id="TemplateFlightInfoSMS" type="text/x-jquery-tmpl">
+
+    <div  class="div-BlurEmail ">
+                        <div style="width: 100%; float:left; padding: 1%; margin-top: -1%;color:black">
+                          <ul >
+                           <li >
+                           Mobile no:-
+                           </li>
+                          <li>
+                          <input id="senderMobile" maxlength='10'  type="text" placeholder="Mobile No" onkeypress='return isNumberKey(event)'/>
+
+                          </li>
+
+                          <li>
+                          <a href="javascript:void(0);" onclick="SendSMS();"  class="book_now_buttonSend" >SendSMS</a>
+                          </li>
+
+                            </ul >
+
+                        </div>
+
+                        <br/>
+
+                     </div>
+</script>
+@* <script id="TemplateFlightInfoEmail" type="text/x-jquery-tmpl">
+
+    <div  class="div-BlurEmail kddi">
+                        <div style="width: 100%; float:left; padding: 1%; margin-top: -1%;">
+                          <ul >
+                        <li class="col-md-6 col-xs-12">
+                          <input id="senderTp" class="form-control" style="color:#000"  type="text" placeholder="Your Name" name="sender" />
+
+                          </li>
+                          <li class="col-md-6 col-xs-12">
+                          <input id="emailTp" class="form-control" style="color:#000" pattern="^([A-Za-z0-9_\-\.])+\@([A - Za - z0 - 9_\-\.])+\.([A-Za-z]{2,4})$" type="text" placeholder="Email" value="" />
+                          </li>
+                          <li class="col-md-12 col-xs-12 m-top-10" style="text-align:center">
+                          <a href="javascript:void(0);" onclick="Sendmail();"  style="margin: 0px;" class="book_now_button" >Send</a>
+                          </li>
+
+                            </ul >
+
+                        </div>
+
+                        <br/>
+
+                     </div>
+</script >*@
+@* <script src="Design/js/modifysearch_k.js"></script>
+<script src="Design/js/airResult/js/modifyengine.js"></script> *@
+<input id="Hidden1email" type="hidden" />
+<input id="HiddenRefOnward" type="hidden" value="0" />
+<input id="HiddenRefReturn" type="hidden" value="0" />
+<input id="HiddenOnwardAmount" type="hidden" value="0" />
+<input id="HiddenReturnAmount" type="hidden" value="0" />
+<input id="HiddenOnwardAmount_FinalFare" type="hidden" value="0" />
+<input id="HiddenReturnAmount_FinalFare" type="hidden" value="0" />
+<input id="DepDateDescR" type="hidden" value="0" />
+<input id="DepTimeDescR" type="hidden" value="0" />
+<input id="ArrDateDescO" type="hidden" value="0" />
+<input id="ArrTimeDescO" type="hidden" value="0" />
+<input type="hidden" name="modifyfaretype" value="R" id="modifyfaretype" />
+
+<input type="hidden" id="hdncurrencytype" value="@Model.CurrencyType" />
+<input type="hidden" id="hdnAccountNo" value="@Model.AccountNumber" />
+<input type="hidden" id="hdncmpid" value="@Model.CompanyId" />
+<input type="hidden" id="PSQ_Cabin" value="@Model.Cabin" />
+<input type="hidden" id="PSQ_Depart" value="@Model.DepartureStation" />
+<input type="hidden" id="PSQ_Arrival" value="@Model.ArrivalStation" />
+<input type="hidden" id="hdnhostName" value="@Model.HostName" />
+<input type="hidden" id="numFLAdults" value="@Model.AdultsCount" />
+<input type="hidden" id="numFLChildren" value="@Model.ChildrenCount" />
+<input type="hidden" id="numFLInfants" value="@Model.InfantsCount" />
+<input type="hidden" id="CityDeparture" value="@Model.CityDeparture" />
+<input type="hidden" id="cityArrival" value="@Model.CityArrival" />
+<input type="hidden" id="DepDate" value="@Model.DepartureDate" />
+<input type="hidden" id="Hiddenoricity" value="@Model.OriginCity" />
+<input type="hidden" id="HiddenArrCity" value="@Model.ArrivalCity" />
+<input type="hidden" id="hdnpreferedairline" value="@Model.PreferredAirline" />
+<input type="hidden" id="psqXMl" value="@Model.PSQXMl" />
+<input type="hidden" id="HiddentotalFinal" runat="server" />
+<input type="hidden" id="HiddentotalFinalR" runat="server" />
+<input type="hidden" id="hdnlivepathimage" runat="server" />
+<input type="hidden" id="hdnobchkdata" runat="server" />
+<input type="hidden" id="hdnibchkdata" runat="server" />
+<input type="hidden" id="hdnminval" runat="server" />
+<input type="hidden" id="hdnmaxval" runat="server" />
+<input type="hidden" id="hdnminvalr" runat="server" />
+<input type="hidden" id="hdnmaxvalr" runat="server" />
+<input type="hidden" id="hdnmindeptime" runat="server" />
+<input type="hidden" id="hdnmaxdeptime" runat="server" />
+<input type="hidden" id="hdnmindeptimer" runat="server" />
+<input type="hidden" id="hdnmaxdeptimer" runat="server" />
+<input type="hidden" id="hdnminarrtime" runat="server" />
+<input type="hidden" id="hdnmaxarrtime" runat="server" />
+<input type="hidden" id="hdnminarrtimer" runat="server" />
+<input type="hidden" id="hdnmaxarrtimer" runat="server" />
+
+<input type="hidden" id="hdnURL" value="@Model.URL" />
+
+<div class="container-fluid offset-0">
+    @* <link href="Design/css/style.css" rel="stylesheet" /> *@
+    <style type="text/css">
+
+    </style>
+
+    @* <%-- mobile device div work start here--%> *@
+    <div class="mobiledivwork">
+        <div class="arrowdv">
+            <a href="index.aspx" style="color:#fff;">
+                <%--<i class="fas fa-arrow-left"></i>--%>
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="deldiv" onclick="modifyclk()">
+            <div class="paradiv">
+                <span class="destinqbox mobdevir1">
+                    @Html.Raw(Model.LblModsrcdes)
+            </div>
+            <div class="mparadiv"></div>
+        </div>
+        <div class="filtdv" onclick="clickfiterfn()">
+            <i class="fa fa-filter filtdvio" aria-hidden="true"></i>
+            <span class="spnflt"> Filter </span>
+        </div>
+    </div>
+    @* <%--mobile device div work end here--%> *@
+
+    <div id="modelpopupOUTER" class="Outermodelbook">
+        <div id="modelpopup" class="modelbookAppy">
+            Filters Applying.....
+        </div>
+    </div>
+    <div id="datashowConcernModifyouter" class="OuterModifydiv">
+        <div id="FlightPopUp" class="OuterModifydivinner">
+            <img alt="" src="/assets/img/loader1.GIF" style="width:31px;height:31px;" />
+            <br />
+            Please Wait...........
+        </div>
+
+    </div>
+
+    <div id="divpopup" class="OuterModifydivinneremail" style=" border-radius: 0px;">
+
+        <div class="panel_heightset panel-body">
+
+            <a href="javascript:void(0);" onclick="Closedivpopup();">
+                <img alt="" src="/assets/img/cross.png" style="width:30px;height:30px;margin-top:-2%;float:right;position:relative;right:-2%; background: #fff;padding: 2px;border-radius: 19px;" />
+            </a>
+
+            <asp:Panel ID="Panel1">
+
+                <div id="divSelectFlight"></div>
+                <span style='width: 60%'>
+                    <a href='javascript:void(0);' accesskey='' onclick='fareruledivshow(this);' class='fareruledivbox' style='float: right; right: 0px; top: 68px;width: 100%;text-align: center;'>Fare Rule</a>
+                </span>
+
+            </asp:Panel>
+            <div id="divSelectFlightmotfound"></div>
+            <div id="fareruleDiv" class="myfarepopuppan panel-body" style="display: none">
+                <div id="fareruleDivOwnward" style="width:50%; float:left;"></div>
+                <div id="fareruleDivReturn" style="width:50%; float:left;"></div>
+            </div>
+
+        </div>
+    </div>
+    <div id="FlightPopUpEmail" class="OuterModifydivinneremail" style="z-index:9999999;">
+        <div class="mainpopbox panel-body">
+            <a href="javascript:void(0);" onclick="CloseFlightPopUpEmail();"><img alt="" src="/assets/img/cross.png" class="emailbodcls" /> </a>
+            <div id="FlightInfoEmail" style="z-index:9;">
+            </div>
+            <div id="FlightInfoSMS" style="z-index:9;">
+            </div>
+        </div>
+    </div>
+    <div id="CenterwaitingDiv" class="modal fade in" style="">
+        <div class="center-div" style="">
+            @* <%--<h3 class="dk">Searching for the best airfares</h3>--%> *@
+
+            <img class="mywaitingdiv" src="/assets/img/FNLD.gif" style="width: 57px;margin-top:17px;margin-bottom: 14px;" alt="waitingloader" />
+            <h3 class="waitingheader" style="font-weight: 400;font-size: 17px;font-family: 'Rubik', sans-serif;color: #000; margin-top:0px;">Searching for the best airfares</h3>
+
+            <div class="form-group margtp" style="display:none;">
+                <div class="col-md-12 ddsf" style="padding-bottom: 5px;">
+                    <span id="depCityWaiting" style="font-size: 17px; text-align:center"></span>
+                </div>
+
+                <div class="col-md-12 fder" style="padding-left:0px; font-size: 17px; text-align:center; font-family: 'PT Sans', sans-serif !important; padding-right:0px;">
+                    <span class="col-md-4 col-xs-4" style="padding:0px; font-size: 17px;">  Adult - <span id="paxty1" class="color-blue"></span>  </span>
+                    <span class="col-md-4 col-xs-4" style="padding:0px; font-size: 17px;"> Child - <span id="paxty2" class="color-blue"></span></span>
+                    <span class="col-md-4 col-xs-4" style="padding:0px; font-size: 17px;">Infant - <span id="paxty" class="color-blue"></span></span>
+                    <span class="col-md-12 col-xs-12" style="text-align:center; font-size: 17px;"><span id="departdate" class=""></span></span>
+                    <span class="col-md-12 col-xs-12" style="text-align:center; font-size: 17px; height:30px;">     <img alt="" style="width:46%;position: absolute;margin-top: -44px;z-index: -1;margin-left: -99px;" class="fhig" src="" /> </span>
+                    <div style="display:none">
+                        <span class="col-md-12" id="rshoi" style="text-align: center; font-size: 21px;"><i class="fa fa-exchange" aria-hidden="true"></i></span>
+                        <span class="col-md-12" id="oneshoi" style="text-align: center; font-size: 21px;"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>
+                    </div>
+                    <span class="col-md-12 col-xs-12" style="text-align:center; font-size: 17px;"><span id="returndate" class="color-blue"></span></span>
+                </div>
+                <div class="col-md-12 dsr offset-0 col-xs-12" style="font-size: 17px; text-align:center;">
+                    <span id="ArrCityWaiting"></span>
+                    <br />
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @* <span id="SpanModify" class="SpanModifycls">M<br />o<br />d<br />i<br />f<br />y<br /><br /> S<br />e<br />a<br />r <br /> c<br />h<br /></span><span id="top" style="position:fixed;bottom:300px;right:0px; z-index:99999999;padding:20px;background-color:#FFF;color:Black;font-weight:bold;">Top</span> *@
+
+
+    <div class="modifydivmain container-fluid" id="hikjhj">
+        <div class="container mainwrapperbox">
+            <div class="mypadheading" id="navbar">
+                <table class="modify_top">
+                    <tr>
+                        <td class="modify_captions one" style="width:28%">
+                            <span>
+
+                            </span>
+                        </td>
+                        <td class="modify_captions two">
+                            <span class="destinqbox mobdevir1" style="">
+                                @Html.Raw(@Model.LblTravlDate)
+                            </span>
+                            <div class="vierf" style="position: absolute;margin-left: -27px;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Email Itinerary">
+                                <a id="email" href="javascript:void(0);" class="mudkdh" onclick="emailtofriend();" style=""><img alt="" src="/assets/img/mailicon.png" style="position:relative; width: 20px;height:20px;" />   </a>
+                                <%-- <a id="SMS" href="javascript:void(0);" onclick="SendSMSOpen()" style="color:black;font-weight:bold;margin-top:-17px;position:absolute;z-index:999;margin-left:-90px;border: 1px solid #CCC;border-radius: 4px;background-color:#FFF"><img alt="" src="/assets/img/sms_icon.png" style="position:relative; width: 20px;height:20px;" /> <span class="showfontsize"> Send SMS </span>  </a>--%>
+                                <%--      <span onclick="getAll();" id="ResetAll" style="" class="ResetAll"> Reset All </span>  --%>
+                            </div>
+                        </td>
+                        <td class="modify_captions three">
+                            <span class="destinqbox mobdevir1">
+                                @Html.Raw(Model.LblNoofPax)
+                            </span>
+                        </td>
+                        <td class="modify_captions four" style="text-align: right; width:23%; ">
+                            <div class="modisgy" style="float:left;">
+                                <a href="javascript:void(0);" class="btn btn-danger srchbt" onclick="showmodifystatus();" style="padding: 7px 10px;height: 31px;line-height: 1;"><span id="pldt1" style="float: left; text-align: center; width:18px;">+</span><span id="mldt1" style="display:none; float: left; text-align: center; width:18px;">-</span> Modify Search </a>
+                            </div>
+                            @*  <%-- <div class="colduyv" style="float: left;margin-left: 22px;">
+                                <span id="FilterYourSearchPlus" style="padding: 7px 10px;height: 31px;line-height: 1;" class="FilterYourSearchPlus btn btn-danger srchbt qwe"> < <i class="fa fa-filter" aria-hidden="true" ;></i> Filter > </span>   <%-- <span id="FilterYourSearchMinus" style="/*border: 1px solid #CCC;border-radius: 4px;*/" class="FilterYourSearchPlus book_now_button">  Filter </span> --%>
+                            </div>--%> *@
+                        </td>
+                    </tr>
+                </table>
+                <div id="modifySearch" style=" width: 100%; height: auto; background-color: #FFF; border: 1px solid #ccc; border-top: 0;">
+                    @*  <%--                  <div class="fixdivside1">
+                        <div class="hidchk" style="cursor:pointer; background:#fff;">
+                            <input name="chkdiscccfare" value="CHKDSKFRE" id="chkdiscccfare" type="checkbox" onchange="chkunchk();" />
+                            <label for="chkdiscccfare" style="margin-bottom: 0px; font-weight: 100;     color: green !important; " />
+                            <b> Offer </b>
+                        </div>--%> *@
+                </div>
+                <div class="col-md-12 col-xs-12 offset-0 margbott">
+                    @await Html.PartialAsync("~/Views/Partials/Flight/_modifyEngine.cshtml")
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container mainwrapperbox" id="roundresultmaindiv">
+
+
+    <div class="col-md-12 col-xs-12 padddino mindg" style="padding-left:0px;">
+    </div>
+    <div id="waitingload">
+        <div id="waitingloadbox">
+            <div id="page-wrap">  <div class="meter green"> <span style="width: 100%"></span>  </div> </div>
+            @*  Please Wait........... *@
+            <div id="progressbarTop" style="color: #000; font-size: 10pt; text-align: center">
+                Please Wait...........
+            </div>
+        </div>
+    </div>
+
+    <div class="farecalender" id="calendarfiltui" style="margin-bottom: -12px; display:none;">
+        <asp:UpdatePanel ID="UpdatePanel1">
+            <ContentTemplate>
+                <asp:Calendar ID="Calendar1" BackColor="#FFFFCC" BorderColor="#FFCC66" BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" ForeColor="#000" Height="200px" ShowGridLines="True" Width="220px" OnSelectionChanged="Calendar1_SelectionChanged" ondayrender="Calendar1_DayRender" OnVisibleMonthChanged="Calendar1_VisibleMonthChanged">
+
+                    <DayHeaderStyle BackColor="#B833D1" Font-Bold="True" Height="1px" />
+                    <NextPrevStyle ForeColor="#000" CssClass="dsdrs" />
+                    <OtherMonthDayStyle ForeColor="#908181" />
+                    <SelectedDayStyle BackColor="#f3b1d1" Font-Bold="True" />
+                    <SelectorStyle BackColor="#f3b1d1" />
+                    <TitleStyle BackColor="white" />
+                    <TodayDayStyle BackColor="#B833D1" ForeColor="White" />
+
+                </asp:Calendar>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+
+    <div id="coltop" class="coltop">
+        <div id="FlightSelecttion" class="FlightSelecttion panel-body">
+            <div class="coldumain">
+                <div class="FlightSelecttionOnward">
+                    <div id="flightSelectOutbound">
+                    </div>
+                </div>
+                <div class="FlightSelecttionReturn">
+                    <div id="flightSelectInbound">
+                    </div>
+                </div>
+            </div>
+            <div class="fareselci">
+                <div class="FlightSelecttionAmount">
+                    <div id="flightSelectAmount">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="colbotom">
+
+
+        <div class="filt">
+
+
+            <div class="hidchk2" style="cursor: pointer; background: #fff;">
+                <input name="chkdiscccfare" value="CHKDSKFRE" id="chkdiscccfare" type="checkbox" onchange="chkunchk();" />
+                <label for="chkdiscccfare" style="margin-bottom: 0px; font-weight: 100; cursor: pointer; color: green !important;" />
+                <b>Offer </b>
+            </div>
+
+            <div class="tabs">
+                <div class="tab inbound" onclick="switchTab(this)">Inbound</div>
+                <div class="tab outbound" onclick="switchTab(this)">Outbound</div>
+            </div>
+            <div id="inbound-content">
+                <label for="filt1" class="showfontsize" style="font-size: 13px;text-decoration: none;"><b>&nbsp Inbound Filter</b></label>
+                <div class="div1">  <label for="stp" class="showfontsize" style="font-size: 13px;"><u>Stops:</u></label></div>
+                <div class="div1">
+
+                    @* <%--    <ul class="amenView ulSizestop" id="stops1"></ul>--%> *@
+                    <div id="stops1">
+                    </div>
+                </div>
+
+                <div class="div1">
+                    <br />
+                    <label for="fare" class="showfontsize" style="font-size: 13px;"><u>Fare Range:</u></label>
+
+
+                    <input type="text" id="amount" readonly="readonly" style="border: 0; color: #333; font-size: 8pt; font-weight: normal; background-color: transparent; padding: 0px 10px 3px 10px; margin-top: 0px;" />
+                    <div class="col-md-12 col-xs-12" style="margin-bottom: 10px;">
+                        <div id="slider-range">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="div1">
+                    <label for="AirlinesChk" class="showfontsize"><u>Prefer Airlines:</u></label>
+                    <br />
+                    <span><a href="javascript:void(0);" style="text-decoration: underline; font-size :10pt" onclick="getAll('CHECK','ul.amenViewairline');">check</a><span>\<span></span></span></span>
+                    <span><a href="javascript:void(0);" style="text-decoration: underline; font-size :10pt" onclick="getAll('UNCHECK','ul.amenViewairline');">uncheck</a></span>
+
+                    <br />
+                    <div id="AirlinesChk"></div>
+                </div>
+
+
+                <div class="div1">
+                    <br />
+                    <br />
+                    <label for="amountDepartureTimes" class="showfontsize" style="font-size: 13px;"><u>Departure Times:</u></label>
+                    <input type="text" id="amountDepartureTimes" readonly="readonly" style="border: 0; color: #333; font-size: 10pt; font-family: arial; background-color: transparent; padding: 5px" />
+                    <div class="col-md-12 col-xs-12" style="margin-bottom: 10px;">
+                        <div id="DepartureTimes-slider-range"></div>
+                    </div>
+                </div>
+
+
+                <br />
+
+
+                <div class="div1">
+                    <br />
+                    <br />
+                    <label for="amountArrivalTimes" class="showfontsize" style="font-size: 13px;"><u>Arrival Times:</u></label>
+                    <input type="text" id="amountArrivalTimes" readonly="readonly" style="border: 0; color: #333; font-size: 10pt; font-family: arial; background-color: transparent; padding: 5px" />
+                    <div class="col-md-12 col-xs-12" style="margin-bottom: 10px;">
+                        <div id="ArrivalTimes-slider-range"></div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div id="outbound-content">
+                <label for="filt" class="showfontsize" style="font-size: 13px;text-decoration: none;"><b>&nbsp Outbound Filter</b></label>
+                <div class="div1">  <label for="stpR" class="showfontsize" style="font-size: 13px;"><u>Stops:</u></label></div>
+                <div class="div1">
+
+                    <div id="stopsR"></div>
+                </div>
+                <div class="div1">
+                    <br />
+                    <br />
+                    <label for="amountR" class="showfontsize" style="font-size: 13px;"><u>Fare range:</u></label>
+                    <input type="text" id="amountR" readonly="readonly" style="border: 0; color: #333;text-decoration: none; font-size: 10pt; font-family: arial; background-color: transparent; padding: 5px" />
+                    <div class="col-md-12 col-xs-12" style="margin-bottom: 10px;">
+                        <div id="slider-rangeR"></div>
+                    </div>
+                </div>
+                <div class="div1">
+                    <br />
+                    <br />
+                    <label for="AirlinesChkR" class="showfontsize"><u>Prefer Airlines:</u> &nbsp; </label>
+                    <br />
+                    <span><a href="javascript:void(0);" style="text-decoration: underline; font-size :10pt" onclick="getAll('CHECK','ul.amenViewairlineR');">check</a><span>\<span></span></span></span>
+                    <span><a href="javascript:void(0);" style="text-decoration: underline; font-size :10pt" onclick="getAll('UNCHECK','ul.amenViewairlineR');">uncheck</a></span>
+
+                    <div class="col-md-12 col-xs-12" style="margin-bottom: 10px;">
+                        <ul class="amenViewairlineR ulSizeAirlines" id="AirlinesChkR"></ul>
+                    </div>
+                </div>
+                <div class="div1">
+                    <br />
+                    <br />
+                    <label for="amountDepartureTimesR" class="showfontsize" style="font-size: 13px;"><u>Departure Times:</u></label>
+                    <input type="text" id="amountDepartureTimesR" readonly="readonly" style="border: 0; color: #333; font-size: 10pt; font-family: arial; background-color: transparent; padding: 5px" />
+                    <div class="col-md-12 col-xs-12" style="margin-bottom: 10px;">
+                        <div id="DepartureTimes-slider-rangeR"></div>
+                    </div>
+                </div>
+                <div class="div1">
+                    <br />
+                    <br />
+                    <label for="amountArrivalTimesR" class="showfontsize" style="font-size: 13px;"><u>Arrival Times:</u></label>
+                    <input type="text" id="amountArrivalTimesR" readonly="readonly" style="border: 0; color: #333; font-size: 10pt; font-family: arial; background-color: transparent; padding: 5px" />
+                    <div class="col-md-12 col-xs-12" style="margin-bottom: 10px;">
+                        <div id="ArrivalTimes-slider-rangeR"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="lft">
+            <div class="divRowRminhead">
+                <ul class="myuldivvox" style=" ">
+                    <li class="showfontsize mainuihe mysechide1" style="width:10%;padding-right:5%"><a id="AirlineSort" href="javascript:getCheckedFilters('FLIGHT');"> AIRLINE </a></li>
+                    <li class="showfontsize mainuihe mysechide2" style="width:20%;padding-right:2%"><a id="DepartSort" href="javascript:getCheckedFilters('DEPART');">DEPART  </a></li>
+
+                    <li class="showfontsize mainuihe mysechide4" style="width:10%;padding-left:3%;padding-right:3%"><a id="ArriveSort" href="javascript:getCheckedFilters('ARRIVE');">ARRIVE </a></li>
+                    <li class="showfontsize mainuihe mysechide3" style="width:10%; padding-left:6%;padding-right:6%;"><a id="StopSort" href="javascript:getCheckedFilters('STOP');">STOP</a></li>
+                    <li class="showfontsize mainuihe mysechide5" style="width: 10%;padding-left: 4%; "><a id="PriceSort" href="javascript:getCheckedFilters('PRICE');" class="downArrow">PRICE PER ADULT </a></li>
+                </ul>
+            </div>
+
+            <div id="tempView">
+            </div>
+
+        </div>
+        <div class="rght">
+            <div class="divRowRminhead">
+                <ul class="myuldivvox" style=" ">
+                    <li class="showfontsize mainuihe mysechide1" style="width:10%;padding-right:5%"><a id="AirlineSortR" href="javascript:getCheckedFiltersR('FLIGHT');">AIRLINE </a></li>
+                    <li class="showfontsize mainuihe mysechide2" style="width:20%;padding-right:2%"><a id="DepartSortR" href="javascript:getCheckedFiltersR('DEPART');">DEPART </a></li>
+
+                    <li class="showfontsize mainuihe mysechide4" style="width:10%;padding-left:3%;padding-right:3%"><a id="ArriveSortR" href="javascript:getCheckedFiltersR('ARRIVE');">ARRIVE </a></li>
+                    <li class="showfontsize mainuihe mysechide3" style="width:10%; padding-left:6%;padding-right:6%;"><a id="StopSortR" href="javascript:getCheckedFiltersR('STOP');">STOP</a></li>
+                    <li class="showfontsize mainuihe mysechide5" style="width: 10%;padding-left: 4%; "><a id="PriceSortR" href="javascript:getCheckedFiltersR('PRICE');" class="downArrow"> PRICE PER ADULT </a></li>
+                </ul>
+            </div>
+
+            <div id="tempViewR">
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-12  col-xs-12 mobilepadd-0 mobilcenter" id="flightNotFound" style="display:none">
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 mobilepadd-0 mobilcenter m-top-10">
+                        <div class="col-md-12 offset-0  ">
+                            <div class="col-md-12 col-sm-12 col-xs-12 m-top-10 offset-0" style="">
+                                <div class="col-md-12 col-xs-12 offset-0">
+                                    <table class="modify_top">
+                                        <tbody><tr>
+                                            <td class="modify_captions one">
+                                                <span class="destinqbox mobdevir1">
+                                                    <span id="lblmodsrc_des"><span class="depboxfi">Ahmedabad </span><span class="mydkduq"> <i class="fa fa-plane planeki3"></i>  </span><span class="depboxfi yte">Melbourne </span></span>
+                                                </span>                                                
+                                            </td>
+                                            <td class="modify_captions two" style="padding: 0px;width: 50%;">
+                                                <span class="destinqbox mobdevir1">
+                                                <span id="lbltravldate"><span class="kdgrw"><i class="fa fa-calendar" style="font-size: 14px;"></i> <span>Onward</span></span> 25/12/2024</span>
+                                                </span>
+                                            </td>
+                                            <td class="modify_captions three">
+                                                <span class="destinqbox mobdevir1">
+                                                <span id="lblnoofpax"><table><tbody><tr><td style="padding-left:20px;     font-size: 15px;"> Adult </td><td style="padding-left:20px;     font-size: 15px;"> Child </td><td style="padding-left:20px;     font-size: 15px;"> Infant </td></tr><tr><td style="padding-left: 31px; font-size: 15px;"><span>1</span></td><td style="padding-left: 31px; font-size: 15px;"><span>---</span></td><td style="padding-left: 31px; font-size: 15px;"><span>---</span></td></tr></tbody></table></span>
+                                                 </span>
+                                            </td> 
+                                        </tr>
+                                    </tbody></table>
+                                  
+                                </div> 
+                            </div>
+                        </div>
+
+                    </div>
+
+                   <div class="col-md-12 col-xs-12" style="text-align:center;">
+                       <img src="/assets/img/notfound.jpg" alt="No flights found" style="width:250px;">
+                   </div>
+
+                     
+
+
+                    <div class="col-md-12 col-xs-12" style="margin-bottom:50px;">
+                        <div style="text-align: center;">
+                            <p style="margin-top: 0px">
+                                <span style="font-size: 2.529em;">
+                                                                   
+                                    No flights found.</span><br>
+                                <br>
+                                <span class="fs-13 block mb20" style="font-size: 20px;">Sorry, There were no flights found for this route and date combination.
+                                    <br>
+                                    We suggest you modify your search and try again.
+                                </span>
+
+                            </p>
+                        </div>
+                    </div>
+
+
+                </div>
+<div style="z-index:9999999;position:fixed;bottom:20px;width:300px;line-height:20px">
+    <div id="pop1" style="z-index:9999999;position:relative;height:150px;background-color:transparent;display:none;">
+        <div style="height:142px;background-color:#fff;border-radius: 4px;box-shadow: 4px 4px 4px #000;">
+            <div style="background-color:red;padding:2px;color:#FFF;border-radius: 4px;">Alert of the day   <img alt="" style="margin-left:270px;width: 20px;height:20px;margin-top:-15px" id="im1" src="" /> </div>
+            <div id="Slide1"></div>
+        </div>
+    </div>
+    <div id="pop2" style="z-index:9999999;position:relative;height:150px;display:none">
+        <div style="height:142px;background-color:#fff;border-radius: 4px;box-shadow: 4px 4px 4px #000;">
+            <div style="background-color:red;padding:2px;color:#FFF;border-radius: 4px;">Alert of the day <img alt="" style="margin-left:270px;width: 20px;height:20px;margin-top:-15px" id="im2" src="" /></div>
+            <div id="Slide2"></div>
+        </div>
+    </div>
+    <div id="pop3" style="z-index:9999999;position:relative;height:150px;display:none">
+        <div style="height:142px;background-color:#fff;border-radius: 4px;box-shadow: 4px 4px 4px #000;">
+            <div style="background-color:red;padding:2px;color:#FFF;border-radius: 4px;">Alert of the day <img alt="" style="margin-left:270px;width: 20px;height:20px;margin-top:-15px" id="im3" src="" /></div>
+            <div id="Slide3"></div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+</script>
+</div>
+
+
+@* <script src="Design/js/airResult/js/templete.js"></script> *@
+@* <style type="text/css">
+
+</style> *@

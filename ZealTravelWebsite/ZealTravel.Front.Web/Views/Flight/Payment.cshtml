@@ -1,0 +1,211 @@
+﻿@model ZealTravel.Front.Web.Models.Flight.FlightPaymentInfoResponse
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+<link href="/assets/css/flightdetailstyle.css" rel="stylesheet" />
+<link href="/assets/css/thickbox.css" rel="stylesheet" />
+<link href="/assets/css/flightdisplay.css" rel="stylesheet" />
+<link href="/assets/css/flightdinew.css" rel="stylesheet" />
+<link href="/assets/css/custom.css" rel="stylesheet" />
+<link href="/assets/css/k_flightdisplay.css" rel="stylesheet" />
+<link href="/assets/css/payment.css" rel="stylesheet" />
+<script src="/assets/js/jqueryMaskedinput.js"></script>
+<script src="/assets/js/thickbox.js"></script>
+<script src="/assets/js/templete.js"></script>
+<script src="/assets/js/payment.js"></script>
+
+<form id="form1" runat="server">
+
+    <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+        <div class="col-md-12 col-sm-12 col-xs-12 offset-0 m-top-10 m-bottom25">
+            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                <div class="maindisplaybox panel-body offset-0" style="width: 1200px; margin: 0 auto;">
+                    <div class="col-md-3 col-sm-3 col-xs-12" style="padding-left: 0px;">
+                        <div class="col-md-12 col-sm-12 col-xs-12 font-16 back wcolor flidewcolor1 offset-0">
+                            <a href="@Model.Pageredirect">Back to Flight Results</a>
+                        </div>
+                    </div>
+                    <div id="makepayment" class="col-md-12 col-sm-12 col-xs-12 offset-0" style="font-family: 'Quicksand', sans-serif;" runat="server">
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0 m-top-25 makepay-txt" runat="server" id="paymentdiv">
+                            <div class="container-fluid">
+                                <div class="col-md-12 col-xs-12 offset-0" style="margin-top: 15px;">
+                                    <div class="col-md-9 col-xs-12 padsemseg">
+                                        <div class="col-md-12 col-xs-12 offset-0">
+                                            <div class="col-md-12  col-xs-12 offset-0">
+                                                <div class="mainheadsec">
+                                                    <h3 class="headsectit">Itinerary</h3>
+                                                </div>
+                                                <div id="Ininarydiv">
+                                                    <div id="OutbountItinary">
+                                                        @Html.Raw(Model.OutbountItinary)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 offset-0">
+                                            <div class="mainheadsec">
+                                                <h3 class="headsectit">Payment Options</h3>
+                                            </div>
+                                            <div id="tabmenue" class="col-lg-12 col-md-12 col-sm-2 col-xs-12 bhoechie-tab-menu" runat="server">
+                                               @Html.Raw(@Model.PaymentTabMenu)
+                                            </div>
+                                            <div id="ttabcontaint" class="col-lg-12 col-md-12 col-sm-7 col-xs-12 bhoechie-tab" runat="server">
+                                               @Html.Raw(@Model.PaymentTabContent)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="siddivdetail" class="col-lg-3 col-md-2 col-sm-2 col-xs-12 " runat="server" style="border: 1px solid #e8e7e7; padding-top: 15px;">
+
+                                        <div class="col-md-12 col-xs-12 offset-0 headsectit" style="margin-top: 0px; margin-bottom: 5px;">Travellers </div>
+                                        <div id="divPaxInformation" runat="server">
+                                            @Html.Raw(Model.PaxInformation)
+                                        </div>
+
+
+
+                                        <div class="col-md-12 col-xs-12  offset-0 headsectit" style="margin-top: 13px; margin-bottom: 10px;">
+                                            <hr class="msedline" style="top: -110%;" />
+
+                                            Fare Information
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 offset-0" style="margin-bottom: 15px;">
+                                            <div runat="server" id="Faredetaildiv">
+                                                @Html.Raw(Model.Faredetaildiv)
+                                            </div>
+                                        </div>
+
+                                        @* <%--<hr class="msedline" />--%> *@
+
+                                        <div id="sidepaymentdiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab" runat="server" style="border-bottom: 1px; padding-left: 15px; padding-right: 15px; font-weight: 600;">
+                                            <div class="col-md-12  offset-0" style="padding-top: 10px; padding-bottom: 10px; border-bottom: 1px solid #ddd;">
+                                                <div class="col-md-6 offset-0 m-top-5">
+                                                    <strong style="font-size: 14px; color: rgb(51, 51, 51);">Gross Fare: </strong>
+                                                </div>
+                                                <div class="col-md-6 offset-0 finagrossinr" style="text-align: right; font-size: 15px;">@Model.CurrencyType<span id="sidegrossfare"></span></div>
+                                            </div>
+                                            <div class="col-md-12 offset-0" style="border-bottom: 1px solid #ddd; padding-top: 10px; padding-bottom: 10px;">
+                                                <div class="col-md-6 offset-0">
+                                                    Discount(-)
+                                                </div>
+                                                <div class="col-md-6 offset-0" style="text-align: right;">
+                                                        @Model.CurrencyType <span id="sidecommission">0 </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 offset-0" style="border-bottom: 1px solid #ddd; padding-top: 10px; padding-bottom: 10px;">
+                                                <div class="col-md-6 offset-0">
+                                                    Conv fee(+)
+                                                </div>
+                                                <div class="col-md-6 offset-0" style="text-align: right;">
+                                                        @Model.CurrencyType <span id="conveniecfee">0 </span>
+                                                </div>
+                                            </div>
+                                                @if (Model.CompanyId.IndexOf("C-") != -1 || Model.CompanyId == "") { }
+                                                else
+                                                {
+                                                    <div class="col-md-12 offset-0" style="border-bottom: 1px solid #ddd; padding-top: 10px; padding-bottom: 10px;">
+                                                        <div class="col-md-6 offset-0">
+                                                            TDS(+)
+                                                        </div>
+                                                        <div class="col-md-6 offset-0" style="text-align: right;">
+                                                                @Model.CurrencyType <span id="FlightdisplayTDS">0 </span>
+                                                        </div>
+                                                    </div>
+
+                                                }
+
+                                            <div class="col-md-12 offset-0" style="border-bottom: 1px solid #ddd; padding-top: 10px; padding-bottom: 10px;">
+                                                <div class="col-md-6 offset-0">
+                                                    Booking fee(+)
+                                                </div>
+                                                <div class="col-md-6 offset-0" style="text-align: right;">
+                                                        @Model.CurrencyType <span id="FlightdisplayCfee">0 </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 offset-0" id="sidnrtfarediv" style="display: block; padding-top: 10px; padding-bottom: 10px;">
+                                                <div class="col-md-6 offset-0"><strong>Net Fare: </strong></div>
+                                                <div class="col-md-6 offset-0" style="text-align: right; font-size: 16px;">@Model.CurrencyType <span id="sideNetfare"></span></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                            <input type="button" id="btnFinalPayNow" onclick="return validatePaymentGatwaySelection()" style="width: 100%; margin-top: 0px; background: #ff9800; color: #fff; font-size: 24px !important; margin-bottom: 13px;" value="Pay Now" class="btn sub-btn   wcolor855" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="myModal" class="modal" role="dialog" style="z-index: 5555; pointer-events: none;">
+        <div class="modal-dialog">
+            <div class="modal-content" style="height: 71px; margin-top: 28%;">
+                <div class="modal-header" style="text-align: center; margin-top: 4px;">
+                    <div class="col-md-12" style="text-align: center;"><i class="fa fa-spinner fa-spin" style="font-size: 24px"></i></div>
+                    Please wait while we are booking your Flight's
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="PrintTicketPopup" class="TicketListPopup">
+        <div class="popupboxdata">
+            <a href='javascript:void(0);' class="buttonclose" onclick='ClosePrintTicketPopup();' style='float: right; /*! position: absolute; */ /*! right: -5px; */ top: -5px;'>
+                <img alt="" src='/assets/img/cross.png' style="position: absolute; margin-top: -14px; margin-left: -19px;" />
+            </a>
+            <div id="printTicketList" class=""></div>
+        </div>
+    </div>
+
+
+
+    <div class="modal"></div>
+
+    <!-- viewfarerule end  -->
+    <input type="hidden" name="currencytype" id="hdncurrencytype" value="@Model.CurrencyType" />
+    <input type="hidden" name="AccountNo" id="hdnAccountNo" value="@Model.AccountNo" />
+    <input type="hidden" name="cmpid" id="cmpid" value="@Model.CompanyId" />
+    <input type="hidden" name="hostName" id="hdnhostName" value="@Model.HostName" />
+    <input type="hidden" name="FlightSelectedXml" id="hdnFlightSelectedXml" value="@Model.FlightSelectedXml" />
+    <input type="hidden" name="FlightSelectedXmlInbond" id="hdnFlightSelectedXmlInbond" value="@Model.FlightSelectedXmlInbond" />
+    <input type="hidden" name="AdultCount" id="Adlt" value="@Model.AdultCount" />
+    <input type="hidden" name="ChildCount" id="Child" value="@Model.ChildCount" />
+    <input type="hidden" name="InfantCount" id="Infant" value="@Model.InfantCount" />
+    <input type="hidden" name="TotalMarkup" id="TToalmarkup" value="@Model.TotalMarkup" />
+    <input type="hidden" name="TotalTDS" id="TotTDS" value="@Model.TotalTDS" />
+    <input type="hidden" name="searchType" id="hdnsearchType" value="@Model.SearchType" />
+    <input type="hidden" name="RegisterEmail" id="hdnregisteremail" value="@Model.RegisterEmail" />
+    <input type="hidden" name="SSRAvailabilityOut" id="hdnSSRavailabilityOut" value="@Model.SSRAvailabilityOut" />
+    <input type="hidden" name="SSRAvailabilityIn" id="hdnSSRavailabilityIn" value="@Model.SSRAvailabilityIn" />
+    <input type="hidden" name="PaymentCharge" id="hdnPaymentcharge" value="@Model.PaymentCharge" />
+    <input type="hidden" name="CardName" id="hdnCardName" value="@Model.CardName" />
+    <input type="hidden" name="PaymentMethod" id="paymentMethod" value="@Model.PaymentMethod" />
+    <input type="hidden" name="ShowWallet" id="Showwallet" value="@Model.ShowWallet" />
+    <input type="hidden" name="IntlQueryString" id="intlquerystring" value="@Model.IntlQueryString" />
+    <input type="hidden" name="IsPayDivAppend" value="false" id="IsPayDivAppend" />
+    <input type="hidden" name="Nationality" id="hiddenNationality" value="@Model.Nationality" />
+    <input type="hidden" name="Sector" id="hiddensector" value="@Model.Sector" />
+    <input type="hidden" name="RoundTrip" id="hidenRT" value="@Model.RoundTrip" />
+    <input type="hidden" name="LivePathImage" id="hdnlivepathimage" value="@Model.LivePathImage" />
+    <input type="hidden" name="TotalCfee" id="hdnTotCfee" value="@Model.TotalCfee" />
+    <input type="hidden" name="ValidCfee" id="hdnValidcfee" value="@Model.ValidCfee" />
+    <input type="hidden" name="Totalfare" id="HiddenTotalfare" value="@Model.TotalFare" />
+    <input type="hidden" name="Discount" id="HiddenDiscount" value="@Model.Discount" />
+    <input type="hidden" name="paxxmlresult" id="hidenpaxxmlresult" value="@Model.PaxXmlResult" />
+    <input type="hidden" name="TravelDateChildInfant" id="TravelDate_CHD_INF" value="@Model.TravelDateChildInfant" />
+
+
+</form>
+<script id="MyTemplatePrintTickets" type="text/x-jquery-tmpl">
+    <div class="col-md-12 col-xs-12" style="background-color:antiquewhite">
+        <ul style="width: 50%; float: left; margin: 0px; padding: 0px;">
+            <li class="itenbox1" style="width: 100%; margin-top: 18px;"><span class="price_info mobuy" style="font-family:cambria !important; font-size: 21px;"></span>
+              <a id="print_ticket_buttonPopup${_SrNo}"  href="javascript:void(0);" onclick="OnFinalSuccessNew('${result}','MC');" class="btn-primary-red" style="font-family:cambria !important; font-size: 21px;">Print ticket=> ${_SrNo} </a>
+            </li>
+        </ul>
+    </div>
+
+</script>

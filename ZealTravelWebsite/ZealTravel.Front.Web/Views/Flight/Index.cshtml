@@ -1,0 +1,38 @@
+﻿@model ZealTravel.Front.Web.Models.Flight.FlightHomeResponse
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+<link href="/assets/css/lightslider.css" rel="stylesheet" />
+<link href="/assets/css/NewEngine.css" rel="stylesheet" /> 
+ <link href="/assets/css/destyle.css" rel="stylesheet" />
+<link href="/assets/css/easyAutocomplete.css" rel="stylesheet" />
+<link href="/assets/css/jquryuicss1.css" rel="stylesheet" />
+<link href="/assets/css/select2.css" rel="stylesheet" />
+<link href="/assets/css/select2default.css" rel="stylesheet" />
+<link href="/assets/css/homeindex.css" rel="stylesheet" />
+<link href="/assets/css/index.css" rel="stylesheet" />
+<script src="/assets/js/homeindex.js"></script>
+<script src="/assets/js/bootstraphoverdropdown.js"></script>
+<script src="/assets/js/onlinejsformvalidationengineen.js"></script>
+<script src="/assets/js/search2.js"></script>@* 
+<script src="/assets/js/homeindex.js"></script> *@
+<input type="hidden" id="hdnhostName" value="@Model.HostName"/>
+<input type="hidden" id="hotelsearchplace" />
+<input type="hidden" id="hdnAccountNo" value="" />
+@await Html.PartialAsync("~/Views/Partials/Flight/_oneWayflightBookingForm.cshtml")
+@await Html.PartialAsync("~/Views/Partials/Shared/_offer.cshtml") 
+@await Html.PartialAsync("~/Views/Partials/Shared/_whyChooseUs.cshtml")
+
+
+<script type="text/javascript">
+    jQuery('#sumManualPassenger').on("click", function () {
+console.log("calculate")        
+calculatenofpax();
+    });
+</script>
+
+
+
+
+
+

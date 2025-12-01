@@ -1,0 +1,125 @@
+﻿@{
+    Layout = "~/Views/Master.cshtml"; 
+    ViewBag.Title = "contact-us";
+}
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+<link href="/assets/css/destyle.css" rel="stylesheet" />
+<link href="/assets/css/staticpage.css" rel="stylesheet" />
+<div class="minfoorerbox">
+    <div class="container-fluid shawdq width80per">
+        <div class="col-md-12 col-xs-12 offset-0">
+            <div class="call-center">
+                <div class="row headcls">
+                    <h2 class="cc-heading01">Contact Us</h2>
+
+                </div>
+                <div class="row">
+                    <h3 class="cc-heading01 m-top-40">For Any Support</h3>
+                    <div class="col-md-6 col-sm-12 col-xs-12 padding-none contctdtlbox">
+                        <p style="margin-bottom: 0px;">
+                            <strong>
+                                @Configuration["Company:Address"]
+                            </strong>
+                        </p>
+                        <a href="tel:@Configuration["Company:Phone"]"><i class="fa fa-phone"></i> @Configuration["Company:Phone"]</a>
+                        <a href="tel:@Configuration["Company:Mobile"]">
+                            <i class="fa fa-mobile"></i> @Configuration["Company:Mobile"]
+                        </a>
+                            <a href="mailto:@Configuration["Company:Email"]"><i class="fa fa-envelope"></i> @Configuration["Company:Email"]</a>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+        <div class="col-md-12 col-xs-12 offset-0">
+            <div class="panel-body maised" style="display: none;">
+                <div id="contact_form">
+                    <div id="contactformdiv" class="col-md-12"><div class="col-md-6 col-xs-12"><label>Name:</label><div class="input"><input type="text" class="myclsinpt" name="FirstName" value="" id="txtfname"></div></div><div class="col-md-6 col-xs-12"><label>Mobile No:</label><div class="input"><input type="text" class="myclsinpt" name="Mobile" value="" id="txtMobile" maxlength="10"></div></div><div class="col-md-6 col-xs-12"><label>Email Adress:</label><div class="input"><input type="text" class="myclsinpt" name="Email" value="" id="txtemailid"></div></div><div class="col-md-6 col-xs-12"><label>Subject:</label><div class=""><select id="txtsubject" class="myclsinpt" style="color:#fff; width:100%; padding: 7px;"><option value="" style="color:#000;">Select</option><option value="Domestic Package" style="color:#000;">Domestic Package</option><option value="International Package" style="color:#000;">International Package</option><option value="Flight Booking" style="color:#000;">Flight Booking</option><option value="Group Booking" style="color:#000;">Group Booking</option><option value="Visa" style="color:#000;">Visa</option><option value="Hotel Booking" style="color:#000;">Hotel Booking</option><option value="Packages" style="color:#000;">Packages</option><option value="Flight Departures" style="color:#000;">Flight Departures</option><option value="Hotel Departures" style="color:#000;">Hotel Departures</option><option value="Customer Support" style="color:#000;">Customer Support</option><option value="O" style="color:#000;">Others</option></select></div></div><div class="col-md-12 col-xs-12 textarea"><label>Message:</label><div class="textarea-wrapper"><textarea name="Message" class="texclassdc" id="txttextarea" required=""></textarea></div></div></div>
+                    <div class="clear"></div>
+                    <div class="col-md-12 panel-body">
+                        <div id="UP1">
+
+
+                            <div class="col-md-4 col-xs-8 col-sm-4 margn-top">
+                                <img id="Image1" class="img-responsive height-32" src="captcha.aspx?638629487718830861">
+                            </div>
+
+                            <div class="col-md-2 col-xs-4 col-sm-2">
+                                <input type="image" name="ImageButton1" id="ImageButton1" class="mrgn-crsr" src="">
+                            </div>
+
+                            <div class="col-md-6 col-xs-12 col-sm-6">
+                                <input name="txtcaptcha" type="text" id="txtcaptcha" class="form-control mg_2 validate[required]" placeholder="Captcha" autocomplete="off">
+                                <div class="col-md-12 col-sm-12 col-xs-12 offset-0 email-user">Captcha code is case-sensitive</div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-xs-12">
+                        <span class="col-md-12 col-xs-12">
+                            <input type="submit" name="btnsend" value="Send message" onclick="javascript: return sendemail();" id="btnsend" class="contacts-send wcolor" style="background: #1d5d7f; font-size: 13px;">
+                        </span><span id="spnloader1" style="display: none; margin-top: -4px" class="col-md-2 buttonload"><i class="fa fa-spinner fa-spin" style=""></i></span>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+<script type="text/javascript">
+    function sendEmail() {
+        var inputs = $('#contact_form input[type="text"]');
+        var count = 0;
+        inputs.each(function () {
+            if ($(this).val() == "") {
+                count++;
+            }
+        });
+        if (count == 0) {
+            var subject = $("#txtsubject").val();
+            var msg = $("#txttextarea").val();
+            if (subject && msg) {
+                $("#spnloader1").show();
+                var fname = $("#txtfname").val();
+                var mobile = $("#txtMobile").val();
+                var email = $("#txtemailid").val();
+                var dataAll = fname + "^" + mobile + "^" + email + "^" + subject + "^" + msg;
+                // Perform further action, like sending an AJAX request
+            } else {
+                alert("Please select subject and write your query.");
+            }
+        } else {
+            alert("Please fill out all required fields.");
+        }
+    }
+</script>
+
+<style type="text/css">
+    /* Your existing styles */
+    .contact-info {
+        text-align: center;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 4px 17px 2px #cecece;
+        min-height: 300px;
+        margin-bottom: 30px;
+        border-bottom: 5px solid transparent;
+        transition: all 0.5s linear;
+        overflow: hidden;
+    }
+</style>

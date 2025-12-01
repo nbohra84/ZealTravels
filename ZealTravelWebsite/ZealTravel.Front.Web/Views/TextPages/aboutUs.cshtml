@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Views/Master.cshtml";
+    ViewBag.Title = "About-Us";
+}
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+<link href="/assets/css/about.css" rel="stylesheet" />
+<div class="col-md-12 col-sm-12 col-xs-12 offset-0" style="background:#ececec;">
+
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="about-content">
+            <header class="page-lbl fly-in appeared">
+                <div class="headcls">
+                    <h2>About @Configuration["Company:Name"]</h2>
+                </div>
+
+            </header>
+            <div class="content-wrapper m-top-40">
+
+                <div class="tree-colls fly-in appeared">
+                    <div class="four-colls-i about-text">
+                        <p> @Configuration["Company:Name"], an IATA accredited B2B travel Company is committed to enhance your travel experience, be it leisure or business or events or other purposes of travel. An Incentive programme, a Training Programme, a corporate group meeting, an event of any magnitude, a performance programme or a family holiday, "@Configuration["Company:Name"]" has the experience over the last 2 decades and ingredients to put the "@Configuration["Company:Name"]" brand on the map. </p>
+                        <p>The concept to it's conclusion, is one absolute package, with a little extra time to plan, cost and reserve your trip. “@Configuration["Company:Name"]” can tailor-make an itinerary just for you. It is the brand concept of “@Configuration["Company:Name"]” to provide customised trips to select destinations within the Indian Subcontinent and at an International level for individuals as well as groups. We are the one-point-of-contact where you get the solutions and trustful support of all your quires under one umbrella at a cost affordable to every one.Mission“@Configuration["Company:Name"]”,  Believes that the coming future will continue to be exciting years of boundless potential in the wake of liberalizations of economy &amp; globalization of international market. In view of this tendency, we have formulated comprehensive strategic plan to intensify our Domestic and International business to increase the market share in India &amp; globally in the coming years.</p>
+                        <p>We invite you to share our vision and benefit from our expertise, professionalism, flexibility, personalised approach, strong purchasing power and comprehensive product portfolio.</p>
+                    </div>
+
+                </div>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

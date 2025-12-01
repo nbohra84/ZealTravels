@@ -1,0 +1,321 @@
+﻿ @model ZealTravel.Backoffice.Web.Models.Dashboard.DashboardResponse 
+@using System.Web
+@using System.Net
+ @using ZealTravel.Common.Helpers;
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+<asp:Literal ID="metakeywords" runat="server"></asp:Literal>
+<asp:Literal ID="metadescription" runat="server"></asp:Literal>
+<asp:Literal ID="favcin" runat="server"></asp:Literal>
+
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<link href="~/assets/css/tablenewad.css" rel="stylesheet" />
+<link href="~/assets/css/dashboard.css" rel="stylesheet" />
+<div class="modal fade" id="myModal" role="dialog" style="margin-top: 0%; pointer-events: none;">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="pointer-events: auto; top:90px; ">
+            <div class="modal-header" style="padding: 8px;">
+                <p style="text-align: center; color: #fff; margin-bottom: 0px; font-size: 17px;">DETAIL</p>
+                <button type="button" class="close uc ptpop" data-dismiss="modal" style="padding: 5px 10px 5px 10px !important;margin-top: -6.5%;margin-left: 90%;color: #fff;">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 0%;">
+
+                <div class="panel-body panel-body1" style="">
+                    <span class="col-md-4 col-xs-4 offset-0">
+                        Agency
+                    </span><span class="col-md-8 col-xs-8" id="Compnynm"></span>
+                </div>
+                <div class="panel-body panel-body1" style="">
+                    <span class="col-md-4 col-xs-4 offset-0">
+                        AccountID
+                    </span><span class="col-md-8 col-xs-8" id="spanaccountt"></span>
+                </div>
+                <div class="panel-body panel-body1" style="">
+                    <span class="col-md-4 col-xs-4 offset-0">
+                        Name
+                    </span><span class="col-md-8 col-xs-8" id="name"></span>
+                </div>
+
+                <div class="panel-body panel-body1" style="">
+                    <span class="col-md-4 col-xs-4 offset-0">
+                        Mobile
+                    </span><span class="col-md-8 col-xs-8" id="mobile"></span>
+                </div>
+                <div class="panel-body panel-body1" style="">
+                    <span class="col-md-4 col-xs-4 offset-0">
+                        Email
+                    </span><span class="col-md-8 col-xs-8" id="email"></span>
+                </div>
+                <div class="panel-body panel-body1" style="">
+                    <span class="col-md-4 col-xs-4 offset-0">
+                        Pan Name
+                    </span><span class="col-md-8 col-xs-8" id="panname"></span>
+                </div>
+                <div class="panel-body panel-body1" style="">
+                    <span class="col-md-4 col-xs-4 offset-0">
+                        Pan No.
+                    </span><span class="col-md-8 col-xs-8" id="panno"></span>
+                </div>
+                <div class="panel-body panel-body1" style="">
+                    <span class="col-md-4 col-xs-4 offset-0">
+                        GST No.
+                    </span><span class="col-md-8 col-xs-8" id="spangst"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-xs-12" runat="server" id="divModel"></div>
+<div class="col-md-12 col-xs-12" runat="server" id="cancelModel"></div>
+<!----------- header start   ------------------>
+<uc2:header runat="server" ID="header" />
+<!----------- header end   ------------------>
+<!--------- middle part ------------------>
+<!--------- left Tab  ------------------->
+<div class="container-fluid offset-0" style="background: #f7f7f8;">
+
+    <div class="mainhadsec panel-body offset-0 main m-top-20">
+
+
+        <div class="col-md-12 col-xs-12 col-sm-12 offset-0" style="min-height: 600px;">
+            <div class="col-md-12 col-sm-12 col-xs-12 offset-0 m-top-3">
+
+                <!--------- left Tab end ------------------->
+                <!--------- search Tab ------------------->
+
+
+                <div class="col-md-12 col-xs-12 col-sm-12 offset-0">
+                    <div class="col-md-12 col-xs-12 col-sm-12 offset-0">
+                        <div class="col-md-7 col-xs-12 col-sm-12">
+
+                            <div class="col-md-12 col-xs-12 col-sm-12 main " style="padding-left: 5px; padding-right: 5px;">
+                                <div class="col-md-12 col-xs-12 col-sm-12 offset-0">
+                                    <div class="col-md-8 col-xs-8 col-sm-8  offset-0 mtoh">Top Flights Pendings</div>
+                                    <div class="col-md-4 col-xs-4 col-sm-4 offset-0 mtoh1" style="text-align: right;">
+                                        <a href="airlinecallcenter.aspx" class="viewbt" style="color: #fff;">more... </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xs-12 col-sm-12 offset-0 tabhad" style="font-size: 12px; padding-top: 1px; padding-bottom: 1px; margin-bottom: 5px;">
+
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        Agency
+                                    </div>
+
+                                    <div class="col-md-2 col-xs-3 col-sm-3 offset-0">
+                                        BookingRef
+                                    </div>
+
+                                    <div class="col-md-2 col-xs-3 col-sm-3  offset-0">
+                                        User
+                                    </div>
+
+                                    <div class="col-md-5 col-xs-3 col-sm-3 offset-0" style="text-align: center;">
+                                        CreatedOn
+                                    </div>
+
+                                </div>
+                                <div id="pendindbook">
+
+                                    @if (Model.DashboardAirlinePendingBookings != null && Model.DashboardAirlinePendingBookings.Any())
+                                    {
+                                        var bookings = Model.DashboardAirlinePendingBookings.Count > 10 ? Model.DashboardAirlinePendingBookings.Take(10) : Model.DashboardAirlinePendingBookings;
+                                        var cname = "";
+                                        var bookref = "";
+                                        var satffname = "";
+                                        var accd = "";
+                                        var evnttime = "";
+                                        int i = 0;
+
+                                        @foreach (var booking in bookings)
+                                        {
+                                            cname = StringHelper.GetFirstTenCharacter(booking.CompanyName);
+                                            bookref = booking.BookingRef.ToString();
+                                            satffname = booking.StaffName != null ? booking.StaffName : string.Empty;
+                                            evnttime = booking.EventTime.ToString("MM/dd/yyyy h:mm:ss tt");
+                                            accd = booking.CompanyID;
+                                            var cmpdata = accd + "_" + cname;
+                                            <div class='col-md-12 col-xs-12 offset-0 alldvcbx' style=''>
+                                                <div class='col-md-3 col-xs-12 offset-0'><a href='#' id='cmpnynm_@i' accesskey='@cmpdata' onclick='showdetail(this);'>@cname</a></div>
+                                                <div class='col-md-2 col-xs-12 offset-0'><a href='#' id='refIID_@i' accesskey='@bookref' onclick='bookrefff(this);'>@bookref</a></div>
+                                                <div class='col-md-2 col-xs-12 offset-0'>@satffname</div>
+                                                <div class='col-md-5 col-xs-12 offset-0 text-center'>@evnttime</div>
+                                            </div>
+                                            i = i + 1;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class='col-md-12 col-xs-12 offset-0' style=' border-bottom: 1px solid rgba(0, 0, 0, 0.13); padding-bottom:1px; color:red;'>0 Record Found</div>
+                                    }
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-12 col-xs-12 col-sm-12 main" style="padding-left: 5px; padding-right: 5px;">
+                                <div class="col-md-12 col-xs-12 col-sm-12 offset-0">
+                                    <div class="col-md-6 col-xs-8 col-sm-8 offset-0 mtoh">Top Flights Bookings</div>
+                                    <div class="col-md-6 col-xs-4 col-sm-4 offset-0 mtoh1" style="text-align: right;">
+                                        <a href="/Report/FlightBookings" class="viewbt" style="color: #fff;">more... </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xs-12 col-sm-12 offset-0 tabhad" style="font-size: 12px; padding-top: 1px; padding-bottom: 1px; margin-bottom: 5px;">
+
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        Agency
+                                    </div>
+                                    <div class="col-md-2 col-xs-3 col-sm-3 offset-0">
+                                        BookingRef
+                                    </div>
+                                    <div class="col-md-3 col-xs-3 col-sm-3 offset-0" style="text-align: center;">
+                                        CreatedOn
+                                    </div>
+                                    <div class="col-md-4 col-xs-3 col-sm-3" style="text-align: right;">
+                                        Status
+                                    </div>
+                                </div>
+
+                                <div id="refidlist">
+                                    @if (Model.DashboardAirlinetopTenBookings != null && Model.DashboardAirlinetopTenBookings.Any())
+                                    {
+                                        var j = 0;
+                                        foreach (var booking in Model.DashboardAirlinetopTenBookings)
+                                        {
+                                            var status = booking.BookingStatus;
+                                            if (status.ToUpper() == "CNF")
+                                            {
+                                                if (booking.TKTstatus && booking.PNRstatus)
+                                                {
+                                                    status = "CNF";
+                                                    status = status.Replace("CNF", "<span style='color: green;'><b style='font-size: 9px;'>CNF</b></span>");
+                                                }
+                                                else
+                                                {
+                                                    status = "PENDING";
+                                                    status = status.Replace("PENDING", "<span style='color: #9c1ab0;'><b style='font-size: 9px;'>PENDING</b></span>");
+                                                }
+                                            }
+                                            if (status.ToUpper() == "REJECT")
+                                            {
+                                                status = "REJECT";
+                                                status = status.Replace("REJECT", "<span style='color: rgb(255,0,0);'><b style='font-size: 9px;'>REJECT</b></span>");
+                                            }
+                                            if (status.ToUpper() == "CANCEL")
+                                            {
+                                                status = "CANCEL";
+                                                status = status.Replace("CANCEL", "<span style='color:blue; '><b style='font-size: 9px;'>CANCEL</b></span>");
+                                            }
+                                            if (status.ToUpper() == "PENDING")
+                                            {
+                                                status = "PENDING";
+                                                status = status.Replace("PENDING", "<span style='color: #9c1ab0'><b style='font-size: 9px;' >PENDING</b></span>");
+                                            }
+
+
+                                            string eventtime = booking.EventTime.ToString("MM/dd/yyyy h:mm:ss tt");
+                                            string companynm = StringHelper.GetFirstTenCharacter(booking.CompanyName.Trim()).ToUpper();
+                                            companynm = StringHelper.GetFirstCharacterCapital(companynm);
+                                            <div class='col-md-12 col-xs-12 offset-0' style=' border-bottom: 1px solid rgba(0, 0, 0, 0.13); padding-bottom:1px;'>
+                                                <div class='col-md-3 col-xs-12 offset-0'> <a href='#' id='cmpnynm_@j'  onclick='showdetailcomp(myModalComp_@j)'>@companynm</a></div>
+                                                <div class='col-md-2 col-xs-12 offset-0'><a href='#' id='refIID_@j"' accesskey='@booking.BookingRef.ToString()' onclick='bookrefff(this);'>@booking.BookingRef.ToString()</a></div>
+                                                <div class='col-md-5 col-xs-12 offset-0'>@eventtime</div>
+                                                <div class='col-md-2 col-xs-12 offset-0' style='text-align:center;'>@Html.Raw(status)</div>
+                                            </div>
+
+
+                                            <div class='modal fade' id='myModalComp_@j' role='dialog' style='pointer-events: none;'>
+                                                <div class='modal-dialog'>
+                                                    <!-- Modal content-->
+                                                    <div class='modal-content' style='pointer-events: auto;'>
+                                                        <div class='modal-header' style='background: #374579; padding: 0px;position:relative'>
+                                                            <h1 class='pophdi'>DETAIL</h1>
+                                                            <button type='button' class='close uc ptpop popclo' data-dismiss='modal' style='position: absolute;top: 50% !important;transform: translateY(-50%);'>
+                                                                &times;
+                                                            </button>
+                                                        </div>
+                                                        <div class='panel-body panel-body1'  >
+                                                            <div class='modal-body hg' style='padding: 0%;'>
+                                                                <div class='panel-body panel-body1' style='border: 1px solid #fff; padding: 1px !important;'>
+                                                                    <span class='col-md-3 col-xs-6 text-right offset-0'>
+                                                                        <label>Company  :</label>
+                                                                    </span><span class='col-md-6  col-xs-6 font-12' id='Compnynm_@j'> @booking.CompanyName </span>
+                                                                </div>
+                                                                <div class='panel-body panel-body1' style='border: 1px solid #fff; padding: 1px !important;'>
+                                                                    <span class='col-md-3 col-xs-6 text-right offset-0'>
+                                                                        <label>AccountID  :</label>
+                                                                    </span><span class='col-md-6  col-xs-6 font-12' id='spanaccountt_@j'>@booking.AccountID | @booking.UserType</span>
+                                                                </div>
+                                                                <div class='panel-body panel-body1' style='border: 1px solid #fff; padding: 1px !important;'>
+                                                                    <span class='col-md-3 col-xs-6 text-right offset-0'>
+                                                                        <label>Name  :</label>
+                                                                    </span><span class='col-md-6  col-xs-6 font-12' id='name_@j'> @booking.FName @booking.LName</span>
+                                                                </div>
+                                                                <div class='panel-body panel-body1' style='border: 1px solid #fff; padding: 1px !important;'>
+                                                                    <span class='col-md-3 col-xs-6 text-right offset-0'>
+                                                                        <label>Mobile  :</label>
+                                                                    </span><span class='col-md-6  col-xs-6 font-12' id='mobile_@j'>@booking.Mobile</span>
+                                                                </div>
+                                                                <div class='panel-body panel-body1' style='border: 1px solid #fff; padding: 1px !important;'>
+                                                                    <span class='col-md-3 col-xs-6 text-right offset-0'>
+                                                                        <label>Email  :</label>
+                                                                    </span><span class='col-md-6  col-xs-6 font-12' id='email_@j'> @booking.Email</span>
+                                                                </div>
+                                                                <div class='panel-body panel-body1' style='border: 1px solid #fff; padding: 1px !important;'>
+                                                                    <span class='col-md-3 col-xs-6 text-right offset-0'>
+                                                                        <label>City  :</label>
+                                                                    </span><span class='col-md-6  col-xs-6 font-12' id='city_@j'> @booking.State | @booking.City</span>
+                                                                </div>
+                                                                <div class='panel-body panel-body1' style='border: 1px solid #fff; padding: 1px !important;'>
+                                                                    <span class='col-md-3 col-xs-6 text-right offset-0'>
+                                                                        <label>Pan No.  :</label>
+                                                                    </span><span class='col-md-6 col-xs-6 font-12' id='panno_@j'> @booking.Pan_No</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            //----------------------------------------Company Detail Model Box End-------------------------------------------------------------------------
+                                            j++;
+                                        }
+                                    }
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 col-xs-12 col-sm-12">
+
+                            <div class="col-md-12 col-xs-12"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--------- search Tab end ------------------->
+            <!--------- booking BookingRef ------------------->
+            <!--------- booking BookingRef end ------------------->
+        </div>
+        <!--------- middle end ------------------>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div id="ViewMorediv" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content" style="padding: 18px">
+        <div class="modal-header">
+            <span class="close mc" style="">&times;</span>
+        </div>
+        <h5 style="background-color: #374579; padding: 10px; color: #fff;"><span id="heading"></span></h5>
+        <div><span id="descrp"></span></div>
+    </div>
+
+</div>
+<script src="~/assets/js/dashboard.js"></script>
+<script src="~/assets/js/flightbookings.js" defer></script>

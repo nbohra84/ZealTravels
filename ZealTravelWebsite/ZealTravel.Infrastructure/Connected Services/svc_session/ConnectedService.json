@@ -1,0 +1,17 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "https://sgtestr4xapi.navitaire.com/Sessionmanager.svc"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, svc_session"
+    ],
+    "sync": true,
+    "targetFramework": "net8.0",
+    "typeReuseMode": "Specified"
+  }
+}

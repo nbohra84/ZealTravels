@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Models\CompanyFareDetailSegmentAirline.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\FlightManagement\" />
+    <Folder Include="Services\Interfaces\FlightManagement\" />
+    <Compile Remove="Entities\**" />
+    <Compile Remove="Enums\**" />
+    <Compile Remove="Services\Interfaces\**" />
+    <EmbeddedResource Remove="Entities\**" />
+    <EmbeddedResource Remove="Enums\**" />
+    <EmbeddedResource Remove="Services\Interfaces\**" />
+    <None Remove="Entities\**" />
+    <None Remove="Enums\**" />
+    <None Remove="Services\Interfaces\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="ClosedXML" Version="0.104.1" />
+    <PackageReference Include="itext" Version="8.0.5" />
+    <PackageReference Include="itext7" Version="8.0.5" />
+    <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.5" />
+    <PackageReference Include="itext7.pdfhtml" Version="5.0.0" />
+    <PackageReference Include="log4net" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+	<ProjectReference Include="..\ZealTravel.Common\ZealTravel.Common.csproj" />
+  </ItemGroup>
+
+</Project>

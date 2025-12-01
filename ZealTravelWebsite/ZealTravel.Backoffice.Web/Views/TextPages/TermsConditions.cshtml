@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "~/Views/Master.cshtml";
+    ViewBag.Title = "terms-conditions";
+}
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+<link href="/assets/css/staticpage.css" rel="stylesheet" />
+<div class="container-fluid offset-0">
+    <div class="col-md-12 col-sm-12 col-xs-12 offset-0 " style="background:#ececec;">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+
+            <div class="about-content" style="background: #fff">
+                <div class="content-wrapper">
+                    <header class="page-lbl fly-in appeared">
+                        <div class="headcls">
+                            <h2>Terms &amp; Conditions</h2>
+                        </div>
+
+                    </header>
+                    <div class="tree-colls fly-in appeared m-top-40">
+                        <div class="four-colls-i about-text">
+                            <p>
+                                <strong style="color: #16355c;">TERMS OF SERVICES</strong><br>
+                                This web site @Configuration["Company:Website"] (the "Site") is published and maintained by ("@Configuration["Company:Name"]"). When you access, browse or use this Site you accept, without limitation or qualification, the terms and conditions set forth below. When you access any sub-site (whether belonging to an 'associate' of @Configuration["Company:Name"] Internationalor otherwise) through this site, then such sub-site may have its own terms and conditions of use, which is specific to such sub-site. Sub-sites may contain such additional terms and conditions of use as may be set out in such sub-site. These Terms and Conditions of Use and any additional terms posted on this Site together constitute the entire agreement between @Configuration["Company:Name"] Internationaland you with respect to your use of this Site.
+                            </p>
+                        </div>
+                        <div class="four-colls-i about-text">
+                            <p>
+                                <strong style="color: #16355c;">GENERAL PROVISIONS</strong><br>
+                                @Configuration["Company:Name"] Internationalmay add to, modify or remove any part of these Terms and Conditions of Use at any time as it may deem fit, without notice. Any changes to these Terms and Conditions of Use or any terms posted on this Site apply as soon as they are posted. By continuing to use this Site after any changes are posted, you are indicating your acceptance of those changes. @Configuration["Company:Name"] Internationalmay add, change, discontinue, remove or suspend any other Content posted on this Site, including features and specifications of products described or depicted on the Site, temporarily or permanently, at any time, without notice and without liability. @Configuration["Company:Name"] Internationalreserves the right to undertake all necessary steps to ensure that the security, safety and integrity of Company's systems as well as its clients and users interests are and remain, well-protected. Towards this end, Company may take various steps to verify and confirm the authenticity, enforceability and validity of orders placed by you. @Configuration["Company:Name"] Internationalrequests you to consult your local authorities and evaluate travel prohibitions, warning, announcements, and advisories issued by them before booking travel to certain international destinations. By offering for sale travel to particular destinations, Company does not represent or warrant that travel to such point is advisable or without risk. Company does not accept liability for damages, losses, or delays that may result from improper documents for entry, exit, length of stay, or from travel to such destinations.
+                            </p>
+                        </div>
+
+                        <div class="four-colls-i about-text">
+                            <p>
+                                <strong style="color: #16355c;">SITE AND ITS CONTENTS</strong><br>
+                                This Site is only for your personal use. You shall not distribute, exchange, modify, sell or transmit anything you copy from this Site, including but not limited to any text, images, audio and video, for any business, commercial or public purpose. As long as you comply with the terms of these Terms and Conditions of Use, @Configuration["Company:Name"] Internationalgrants you a non −exclusive, non−transferable, limited right to enter, view and use this Site. You agree not to interrupt or attempt to interrupt the operation of this Site in any way. Access to certain areas of the Site may only be available to registered members. To become a registered member, you may be required to answer certain questions. Answers to such questions may be mandatory and/or optional. You represent and warrant that all information you supply to us, about yourself, and others, is true and accurate.
+                            </p>
+                        </div>
+                        <div class="four-colls-i about-text">
+                            <p>
+                                <strong style="color: #16355c;">LINKS TO THIRD-PARTY WEBSITES</strong><br>
+                                This Site may contain links to websites operated by parties other than Company. Company does not control such Sites and is not responsible for their contents. Company's inclusion of hyperlinks to such Sites does not imply any endorsement of the material on such Sites or any association with their operators. If you decide to access any of the third party Sites linked to this Site, you do so entirely at your own risk.
+                            </p>
+                        </div>
+                        <div class="four-colls-i about-text">
+                            <p>
+                                <strong style="color: #16355c;">OWNERSHIP</strong><br>
+                                All materials on this Site, including but not limited to audio, images, software, text, Icons and such like (the "Content"), are protected by copyright under international conventions and copyright laws. You cannot use the Content for any purpose, except as specified herein. You agree to follow all instructions so provided on this Site limiting the way you may use the Content. There are a number of proprietary logos, service marks and trademarks found on this Site whether owned/used by Company or any other third party. By displaying them on this Site, Company is not granting you any license to utilize those proprietary logos, service marks, or trademarks. Any unauthorized use of the Content may violate copyright laws, trademark laws, the laws of privacy and publicity, and civil and criminal statutes. You may download such copy/copies of the Content to be used only by you for your personal use.
+                            </p>
+                        </div>
+
+
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+
+
+
+                <div class="about-us-devider fly-in appeared"></div>
+
+            </div>
+        </div>
+    </div>
+</div>

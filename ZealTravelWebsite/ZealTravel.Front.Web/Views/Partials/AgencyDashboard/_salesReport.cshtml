@@ -1,0 +1,56 @@
+﻿@model ZealTravel.Front.Web.Models.Agency.Dashboard.AgencyDashboardResponse
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@*
+*@
+@{
+}
+<div class="col-md-8 col-xs-12 myasepoi m-top-10 padright0 padlft0resp">
+    <div class="box2 box-success" style="margin-bottom: 10px; height: 519px;">
+        <div class="box-header with-border">
+            <h3 class="box-title">Sales Report</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove">
+                    <i class="fa fa-times"></i>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="box-body no-padding">
+            <div>
+                <span class="pull-right text-right">
+                    <small>
+                        Average value of sales in the past month in:
+                        <img src="~/images/indiaflage.png" width="13" />
+                        <strong>India</strong>
+                    </small>
+                    <br> All sales: Rs
+                    <span id="spntotalsale"></span>
+                </span>
+            </div>
+
+            <div class="sales-report-chart">
+                <div id="chartArr" data-highcharts-chart="0">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-xs-12">
+            <small class="pull-right">
+                <i class="fa fa-clock-o"></i>
+                Update on<span id="ContentPlaceHolder1_spncurrentdate">
+                    @DateTime.Now.ToString("yyyy-MM-dd")
+                </span>
+
+            </small>
+            <small>
+                <strong>Analysis of sales:</strong> The value has been changed over time, and last month reached a level
+                over Rs. <span id="spanlavelup"></span>
+            </small>
+        </div>
+    </div>
+</div>

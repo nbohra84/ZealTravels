@@ -1,0 +1,235 @@
+﻿@model ZealTravel.Front.Web.Models.Flight.FlightTravellersInfoResponse
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+<link href="/assets/css/flightdetailstyle.css" rel="stylesheet" />
+<link href="/assets/css/thickbox.css" rel="stylesheet" />
+<link href="/assets/css/flightdisplay.css" rel="stylesheet" />
+<link href="/assets/css/flightdinew.css" rel="stylesheet" />
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<link href="/assets/css/k_flightdisplay.css" rel="stylesheet" />
+<link href="/assets/css/travellers.css" rel="stylesheet" />
+<link href="/assets/css/jqueryui.css" rel="stylesheet" />
+<script src="/assets/js/jqueryMaskedinput.js"></script>
+<script src="/assets/js/thickbox.js"></script>
+<script src="/assets/js/k_travellers.js"></script>
+<script src="/assets/js/calanderJs.js"></script>
+<script src="/assets/js/mydatepicker.js"></script>
+<script src="/assets/js/travellers.js"></script>
+<form asp-controller="Flight" asp-action="Travellers" method="post">
+    <div class="col-md-12 col-sm-12 col-xs-12 offset-0 m-top-10 m-bottom25">
+        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+            <div class="maindisplaybox panel-body">
+                <div id="traveldtl" class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                    <div class="col-md-9 col-sm-9 col-xs-12 mn_div offset-0">
+                        <div class="col-md-12  col-xs-12 offset-0">
+                            <div class="mainheadsec">
+                                <h3 class="headsectit">Itinerary</h3>
+                            </div>
+                            <div id="Ininarydiv">
+                                <div id="OutbountItinary">
+                                    @Html.Raw(Model.OutbountItinary)
+                                </div>
+                            </div>
+                        </div>
+                        <div id="showdetails" class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                            <div class="col-md-12 col-sm-12 col-xs-12 text-center fst_txt1"><i class="fa fa-exclamation-circle exlcami" aria-hidden="true"></i>  Your Ticket will be sent to this email address/ mobile number </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 data_dv">
+                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-5">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <label asp-for="MobileNo">
+                                            Mobile
+                                        </label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 m-top-5">
+                                        @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control f-11", @placeholder = "Enter Mobile No", @id = "txtMobileNo", @maxlength = "10" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-5">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <label asp-for="EmailAdd">
+                                            Email
+                                        </label>
+                                    </div>
+                                    <div class="col-md-11 col-sm-12 col-xs-12 m-top-5 travellmobpad" style="padding-right: 28px;">
+                                        @Html.TextBoxFor(x => x.Email, new { @class = "form-control f-11", @placeholder = "Enter Email Id" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-5">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <label asp-for="Address">
+                                            Address
+                                        </label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 m-top-5">
+                                        @Html.TextAreaFor(x => x.Address, new { @class = "f-11", @style = "height: 100px;" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-20" style="text-align: right;">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 m-top-10 m-btm-10  ">
+                                        <div class="col-md-10 col-sm-8 col-xs-12 offset-0 m-top-3" style="color: #000; font-size: 17px; margin-top: 27px;">Gross Fare:   INR<span id="veryfyAmount" class="fonxvse"><b></b></span></div>
+                                        <div class="col-md-4 col-sm-4 col-xs-6 text-left offset-0  " style="color: #000;"><b></b></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 text-center fst_txt1">
+                                <span><i class="fa fa-exclamation-circle exlcami"></i>GST number for business travel (Optional)</span>
+                                <span>
+                                    <label for="clickgstdv">
+                                        <input type="checkbox" id="clickgstdv" />
+                                        Do you have GST ?
+                                    </label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0" id="gstshow" style="display: none;">
+                                <div id="Showgstdiv" class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 data_dv">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-5">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <label for="txtgstregcompanynm">
+                                                    Registered Company
+                                                </label>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 m-top-5">
+                                                <input type="text" name="GSTRegisteredCompany" id="txtgstregcompanynm" class="form-control f-11" placeholder="" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-5">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <label for="txtgstregno">
+                                                    Registered GST Number
+                                                </label>
+                                            </div>
+                                            <div class="col-md-11 col-sm-12 col-xs-12 m-top-5" style="padding-right: 28px;">
+                                                <input type="text" name="GSTNumber" id="txtgstregno" class="form-control f-11 validate[custom[GST]]" placeholder="" maxlength="15" />
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-5">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <label for="txtgstcompnycontactno">
+                                                    Company Contact No
+                                                </label>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 m-top-5">
+                                                <input type="text" name="GSTCompanyContactNo" id="txtgstcompnycontactno" class="form-control f-11" placeholder="" maxlength="10" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-5">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <label for="txtgstcompnyemail">
+                                                    Company Email
+                                                </label>
+                                            </div>
+                                            <div class="col-md-11 col-sm-12 col-xs-12 m-top-5" style="padding-right: 28px;">
+                                                <input type="text" name="GSTCompanyEmail" id="txtgstcompnyemail" class="form-control f-11" placeholder="" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-5">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <label for="txtgstcompnyaddress">
+                                                    Company Address
+                                                </label>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 m-top-5">
+                                                <textarea name="GSTCompanyAddress" id="txtgstcompnyaddress" class="f-11" style="height: 100px;"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12  m-top-5" style="padding: 17px;">
+                                            <label style="font-weight: 100;">
+                                                <input type="checkbox" id="unchkallgst" />
+                                                Add GST Detail.
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 offset-0 m-top-5">
+                                            <div class="col-md-12" style="font-size: 11px; color: #878787;">
+                                                <strong>NOTE: </strong>Appending of Customer GSTIN for customer invoicing is not supported by Air Ventura and TrueJet.This may impact your total GST Tax Credits.
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 data_dv2 offset-0 ">
+                                <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                    <div class="col-md-3 col-sm-5 col-xs-12 offset-0">
+                                        <div class="col-md-12 col-sm-12 col-xs-12 m-top-10 ">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 m-top-20 brdr-btm-1" style="display: none;">
+                                                <div class="col-md-6 col-sm-6 col-xs-6 offset-0">Discount:</div>
+                                                <div id="discountAmount" class="col-md-6 col-sm-6 col-xs-6 text-right offset-0"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 col-xs-12  " style="">
+                                        <div class="col-md-12 col-sm-12 col-xs-12   ">
+                                            <div class="col-md-8 col-sm-8 col-xs-12   offset-0">
+                                                <div class="col-md-12 col-sm-12 col-xs-12 offset-0 m-top-5">
+                                                    <input type="checkbox" id="CheckBox1" value="@Model.TermsAndConditionsAccepted" />
+                                                    &nbsp; &nbsp;I have read and agree to the <a target="popup" onclick="window.open('/privacy-policy','name','width=770,height=400,scrollbars=1')" style="cursor: pointer; color: #374579; font-weight: 600;">Terms & Conditions</a>
+                                                </div>
+                                            </div>
+                                            <div style="text-align: right; padding-right: 40px;" class="col-md-4 col-sm-4 col-xs-12">
+                                                <button type="submit" class="btn sub-btn   mydehclr" onclick="javascript: return submitdata(this);" id="Btnproceed">Proceed To Booking</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12 offset-0">
+                        <div class="col-md-12 col-sm-12 col-xs-12 font-16 back wcolor flidewcolor1">
+                            <a href="@Model.Pageredirect">Back to Flight Results</a>
+                        </div>
+                        <div class="col-md-12 col-xs-12 padseki" style="padding-right:0px;">
+                            <div id="Faredetaildiv">
+                                @Html.Raw(Model.Faredetaildiv)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input id="hdncurrencytype" value="@Model.CurrencyType" type="hidden"></input>
+    <input id="hdnAccountNo" value="@Model.AccountNo" type="hidden"></input>
+    <input id="cmpid" value="@Model.CompanyId" type="hidden"></input>
+    <input id="hdnhostName" value="@Model.HostName" type="hidden"></input>
+    <input id="hdnFlightSelectedXml" value="@Model.FlightSelectedXml" type="hidden"></input>
+    <input id="hdnFlightSelectedXmlInbond" value="@Model.FlightSelectedXmlInbond" type="hidden"></input>
+    <input id="Adlt" value="@Model.Adult" type="hidden"></input>
+    <input id="Child" value="@Model.Child" type="hidden"></input>
+    <input id="Infant" value="@Model.Infant" type="hidden"></input>
+    <input id="TToalmarkup" value="@Model.TotalMarkup" type="hidden"></input>
+    <input id="TotTDS" value="@Model.TotalTDS" type="hidden"></input>
+    <input id="hdnsearchType" value="@Model.SearchType" type="hidden"></input>
+    <input id="hdnregisteremail" value="@Model.RegisterEmail" type="hidden"></input>
+    <input id="hdnSSRavailabilityOut" value="@Model.SSRAvailabilityOut" type="hidden"></input>
+    <input id="hdnSSRavailabilityIn" value="@Model.SSRAvailabilityIn" type="hidden"></input>
+    <input id="hdnPaymentcharge" value="@Model.PaymentCharge" type="hidden"></input>
+    <input type="hidden" name="hdnCardName" id="hdnCardName" value="@Model.CardName" />
+    <input type="hidden" name="paymentMethod" id="paymentMethod" value="@Model.PaymentMethod" />
+    <input type="hidden" name="Showwallet" id="hdnShowwallet" value="@Model.ShowWallet" />
+    <input id="intlquerystring" value="@Model.IntlQueryString" type="hidden"></input>
+    <input type="hidden" name="IsPayDivAppend" value="@Model.IsPayDivAppend" id="IsPayDivAppend" />
+    <input id="hiddenNationality" value="@Model.Nationality" type="hidden"></input>
+    <input id="hiddensector" value="@Model.Sector" type="hidden"></input>
+    <input id="hidenRT" value="@Model.RoundTrip" type="hidden"></input>
+    <input id="hdnlivepathimage" value="@Model.LivePathImage" type="hidden"></input>
+    <input id="hdnTotCfee" value="@Model.TotalCfee" type="hidden"></input>
+    <input id="hdnValidcfee" value="@Model.ValidCfee" type="hidden"></input>
+    <input id="HiddenTotalfare" value="@Model.TotalFare" type="hidden"></input>
+    <input id="HiddenDiscount" value="@Model.Discount" type="hidden"></input>
+    <input id="hidenpaxxmlresult" name="PaxXmlResult" value="@Model.PaxXmlResult" type="hidden"></input>
+    <input id="TravelDate_CHD_INF" value="@Model.TravelDateChdInf" type="hidden"></input>
+    <input id="hdnHasGST" value="@Model.HasGST.ToString()" type="hidden"></input>
+    <input id="hdnGSTNumber" value="@Model.GSTNumber" type="hidden"></input>
+    <input id="hdnGSTCompanyContactNo" value="@Model.GSTCompanyContactNo" type="hidden"></input>
+    <input id="hdnGSTCompanyEmail" value="@Model.GSTCompanyEmail" type="hidden"></input>
+    <input id="hdnGSTCompanyAddress" value="@Model.GSTCompanyAddress" type="hidden"></input>
+    <input id="hdnGSTRegisteredCompany" value="@Model.GSTRegisteredCompany" type="hidden"></input>
+</form>

@@ -1,0 +1,150 @@
+﻿@model ZealTravel.Backoffice.Web.Models.CancelFlightBookingReportResponse
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@using ZealTravel.Common.Helpers
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+
+
+<link href="~/assets/css/ledger.css" rel="stylesheet" />
+<link href="~/assets/css/loadingpopup.css" rel="stylesheet" />
+<link href="~/assets/css/reportUI.css" rel="stylesheet" />
+<link href="~/assets/css/ValidationEngine.css" rel="stylesheet" />
+<link href="~/assets/css/newdashB.css" rel="stylesheet" />
+<link href="~/assets/css/mydatepicker.css" rel="stylesheet" />
+<link href="~/assets/css/style.css" rel="stylesheet" />
+<link href="~/assets/css/destyle.css" rel="stylesheet" />
+<link href="~/assets/css/newd.css" rel="stylesheet" />
+<link href="~/assets/css/colortheme.css" rel="stylesheet" />
+<link href="~/assets/css/AdminLTE.css" rel="stylesheet" />
+<link href="~/assets/css/flightbookings.css" rel="stylesheet" />
+<link href="~/assets/css/cancelflightbookings.css" rel="stylesheet" />
+
+<script src="~/assets/js/ledger.js" defer></script>
+
+<div class="wrapper">
+    <div class="content-wrapper" style="min-height: 1560px;">
+        <section class="content" style="padding: 0px">
+
+            @using (Html.BeginForm("CancelFlightBookings", "Report", FormMethod.Post, new { id = "CancelFlightBookings", @class = "ledger-form" }))
+            {
+
+                <div class="container-fluid">
+                    <div style="width: 100%; margin: 0 auto;">
+
+                        <div class="col-md-12 col-xs-12 offset-0">
+                            <h5 class="reportminheader">
+                                <i class="fa fa-envelope wredcolo reportminicon" aria-hidden="true" style=""></i> Cancel Supplier List
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xs-12">
+                  <div class="col-md-12 col-xs-12 offset-0" style="background: white;margin-top: 5px;">
+                       <div class="col-md-3 offset-0 col-xs-12 mqwrhg m-top-10">
+                    <div class="col-md-12 col-xs-12">
+                        <label>Supplier List</label>
+                    </div>
+                    <div class="col-md-12 col-xs-12">
+                        @Html.DropDownListFor(m => m.SupplierID, Model.Suppliers, "SELECT", new { @class = "form-control", id = "ddlSupplier" })
+
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-12 m-top-10">
+                    <div class="col-md-12 col-xs-12 offset-0">
+                        <label>From</label>
+                    </div>
+                    <div class="col-md-12 col-xs-12 input-group input-append date datetopic">
+                        <input type="text" name="fromDate" id="txtfromdate" value="@Model.FromDate.ToString("yyyy-MM-dd")" class="form-control" autocomplete="off" required />
+                        <span class="input-group-addon add-on" id="fromspan">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-12 m-top-10">
+                    <div class="col-md-12 col-xs-12 offset-0">
+                        <label>To</label>
+                    </div>
+                    <div class="col-md-12 col-xs-12 input-group input-append date datetopic">
+                        <input type="text" name="toDate" id="txtTodate" value="@Model.ToDate.ToString("yyyy-MM-dd")" class="form-control" autocomplete="off" required />
+                        <span class="input-group-addon add-on" id="Tospan">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-12 pdbt maksedkh" style="padding-top: 12px;">
+                    <button type="submit" class="search-btn1" style="background-color: transparent; border: none;" aria-label="Search">
+                        <img src="\assets\img\search.png" style="width: 43px;margin-top: 20px;" />
+                    </button>
+                </div>
+                  </div>
+                </div>
+
+            }
+             <div class="panel-body" style="min-height: 500px; padding-top:5px;">
+                <div class="boxshdr" style="min-height: 700px;padding-top:5px;">
+
+                    <div class="col-md-12" style="background: #fff; min-height: 500px;" id="DetailDiv">
+
+                    @if (Model.BookingItems != null && Model.BookingItems.Any())
+                    {
+
+                        <table class='defaultText table ' style='width: 80%; font-size: 11px;  border: 1px solid #e4e6eb;' cellspacing='0' cellpadding='5' border='0' id=''>
+                            <thead>
+                                <tr class='hg' style='text-align:left;'>
+                                    <td style='width: 1%; text-align:left; padding-left:0px;'><b> # </b></td>
+                                    <td style='width: 2%; text-align:left; padding-left:0px;'><b> Supplier </b></td>
+                                    <td style='width: 4%;text-align:left; padding-left:0px;'><b> BookingRef </b></td>
+                                    <td style='width: 2%; text-align:left; padding-left:0px;'><b style='padding:0px;'> Flt </b></td>
+                                    <td style='width: 2%; text-align:left; padding-left:0px;'><b style='padding:0px;'><b> Pnr </b></td>
+                                    <td style='width: 10%; text-align:left; padding-left:0px;'><b style='padding:0px;'><b> Company </b></td>
+                                    <td style='width: 10%;text-align:left; padding-left:0px;'><b style='padding:0px;'>Event </b></td>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var i = 0;
+                                    @foreach (var item in Model.BookingItems)
+                                    {
+                                        i = i + 1;
+                                        <tr class="cancel-table">
+                                            <td style='width: 1%; text-align:left; padding-left:0px;'>@i</td>
+                                            <td style='width: 2%;text-align:left; padding-left:0px;'> @item.Supplier</td>
+                                            <td style='width: 4%;text-align:left; padding-left:0px;'> <a class='' id='bokref_" + i + "' accesskey=@item.BookingRef.ToString() style='cursor: pointer; padding: 3px; ' onclick='bookrefff(this);'>@item.BookingRef.ToString()</a>&nbsp;</td>
+                                            <td style='width: 2%;text-align:left; padding-left:0px;'>@item.flttype</td>
+                                            <td style='width: 1%;text-align:left; padding-left:0px;'>@item.PNR</td>
+                                            <td style='width: 10%;text-align:left;'>@StringHelper.GetFirstCharacterCapital(item.CompanyName.Trim())</td>
+                                            <td style='width: 10%;text-align:left; padding-left:0px;'>@item.EventTime.ToString("MM/dd/yyyy h:mm:ss tt")</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <table class='defaultText table' style='width: 100%; font-size: 11px;  border: 1px solid #e4e6eb;' cellspacing='0' cellpadding='5' border='0' id=''>
+                            <tr>
+                                <td>
+                                    <div class='col-md-12 offset-0'>
+                                        <span style='color:red'>No Record Found.!</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
+<script src="~/assets/js/mydatepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>

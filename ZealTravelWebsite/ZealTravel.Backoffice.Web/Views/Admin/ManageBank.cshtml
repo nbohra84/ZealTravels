@@ -1,0 +1,412 @@
+﻿@model ZealTravel.Backoffice.Web.Models.BankDetailViewModel
+@{
+
+    Layout = "~/Views/Master.cshtml";
+    
+}
+@{
+    bool hasVisibleBankNames = false;
+}
+
+<link href="~/assets/css/newd.css" rel="stylesheet" />
+<link href="~/assets/css/custom.css" rel="stylesheet" />
+<link href="~/assets/css/newdashB.css" rel="stylesheet" />
+<link href="~/assets/css/mydatepicker.css" rel="stylesheet" />
+<link href="~/assets/css/ValidationEngine.css" rel="stylesheet" />
+<link href="~/assets/css/reportdi.css" rel="stylesheet" />
+<link href="~/assets/css/AdminLTE.css" rel="stylesheet" />
+<link href="~/assets/css/" rel="stylesheet" />
+<link href="~/assets/css/manageBank.css" rel="stylesheet" />
+
+<div class="wrapper">
+    <div class="content-wrapper" style="min-height: 1243px;">
+        <section class="content" style="padding: 0px;">
+
+            <div class="container-fluid">
+                <div style="width: 100%; margin: 0 auto; ">
+                    <div class="col-md-12 col-xs-12 offset-0" style="">
+                        <h5 class="reportminheader"><i class="fa fa-building-o wredcolo reportminicon" aria-hidden="true" style=""></i> Bank Information</h5>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <input type="hidden" id="btndetail" />
+
+            <div class="col-md-12 col-xs-12 m-top-5">
+
+                <div class="col-md-12 col-sm-10 col-xs-12 boxshdr" style="padding: 13px;">
+                    <div class="col-md-10 col-sm-10 col-xs-12 m-top-10 offset-0">
+                        <div class="col-md-12 col-sm-12 col-xs-12 m-top-20 brdr-cls pdng-btm" style="padding-left: 0px; padding-right: 0px;">
+
+
+                            @if (Model != null && Model.BankDetails != null && Model.BankDetails.Any())
+                            {
+                                <h3 style="text-align: center; color: #374579; @(Model.BankDetails != null && Model.BankDetails.Any() && !string.IsNullOrEmpty(Model.BankDetails.First().PanNo) ? "" : "display:none;")">
+                                    <span>@Model.BankDetails.First().CompanyName</span> / (PAN NO : <span>@Model.BankDetails.First().PanNo</span>)
+                                </h3>
+
+                            }
+                            else
+                            {
+                                <div>No bank details available.</div>
+                            }
+
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0 m-top-10 table-responsive">
+
+                                <table class="defaultText table table-responsive table-striped table-bordered table-hover" cellspacing="1" cellpadding="4" border="0" id="trainbook">
+                                    <thead>
+                                        <tr class="hg">
+                                            <th class="ui-border-wo-left" align="center" style="font-size: 12px;">ID.</th>
+                                            <th class="ui-border-wo-left" align="center" style="font-size: 12px;">Bank Logo</th>
+                                            <th class="ui-border-wo-left" align="center" style="font-size: 12px;">Bank Name</th>
+                                            <th class="ui-border-wo-left" align="center" style="font-size: 12px;">Account No</th>
+                                            <th class="ui-border-wo-left" align="center" style="font-size: 12px;">Branch Name</th>
+                                            <th class="ui-border-wo-left" align="center" style="font-size: 12px;">RTGS/IFSC/NEFT/Bank Code</th>
+                                            <th class="ui-border-wo-left" align="center" style="font-size: 12px;"><i class="fa fa-wrench"></i>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.BankDetails == null || !Model.BankDetails.Any())
+                                        {
+                                            <tr>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            var i = 0;
+                                            var j = 1;
+                                            foreach (var bank in Model.BankDetails)
+                                            {
+                                                hasVisibleBankNames = !string.IsNullOrEmpty(bank.BankName);
+
+                                                var dataa = bank.BankCode + "," + bank.BankName + "," + bank.BranchName + "," + bank.AccountNo + "," + bank.Status + "," + bank.B2b + "," + bank.B2c + "," + bank.D2b + "," + bank.B2b2b + "," + bank.B2b2c + "," + bank.Id + "," + bank.BankLogoCode;
+                                               <tr style="@(string.IsNullOrEmpty(bank.BankName) ? "display:none;" : "")">
+                                                    <td align="center">@j</td>
+                                                    <td id="Banlog_@i" align="center">
+                                                        <img src="~/assets/img/BankLogo/@($"{bank.BankLogoCode}.png")" style="height: 19px; width: 75px;" />
+                                                    </td>
+                                                    <td id="BankName_@i" align="center">@bank.BankName</td>
+                                                    <td id="Accountno_@i" align="center">@bank.AccountNo</td>
+                                                    <td id="Branch_@i" align="center">@bank.BranchName</td>
+                                                    <td id="Bankcode_@i" align="center">@bank.BankCode</td>
+                                                    <td class="ui-border-wo-topleft">
+                                                        <a id="test_@i" accesskey="@dataa" class="txt_blue" onclick="updatetxt(this)" title="Update">
+                                                            <i class="fa fa-edit updico"></i>
+                                                        </a>&nbsp;
+                                                        <a id="test12_@i" class="txt_blue" accesskey="@dataa" onclick="deletetxt(this)" title="Delete">
+                                                            <i class="fa fa-times crosssr"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <input type="hidden" id="bankCount" value="@i" />
+                                                i = i + 1;
+                                                j = j + 1;
+                                                <input type="hidden" name="bknkid" id="bnkid" value="@bank.Id" />
+                                            }
+                                                <!-- No records available message -->
+                                                <tr style="@(hasVisibleBankNames ? "display:none;" : "")">
+                                                    <td colspan="7" align="center" style="font-size: 16px; color: rgb(214, 34, 34);">No records are available</td>
+                                                </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-12 m-top-20" style="padding: 0px;">
+                        <div class="col-md-12 col-sm-12 col-xs-12 newlefd paddzr m-top-10" onclick="addnew()">
+                            <a href="#" class="btn btn-add wrecolor mobwidthmse">Add New</a>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 newrefd m-top-10 paddzr">
+                            <a href="/Dashboard" class="btn btn-add wrecolor mobwidthmse mobmtop">Close</a>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-xs-12" id="message" style="display: none;">
+                        Deleted successfully
+                    </div>
+                    <div class="col-md-8 col-xs-12">
+                        <div class="col-md-6 col-xs-12">
+                            <div id="sucmsg2" class="dkay" style="display: none; color:black;"></div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div id="errmsg2" class="ad" style="display: none"></div>
+                        </div>
+                    </div>
+                    @if (TempData["UpdateMessage"] != null)
+                    {
+                        string message = TempData["UpdateMessage"].ToString();
+                        <div class="col-md-8 col-xs-12" role="alert" style="color: black;">
+                            @message
+                        </div>
+                    }
+
+                    @if (TempData["SuccessMessage"] != null || TempData["ErrorMessage"] != null)
+                    {
+                        if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="text-success col-md-8 col-xs-12" role="alert" style="margin-left: 10px; color: #000000;">
+                                Success
+                            </div>
+                        }
+                        else
+                        {
+                            <div role="alert">
+                                <div class="text-danger col-md-8 col-xs-12">@TempData["ErrorMessage"]</div>
+                            </div>
+                        }
+                    }
+                </div>
+
+            </div>
+
+            <!--------  Update Part Start  --------------->
+            @using (Html.BeginForm("UpdateBank", "Admin", FormMethod.Post, new { id = "UpdateBankForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <div id="updateclick" class="modal" style="display: none">
+                    <div class="col-md-12 col-sm-12 col-xs-12 offset-0 modal-content1 pdng-btm-10">
+                        <!-- Modal Header -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0 fare-rule-txt">
+                            <div class="col-md-10 col-sm-10 col-xs-12">
+                                Update Bank Name
+                            </div>
+                            <div onclick="closebtn()" class="close1">
+                                <b>×</b>
+                            </div>
+                        </div>
+
+                        <!-- Bank Name Dropdown -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                            <div class="col-md-4 col-sm-4 col-xs-12 m-top-10">
+                                Bank Name
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-12 m-top-10">
+                                <select id="bankDropdown" class="form-control" required>
+                                    <option value="">Select Bank</option>
+                                    <!-- Dynamically populate the banks here -->
+                                </select>
+                                <input type="hidden" id="BankNameUpdated" name="NewBankDetail.BankName" />
+                                <input type="hidden" id="BankLogoCodeUpdated" name="NewBankDetail.BankLogoCode" />
+                                <input type="hidden" name="NewBankDetail.Id" id="UpdatedBankId" />
+                                <input type="hidden" name="NewBankDetail.BankLogoCode" id="selectedBankLogo" />
+                            </div>
+                            <span id="updtspnddlbnk" class="er"></span>
+                        </div>
+
+                        <!-- Bank Code Input -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                            <div class="col-md-4 col-sm-4 col-xs-12 m-top-10">
+                                Bank Code
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-12 m-top-10">
+                                @Html.TextBoxFor(m => m.NewBankDetail.BankCode, new { @id = "updbankcode", @class = "form-control" })
+                            </div>
+                            <span id="spclchar" style="color: Red; display: none">* Special Characters not allowed</span>
+                            <span id="updatebankmsg" class="er"></span>
+                        </div>
+
+                        <!-- Account No -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                            <div class="col-md-4 col-sm-4 col-xs-12 m-top-10">
+                                Account No.
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-12 m-top-10">
+                                @Html.TextBoxFor(m => m.NewBankDetail.AccountNo, new { @id = "updaccno", @class = "form-control" })
+                            </div>
+                            <span id="updaccno1" class="er"></span>
+                        </div>
+
+                        <!-- Branch Name -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                            <div class="col-md-4 col-sm-4 col-xs-12 m-top-10">
+                                Branch Name
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-12 m-top-10">
+                                @Html.TextBoxFor(m => m.NewBankDetail.BranchName, new { @id = "updbranchnm", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.NewBankDetail.BankCode, "", new { @class = "text-danger" })
+                            </div>
+                            <span id="Spanupdbrnchnm" class="er"></span>
+                        </div>
+
+                        <!-- Checkboxes -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                            <div class="col-md-4 col-sm-4 col-xs-12 m-top-10">
+                                Please Select Option
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-12 m-top-10">
+                                <div class="pretty p-default">
+                                    @Html.CheckBoxFor(model => model.NewBankDetail.B2b, new { @id = "updb2b", @name = "NewBankDetail.B2b", @class = "d-block" })
+                                    <div class="state p-danger-o">
+                                        <label>B2B</label>
+                                    </div>
+                                </div>
+
+                                <div class="pretty p-default">
+                                    @Html.CheckBoxFor(model => model.NewBankDetail.B2c, new { @id = "updb2c", @name = "NewBankDetail.B2c", @class = "d-block" })
+                                    <div class="state p-danger-o">
+                                        <label>B2C</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default">
+                                    @Html.CheckBoxFor(model => model.NewBankDetail.B2b2b, new { @id = "updb2b2b", @name = "NewBankDetail.B2b2b", @class = "d-block" })
+                                    <div class="state p-danger-o">
+                                        <label>B2B2B</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default">
+                                    @Html.CheckBoxFor(model => model.NewBankDetail.B2b2c, new { @id = "updb2b2c", @name = "NewBankDetail.B2b2c", @class = "d-block" })
+                                    <div class="state p-danger-o">
+                                        <label>B2B2C</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default">
+                                    @Html.CheckBoxFor(model => model.NewBankDetail.D2b, new { @id = "updd2b", @name = "NewBankDetail.D2b", @class = "d-block" })
+                                    <div class="state p-danger-o">
+                                        <label>D2B</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default">
+                                    @Html.CheckBoxFor(model => model.NewBankDetail.Status, new { @id = "updstatus", @name = "NewBankDetail.Status", @class = "d-block" })
+                                    <div class="state p-danger-o">
+                                        <label>Status</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0 text-center m-top-20">
+                            <button type="submit" class="btn btn-add1 wrecolor" id="submitButton">Submit</button>
+                        </div>
+
+                        <!-- Messages -->
+                        <div class="col-md-8 col-xs-12">
+                            <div class="col-md-12 col-xs-12">
+                                <div id="errmsg" class="ad" style="display: none"></div>
+                            </div>
+                            <div class="col-md-12 col-xs-12">
+                                <div id="sucmsg" class="dkay" style="display: none"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-------- Update Part end  --------------->
+            <!--------  addnew Part Start  --------------->
+            @using (Html.BeginForm("AddBankDetail", "Admin", FormMethod.Post, new { id = "AddBankDetailForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <div id="addnewtxt" class="modal" style="display: none">
+                    <div class="col-md-12 col-sm-12 col-xs-12 offset-0 modal-content1 pdng-btm-10">
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0 fare-rule-txt">
+                            <div class="col-md-10 col-sm-10 col-xs-12">
+                                Add New Bank
+                            </div>
+                            <div onclick="closebtn1()" class="close1">
+                                <b>×</b>
+                            </div>
+                        </div>
+
+                        <!-- Bank Name -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                            <div class="col-md-4 col-sm-4 col-xs-12 m-top-10">Bank Name</div>
+                            <div class="col-md-8 col-sm-8 col-xs-12 m-top-10">
+                                <select id="bankDropdownSelect" class="form-control" required>
+                                    <option value="">Select Bank</option> <!-- Placeholder option -->
+                                </select>
+                                <input type="hidden" id="BankName" name="NewBankDetail.BankName" />
+                                <input type="hidden" id="BankLogoCode" name="NewBankDetail.BankLogoCode" />
+                            </div>
+                        </div>
+
+                        <!-- Bank Code -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                            <div class="col-md-4 col-sm-4 col-xs-12 m-top-10">Bank Code</div>
+                            <div class="col-md-8 col-sm-8 col-xs-12 m-top-10">
+                                @Html.TextBoxFor(m => m.NewBankDetail.BankCode, new { @class = "form-control", @onfocus = "hidespanerr();", @onkeypress = "return IsAlphaNumeric(event);", @autocomplete = "off" })
+                                @Html.ValidationMessageFor(m => m.NewBankDetail.BankCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <!-- Account No -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                            <div class="col-md-4 col-sm-4 col-xs-12 m-top-10">Account No.</div>
+                            <div class="col-md-8 col-sm-8 col-xs-12 m-top-10">
+                                @Html.TextBoxFor(m => m.NewBankDetail.AccountNo, new { @class = "form-control", @onfocus = "hidespanerr();", @autocomplete = "off" })
+                                @Html.ValidationMessageFor(m => m.NewBankDetail.AccountNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <!-- Branch Name -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                            <div class="col-md-4 col-sm-4 col-xs-12 m-top-10">Branch Name</div>
+                            <div class="col-md-8 col-sm-8 col-xs-12 m-top-10">
+                                @Html.TextBoxFor(m => m.NewBankDetail.BranchName, new { @class = "form-control", @onfocus = "hidespanerr();", @autocomplete = "off" })
+                                @Html.ValidationMessageFor(m => m.NewBankDetail.BranchName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <!-- Options -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                            <div class="col-md-4 col-sm-4 col-xs-12 m-top-10">Please Select Option</div>
+                            <div class="col-md-8 col-sm-8 col-xs-12 m-top-10">
+                                <div class="pretty p-default">
+                                    @Html.CheckBoxFor(m => m.NewBankDetail.B2b, new { @id = "adddb2b" })
+                                    <div class="state p-danger-o">
+                                        <label>B2B</label>
+                                    </div>
+                                </div>
+
+                                <div class="pretty p-default">
+                                    @Html.CheckBoxFor(m => m.NewBankDetail.B2c, new { @id = "adddb2c" })
+                                    <div class="state p-danger-o">
+                                        <label>B2C</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default">
+                                    @Html.CheckBoxFor(m => m.NewBankDetail.B2b2b, new { @id = "addb2b2b" })
+                                    <div class="state p-danger-o">
+                                        <label>B2B2B</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default">
+                                    @Html.CheckBoxFor(m => m.NewBankDetail.B2b2c, new { @id = "adddb2b2c" })
+                                    <div class="state p-danger-o">
+                                        <label>B2B2C</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default">
+                                    @Html.CheckBoxFor(m => m.NewBankDetail.D2b, new { @id = "addddb2b2c" })
+                                    <div class="state p-danger-o">
+                                        <label>D2B</label>
+                                    </div>
+                                </div>
+                                <div class="pretty p-default">
+                                    @Html.CheckBoxFor(m => m.NewBankDetail.Status, new { @id = "adddstausus" })
+                                    <div class="state p-danger-o">
+                                        <label>Status</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-sm-12 col-xs-12 text-center m-top-20">
+                            <button type="submit" class="btn btn-add1 wrecolor">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            }
+            <!-------- addnew Part end  --------------->
+        </section>
+    </div>
+</div>
+
+<script src="~/assets/js/manageBank.js"></script>

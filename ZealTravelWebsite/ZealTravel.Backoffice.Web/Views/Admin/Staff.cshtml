@@ -1,0 +1,222 @@
+﻿@model ZealTravel.Backoffice.Web.Models.StaffRegister
+@inject IConfiguration Configuration
+@{
+	Layout = "~/Views/Master.cshtml";
+	ViewData["Title"] = "Admin Page";
+}
+<link href="~/assets/css/ledger.css" rel="stylesheet" />
+<link href="~/assets/css/loadingpopup.css" rel="stylesheet" />
+<link href="~/assets/css/reportUI.css" rel="stylesheet" />
+<link href="~/assets/css/ValidationEngine.css" rel="stylesheet" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+@* <link href="~/assets/css/newdashB.css" rel="stylesheet" /> *@
+<link href="~/assets/css/mydatepicker.css" rel="stylesheet" />
+<link href="~/assets/css/style.css" rel="stylesheet" />
+<link href="~/assets/css/destyle.css" rel="stylesheet" />
+<link href="~/assets/css/newd.css" rel="stylesheet" />
+<link href="~/assets/css/colortheme.css" rel="stylesheet" />
+<link href="~/assets/css/AdminLTE.css" rel="stylesheet" />
+<link href="~/assets/css/flightbookings.css" rel="stylesheet" />
+
+
+<link href="Design/css/reportdi.css" rel="stylesheet" />
+<link href="Design/css/ValidationEngine.css" rel="stylesheet" />
+<script src="Design/js/onlinejsmin2.js"></script>
+<script src="Design/js/onlinejsformvalidationengine-en.js"></script>
+<script src="Design/js/onlinevalidationengine.js"></script>
+
+<style>
+    label {
+        font-size: 13px !important;
+        font-weight: 500;
+    }
+</style>
+
+
+
+@using (Html.BeginForm("CreateStaff", "Account", FormMethod.Post, new { id = "Staff.cshtml" }))
+{
+	@Html.AntiForgeryToken()
+
+	<div class="wrapper" style="height: auto;">
+		<div class="content-wrapper" style="min-height: 1548px;">
+
+			<div class="container-fluid">
+				<div style="width: 100%; margin: 0 auto; ">
+					<div class="col-md-12 col-xs-12 offset-0" style="">
+						<h5 class="reportminheader"><i class="fa fa-bullseye wredcolo reportminicon" aria-hidden="true" style=""></i> Staff Registration</h5>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-12 col-sm-12 col-xs-12 offset-0 mn-div1" id="detaildiv">
+
+				<div class="col-md-12 col-sm-12 col-xs-12 m-top-10 offset-0">
+
+					<div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+						<div class="container-fluid">
+							<div class="boxshdr">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="CompanyName">Company Name*</label>
+                                            @Html.TextBoxFor(m => m.CompanyName, new
+                                                {
+                                                    @class = "form-control",
+                                                    @readonly = "readonly",
+                                                    @value = Model.CompanyName
+                                                })
+                                        </div>
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="Title">Salutation*</label>
+                                            @Html.DropDownListFor(m => m.Title, new SelectList(new List<SelectListItem>
+                                        {
+                                        new SelectListItem { Text = "Mr.", Value = "Mr." },
+                                        new SelectListItem { Text = "Mrs.", Value = "Mrs." },
+                                        new SelectListItem { Text = "Ms.", Value = "Ms." }
+                                        }, "Value", "Text"), "Select Salutation", new { @class = "form-control", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="FirstName">First Name*</label>
+                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name", @autocomplete = "off", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="LastName">Last Name*</label>
+                                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name", @autocomplete = "off", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="Company_PhoneNo">Landline*</label>
+                                            @Html.TextBoxFor(m => m.Company_PhoneNo, new { @class = "form-control", @placeholder = "Landline", @autocomplete = "off", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.Company_PhoneNo, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="CompanyEmail">Company Email*</label>
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Company Email", @autocomplete = "off", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="Company_Mobile">Mobile*</label>
+                                            @Html.TextBoxFor(m => m.Company_Mobile, new { @class = "form-control", @placeholder = "Company Phone", @autocomplete = "off", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.Company_Mobile, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="CompanyAddress">Company Address*</label>
+                                            @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @placeholder = "Company Address", @rows = "2", @autocomplete = "off", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="Country">Country*</label>
+                                            @Html.DropDownListFor(m => m.Country, new SelectList(new List<SelectListItem> { new SelectListItem { Text = "India", Value = "India(IN)" } }, "Value", "Text"), new { @class = "form-control" })
+                                        </div>
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="State">State*</label>
+                                            @Html.DropDownListFor(m => m.State, new SelectList(Enumerable.Empty<SelectListItem>(), "Value", "Text"), "Select State", new { @class = "form-control", @id = "stateDropdown", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="City">City*</label>
+                                            @Html.DropDownListFor(m => m.City, new SelectList(Enumerable.Empty<SelectListItem>(), "Value", "Text"), "Select City", new { @class = "form-control", @id = "cityDropdown", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="pin-code">Pincode*</label>
+                                            @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control", @placeholder = "Pin Code", @maxlength = "6",  @autocomplete = "off", @required = "required" })
+                                            @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-12">
+                                            <label for="StaffType">Staff Type*</label>
+                                            @Html.DropDownListFor(
+                                                     m => m.StaffType,
+                                                     new SelectList(
+                                                     new List<SelectListItem>
+                                        {
+                                        new SelectListItem { Text = "Account", Value = "101" },
+                                        new SelectListItem { Text = "All Roles", Value = "109" },
+                                        new SelectListItem { Text = "Sales", Value = "102" },
+                                        new SelectListItem { Text = "Ticketing", Value = "110" },
+                                        new SelectListItem { Text = "Tours", Value = "111" }
+                                        },
+                                                     "Value",
+                                                     "Text"
+                                                     ),
+                                                     "Select Staff Type",
+                                                     new { @class = "form-control", @required = "required" }
+                                                     )
+                                            @Html.ValidationMessageFor(m => m.StaffType, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-xs-12 text-right" style="margin-bottom: 14px; display: flex; justify-content: flex-start; padding-left: 20px;">
+                                            @Html.CheckBoxFor(m => m.AgreeToTerms, new { @class = "validate[required] checkbox", id = "Check" })
+                                            <div id="agreetxt" onclick="return abcchek()" style="cursor: pointer; font-size: 15px; text-align: left; padding-left: 8px;">
+                                                I have read and accepted
+                                                <a target="popup" onclick="window.open('/terms-conditions','name','width=770,height=400,scrollbars=1')" style="cursor: pointer; color: blue;">Terms & Conditions</a>
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.AgreeToTerms, "", new { @class = "text-danger agreetxt1" })
+                                        </div>
+                                    </div>
+                                    
+                                    @if (TempData["SuccessMessage"] != null)
+                                    {
+                                        <div style="margin-left: auto; margin-right: auto; text-align: center; color: green;">
+                                            <span style="font-weight: bold; font-size: large;">@TempData["SuccessMessage"]</span>
+                                        </div>
+                                    }
+
+                                    @if (TempData["ErrorMessage"] != null)
+                                    {
+                                        <div style="margin-left: auto; margin-right: auto; text-align: center; color: red;">
+                                            <span style="font-size: 12px;">@TempData["ErrorMessage"]</span>
+                                        </div>
+                                    }
+
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <input type="submit" class="btn btn-primary" value="Submit" style="background: #04c !important; color: #fff !important; font-size: 19px; padding: 13px 75px; box-shadow: 0px 0px 14px #0000005e;" />
+                                        </div>
+                                    </div>
+                                 
+                                   
+                                </div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/WebResource.axd?d=fQyKacaWOF4mJY-UPuwT5NiO3fJ-cVh1tgZ8E4rr9dCaQptDxRUyIFPb2h0MOGLVVUhqjJ3IXDEWwPtWhQAzjI4uO5N4GIxUTg1-YcInp1M1&amp;t=638606097867553018" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=q3NCfQ2xxAmgSx38300ZUrWHMH_2f6rIPtse4Vc11gPXdPAOXhp0vOIcoCamawkJlWF-6lRARtOsZ9X59V1TlNB9HqVdgSRYAiWRiIlS2GfPxyS7xozjYBYsat5FHugQ_1J8orI-fQaA9QbCeTEOew2&amp;t=f2cd5c5" type="text/javascript"></script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script src="~/assets/js/registerAgency.js"></script>
+<script src="~/assets/js/registration.js"></script>
+<script src="~/assets/js/onlineformvalidationengine.js"></script>

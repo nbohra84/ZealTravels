@@ -1,0 +1,21 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "https://sgtestr4xapi.navitaire.com/ContentManager.svc"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, svc_content"
+    ],
+    "references": [
+      "B:\\Projects\\ZealTravels\\Net8\\ZealTravelWebsite\\ZealTravel.Infrastructure\\bin\\Debug\\net8.0\\ZealTravel.Common.dll",
+      "B:\\Projects\\ZealTravels\\Net8\\ZealTravelWebsite\\ZealTravel.Infrastructure\\bin\\Debug\\net8.0\\ZealTravel.Domain.dll"
+    ],
+    "sync": true,
+    "targetFramework": "net8.0",
+    "typeReuseMode": "Specified"
+  }
+}

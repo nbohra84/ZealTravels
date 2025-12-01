@@ -1,0 +1,298 @@
+﻿@model ZealTravel.Backoffice.Web.Models.FlightBookingListResponse
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+
+
+    <link href="~/assets/css/ledger.css" rel="stylesheet" />
+    <link href="~/assets/css/loadingpopup.css" rel="stylesheet" />
+    <link href="~/assets/css/reportUI.css" rel="stylesheet" />
+    <link href="~/assets/css/ValidationEngine.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+    <link href="~/assets/css/newdashB.css" rel="stylesheet" />
+    <link href="~/assets/css/mydatepicker.css" rel="stylesheet" />
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+    <link href="~/assets/css/destyle.css" rel="stylesheet" />
+    <link href="~/assets/css/newd.css" rel="stylesheet" />
+     <link href="~/assets/css/colortheme.css" rel="stylesheet" />
+    <link href="~/assets/css/AdminLTE.css" rel="stylesheet" />
+    <link href="~/assets/css/flightbookings.css" rel="stylesheet" />
+
+<script src="~/assets/js/ledger.js" defer></script>
+
+@*
+<input type="hidden" id="searchdate" />
+<input type="hidden" id="Cmpnydatat" /> *@
+
+<div class="wrapper">
+    <div class="content-wrapper">
+        <section class="content" style="padding: 0px">
+            
+                    @using (Html.BeginForm("FlightBookings", "Report", FormMethod.Post, new { id = "FlightBookings", @class = "ledger-form" }))
+                    {
+                        <input type="hidden" name="bookingReference" value="@Model.BookingReference" id="hiddenBookingReference" />
+                        <input type="hidden" name="pnr" value="@Model.PNR" id="hiddenPnr" />
+                        <input type="hidden" name="ticketNumber" value="@Model.TicketNumber" id="hiddenTicketNumber" />
+                        <input type="hidden" name="passengerName" value="@Model.PassengerName" id="hiddenPassengerName" />
+                        <input type="hidden" name="filterFromDate" value="@Model.FilterFromDate.ToString("yyyy-MM-dd")" />
+                        <input type="hidden" name="filterToDate" value="@Model.FilterToDate.ToString("yyyy-MM-dd")" />
+                        <div class="container-fluid">
+                            <div style="width: 100%; margin: 0 auto;">
+
+                                <div class="col-md-12 offset-0">
+                                    <h5 class="reportminheader">
+                                        <i class="fa fa-envelope wredcolo reportminicon" aria-hidden="true" style=""></i> Ticket Report
+                                        <span class="" style="position:absolute;right: 9px;top: 14px;">
+                                            <button type="submit" class="btn btn-success" style="background-color: transparent; border: none; padding:0;" formmethod="post" formaction="@Url.Action("FlightBookingExportToExcel", "Report")"
+                                            @(Model.ReportTableHTML != null && Model.ReportTableHTML.Any() ? "" : "disabled")>
+                                                <img src="\assets\img\excl.png" style="width: 29px;">
+                                            </button>
+                                            <button type="submit" class="btn btn-danger" style="background-color: transparent; border: none; padding:0;" formmethod="post" formaction="@Url.Action("FlightBookingExportToPdf", "Report")"
+                                            @(Model.ReportTableHTML != null && Model.ReportTableHTML.Any() ? "" : "disabled")>
+                                                <img src="\assets\img\pdf.png" style="width: 26px;">
+                                            </button>
+                                        </span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="col-md-2 col-xs-12 m-top-10">
+                            <div class="col-md-12 col-xs-12">
+                                <label>From</label>
+                            </div>
+                            <div class="col-md-12 col-xs-12 input-group input-append date datetopic" style="padding-left: 15px;">
+                                <input type="text" name="fromDate" id="txtfromdate" value="@Model.FromDate.ToString("yyyy-MM-dd")" class="form-control" autocomplete="off" required />
+                                <span class="input-group-addon add-on" id="fromspan">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-xs-12 m-top-10">
+                            <div class="col-md-12 col-xs-12 offset-0">
+                                <label>To</label>
+                            </div>
+                            <div class="col-md-12 col-xs-12 input-group input-append date datetopic">
+                                <input type="text" name="toDate" id="txtTodate" value="@Model.ToDate.ToString("yyyy-MM-dd")" class="form-control" autocomplete="off" required />
+                                <span class="input-group-addon add-on" id="Tospan">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 offset-0 col-xs-12 mqwrhg m-top-10">
+                            <div class="col-md-12 col-xs-12">
+                                <label>Search</label>
+                            </div>
+                            <div class="col-md-12 col-xs-12 offset-0">
+                                @Html.DropDownListFor(
+                                         model => model.TicketSearchType,
+                                         new SelectList(
+                                         new List<Object>
+                            {
+                            new { value ="SEARCH" , text = "Bookings" },
+                            new { value = "PG" , text = "Gateway"},
+                            new { value = "Prepaid" , text = "Prepaid"},
+                            new { value = "REJECT" , text = "Rejections"},
+                            new { value = "PENDING" , text = "Pendings"},
+                            new { value = "PAYMENTHOLD" , text = "Payment Hold"},
+                            new { value = "CANCEL" , text = "Cancel Requests"}
+
+                            },
+                                         "value",
+                                         "text",
+                                         Model.TicketSearchType
+                                         ),
+                                         new { @class = "form-control" }
+
+                                         )
+
+                            </div>
+                        </div>
+
+                <div class="col-md-2 col-xs-12 m-top-10">
+                    <label>&nbsp; &nbsp; Agency </label>
+                    <div class="col-md-12 col-xs-12">
+                        <input name="CompanyNameWithAccountId" ID="searchTerm" value="@Model.CompanyNameWithAccountId"
+                            class="form-control"></input>
+                        <ul class="col-md-12 col-xs-12 daily-serach-result ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all"
+                            role="listbox" aria-activedescendant="ui-active-menuitem"
+                            style="z-index: 1;display: block;border: none;padding: 0;">
+                            <li class="ui-menu-item" role="menuitem"><a class="searchResults ui-corner-all" tabindex="-1"
+                                    style="display: none;"></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                         <div class="col-md-2 col-xs-12 pdbt maksedkh" style="padding-top: 12px;">
+                            <button type="submit" class="search-btn1 validate-date-range" style="background-color: transparent; border: none;" aria-label="Search">
+                                <img src="\assets\img\search.png" style="width: 43px;margin-top: 20px;" />
+                            </button>
+                        </div>
+
+                    }
+    
+        <div class="panel-body" style="min-height: 500px; padding-top:5px;">
+                <div class="row bd8">
+                    <div class="col-md-9 table-responsive offset-0 panel-body" style="background: #fff; padding-right: 7px !important; padding-top: 1px;" id="DetailDiv">
+                         <div class="col-md-12 col-xs-12 mbnpad daterestrict" id="errorDiv" style="display: none;">
+                        <p>Maximum 31 days report can be seen.!</p>
+                    </div>
+                        @if (Model.ReportTableHTML != null)
+                        {
+                            @Html.Raw(@Model.ReportTableHTML)
+                        }
+                        else
+                        {
+                            <h2 class="text-center" style="color: Red;">No records found.</h2>
+                        }
+                    </div>
+                 
+                    @using (Html.BeginForm("FlightBookings", "Report", FormMethod.Post, new { id = "FlightBookings", @class = "FlightBookings" }))
+                    {
+                        <input type="hidden" name="fromDate" value="@Model.FromDate.ToString("yyyy-MM-dd")" />
+                        <input type="hidden" name="toDate" value="@Model.ToDate.ToString("yyyy-MM-dd")" />
+                        <input type="hidden" name="ticketSearchType" value="@Model.TicketSearchType" />
+                        <div class="col-md-3 col-xs-12">
+                             <div id="ContentPlaceHolder1_SalesDiv" class="col-md-12 col-xs-12 col-sm-12 offset-0 boxshdr" style="font-size: 11px;font-weight: 600;">
+                    @if (Model.SalesTable != null)
+                    {
+                        @Html.Raw(@Model.SalesTable)
+                    }
+                    else
+                    {
+                        <h2 class="text-center" style="color: Red;">No records found.</h2>
+                    }
+                </div>
+                            <div class="col-md-12 mnbx">
+                                <h2 class="minhead" style="text-align: center; border-bottom: 1px solid #ccc; background: #f7f7f8; font-weight: 600;">Search</h2>
+                                <div class="col-md-12 col-xs-12 mnpad">
+                                    <h2 class="minhead">By Booking Ref</h2>
+                                    <div class="col-md-12 col-xs-12 minpad">
+                                        <input type="text" name="bookingReference" value="@Model.BookingReference" id="ContentPlaceHolder1_txtbookreffilter" class="form-control" maxlength="6" autocomplete="off" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-xs-12 mnpad">
+                                    <h2 class="minhead">By PNR</h2>
+                                    <div class="col-md-12 col-xs-12 minpad">
+                                        <input type="text" name="pnr" id="ContentPlaceHolder1_restricpnr" value="@Model.PNR" class="form-control" maxlength="15" autocomplete="off" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-xs-12 mnpad">
+                                    <h2 class="minhead">By Ticket Number</h2>
+                                    <div class="col-md-12 col-xs-12 minpad">
+                                        <input type="text" name="ticketNumber" id="ContentPlaceHolder1_restricticket" value="@Model.TicketNumber" class="form-control" maxlength="13" autocomplete="off" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-xs-12 mnpad">
+                                    <h2 class="minhead">By PAX</h2>
+                                    <div class="col-md-12 col-xs-12 minpad">
+                                        <input type="text" name="passengerName" id="ContentPlaceHolder1_restricpax" value="@Model.PassengerName" class="form-control" maxlength="15" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div id="searchbydatediv" style="display: none;">
+                                    <div class="col-md-12 col-xs-12 mnpad">
+                                        <h2 class="minhead">Booking From </h2>
+                                        <div class="col-md-12 col-xs-12 minpad">
+                                            <div class="col-md-12 col-xs-12 offset-0 widthhum input-group input-append date datetopic" id="div2">
+                                                <input type="text" name="filterFromDate" id="ContentPlaceHolder1_txtRestrictfromdate" value="@Model.FilterFromDate.ToString("yyyy-MM-dd")" class="form-control" autocomplete="off" />
+                                                <span class="input-group-addon add-on" id="Span2"><span class="fa fa-calendar"></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 mnpad">
+                                        <h2 class="minhead">Booking To </h2>
+                                        <div class="col-md-12 col-xs-12 minpad">
+                                            <div class="col-md-12 col-xs-12 offset-0 widthhum input-group input-append date datetopic" id="div3">
+                                                 <input type="text" name="filterToDate" id="ContentPlaceHolder1_txtRestricttodate" value="@Model.FilterToDate.ToString("yyyy-MM-dd")" class="form-control" autocomplete="off" />
+                                                <span class="input-group-addon add-on" id="Span3"><span class="fa fa-calendar"></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-xs-12 mbnpad">
+
+                                    <button type="submit" id="applyButton" class="search-btn1 btn btn-default wrecolor" style="padding-top: 3px; padding-bottom: 3px; width: 100%;">
+                                    Apply
+                                </button>
+
+                                    <a id="clearButton" href="#" class="btn btn-default wrecolor" style="padding-top: 3px; padding-bottom: 3px; width: 100%;";">Clear All </a>
+                                     <div id="messageArea" class="mt-2" style="color: #fe0811;float: left;padding: 4px;padding-left: 10px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                    @if (Model.ReportTableCompanyPopup != null)
+                    {
+                        <div id="divModel"> @Html.Raw(@Model.ReportTableCompanyPopup) </div>
+
+                    }
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+<script src="~/assets/js/dailybooking.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+<script>
+    function Openpopup() {
+        //debugger;
+        var res = getDatediffrence();
+        if (res) {
+            $("#modalloading").css("display", 'block');
+        }
+        else {
+            return false
+        }
+    }
+    function closepopup() {
+        //debugger;
+        $("#modalloading").css("display", 'none');
+    }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    // Add event listeners to all open modal buttons
+    const openModalButtons = document.querySelectorAll('[id^="openModal_"]');
+    openModalButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const modalId = this.id.replace('openModal_', 'myModal_'); // Generate modal ID
+            showDetail(modalId);
+        });
+    });
+
+    // Add event listeners to all close buttons
+    const closeButtons = document.querySelectorAll('[id^="closeButton_"]');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const modalId = this.getAttribute('data-modal-id');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                modal.style.pointerEvents = 'none';
+            }
+        });
+    });
+});
+
+function showDetail(modalId) {
+    var modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.pointerEvents = 'auto'; 
+        modal.style.display = 'block'; 
+    }
+}
+
+</script>
+<script src="~/assets/js/flightbookings.js" defer></script>

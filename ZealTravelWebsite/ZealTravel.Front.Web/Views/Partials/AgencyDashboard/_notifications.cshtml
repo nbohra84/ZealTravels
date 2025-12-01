@@ -1,0 +1,37 @@
+﻿@model ZealTravel.Front.Web.Models.Agency.Dashboard.AgencyDashboardResponse
+
+<div class='col-md-12 brdr-btm-1' style='padding:5px; background:#fff;'>
+    <h4 class='ddawcolor15' style='font-weight:600;padding-top: 5px;padding-bottom: 0px;font-size: 13px;margin-left: -5px;margin-right: -4px;margin-bottom: 10px;margin-top: -5px; padding:10px;'>
+        <i class='fa fa-bell bell-notifyfont'></i> Notifications
+    </h4>
+
+    @for (int j = 0; j < Model.Notification.Count; j++)
+    {
+        var notification = Model.Notification[j];
+        var desc = notification.Description;
+
+        if (j == 0)
+        {
+            <div class='col-md-12 content tavl' id='toggleText0' style='padding:0px;'>
+                <blink>@desc</blink>
+            </div>
+        }
+        else
+        {
+            <div class='col-md-12' style='padding-top:10px; font-size:13px; padding:0px;'>
+                <div class='col-md-8' style='background: url(@Url.Content("~/images/finger.png")) no-repeat 0px 2px;'>
+                    &nbsp;&nbsp;&nbsp;<a href='@notification.Link' target='_blank'>@notification.Subject:</a>
+                </div>
+                <div class='col-md-4' style='text-align:right'>
+                    <a id='displayText@j' href='javascript:toggle(@j);'>
+                        <b> More </b>
+                        <img src='@Url.Content("~/images/new_blink.gif")' style='width: 20%;'>
+                    </a>
+                </div>
+            </div>
+            <div class='col-md-12 content' id='toggleText@j' style='padding-bottom:0px; font-size:13px; display:none; overflow-x: auto; padding:0px;'>
+                <blink>@desc</blink>
+            </div>
+        }
+    }
+</div>

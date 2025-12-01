@@ -1,0 +1,149 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+<div class="container-fluid" style="background: #fff; padding-bottom: 7px;">
+    <header>
+        <div class="topnavhead">
+            <div class="topminhadd">
+                <div class="col-md-12 col-xs-12">
+                    <div class="col-md-6 col-xs-12 offset-0" style="display: none">
+                        <div class="socialicon">
+                            <ul class="dispemnu">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="maingy">
+                            <span>Contact: @Configuration["Company:Phone"]</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xs-12 offset-0 mintopstripe">
+                        <div class="helpline">
+                            <div class="support_icn_hp"></div>
+                            <div class="sub_header_link">
+                                24x7 Helpline <i class="down_arw"></i>
+
+                                <div class="hidsedcs">
+                                    <a>
+                                        <span class="corport-txt" style="display: block;">
+                                            <i class="fa fa-phone"></i>
+                                            @Configuration["Company:Phone"]
+                                        </span><span class="corport-txt"></span>
+                                    </a>
+                                    <a href="javascript:void()">
+                                        <span class="corport-txt">
+                                            <i class="fa fa-envelope"></i>
+                                            @Configuration["Company:Email"]
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <span style="color:#fff; font-size:17px">
+                            @Configuration["Company:Phone"]
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="headerdv">
+            <div>
+                <div class="col-md-12 col-xs-12">
+                    <div class="col-md-7 col-xs-6 offset-0">
+                        <div class="logodiv">
+                            <a href="/Agency/Dashboard">
+
+                                <img src="/assets/img/logot.png" class="logoimgdv">
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-5 col-xs-6 offset-0">
+                        <div class="menunav">
+                            <div class="showaccount @(User.Identity.IsAuthenticated ?"logedin":"")">
+                                <div class="dropdownwer profilemty">
+                                    <span class="myaccountdiv">+ Services &nbsp;   </span>
+                                    <div class="dropdownwer-content">
+
+                                        <ul id="header_menuhdiv" class="minacouhv">
+                                            <li id="fls" class="text-center" data-title="flight">
+                                                <a id="f1" class="text-center" href="/flight/index">
+                                                    <img src="/assets/img/visa.png" class="widthimgcli"> Flights
+                                                </a>
+                                            </li>
+                                            <li class="text-center" id="Group_holiday" data-title="Group_holiday">
+                                                <a href="index">
+                                                    <i class="fa fa-map-signs" style="color: #adabab;"></i> Holidays
+                                                </a>
+                                            </li>
+                                            <li class="text-center" id="visadivid" data-title="VISA">
+                                                <a href="index.aspx?R=V" onclick="VisaSearch();">
+                                                    <img src="/assets/img/visa.png" class="widthimgcli"> Visa
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <div id="header_divMenuAfterLogin">
+
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <label>
+                                            Available Balance Rs: @ViewBag.AvailableBalance
+                                        </label>
+                                    }
+                                   <nav>
+                                        <a id="resp-menu" class="responsive-menu" href="#"><i class="fa fa-reorder"></i>Menu</a>
+                                        <ul class="menu"><li><a href="#" style="border-bottom: 0px solid #ccc;"><img src="/assets/img/profileicon.png" class="agentboximg" alt="togglemenu">&nbsp;&nbsp; Hi @User.Claims.FirstOrDefault(c => c.Type == "CompanyName")?.Value &nbsp;&nbsp;<i class="fa fa-caret-down"></i></a><ul class="sub-menu"><li><a href="/Agency/Dashboard"> <i class="fa fa-tachometer"></i> ZL @User.Claims.FirstOrDefault(c => c.Type == "AccountID")?.Value </a></li><li><a href="#"> <i class="fa fa-book markup"></i> Manage Agency </a><ul><li><a href="/Agency/Profile"> <i class="fa fa-file-text-o"></i> Profile </a></li><li><a href="/agency/changepassword"> <i class="fa fa-file-text-o"></i> Change Password </a></li></ul></li><li><a href="#"> <i class="fa fa-money"></i> Payments </a><ul><li><a href="fund_transfer_callcenter.aspx"> <i class="fa fa-file-text-o"></i> Deposit Report </a></li><li><a href="recharge.aspx">Recharge</a></li></ul></li><li><a href="#"> <i class="fa fa-file-text-o"></i> Reports </a><ul><li><a href="/Agency/Report/dailybookings"> <i class="fa fa-file-text-o"></i> Daily Bookings </a></li><li><a href="/Agency/Report/FlightBookings"> <i class="fa fa-file-text-o"></i> Flight Bookings </a></li><li><a href="/Agency/Report/Ledger"> <i class="fa fa-file-text-o"></i> Ledger </a></li></ul></li><li> <form id="logoutForm" method="post" action="/Account/Logout"> @Html.AntiForgeryToken() <button class="" type="submit">Logout</button> </form> </li></ul></li></ul>
+                                    </nav>
+                                </div>
+                            }
+
+                            else
+                            {
+                                <div class="myaccountsdiv" id="divMenuBeforeLogin">
+                                    <div class="dropdownwer profilemty wesxfd" id="sedax">
+                                        <img src="/assets/img/profileicon.png" class="agentboximg" alt="togglemenu">
+                                        <span class="myaccountdiv1" onclick="myclipopse()">My Trips</span>
+                                        <div class="dropprofilmenu" id="closclippo" style="display:none;">
+                                            <ul class="minprofilebox">
+                                                <li class="okgdd">
+                                                    <span class="okgddwe">
+                                                        <a href="/" class="mypsedse">
+                                                            <i class="fa fa-sign-in" aria-hidden="true"></i> Sign In
+                                                        </a>
+                                                        <span class="mainsed">
+                                                            <a href="Registration" class="insed">
+                                                                <span class="losedf">New here? </span> Register Agent
+                                                            </a>
+                                                        </span>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div id="header_divShortMenuAfterLogin">
+                            </div>
+                            <div id="header_divMenuBeforeLogin" class="myaccountsdiv">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+
+
+
+
+<script src="/assets/js/header.js"></script>

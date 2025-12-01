@@ -1,0 +1,162 @@
+﻿@model ZealTravel.Front.Web.Models.DailyBookingReportsListResponse
+
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+
+<link href="~/assets/css/mydatepicker.css" rel="stylesheet" />
+<link href="~/assets/css/AdminLTE.css" rel="stylesheet" />
+<link href="~/assets/css/table.css" rel="stylesheet" />
+<link href="~/assests/css/newdashB.css" rel="stylesheet" />
+<link href="~/assests/css/ValidationEngine.css" rel="stylesheet" />
+<link href="~/assests/css/dailybooking.css" rel="stylesheet" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+<link href="~/assets/css/reportdi.css" rel="stylesheet" />
+<link href="~/assets/css/colortheme.css" rel="stylesheet" />
+ 
+
+
+
+@using (Html.BeginForm("DailyBookingReports", "Agency", FormMethod.Post, new { id = "DailyBookingReportsForm" }))
+{
+    <div class="wrapper">
+        <div id="ContentPlaceHolder1_UpdatePanel1">
+            <div class="content-wrapper">
+                <section class="content">
+                    <div class="container-fluid"> 
+                        <div style="width: 100%; margin: 0 auto; ">
+                            <div class="col-md-12 col-xs-12 offset-0">
+                                <h5 class="reportminheader"><i class="fa fa-sitemap wredcolo reportminicon" aria-hidden="true"></i> Daily Booking Report
+                                    <span class="" style="position:absolute;right: 9px;top: 14px;">
+                                        <button type="submit" class="btn btn-danger" style="background-color: transparent; border: none; padding:0;" formmethod="post" formaction="@Url.Action("ExportToPDF", "Agency")"
+                                    @(Model.BookingReports != null && Model.BookingReports.Any() ? "" : "disabled")>
+                                        <img src="\assets\img\pdf.png" style="width: 26px;">
+                                    </button>
+                                        <button type="submit" class="btn btn-success" style="background-color: transparent; border: none; padding:0;" formmethod="post" formaction="@Url.Action("ExportToExcel", "Agency")"
+                                    @(Model.BookingReports != null && Model.BookingReports.Any() ? "" : "disabled")>
+                                        <img src="\assets\img\excl.png" style="width: 29px;">
+                                    </button>
+                                    </span>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body" style="min-height: 500px; padding-top:5px;">
+                            @Html.AntiForgeryToken()
+
+                         <div class="col-md-12 col-xs-12 boxshdrr" style="padding-top:20px;">
+                               <div class="col-md-12 col-xs-12 boxshdr" style="padding:20px 0 0 0;">
+                                @{
+                                    var companyId = User.FindFirst("CompanyID")?.Value;
+                                }
+
+                                @if (companyId != null)
+                                {
+                                    <input type="hidden" name="CompanyID" value="@companyId" />
+                                }
+
+                                <div class="col-md-3 col-xs-12 widthhum">
+                                    <label class="font17">From</label>
+                                   <div class="col-md-12 col-xs-12 widthhum input-group input-append date datetopic" id="Div1">
+           
+                                        <input name="StartDate" id="txtFromDate" class="form-control" value="@Model.StartDate.ToString("yyyy-MM-dd")" required autocomplete="off" data_provide="datepicker" />
+                                      <span class="input-group-addon add-on" id="calendarIcon">
+                                            <span class="fa fa-calendar"></span>
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-3 col-xs-12 widthhum">
+                                    <label class="font17">To</label>
+                                 <div class="col-md-12 col-xs-12 widthhum input-group input-append date datetopic" id="Div2">
+                                    
+                                        <input name="EndDate" id="txtFromDate1" class="form-control" value="@Model.EndDate.ToString("yyyy-MM-dd")" required autocomplete="off" data_provide="datepicker" />
+                                    <span class="input-group-addon add-on" id="calendarIcon2">
+                                        <span class="fa fa-calendar"></span>
+                                    </span>
+                                </div>
+
+                                </div>
+
+                            <div class="col-md-2 col-xs-12 pdbt maksedkh" style="padding-top: 12px;">
+                                    <button type="submit" class="search-btn1"  style="background-color: transparent; border: none;" aria-label="Search"><img src="\assets\img\search.png" style="width: 43px;margin-top: 13px;"></button>
+                                </div>
+                                <div class="col-md-2 col-xs-12 text-right" style="padding-top: 12px;">
+                                    <input type="hidden" name="StartDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" />
+                                    <input type="hidden" name="EndDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" />
+                                </div>
+                            </div>
+                        
+
+                        <div class="col-md-12 col-xs-12 table-responsive" style="width: 100%; margin-top: 15px;"  id="ContentPlaceHolder1_tbl">
+                            @if (Model.BookingReports != null && Model.BookingReports.Any())
+                            {
+                                <table class="defaultText table table-striped table-bordered table-hover" style="width: 100%; margin-top: 15px;"  id="Ticketrept">
+                                    <thead>
+                                        <tr class="hg">
+                                            <th class="ui-border-wo-left">SNO</th>
+                                            <th class="ui-border-wo-left">CarrierCode</th>
+                                            <th class="ui-border-wo-left">CarrierName</th>
+                                            <th class="ui-border-wo-left">TotalBasic</th>
+                                            <th class="ui-border-wo-left">TotalYQ</th>
+                                            <th class="ui-border-wo-left">TotalFare</th>
+                                            <th class="ui-border-wo-left">TotalCommission</th>
+                                            <th class="ui-border-wo-left">NoOfPassengers</th>
+                                            <th class="ui-border-wo-left">NoOfBookings</th>
+                                        </tr>
+                                    </thead>
+                                        @{
+                                            int i = 1;
+                                            foreach (var booking in Model.BookingReports)
+                                            {
+                                                <tbody>
+                                                <tr id="Tr_@i">
+                                                    <td class="ui-border-wo-topleft" align="center" style="border: 1px solid #eeeded;">@i</td>
+                                                    <td class="ui-border-wo-topleft" align="center" style="border: 1px solid #eeeded;">@booking.CarrierCode</td>
+                                                    <td class="ui-border-wo-topleft" align="center" style="border: 1px solid #eeeded;">@booking.CarrierName</td>
+                                                    <td class="ui-border-wo-topleft" align="center" style="border: 1px solid #eeeded;">@booking.TotalBasic</td>
+                                                    <td class="ui-border-wo-topleft" align="center" style="border: 1px solid #eeeded;">@booking.TotalYQ</td>
+                                                    <td class="ui-border-wo-topleft" align="center" style="border: 1px solid #eeeded;">@booking.TotalFare</td>
+                                                    <td class="ui-border-wo-topleft" align="center" style="border: 1px solid #eeeded;">@booking.TotalCommission</td>
+                                                    <td class="ui-border-wo-topleft" align="center" style="border: 1px solid #eeeded;">@booking.NoOfPassengers</td>
+                                                    <td class="ui-border-wo-topleft" align="center" style="border: 1px solid #eeeded;">@booking.NoOfBookings</td>
+                                                </tr>
+                                                </tbody>
+                                                i++;
+                                            }
+                                        }
+                                </table>
+                            }
+                            else if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                            {
+                                <tr style="width: 100%;" id="Tr2">
+                                    <td style="border:0px;">
+
+                                    <h2 class="text-center" style="color: Red;">@Model.ErrorMessage</h2>
+
+                                    </td>
+                                </tr>
+                            }
+                        </div>
+                         </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/assets/js/mydatepicker.js"></script>
+<script src="~/assets/js/dailybooking.js"></script>
+
+<script src="/WebResource.axd?d=b4vQ3nkh0YXusI1oDGqwQ5a5KKewaWb8_1qvP0dGaOqIOMxvNaf4lkSzCloeNbwlnjWKtsrIqSA1BblYA66i387wgVNqQ3rgSI9vxMzsX9o1&amp;t=637814851746327080" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=_s1ZJtO9CB6kwsSoN0HemdkgnSdC9gZ0hbZVFeYywjcupXTJOcEaJFNTgMBgWQV2geaw_6J1sDbTGQnIltmZumwb9aNidN2lPyuVK9K66n_KLTKo3Jilt75zHvAcIW0HymkLXRU7hbPW8GDoNguGoQ2&amp;t=f2cd5c5" type="text/javascript"></script>
+
+<script src="/ScriptResource.axd?d=4mAN4EvI3A_yqXfgYLz4Aa3luxy6rVDP5Ewo2pjUqw6i-btRsl6GEJHONE8EYEd3gAyRC9dIG_CcxuBW9MVYH-UDIIlfvrWPiwbPu3pDvTOOJaQbbyo1xxlX1r-ExdpuKFJJldCW28QdrY-l2k75zA2&amp;t=f2cd5c5" type="text/javascript"></script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+

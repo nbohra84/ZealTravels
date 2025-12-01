@@ -1,0 +1,567 @@
+﻿
+<div class="col-md-12 col-sm-12 col-xs-12 back-box  m-top-10 offset-0  animated bounceInDown mobilehegi" id="modifypart" style="display:block;">
+    @* modifysearch menu div start *@
+    <div class="col-md-12 col-sm-12 col-xs-12 offset-0" id="modmenudv" style="display:none;">
+        <div class="col-md-2 col-sm-3 col-xs-12 trip-box" id="OnwayModDiv" style="border-radius: 4px 0px 0px;" onclick="ModifyOneWay();">
+            <input type="radio" name="r1" id="Trip1" value="O" readonly />  One Way
+        </div>
+        <div class="col-md-2 col-sm-3 col-xs-12 trip-box" id="RTModDiv" style="" onclick="ModifyRoundWay();">
+            <input type="radio" name="r1" id="Trip2" value="R" readonly />
+            Round Way
+        </div>
+        <div class="col-md-2 col-sm-3 col-xs-12 trip-box" id="DiscRTModDiv" style="" onclick="ModifyDiskRT();">
+            <input type="radio" name="r1" id="Trip3" value="DRT" readonly/>
+            Dis. RoundTrip
+        </div>
+        <div class="col-md-2 col-xs-4 trip-box offset-0 whcolor" style="text-align:center; border-radius: 0px 4px 0px 0px;" id="multiRTModDiv" onclick="ModifyMulticityshow();">
+            <input type="radio" name="r1" id="Trip4" value="MRT" readonly/>
+            <span>Multi-City</span>
+        </div>
+        @* for future reference keeping it 
+        <div class="col-md-2 col-sm-3 col-xs-12 trip-box" id="RTModDiv" style="" onclick="ModifyRoundWay();">
+            <input type="radio" name="r1" id="Trip2" value="R" readonly />
+            Round Way
+        </div>
+        <div class="col-md-2 col-sm-3 col-xs-12 trip-box" id="DiscRTModDiv" style="" onclick="ModifyDiskRT();">
+            <input type="radio" name="r1" id="Trip3" value="DRT" readonly/>
+            Dis. RoundTrip
+        </div>
+        <div class="col-md-2 col-xs-4 trip-box offset-0 whcolor" style="text-align:center; border-radius: 0px 4px 0px 0px;" id="multiRTModDiv" onclick="ModifyMulticityshow();">
+            <input type="radio" name="r1" id="Trip4" value="MRT" readonly/>
+            <span>Multi-City</span>
+        </div> *@ 
+        <div class="col-md-4 col-xs-12 offset-0"></div>
+        <div class="col-md-2 col-xs-12 offset-0 alignrght">
+            <div class="crossdiv">
+                <a id="crossdivmodi" style="color:#fff;font-size: 18px; cursor:pointer;"> <i class="fa fa-times crosdivback" aria-hidden="true"></i> </a>
+            </div>
+        </div>
+    </div>
+    @* --modifysearch menu div end-- *@
+
+    <div class="col-md-12 col-sm-12 col-xs-12  modifybox text-left offset-0">
+        <div class="col-md-8 col-xs-12 offset-0" id="fltOWRW">
+            <div class="col-md-3 col-xs-12 m-top-10">
+                <label style="color: #000;" class="lblclssw">From</label>
+                <div class="fromfield-outer">
+                    <span class="ui-helper-hidden-accessible"></span>
+                    <input class="form-control ui-autocomplete-input Chkval ui-autocomplete-loading ui-corner-all" title="please  enter valid departure city" id="oricity" onclick="this.setSelectionRange(0, this.value.length)" placeholder="Select Origin" autocomplete="off" type="text">
+                </div>
+            </div>
+            <div class="sector-center m-top-10" style="position:absolute" onclick="Fromtoswap();">
+                <img src="/assets/img/arrow-l-r.png" style="width: 20px; height: 15px; margin-left: 9px; margin-top: 3px;" />
+            </div>
+            <div class="col-md-3 col-xs-12 m-top-10">
+                <label style="color: #000;" class="lblclssw">To</label>
+                <div class="fromfield-outer">
+                    <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                    <input class="form-control ui-autocomplete-input Chkval" title="please  enter valid arrival city" id="desticity" onclick="this.setSelectionRange(0, this.value.length)" placeholder="Select Destination" autocomplete="off" type="text" />
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xs-12 offset-0" style="">
+                <div class="col-md-6 col-xs-6 m-top-10">
+                    <label class="lblclssw"> Departs on</label>
+                    <input id="FlightSearch_txtDepartureDate" type="text" readonly="true" onfocus="if (this.value == 'dd/mm/yyyy') {this.value=''}"
+                           name="AirlineData[0].Departure" style="background:#fff" class="form-control calendarfield flt-lft d11" title="">
+                    <div class="calendar-icon" style="background: url()"> </div>
+                </div>
+                <div class="col-md-6 col-xs-6 m-top-10" id="oneway" style="display: none;">
+                    <label class="lblclssw">Return on</label>
+                    <input id="FlightSearch_txtReturnDate" type="text" readonly="true" style="background:#fff" onfocus="if (this.value == 'dd/mm/yyyy') {this.value=''}"
+                           onblur="if(this.value == '') { this.value='dd/mm/yyyy'}" value="dd/mm/yyyy" name="Return"
+                           class="form-control flt-rt calendarfield-disable d11" />
+                    <div id="imgReturn" class="home-sprite calendar-disable-icon" style="background: url()">
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-6 m-top-10" id="roundway" style="display: none;">
+                    <label class="lblclssw">Return on</label>
+                    <input type="text" onfocus="if (this.value == 'dd/mm/yyyy') {this.value=''}" onblur="if(this.value == '') { this.value='dd/mm/yyyy'}"
+                           value="dd/mm/yyyy" name="Return" readonly class="flt-rt calendarfield d11" />
+                    <div class="calendar-icon1" style="background: url()">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-8 col-sm-12 col-xs-12 offset-0" id="multicitydiv" style="display:none;">
+            <div class="col-md-12 col-sm-12 col-xs-12 multicityrow offset-0">
+                <div class="col-md-4 col-sm-6 m-top-10">
+                    <label for="fromsector" class="lblclssw">
+                        From
+                    </label>
+                    <div class="">
+                        <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                        <input type="text" id="Morigin_1" placeholder="Type Departure Location Here" onfocus="if (this.value == 'Type Departure Location Here') {this.value=''};" class="classic form-control multicitysector"
+                               title="" name="AirlineData[0].MFrom" autocomplete="off" onkeydown="return (event.keyCode!=13);" onclick="this.setSelectionRange(0, this.value.length)">
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 m-top-10">
+                    <label for="ToSector" class="lblclssw">  To</label>
+                    <div class="">
+                        <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                        <input type="text" id="Mdestination_1" placeholder="Type Arrival Location Here" onfocus="if (this.value == 'Type Departure Location Here') {this.value=''};" class="classic form-control multicitysector"
+                               title="" name="AirlineData[0].MTo" autocomplete="off" " onkeydown = " return (event.keyCode!=13);" onclick="this.setSelectionRange(0, this.value.length)">
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 m-top-10 ">
+                    <label class="lblclssw">
+                        Departs on
+                    </label>
+                    <input type="text" id="Mdepartdate_1" placeholder="dd/mm/yyyyyy" readonly="False" name="AirlineData[0].MDeparture" class="classic form-control cal-1 Mdepartfirst" style="cursor:pointer">
+                    <div class="calendar-icon multicicond" style="background: url()"> </div>
+                </div>
+                <div class="col-md-1 col-sm-6 m-top-10 "></div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 multicityrow offset-0">
+                <div class="col-md-4 col-sm-6 m-top-10">
+                    <label for="fromsector" class="lblclssw">
+                        From
+                    </label>
+                    <div class="">
+                        <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                        <input type="text" id="Morigin_2" placeholder="Type Departure Location Here" onfocus="if (this.value == 'Type Departure Location Here') {this.value=''};" class="classic form-control multicitysector"
+                               title="" name="AirlineData[0].MFrom" autocomplete="off" onkeydown="return (event.keyCode!=13);" onclick="this.setSelectionRange(0, this.value.length)">
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 m-top-10">
+                    <label for="ToSector" class="lblclssw">
+                        To
+                    </label>
+                    <div class="">
+                        <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                        <input type="text" id="Mdestination_2" placeholder="Type Arrival Location Here" onfocus="if (this.value == 'Type Departure Location Here') {this.value=''};" class="classic form-control multicitysector"
+                               title="" name="AirlineData[0].MTo" autocomplete="off" " onkeydown="return (event.keyCode!=13);" onclick="this.setSelectionRange(0, this.value.length)">
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 m-top-10 ">
+                    <label class="lblclssw">  Departs on</label>
+                    <input type="text" id="Mdepartdate_2" placeholder="dd/mm/yyyy" readonly="false" name="AirlineData[0].MDeparture" class="classic form-control cal-1 Mdepart" style="cursor:pointer">
+                    <div class="calendar-icon multicicond" style="background: url()"> </div>
+                </div>
+                <div class="col-md-1 col-sm-6 m-top-10 "></div>
+            </div>
+            <ul id="myCityDiv"></ul>
+            <div class="addclsdiv" style="text-align: right;padding-bottom: 4px;float: right;margin-top: -26px;margin-right: -63px;font-size: 15px;"><a title="Add City" style="color:#fff;" href="javascript:void(0);" onclick='addCity("City","1")'>[+] Add City&nbsp;</a></div>
+        </div>
+
+
+
+        <div class="col-md-2 col-xs-12" style="">
+            <div class="boxdivdt">
+                <label class="label-text lblclssw"> Traveller(s), Class </label>
+                <span id="travlvalue" style="width:100%; float:left; color:#fff; padding-left: 6px; border-bottom:1px solid #fff; width:113px; "> 0 </span>
+            </div>
+                    @* Traveller(s) class div start *@
+            <div class="travepopupdiv" id="passengerbx" style="display:none;">
+                <div class="adult-select m-top-10">
+                    <label class="label-text mydkehg">
+                        Adult(s)<br />
+                        <span>[12+years]</span>
+                    </label>
+                    <div class="clear">
+                    </div>
+                    <span id="adult_minus" class="minus" onclick="checksum(this,child);">-</span>
+                    <input class="adtbon" id="adult" type="text" value="1" readonly="">
+                    <span id="adult_plus" class="adplus" onclick="checksum(this,child);">+</span>
+                </div>
+                <div class="adult-select m-top-10">
+                    <label class="label-text mydkehg">
+                        Children<br />
+                        <span>[ 2- 12 Years ]</span>
+                    </label>
+                    <div class="clear">
+                    </div>
+                    <span id="child_minus" class="minus" onclick="checksum(this,adult);">-</span>
+                    <input id="child" type="text" class="adtbon" value="0" readonly="">
+                    <span id="child_plus" class="adplus" onclick="checksum(this,adult);">+</span>
+                </div>
+                <div class="adult-select m-top-10">
+                    <label class="label-text mydkehg">
+                        Infant(s)<br />
+                        <span>[ 0-23 months ]</span>
+                    </label>
+                    <div class="clear"> </div>
+                    <span id="infant_minus" class="minus" onclick="checksum(this,'');">-</span><input type="text" class="adtbon" value="0" readonly="readonly" id="infant" /><span id="infant_plus" class="adplus" onclick="checksum(this,'');">+</span>
+                </div>
+
+
+                <div class="col-md-12 col-xs-12 travelclass m-top-10">
+                    <label class="label-text mydkehg">
+                        Travel Class
+                    </label>
+                    <div class="clear"> </div>
+                    <select name="TravelClass" id="ddlTravelClass" class="classic form-control">
+                        <option value="Y">Economy</option>
+                        <option value="A">PremiumEconomy</option>
+                        <option value="C">Business</option>
+                        <option value="B">PremiumBusiness</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-danger btn-btncolor m-top-10" style="background: #e74b4b !important; padding:9px;" data-dismiss="modal" id="sumManualPassengermodi">Done</button>
+
+            </div>
+                    @* Traveller(s) class div end *@             
+        </div>
+
+        <div class="col-md-2 col-sm-12 col-xs-12 offset-0 m-top-10" style="margin-top:23px !important;">
+
+            <div class="col-md-12 col-xs-12 offset-0" id="Fltnotmulticitybtn">
+                <a class="btn-primary-red mydgd" href="javascript:getModifyresult()" style="font-size: 15px;padding-left: 6px;padding-right: 6px;background: #f09300;color: #fff;padding: 8px;border-radius: 3px;">Search Flight</a>
+                <div class="filterbtndv" style="color:#fff;display:none" onclick="clickfiterfn()">
+                    <i class="fa fa-filter" aria-hidden="true" style="font-size:21px;" onclick="clickfiterfn()"></i>
+                    <div style="width:100%;float:left;margin-top: -6px;" onclick="clickfiterfn()">
+                        Filters
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn-primary-red mydgd search-btn col-md-3" href="javascript:getModifyMulticityresult()" style="font-size: 15px; padding-left: 6px;padding-right: 6px;background: #dd4b39;color: #fff; display:none; margin-top: 32px;" id="multicitybtn">Search Flight</a>
+
+
+            <div class="col-md-2 col-xs-12 offset-0">
+                <div class="col-md-12 offset-0" style="margin-top: 8px;">
+                    <div class="col-md-12" id="divcurreny" style="display:none;">
+                        <label>Currency: </label><asp:DropDownList ID="ddlcurrency" runat="server" style="height: 35px;"></asp:DropDownList>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-xs-12" id="showmordvq" style="display:none; padding-left:20px;">
+            <div class="col-md-12 col-xs-12 offset-0" style="padding-bottom:14px; padding-top:7px; ">
+                <a href="#" onclick="prefer()" style="color: #fff; text-decoration: none;">
+                    <span style="float: left; margin-top: -5px; width: 14px;">
+                        <i class="fa fa-sort-asc" id="showsec" aria-hidden="true" style="color: #fff; padding-top: 8px; font-size: 18px; display: none;"></i>
+                        <i class="fa fa-sort-desc" id="hidesec" aria-hidden="true" style="color: #fff; font-size: 18px; padding-top: 0px;"></i>
+                    </span>&nbsp; <span>Show More Option  @* <span style="color: #847f7f; font-size: 11px;">( Preferred Airlines ) </span> *@</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-12 m-top-20 dhiraj col-xs-12" id="flighimg" style="display: none; padding-bottom: 20px;">
+            <div class="col-md-12"><label class="pointer"> <input class="all" type="checkbox" checked="checked" name="" value="" id="select_all" /> Select/Unselect</label></div>
+            <div class="col-md-12 m-top-20 dhiraj col-xs-12">
+                <table id="modifyengine_k_Chkbocpreferedairline" name="prefair" "">
+                   <tbody>
+                       <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="GDS" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img style="background:#fff;" height="20px" width="20px" src="/assets/img/airlogo_square/int.png" alt="International" /> GDS(9W,AI,UK)
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="6E" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/6E.gif" alt="6E" /> Indigo
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="SG" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/SG.gif" alt="SG" /> SpiceJet
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="G8" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/G8.gif" alt="G8" /> Go Air
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="AK" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/I5.gif" alt="I5" /> Air Asia
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="IX" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/IX.gif" alt="IX" /> Air India Express
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="2T" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/2T.gif" alt="2T" /> TrueJet
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                      <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="TR" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/TR.gif" alt="TR" />  Tiger Airways
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="ZO" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/ZO.gif" alt="ZO" />  ZoomAir 
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="W5" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/W5.gif" alt="W5" />  MahanAir 
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                        <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="FZ" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/FZ.gif" alt="FZ" />  Fly Dubai
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                        <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="G9" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/G9.gif" alt="G9" />  Air Arabia
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="TZ" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/TZ.gif" alt="TZ" /> FlyScoot
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                                <span class="checkbox checkbox-primary">
+                                    <input type="checkbox" name="prefair" value="S9" id="Chkbocpreferedairline" class="" checked />
+                                    <label>
+                                        &nbsp;&nbsp;
+                                        <img height="20px" width="20px" src="/assets/img/airlogo_square/S9.gif" alt="S9" /> FlyBig
+                                    </label>
+                                   
+                                </span>
+                           </td>
+                       </tr>
+                   </tbody>
+            
+            </table>
+            </div>
+        </div>
+
+    </div>
+    <div class="clearfix">
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12" id="Div1">
+    </div>
+    <div class="clearfix">
+    </div>
+</div>
+<div id="CenterwaitingDivMulticity" class="modal fade in">
+    <div class="center-div">
+                @* <h3 class="dk">Searching for the best airfares</h3> *@
+        <img class="mywaitingdiv" src="/assets/img/FNLD.gif" style="width: 57px;margin-top:17px;margin-bottom: 14px;">
+        <h3 class="waitingheader" style="font-weight: 400;font-size: 17px;font-family: 'Rubik', sans-serif;color: #000;">Searching for the best airfares</h3>
+        <div class="form-group margtp" style="color:#000000!important; display:none;">
+            <div class="col-md-12 fder" style="padding-left: 0px; font-size: 17px; margin-bottom: 14px; text-align: center; font-family: 'PT Sans', sans-serif !important; padding-right: 0px;">
+                <span class="col-md-4 col-xs-4" style="padding: 0px; font-size: 17px;">Adult - <span id="paxtyMcity1" class="color-blue"></span></span>
+                <span class="col-md-4 col-xs-4" style="padding: 0px; font-size: 17px;">Child - <span id="paxtyMcity2" class="color-blue"></span></span>
+                <span class="col-md-4 col-xs-4" style="padding: 0px; font-size: 17px; text-align: left;">Infant - <span id="paxtyMcity" class="color-blue"></span></span>
+                <span class="col-md-12 col-xs-12" style="text-align: center; font-size: 17px; height: 30px;">
+                    <img alt="" style="width: 46%; position:absolute; margin-top: -44px; z-index: -1; margin-left: -99px;" class="hig" src="/assets/img/FNLD.gif" />
+                </span>
+            </div>
+            <div class="col-md-12 dsr offset-0 col-xs-12" style="font-size: 17px; text-align: center;" id="multicitydetail"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $('#multicitydiv').click(function () {
+        $("#modmenudv").css("display", "block");
+        $("#showmordvq").css("display", "block");
+    });
+
+    $('#fltOWRW').click(function () {
+        $("#modmenudv").css("display", "block");
+        $("#showmordvq").css("display", "block");
+    });
+
+    $('#crossdivmodi').click(function () {
+        $("#modmenudv").css("display", "none");
+        $("#showmordvq").css("display", "none");
+    });
+
+    $('#travlvalue').click(function () {
+        $("#passengerbx").css("display", "block");
+    });
+
+
+
+    @* function checksum(value, effectedvalue) {
+        var type = value.id.split('_')[1];
+        var iddata = value.id.split('_')[0];
+        if (type.toUpperCase() == 'PLUS') {
+
+            if (iddata == "infant") {
+
+                var abcd = document.getElementById('infant').value;
+                if (abcd < adult_value) {
+                    abcd++;
+                    document.getElementById(iddata).value = abcd;
+                }
+            }
+            if ((adult_value + child_value) < 9) {
+                if (iddata == "adult") {
+                    adult_value++;
+                    document.getElementById(iddata).value = adult_value;
+                }
+                if (iddata == "child") {
+                    child_value++;
+                    document.getElementById(iddata).value = child_value;
+                }
+            }
+        }
+        else if (type.toUpperCase() == 'MINUS') {
+            if ((adult_value + child_value) > 1) {
+                if (iddata == "adult") {
+                    if (adult_value > 1) {
+                        adult_value--;
+                        document.getElementById(iddata).value = adult_value;
+                        document.getElementById('infant').value = 0;
+                    }
+                }
+                if (iddata == "child") {
+                    if (child_value > 0) {
+                        child_value--;
+                        document.getElementById(iddata).value = child_value;
+                    }
+                }
+            }
+            if (iddata == "infant") {
+                var abcd = document.getElementById('infant').value;
+                if (abcd > 0) {
+                    abcd--;
+                    document.getElementById(iddata).value = abcd;
+                }
+            }
+        }
+    }
+    function prefer() {
+        //
+        //var ll = document.getElementById('flighimg');
+
+        //if (ll.style.display != "none") {
+        //    ll.style.display = "none";
+        //}
+        //else {
+        //    ll.style.display = "block";
+        //}
+        //SetValueInModifyControl();
+        var x = document.getElementById('flighimg');
+        if (x.style.display === 'none') {
+            x.style.display = 'block';
+            $('#hidesec').css('display', 'none');
+            $('#showsec').css('display', 'block');
+        } else {
+            x.style.display = 'none';
+            $('#hidesec').css('display', 'block');
+            $('#showsec').css('display', 'none');
+        }
+    }
+
+    function closepoprt() {
+        document.getElementById("myModalopi").style.display = "none";
+    } *@
+
+    $(document).ready(function () {
+        $("#sumManualPassengermodi").click(function () {
+
+            calculatenofpax();
+        });
+    });
+
+    @* function calculatenofpax() {
+
+        var totalpax = parseInt($("#adult").val()) + parseInt($("#child").val()) + parseInt($("#infant").val());
+        document.getElementById("travlvalue").textContent = totalpax;
+        $('#travlvalue').trigger('click');
+        $("#passengerbx").css("display", "none");
+    } *@
+
+</script>
+
+       

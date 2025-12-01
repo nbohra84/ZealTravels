@@ -1,0 +1,569 @@
+﻿@model ZealTravel.Backoffice.Web.Models.CompanyProfiles
+@inject IConfiguration Configuration
+@{
+    Layout = "~/Views/Master.cshtml";
+    ViewData["Title"] = "Admin Page";
+}
+
+<link href="~/assets/css/loadingpopup.css" rel="stylesheet" />
+<link href="~/assets/css/ValidationEngine.css" rel="stylesheet" />
+<link href="~/assets/css/mydatepicker.css" rel="stylesheet" />
+<link href="~/assets/css/style.css" rel="stylesheet" />
+<link href="~/assets/css/destyle.css" rel="stylesheet" />
+<link href="~/assets/css/newd.css" rel="stylesheet" />
+<link href="~/assets/css/colortheme.css" rel="stylesheet" />
+<link href="~/assets/css/AdminLTE.css" rel="stylesheet" />
+<link href="~/assets/css/flightbookings.css" rel="stylesheet" />
+<link href="~/assets/css/comppany.css" rel="stylesheet" />
+
+<link href="Design/css/bootstrap.css" rel="stylesheet" />
+<script src="Design/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+<link href="Design/css/custom.css" rel="stylesheet" />
+<link href="Design/css/mody.css" rel="stylesheet" />
+<link href="Design/css/style.css" rel="stylesheet" />
+<script src="Design/js/jqueryui2.js"></script>
+<script src="Design/js/jquery-1.9.1.min.js"></script>
+<script src="Design/js/script.js"></script>
+<link href="Design/css/ValidationEngine.css" rel="stylesheet" />
+<script src="Design/js/onlinejsmin2.js"></script>
+<script src="Design/js/onlinejsformvalidationengine-en.js"></script>
+<script src="Design/js/onlinevalidationengine.js"></script>
+<script src="Design/js/jquery-ui.min.js"></script>
+<link href="Design/css/jquery-ui1.css" rel="stylesheet" />
+
+
+
+
+<div class="wrapper" style="font-family: 'Quicksand', sans-serif !important;  font-weight: 700 !important;">
+    <div class="content-wrapper">
+        <section class="content" style="padding: 0px;">
+
+            <div class="container-fluid">
+                <div style="width: 100%; margin: 0 auto;">
+                    <div class="col-md-12 col-xs-12 offset-0" style="">
+                        <h5 class="reportminheader"><i class="fa fa-user wredcolo reportminicon" aria-hidden="true" style=""></i>Company Detail </h5>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+                <div class="modal-content" style="background: none; box-shadow: none; border: none; margin-top: 10%;">
+                    <span class="close cross" id="cros" style="color: white; font-size: x-large; margin-left: 67%; margin-top: -2%;">&times;</span>
+                    <img class="modal-content" alt="" id="img01" style="height: 275px; width: 272px;" />
+                </div>
+                <div id="caption"></div>
+
+            </div>
+
+            <div id="loaddd" class="modal fade" style="background: rgba(0, 0, 0, 0.67)">
+
+                <!-- Modal content -->
+                <div class="">
+                    <div id="floatingCirclesG" style="margin: 11% 38%;">
+                        <div class="f_circleG" id="frotateG_01"></div>
+                        <div class="f_circleG" id="frotateG_02"></div>
+                        <div class="f_circleG" id="frotateG_03"></div>
+                        <div class="f_circleG" id="frotateG_04"></div>
+                        <div class="f_circleG" id="frotateG_05"></div>
+                        <div class="f_circleG" id="frotateG_06"></div>
+                        <div class="f_circleG" id="frotateG_07"></div>
+                        <div class="f_circleG" id="frotateG_08"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            @Html.AntiForgeryToken()
+            <div class="col-md-12 col-sm-10 col-xs-12 m-top-10 " style="margin-bottom: 40px;">
+                <div class="col-md-12 col-sm-12 col-xs-12 boxshdr m-top-5" style="padding-bottom: 24px;">
+                    <div class="col-md-12 col-sm-10 col-xs-12 offset-0">
+                        @using (Html.BeginForm("CompanyProfiles", "Account", FormMethod.Post, new { id = "CompanyProfile.cshtml", enctype = "multipart/form-data" }))
+                        {
+
+                            <div id="profile" class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                <div class="col-md-12 col-sm-12 col-xs-12 brdr-cls pdng-btm m-top-10 offset-0">
+
+                                    <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+
+                                        <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Agency Name * </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.CompanyName, new
+                                                            {
+                                                                @class = "form-control validate[required]",
+                                                                @placeholder = "Agency Name",
+                                                                @autocomplete = "off",
+                                                            })
+                                                        @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "text-danger" })
+                                                    </div>
+
+
+                                                    <span id="agnamsp" class="er" style="font-size: 9px !important"></span>
+                                                    <asp:HiddenField ID="hidagname" runat="server" />
+                                                </div>
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Account ID * </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+
+                                                        @Html.TextBoxFor(m => m.AccountId, new { @class = "form-control", @placeholder = "Account ID", @autocomplete = "off", @maxlength = "15" })
+                                                        @Html.ValidationMessageFor(m => m.AccountId, "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                    @Html.HiddenFor(m => m.CompanyId)  <!-- Assuming CompanyId or another property -->
+                                                    @Html.HiddenFor(m => m.AccountId)  <!-- Assuming Account Number as a model property -->
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">User Id/Email Id * </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.Email,
+                                                                 new { @class = "form-control validate[custom[email]]", autocomplete = "off" })
+                                                        <div class="text-danger">
+                                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Date of Operation </strong></div>
+
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.dop, new { @class = "form-control cal-1 validate[required,funcCall[DateFormat[]]", @autocomplete = "off", style = "background: #EEEEEE !important" })
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                                        <strong style="color: #333">Title *</strong>
+                                                    </div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.DropDownListFor(m => m.Title,
+                                                                 new SelectList(new[] { "Mr", "Mrs", "Ms" }),
+                                                                 "-- Select Title --",
+                                                                 new { @class = "form-control mg_2", @required = "required" })
+
+
+                                                        @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+
+
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">First Name *</strong></div>
+
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.FirstName, new
+                                                            {
+                                                                @class = "form-control",
+                                                                @placeholder = "First Name",
+                                                                @autocomplete = "off",
+                                                                @maxlength = "50",
+                                                                // @data_validate = "required custom[onlyLetterSp]"
+                                                            })
+                                                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Middle Name  </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control validate[custom[onlyLetterSp]]", @autocomplete = "off" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                                        <strong style="color: #333">Last Name *</strong>
+                                                    </div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.LastName,
+                                                                 new { @class = "form-control validate[required,custom[onlyLetterSp]]", @autocomplete = "off" })
+                                                    </div>
+                                                    @Html.HiddenFor(m => m.LastName)
+                                                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Mobile *</strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.Mobile,
+                                                                 new
+                                                                 {
+                                                                     @class = "form-control validate[required,custom[integer],maxSize[10],minSize[10]]",
+                                                                     @maxlength = "10",
+                                                                     @autocomplete = "off",
+                                                                 })
+                                                        @Html.ValidationMessageFor(m => m.Mobile, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <asp:HiddenField ID="hidmobile" runat="server" />
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Landline *</strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.CompanyPhoneNo,
+                                                                 new
+                                                                 {
+                                                                     @class = "form-control validate[required,custom[integer],maxSize[10],minSize[10]]",
+                                                                     @maxlength = "10",
+                                                                     @autocomplete = "off",
+                                                                 })
+                                                        @Html.ValidationMessageFor(m => m.CompanyPhoneNo, "", new { @class = "text-danger" })
+                                                        @Html.HiddenFor(m => m.CompanyPhoneNo)
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Address *</strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.Address,
+                                                                 new
+                                                                 {
+                                                                     @class = "form-control validate[required]",
+                                                                     @autocomplete = "off",
+                                                                 })
+                                                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <asp:HiddenField ID="hidaddress1" runat="server" />
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">State</strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.DropDownListFor(
+                                                                 m => m.State,
+                                                                // Model.States,
+                                                                  new SelectList(Enumerable.Empty<SelectListItem>(), "Value", "Text"),
+                                                                 "Select State",
+                                                                 new { @class = "form-control", @id = "stateDropdown" }
+                                                                 )
+                                                        @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            @Html.HiddenFor(m => m.State, new { @id = "hiddenState" })
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">City * </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.DropDownListFor(
+                                                                 m => m.City,
+                                                                 Model.Cities,
+                                                                 string.IsNullOrEmpty(Model.City) ? "Select City" : Model.City,
+                                                                 new { @class = "form-control", @id = "cityDropdown" }
+                                                                 )
+                                                    </div>
+
+                                                </div>
+                                                @Html.HiddenFor(m => m.City, new { @id = "hiddenCity" })
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Pin Code * </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.PostalCode,
+                                                                 new { @class = "form-control validate[required,custom[integer],maxSize[6],minSize[6]]", maxlength = "6", autocomplete = "off" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Pan Name </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.PanName,
+                                                                 new { @class = "form-control validate[required,custom[onlyLetterSp]]", autocomplete = "off" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Pan No. </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.PanNo,
+                                                                 new { @class = "form-control validate[required,custom[pancard]]", maxlength = "10", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(m => m.PanNo, "", new { @class = "text-danger" })
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Country </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.DropDownListFor(m => m.Country, new SelectList(new[] { new { Value = "India(IN)", Text = "India" } }, "Value", "Text"),
+                                                                 "- Select Country -", new { @class = "form-control mg_2" })
+                                                        @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">GST No </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.Gst,
+                                                                 new { @class = "form-control validate[custom[GST]]", maxlength = "15", autocomplete = "off" })
+                                                    </div> <div class="text-danger">
+                                                        @Html.ValidationMessageFor(m => m.Gst, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <asp:HiddenField ID="hidgstno" runat="server" />
+                                                <asp:HiddenField ID="hidlang" runat="server" />
+                                            </div>
+
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Business Currency * </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.DropDownListFor(m => m.Currency,
+                                                                 new SelectList(
+                                                                 new[] {
+                                                    new { Value = "Rupees", Text = "Rupees" },
+
+                                                    },
+                                                                 "Value",
+                                                                 "Text",
+                                                                 "Rupees")
+                                                                 ,
+                                                                 new { @class = "form-control mg_2" })
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Contact Mobile </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.CompanyMobile,
+                                                                 new { @class = "form-control validate[required,custom[integer],maxSize[10],minSize[10]]", maxlength = "10", autocomplete = "off" })
+
+                                                        <!-- Error Message Div -->
+                                                        <div class="text-danger">
+                                                            @Html.ValidationMessageFor(m => m.CompanyMobile, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Contact Email Address </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.CompanyEmail,
+                                                                 new { @class = "form-control validate[custom[email]]", autocomplete = "off" })
+                                                        <div class="text-danger">
+                                                            @Html.ValidationMessageFor(m => m.CompanyEmail, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Years In Business </strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.YrsInBusiness,
+                                                                 new { @class = "form-control validate[custom[integer]]", maxlength = "3", autocomplete = "off", value = "0" })
+                                                    </div>
+                                                    <div class="text-danger">
+                                                        @Html.ValidationMessageFor(m => m.YrsInBusiness, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Total Employee</strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.TotalEmployee,
+                                                                 new { @class = "form-control validate[custom[integer]]", maxlength = "3", autocomplete = "off", value = "0" })
+                                                    </div>
+                                                    <div class="text-danger">
+                                                        @Html.ValidationMessageFor(m => m.TotalEmployee, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Total Branches</strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.TotalBranches,
+                                                                 new { @class = "form-control validate[custom[integer]]", maxlength = "3", autocomplete = "off", value = "0" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Annual Turnover</strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.AnnualTurnover,
+                                                                 new { @class = "form-control validate[custom[integer]]", autocomplete = "off", value = "0" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Monthly Booking</strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.MonthlyBookingVolume,
+                                                                 new { @class = "form-control validate[custom[integer]]", autocomplete = "off", value = "0" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Referred By</strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.ReferredBy,
+                                                                 new { @class = "form-control validate[required,custom[email]]", autocomplete = "off", value = "0", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Reference</strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.Reference,
+                                                                 new { @class = "form-control validate[required,custom[onlyLetterSp]]", autocomplete = "off", value = "test@test.com", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 offset-0">
+
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12"><strong style="color: #333">Event Time</strong></div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                                        @Html.TextBoxFor(m => m.EventTime, new { @class = "form-control", autocomplete = "off" })
+                                                    </div>
+                                                </div>
+
+                                                <asp:HiddenField ID="hideventtime" runat="server" />
+
+
+                                                <div class="col-md-6 col-sm-6 col-xs-12 offset-0 m-top-10">
+                                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                                        <strong style="color: #333">Company Logo *</strong>
+                                                    </div>
+                                                    <div class="col-md-8 col-sm-8 col-xs-12 offset-0">
+                                                        <div class="col-md-4 col-sm-4 col-xs-6">
+                                                            <img src="@Url.Content(Model.CompanyLogo)" class="img-responsive iu" alt="Company Logo" height="80" width="80" style="border: 1px solid #ccc;" id="Image1" onclick="hideonrerr6();" />
+                                                        </div>
+                                                        <div class="col-md-8 col-sm-8 col-xs-12 m-top-10 offset-0">
+                                                            <input type="file" class="form-control" id="ContentPlaceHolder1_FileUpload1" name="LogoFile" style="border: none; margin-left: -10px;" />
+                                                        </div>
+
+                                                        @Html.HiddenFor(m => m.CompanyLogo, new { id = "hidcmplog" })
+
+                                                        <span id="cmplorec" style="color: green;">@TempData["LogoUploadSuccessMessage"]</span>
+                                                        <span id="cmploerr" style="color: red;">@TempData["LogoUploadErrorMessage"]</span>
+
+                                                        <div class="col-md-8 col-sm-8 col-xs-12 offset-0">
+                                                            <span id="cmplogo" style="color: red;"></span>
+                                                        </div>
+                                                        <button onclick="return checkagentlogo();" id="ContentPlaceHolder1_companylogoupdate" type="submit" style="color: #3c8dbc; background: none; border: none;">Update Logo</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 text-center d-flex" style="display: flex; justify-content: center; align-items: center; ">
+                                        <div>
+                                            <input type="submit" class="btn btn-primary" value="Update Profile" style="background: #04c !important; color: #fff !important; font-size: 15px; padding: 13px 15px; box-shadow: 0px 0px 14px #0000005e;" />
+                                        </div>
+                                        @if (TempData["SuccessMessage"] != null || TempData["ErrorMessage"] != null)
+                                        {
+                                            if (TempData["SuccessMessage"] != null)
+                                            {
+                                                <div class="text-success" role="alert" style="margin-left: 10px;">
+                                                    Success
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                                                    <div class="text-danger">@TempData["ErrorMessage"]</div>
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+        </section>
+    </div>
+</div>
+
+
+<script src="~/assets/js/companyProfile.js"></script>
+<script src="~/assets/js/registerAgency.js"></script>
+<script src="~/assets/js/registration.js"></script>
+<script src="~/assets/js/onlineformvalidationengine.js"></script>

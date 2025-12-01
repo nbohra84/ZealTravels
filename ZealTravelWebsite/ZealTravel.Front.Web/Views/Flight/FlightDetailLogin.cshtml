@@ -1,0 +1,99 @@
+﻿@model ZealTravel.Front.Web.Models.Flight.FlightDetailLoginResponse
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+
+<asp:HiddenField ID="hdncurrencytype"  Value="@Model.CurrencyType"></asp:HiddenField>
+<asp:HiddenField ID="cmpid" Value="@Model.CompanyId"></asp:HiddenField>
+<asp:HiddenField ID="hdnhostName" Value="@Model.HostName"></asp:HiddenField>
+<asp:HiddenField ID="hidenRT" Value="@Model.ReturnType"></asp:HiddenField>
+<asp:HiddenField ID="hdfTotalfare" Value="@Model.TotalFare"></asp:HiddenField>
+<asp:HiddenField ID="hdnClickPromo" Value="@Model.ClickPromo"></asp:HiddenField>
+
+<div class="container-fluid">
+    <div class="cd-popup" role="alert" id="cd-popup1">
+        <div class="cd-popup-container panel-body offset-0" style="max-width: 518px;">
+            <a href="#0" class="cd-popup-close img-replace"></a>
+            <div class="col-md-12 eeq" style="margin: 0px; padding: 0px;">
+                Forgot Your Password?
+            </div>
+            <div class="col-md-12">
+                <asp:TextBox ID="guespassforget" runat="server" class="form-control validate[required,custom[email]] m-top-20"></asp:TextBox>
+                <br />
+                <asp:LinkButton ID="guestpass" runat="server" class="btnlogintab" Style="color: #fff !important;" OnClientClick="javascript: return guessubmit();" OnClick="Forgetpass_Click">Submit</asp:LinkButton>
+            </div>
+        </div>
+    </div>
+    <div class="mainwrapperdetail clearfix">
+        <div class="col-md-12 col-xs-12 offset-0">
+            <div class="col-md-9 col-xs-12 respmovpad">
+                <div class="mainheadsec">
+                    <h3 class="headsectit">Itinerary</h3>
+                </div>
+                <div id="Ininarydiv">
+
+                    <div id="OutbountItinary" >
+                        @Html.Raw(@Model.OutbountItinary)
+                    </div>
+
+                </div>
+                <div id="logindivdetail">
+
+                    <div class="col-md-6 col-xs-12 padsegh">
+                        <div class="mainheadsec">
+                            <h3 class="headsectit">Continue Without Registering</h3>
+                        </div>
+                        <div class="detailboxre" id="logindivasguest">
+                            <div id="UpdatePanel1">
+                                <ContentTemplate>
+                                    <div class="maindehy clearfix">
+                                        <div class="alreadragisdv pull-left">
+                                            <asp:TextBox runat="server" ID="txtCustomerEmail" EnableViewState="false" autocomplete="off" placeholder="Enter your E-mail to continue." class="form-control cantrinput indgqw validate[required,custom[email]]"></asp:TextBox>
+
+                                        </div>
+                                        <div class="lade">
+                                            <asp:Button runat="server" ID="btnguest" class="btnlogintab" OnClientClick="javascript: return continuegu()" OnClick="btnLoginAsGuest_Click" Text="Continue as Guest" />
+
+                                        </div>
+                                    </div>
+                                </ContentTemplate>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xs-12 padsegh1">
+                        <div class="mainheadsec">
+                            <h3 class="headsectit">Already Registered</h3>
+                        </div>
+                        <div class="detailboxre" id="logindiv">
+                            <div id="UpdatePanel2">
+                                <ContentTemplate>
+                                    <div class="maindehyuj clearfix">
+                                        <div class="emailbx">
+                                            <asp:TextBox runat="server" ID="txtAlreadyEmail" EnableViewState="false" autocomplete="off" placeholder="E-mail" class="form-control cantrinput validate[required,custom[email]]"></asp:TextBox>
+                                        </div>
+                                        <div class="emailbx">
+                                            <asp:TextBox runat="server" ID="txtAlreadyPwd" EnableViewState="false" autocomplete="off" placeholder="Password" class="form-control cantrinput validate[required]" TextMode="Password"></asp:TextBox>
+                                        </div>
+                                        <div class="lade">
+                                            <asp:Button runat="server" ID="btnlogin" class="btnlogintab" OnClientClick="javascript: return gustlog()" OnClick="btnLogin_Click" Text="Login" />
+                                        </div>
+                                        <span class="col-md-8 m-top-10 offset-0" style="text-decoration: underline; font-size: 13px;"><a href="javascript:void();" class="cd-popup-trigger  round"><b>Forgot Password ? </b></a></span>
+                                    </div>
+                                </ContentTemplate>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-12 padbox-0">
+                <div class="mainheadsec">
+                    <h3 class="headsectit">Fare Summery</h3>
+                </div>
+                <div id="Faredetaildiv">
+                    @Html.Raw(@Model.Faredetaildiv)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

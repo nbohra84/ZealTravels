@@ -1,0 +1,63 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AgencyManagement\Queries\Booking\**" />
+    <Compile Remove="Interfaces\**" />
+    <EmbeddedResource Remove="AgencyManagement\Queries\Booking\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
+    <None Remove="AgencyManagement\Queries\Booking\**" />
+    <None Remove="Interfaces\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="ClosedXML" Version="0.104.1" />
+    <PackageReference Include="itext" Version="8.0.5" />
+    <PackageReference Include="itext7" Version="8.0.5" />
+    <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.5" />
+    <PackageReference Include="itext7.pdfhtml" Version="5.0.0" />
+    <PackageReference Include="log4net" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="BankManagement\Comand\" />
+    <Folder Include="BankManagement\Handlers\" />
+    <Folder Include="BankManagement\Queries\" />
+    <Folder Include="BookingManagement\Command\" />
+    <Folder Include="CountryManagement\Commands\" />
+    <Folder Include="DBCommonManagement\Queries\" />
+    <Folder Include="PaymentGatewayManagement\Commands\" />
+    <Folder Include="PromoManagement\Commands\" />
+    <Folder Include="PromoManagement\Queries\" />
+    <Folder Include="SendHoldPayment\Commands\" />
+    <Folder Include="SendHoldPayment\Handlers\" />
+    <Folder Include="WhitelabelManagement\Commands\" />
+    <Folder Include="WhitelabelManagement\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ZealTravel.Common\ZealTravel.Common.csproj" />
+    <ProjectReference Include="..\ZealTravel.Domain\ZealTravel.Domain.csproj" />
+    <ProjectReference Include="..\ZealTravel.Infrastructure\ZealTravel.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
+

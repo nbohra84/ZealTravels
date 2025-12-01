@@ -1,0 +1,158 @@
+﻿@model ZealTravel.Front.Web.Models.Registration
+@{
+    Layout = "~/Views/Master.cshtml";
+}
+@inject IConfiguration Configuration
+
+<link href="~/assets/css/loadingpopup.css" rel="stylesheet" />
+<link href="~/assets/css/registerAgency.css" rel="stylesheet" />
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@using (Html.BeginForm("RegisterAgency", "Account", FormMethod.Post, new { id = "RegisterAgency.cshtml" }))
+{
+    @Html.AntiForgeryToken()
+    <section class="sme-hero-block sme-hero-block-top ic-hero-block-top">
+        <div class="sme-container-fluid">
+            <div class="sme-hero-block-left">
+                <p class="sme-hero-block-main-heading">Welcome to @Configuration["Company:Name"] for Business</p>
+                <p class="sme-hero-block-sub-heading">The <span class="sme-text-uppercase">largest</span> platform to book &amp; manage all your Business Travels!</p>
+                <p class="minheadpa">Already have a @Configuration["Company:Name"] for Business account?</p>
+                <a href="/Account/Login" class="btn sub-btn wcolor" style="background: #04c !important;color: #fff !important;font-size: 17px;padding: 11px 49px;box-shadow: 0px 0px 14px #0000005e;">Login</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid back-clr">
+        <div class="mn-contain mainbx widthregistre rh width80per">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h3 class="minhedf">Sign Up for @Configuration["Company:Name"] for Business</h3>
+                </div>
+
+                <div class="col-md-12 offset-0 mn-div1" style="padding: 30px 30px 15px 45px !important;;">
+                    <div class="col-md-12 col-sm-12 col-xs-12 pasdseme">YOUR FULL NAME </div>
+                    <div class="">
+                        <div class="form-group col-md-2">
+                            @Html.DropDownListFor(m => m.Title, new SelectList(new List<SelectListItem>
+                        {
+                        new SelectListItem { Text = "Mr.", Value = "Mr." },
+                        new SelectListItem { Text = "Mrs.", Value = "Mrs." },
+                        new SelectListItem { Text = "Ms.", Value = "Ms." }
+                        }, "Value", "Text"), new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-5">
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name", @autocomplete = "off", @required = "required" })
+                                @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name", @autocomplete = "off", @required = "required" })
+                                @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12 pasdseme">COMPANY DETAILS </div>
+                        @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control company", @placeholder = "Company Name", @autocomplete = "off", @required = "required" })
+                        @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "text-danger" })
+                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control address", @placeholder = "Address", @rows = "2", @autocomplete = "off", @required = "required" })
+                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+
+                        <div class="row country-wrap">
+                            <div class="form-group col-md-4">
+                                @Html.DropDownListFor(m => m.Country, new SelectList(new List<SelectListItem> { new SelectListItem { Text = "India", Value = "India(IN)" } }, "Value", "Text"), new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                @Html.DropDownListFor(m => m.State, new SelectList(Enumerable.Empty<SelectListItem>(), "Value", "Text"), "Select State", new { @class = "form-control", @id = "stateDropdown" })
+                                @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                @Html.DropDownListFor(m => m.City, new SelectList(Enumerable.Empty<SelectListItem>(), "Value", "Text"), "Select City", new { @class = "form-control", @id = "cityDropdown" })
+                                @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control", @placeholder = "Pin Code", @maxlength = "6", @autocomplete = "off", @required = "required" })
+                                @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                @Html.TextBoxFor(m => m.GST, new { @class = "form-control", @placeholder = "Enter GST Number", @maxlength = "15", @autocomplete = "off", @required = "required" })
+                                @Html.ValidationMessageFor(m => m.GST, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                @Html.TextBoxFor(m => m.PanNo, new { @class = "form-control", @placeholder = "Pan Number", @maxlength = "10", @autocomplete = "off", @required = "required" })
+                                @Html.ValidationMessageFor(m => m.PanNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.Pan_Name, new { @class = "form-control", @placeholder = "Pan Card Name", @autocomplete = "off", @required = "required" })
+                                    @Html.ValidationMessageFor(m => m.Pan_Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12 pasdseme">CONTACT DETAILS FOR TRAVEL FOR BUSINESS ACCOUNT </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <div class="mobile-no">
+                                    <span class="miseicon">
+                                        +91 <i class="fa fa-arrow-bottom"></i>
+                                    </span>
+                                    @Html.TextBoxFor(m => m.Company_Mobile, new { @class = "form-control", @placeholder = "Mobile Number", @maxlength = "10", @autocomplete = "off", @required = "required" })
+                                </div>
+                                @Html.ValidationMessageFor(m => m.Company_Mobile, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                @Html.TextBoxFor(m => m.Company_PhoneNo, new { @class = "form-control", @placeholder = "Land Line", @maxlength = "10", @autocomplete = "off", @required = "required" })
+                                @Html.ValidationMessageFor(m => m.Company_PhoneNo, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email ID", @autocomplete = "off", @required = "required", @type = "email", @minlength = "5", @maxlength = "150" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 m-top-20 ui checkbox">
+                        <div class="col-md-12 col-xs-12 text-right" style="margin-bottom: 14px;">
+                            @Html.CheckBoxFor(m => m.AgreeToTerms, new { @class = "validate[required] checkbox", id = "Check" })
+                            <div id="agreetxt" onclick="return abcchek()" style="cursor: pointer; font-size: 15px; text-align: left; padding-left: 8px;">
+                                By signing up, you agree with @Configuration["Company:Name"] for Business Terms of Service and Privacy Policy <a target="popup" onclick="window.open('/terms-conditions','name','width=770,height=400,scrollbars=1')" style="cursor: pointer; color: blue;">Terms & Conditions</a>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.AgreeToTerms, "", new { @class = "text-danger agreetxt1" })
+                        </div>
+
+                        <span class="error1 error-show"></span>
+                        <br />
+                        <span id="lblError1" class="color-red"></span>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 m-top-20 text-center">
+                        <input type="submit" name="Submit" value="Submit" onclick="myfunction();" id="Submit" class="btn sub-btn wcolor" style="background: #04c !important; color: #fff !important; font-size: 19px; padding: 13px 75px; box-shadow: 0px 0px 14px #0000005e;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/WebResource.axd?d=fQyKacaWOF4mJY-UPuwT5NiO3fJ-cVh1tgZ8E4rr9dCaQptDxRUyIFPb2h0MOGLVVUhqjJ3IXDEWwPtWhQAzjI4uO5N4GIxUTg1-YcInp1M1&amp;t=638606097867553018" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=q3NCfQ2xxAmgSx38300ZUrWHMH_2f6rIPtse4Vc11gPXdPAOXhp0vOIcoCamawkJlWF-6lRARtOsZ9X59V1TlNB9HqVdgSRYAiWRiIlS2GfPxyS7xozjYBYsat5FHugQ_1J8orI-fQaA9QbCeTEOew2&amp;t=f2cd5c5" type="text/javascript"></script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script src="~/assets/js/registerAgency.js"></script>
+<script src="~/assets/js/registration.js"></script>
+<script src="~/assets/js/onlineformvalidationengine.js"></script>

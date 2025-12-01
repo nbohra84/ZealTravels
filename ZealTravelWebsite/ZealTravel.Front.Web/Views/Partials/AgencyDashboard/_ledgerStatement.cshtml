@@ -1,0 +1,157 @@
+﻿@model ZealTravel.Front.Web.Models.Agency.Dashboard.AgencyDashboardResponse
+@using ZealTravel.Common.Helpers
+
+<div class="row margrow">
+    <div class="col-lg-12 offset-0 box2" style="height: 423px;">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Ledger Statement</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-9 m-b-xs">
+                    </div>
+                </div>
+                <div id="ContentPlaceHolder1_Ledgertable" class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Company</th>
+                                <th>Status | Refno.</th>
+                                <th>Created On</th>
+                                <th>Payments</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                                <th>Balance</th>
+                                <th>PNR</th>
+                                <th>Remark</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int num = (Model.LedgerStatement.Count <= 20) ? Model.LedgerStatement.Count : 20;
+                            }
+                            @for (int i = 0; i < num; i++)
+                            {
+                                var item = Model.LedgerStatement[i];
+                                var companyName = StringHelper.GetFirstCharacterCapital(StringHelper.GetFirstTenCharacter(item.CompanyName));
+                                var createdOn = StringHelper.GetConvertedDate(item.EventTime.ToString());
+
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>@companyName</td>
+                                    <td>
+                                        @if (int.TryParse(item.BookingRef.ToString(), out int bookingRef) && bookingRef > 0)
+                                        {
+                                            if (item.Remark.Equals("BOOK-HOTEL") || item.Remark.Equals("REJECT-HOTEL"))
+                                            {
+                                                <a href="#" accesskey="@item.BookingRef" data-type="bookrefff">@item.BookingRef</a>
+                                            }
+                                            else
+                                            {
+                                                <span>@item.BookingStatus.ToString().Trim() |</span>
+                                                <span><a href="#" accesskey="@item.BookingRef" data-type="bookrefff">@item.BookingRef</a></span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @item.BookingRef
+                                        }
+                                    </td>
+                                    <td>@createdOn</td>
+                                    <td>@item.PaymentType</td>
+                                    <td>@item.Debit</td>
+                                    <td>@item.Credit</td>
+                                    <td>@item.Balance</td>
+                                    <td>
+                                        @if (item.Trip == "O")
+                                        {
+                                            @item.Airline_PNR_D
+                                        }
+                                        else
+                                        {
+                                            @if (!string.IsNullOrEmpty(item.Airline_PNR_D) && !string.IsNullOrEmpty(item.Airline_PNR_A))
+                                            {
+                                                @(item.Airline_PNR_D + " | " + item.Airline_PNR_A)
+                                            }
+                                            else if (!string.IsNullOrEmpty(item.Airline_PNR_D))
+                                            {
+                                                @item.Airline_PNR_D
+                                            }
+                                            else if (!string.IsNullOrEmpty(item.Airline_PNR_A))
+                                            {
+                                                @item.Airline_PNR_A
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Remark) && item.Remark.Length > 15)
+                                        {
+                                            @(item.Remark.Substring(0, 15) + "...")
+                                        }
+                                        else
+                                        {
+                                            @item.Remark
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    // Updated bookrefff function
+    function bookrefff(element) {
+        var result = element.getAttribute('accesskey');
+
+        // Check if a valid booking reference exists
+        if (!result) {
+            return;
+        }
+
+        // Encode the booking reference
+        var encodedBookingRef = btoa(result); 
+
+        // Open the print popup for the booking reference
+        window.open("/PrintPopup?BookingRef=" + encodedBookingRef, 
+            "Popup3", 
+            "location=1,status=1,scrollbars=1,resizable=1,directories=1,toolbar=1,titlebar=1,width=900,height=800");
+    }
+
+    // Function for printinvoice
+    function printinvoice(element) {
+        var bookingRef = element.getAttribute('accesskey');
+
+        if (!bookingRef) {
+            return;
+        }
+
+        var encodedBookingRef = btoa(bookingRef);
+
+        window.open("/printInvoice?BookingRef=" + encodedBookingRef,
+            "PopupInvoice",
+            "location=1,status=1,scrollbars=1,resizable=1,directories=1,toolbar=1,titlebar=1,width=900,height=800");
+    }
+
+    $(document).ready(function() {
+        // Attach the event listener for bookrefff
+        $("a[data-type='bookrefff']").on("click", function(event) {
+            event.preventDefault();  // Prevent default action (navigation)
+            bookrefff(this);  // Call bookrefff function
+        });
+
+        // Attach the event listener for printinvoice (if needed)
+        $("a[data-type='printinvoice']").on("click", function(event) {
+            event.preventDefault();  // Prevent default action (navigation)
+            printinvoice(this);  // Call printinvoice function
+        });
+    });
+</script>

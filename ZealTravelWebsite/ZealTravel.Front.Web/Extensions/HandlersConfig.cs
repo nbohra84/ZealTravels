@@ -1,0 +1,143 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using ZealTravel.Application.Handlers;
+using AutoMapper;
+using ZealTravel.Application.Mappers;
+using ZealTravel.Domain.Interfaces.IRepository;
+using ZealTravel.Domain.Interfaces.Handlers;
+using ZealTravel.Application.UserManagement.Queries;
+using ZealTravel.Domain.Data.Entities;
+using ZealTravel.Application.AgencyManagement.Queries;
+using ZealTravel.Application.AgencyManagement.Handlers;
+using ZealTravel.Domain.AgencyManagement;
+using ZealTravel.Infrastructure.Services;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
+using ZealTravel.Common.Services;
+using ZealTravel.Application.UserManagement.Commands;
+using ZealTravel.Application.UserManagement.Handlers;
+using ZealTravel.Domain.Services;
+using ZealTravel.Application.AgencyManagement.Command;
+using ZealTravel.Application.AirelineManagement.Queries;
+using ZealTravel.Application.AirelineManagement.Handler;
+using ZealTravel.Domain.Interfaces.TBO;
+using ZealTravel.Domain.Services.AirelineManagement.TBO;
+using ZealTravel.Domain.Interfaces.UniversalAPI;
+using ZealTravel.Domain.Services.AirelineManagement.UniversalAPI;
+using ZealTravel.Domain.Interfaces.Akasha;
+using ZealTravel.Domain.Services.AirelineManagement.AkashaAir;
+
+using ZealTravel.Application.AirlineManagement.Queries;
+using ZealTravel.Application.AirlineManagement.Handler;
+using ZealTravel.Domain.Interfaces.Services;
+using ZealTravel.Domain.Data.Models;
+using ZealTravel.Application.AgencyManagement.Handlers.AgencyDashboard;
+using ZealTravel.Application.AgencyManagement.Queries.AgencyDashboard;
+using ZealTravel.Domain.Interfaces.AirelineManagement;
+using ZealTravel.Domain.Services.AirelineManagement;
+using ZealTravel.Application.ReportManagement.Handler;
+using ZealTravel.Application.ReportManagement.Queries;
+using ZealTravel.Domain.BookingManagement;
+using ZealTravel.Application.BookingManagement.Handler;
+using ZealTravel.Infrastructure.Services.Agency;
+using ZealTravel.Application.BookingManagement.Query;
+using ZealTravel.Domain.Data.Models.Booking;
+using ZealTravel.Application.CountryManagement.Queries;
+using ZealTravel.Application.CountryManagement.Handlers;
+using ZealTravel.Application.PaymentGatewayManagement.Queries;
+using ZealTravel.Application.PaymentGatewayManagement.Handlers;
+using ZealTravel.Application.GST_Management.Commands;
+using ZealTravel.Application.GST_Management.Handlers;
+using System.Data;
+using ZealTravel.Application.GSTManagement.Handlers;
+using ZealTravel.Application.GSTManagement.Queries;
+using ZealTravel.Domain.Interfaces.Spicejet;
+using ZealTravel.Domain.Services.AirelineManagement.SpicejetAir;
+using ZealTravel.Application.BankManagement.Handler;
+using ZealTravel.Application.DBCommonManagement.Commands;
+using ZealTravel.Domain.Interfaces.AirlineManagement;
+using ZealTravel.Infrastructure.UAPI;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using ZealTravel.Infrastructure.Repository;
+using ZealTravel.Infrastructure.Repository;
+using ZealTravel.Application.AirlineManagement.Command;
+namespace ZealTravel.Front.Web.Extensions
+{
+    public static class HandlersConfig
+    {
+        public static IServiceCollection AddCustomServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<IHandlesQueryAsync<GetUserDetailsQuery, CompanyRegister>, GetUserDetailsQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<GetAvailableBalanceQuery, decimal>, GetAvailableBalanceQueryHandler>();
+            services.AddScoped<IAgencyService, AgencyService>();
+            services.AddScoped<ITBOService, TBOService>();
+            services.AddScoped<IUAPIServices, UAPIServices>();
+            services.AddScoped<IAkashaService, AkashaService>();
+            services.AddScoped<ISpicejetService, SpicejetService>();
+            services.AddScoped<IAirHoldBookingPaymentService, AirHoldBookingPaymentService>();
+            services.AddScoped<IGetConfirmForHoldBooking, GetConfirmForHoldBooking>();
+            services.AddScoped<ICompanyFlightDetailAirlinesService, CompanyFlightDetailAirlinesService>();
+            services.AddScoped<ICompanyFareDetailAirlineService, CompanyFareDetailAirlineService>();
+            EmailService.Configure(configuration);
+            services.AddSingleton<EmailService>();
+            services.AddScoped<IHandlesCommandAsync<ForgotPasswordCommand>, ForgetPasswordCommandHandler>();
+            services.AddScoped<IHandlesCommandAsync<RegisterUserCommand>, RegisterUserCommandHandler>();
+            services.AddScoped<UserManagementService>();
+            services.AddScoped<IHandlesQueryAsync<GetCitySearchTermQuery, List<string>>, GetCitylistQueryHandler>();
+            services.AddTransient<IHandlesCommandAsync<ChangePasswordCommand>, ChangePasswordCommandHandler>();
+            services.AddScoped<IGstStateCityService, GstStateCityService>();
+            services.AddScoped<GetCitiesByStateQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<GetStatesQuery, List<GstStates>>, GetStatesQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<GetCitiesByStateQuery, List<CityState>>, GetCitiesByStateQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<DailyBookingReportsQuery, List<DailyBooking>>, DailyBookingQueryHandler>();
+            services.AddScoped<IReportingService, ReportingService>();
+            services.AddScoped<IAgencyDashboardService, AgencyDashboardService>();
+            services.AddScoped<IHandlesQueryAsync<GetCitySearchTermQuery, List<string>>, GetCitylistQueryHandler>();
+            services.AddTransient<IHandlesCommandAsync<ChangePasswordCommand>, ChangePasswordCommandHandler>();
+            services.AddScoped<IHandlesQueryAsync<GetProfileQuery, CompanyProfileData>, GetProfileQueryHandler>();
+            services.AddScoped<IHandlesCommandAsync<UpdateLogoCommand>, UpdateLogoCommandHandler>();
+            services.AddScoped<IHandlesQueryAsync<LedgerReportQuery, List<LedgerReports>>, LedgerReportQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<AirBookingQuery, List<AirBookingReport>>, AirBookingQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<DashboardLedgerQuery, List<DashboardLedgerData>>, DashboardLedgerQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<DashboardNotificationQuery, List<DashboardNotificationData>>, DashboardNoticeQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<DashboardChartQuery, List<DashboardChartData>>, DashboardChartQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<DashboardCorporateQuery, List<DashboardCorporateData>>, DashboardCorporateQueryHandler>();
+            services.AddTransient<IHandlesQueryAsync<SearchFlightAvailabilityQuery,string>, GetAvailableFlightsHandler>();
+            services.AddScoped<IGetOneWayFlightService, GetOneWayFlightService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IHandlesQueryAsync<CompanyIdByAccountIdQuery, string>, GetCompanyIDByAccountIDQueryHandler>();
+            services.AddKeyedScoped<IHandlesQueryAsync<int, bool>, GetBookingPnrStatusHandler>("BookingPnrStatusHandler");
+            services.AddKeyedScoped<IHandlesQueryAsync<int, bool>, GetTicketStatusHandler>("TicketStatusHandler");
+            services.AddScoped<IHandlesQueryAsync<GetCompanyDetailsAfterLoginQuery, List<CompanyAfterLoginDetails>>, GetCompanyDetailsAfterLoginHandler>();
+            services.AddScoped<IHandlesQueryAsync<BookingDetailQuery, BookingDetailData>, BookingTicketQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<IsDomesticFlightSearchQuery, bool>, IsDomesticFlightSearchHandler>();
+            services.AddScoped<IHandlesQueryAsync<string,CompanyRegisterCorporateUserDetails>, GetCompanyRegisterCorporateUserDetailsQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<string, CompanyRegisterCorporateUserLimitDetails>, GetCompanyRegisterCorporateUserLimitQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<GetAirFareQuery, string>, GetAirFareHandler>();
+            services.AddScoped<IHandlesQueryAsync<GetAirFareRulesQuery, string>, GetAirFareRulesHandler>();
+            services.AddScoped<IHandlesQueryAsync<string, string>, GetWhitelabelAdminidFromHostQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<string, int>, GetPromoAmountQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<IsWalletCfeeQuery, bool>, IsWalletCfeeQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<List<CountryList>>, GetCountryListWithCodeQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<GetAirSSRQuery, string>, GetAirSSRHandler>();
+            services.AddScoped<IHandlesQueryAsync<GetPaymentGatewayCardChargesQuery, List<PaymentGatewayDisplayOption>>, GetPaymentGatewayCardChargesQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<VerifyTicketBalanceQuery, bool>, VerifyTicketBalanceQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<string, bool>, GetPGOurOwnerStatusQueryHandler>();
+            services.AddScoped<IHandlesCommandAsync<SetGSTdetailCommand>, SetGSTdetailCommandHandler>();
+            services.AddScoped<IHandlesQueryAsync<SetBookingQuery, Int32>, SetBookingQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<GetAirCommitQuery, bool>, GetAirCommitHandler>();
+            services.AddScoped<IHandlesQueryAsync<GetCfeeQuery, DataTable>, GetCFeeQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<SetPaymentGatewayLoggerQuery, Int32>, SetPaymentGatewayLoggerQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<SetBookingAirlineLogForPGQuery, bool>, SetBookingAirlineLogForPGQueryHandler>();
+            services.AddScoped<IHandlesQueryAsync<string, GSTDetails>, GetGSTDetailbyCompanyQueryHandler>();
+            services.AddScoped<IHandlesCommandAsync<AddDBLogCommand>, AddDbLogCommandHandler>();
+            services.AddScoped<IHandlesCommandAsync<AddDBSearchLogCommand>, AddDbSearchLogCommandHandler>();
+            services.AddScoped<IHandlesQueryAsync<GetUAPIAirlineBookingQuery, string>, GetUAPIAirlineBookingQueryHandler>();
+            services.AddScoped<IGetAirlineBookingService, GetAirlineBookingService>();
+            services.AddScoped<IHandlesCommandAsync<SetPaymentForHoldBookingCommand>,SetPaymentForHoldBookingCommandHandler>();
+
+
+
+            return services;
+        }
+    }
+}
