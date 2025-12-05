@@ -502,8 +502,9 @@ var CurrancyDataMsg;
     function GetShow() {
 
 
-        $("#waitingload").css("display", "Block");
-        $("#waitingloadbox").css("display", "Block");
+        // Circular loader removed - using progress bar instead
+        // $("#waitingload").css("display", "Block");
+        // $("#waitingloadbox").css("display", "Block");
 
         var CompnyID = $("#hdncmpid").val();
         $.ajax({

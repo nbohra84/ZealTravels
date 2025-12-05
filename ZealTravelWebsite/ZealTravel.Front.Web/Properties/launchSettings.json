@@ -20,8 +20,10 @@
       "launchUrl": "home",
       "applicationUrl": "http://localhost:5095",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_USE_POLLING_FILE_WATCHER": "true"
+      },
+      "hotReloadProfile": "aspnetcore"
     },
     "https": {
       "commandName": "Project",

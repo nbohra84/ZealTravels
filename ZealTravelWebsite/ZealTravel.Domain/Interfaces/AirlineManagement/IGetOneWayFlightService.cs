@@ -10,6 +10,7 @@ namespace ZealTravel.Domain.Interfaces.AirelineManagement
     public interface IGetOneWayFlightService
     {
         string GetAvailableFights(AirAvaibilityModel parameters);
-
+        Task<string> GetAvailableFightsAsync(AirAvaibilityModel parameters);
+        string GetProgressiveResults(string searchId, string journeyType, string companyId);
     }
 }

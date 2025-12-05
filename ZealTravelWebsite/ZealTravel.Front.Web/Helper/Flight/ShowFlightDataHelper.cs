@@ -1,4 +1,4 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Spreadsheet;
 using iText.IO.Font.Otf;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
@@ -88,14 +88,18 @@ namespace ZealTravel.Front.Web.Helper.Flight
             List<k_ShowFlightOutBound> FlightOutBound = new List<k_ShowFlightOutBound>();
 
             var flightList = new List<AirlineAvailabilityInfo>();
-            if (flterType == "OUTBOUND")
-            {
-                flightList = GetSelec("O");
-            }
-            else if (flterType == "INBOUND")
-            {
-                flightList = GetSelec("I");
-            }
+            // COMMENTED OUT: Show RT results as pairs instead of splitting
+            // if (flterType == "OUTBOUND")
+            // {
+            //     flightList = GetSelec("O");
+            // }
+            // else if (flterType == "INBOUND")
+            // {
+            //     flightList = GetSelec("I");
+            // }
+            
+            // Get all flights (both O and I) to show as pairs
+            flightList = GetSelec();
 
             // Get distinct RefId values
             var distinctRefIds = flightList
@@ -119,6 +123,7 @@ namespace ZealTravel.Front.Web.Helper.Flight
                 int checkA_C = 0;
 
                 // Process each distinct RefId
+                // Process all flights for this RefID and set InboundOutbound based on FltType
                 foreach (var refId in distinctRefIds)
                 {
                     var relatedFlights = flightList
@@ -127,48 +132,42 @@ namespace ZealTravel.Front.Web.Helper.Flight
 
                     if (relatedFlights.Count == 1)
                     {
-                        // Perform necessary processing on relatedFlights
-
                         var relatedFlight = relatedFlights.FirstOrDefault();
                         rules = GetFareRules(relatedFlights);
-                        string departureDate = relatedFlight.DepartureDate.ToString(); // Assuming DepartureDate is a property of k_ShowFlightOutBound
+                        string departureDate = relatedFlight.DepartureDate.ToString();
                         string arrivalDate = relatedFlight.ArrivalDate.ToString();
                         if (departureDate != arrivalDate)
                         {
                             arrivalCheck = DateHelper.DayDiff(departureDate, arrivalDate);
                         }
+                        // Set InboundOutbound based on FltType
+                        string inboundOutboundValue = relatedFlight.FltType == "O" ? "OUTBOUND" : (relatedFlight.FltType == "I" ? "INBOUND" : "");
+                        
                         FlightOutBound.Add(new k_ShowFlightOutBound()
                         {
                             Curr = curr,
                             AgentType = checkA_C,
                             CompanyID = CompanyID,
                             FlightRefid = relatedFlight.RefID.ToString(),
-
                             NoOFAdult = int.Parse(relatedFlight.Adt.ToString()),
                             NoOFChild = int.Parse(relatedFlight.Chd.ToString()),
                             NoOFInfant = int.Parse(relatedFlight.Inf.ToString()),
-
                             Adt_BASIC = GetConvert(relatedFlight.Adt_BASIC.ToString()),
                             Chd_BASIC = GetConvert(relatedFlight.Chd_BASIC.ToString()),
                             Inf_BASIC = GetConvert(relatedFlight.Inf_BASIC.ToString()),
-
                             AdultbaseFare = int.Parse(relatedFlight.Adt.ToString()) * GetConvert(relatedFlight.Adt_BASIC),
                             ChildbaseFare = int.Parse(relatedFlight.Chd.ToString()) * GetConvert(relatedFlight.Chd_BASIC),
                             InfantbaseFare = int.Parse(relatedFlight.Inf.ToString()) * GetConvert(relatedFlight.Inf_BASIC),
-
                             Adt_YQ = GetConvert(int.Parse(relatedFlight.Adt_YQ.ToString())),
                             AdtTotalTax = GetConvert(int.Parse(relatedFlight.AdtTotalTax.ToString())),
                             Chd_YQ = GetConvert(int.Parse(relatedFlight.Chd_YQ.ToString())),
                             ChdTotalTax = GetConvert(int.Parse(relatedFlight.ChdTotalTax.ToString())),
                             Inf_TAX = GetConvert(int.Parse(relatedFlight.Inf_TAX.ToString())),
-
                             Adt_AcuTax = ReturnTAXADT(relatedFlight).ToString(),
                             Chd_AcuTax = ReturnTAXCHD(relatedFlight).ToString(),
                             Inf_AcuTax = ReturnTAXINF(relatedFlight).ToString(),
-
                             Yq = "Commission : " + String.Format("{0:N0}", GetConvert(int.Parse(relatedFlight.TotalCommission.ToString()))),
                             PromoChek = promo,
-
                             TotalTax = GetTotalTax(relatedFlight),
                             TotalBasic = GetTotalBasic(relatedFlight),
                             TotalServiceFee = GetTotalServiceFee(relatedFlight),
@@ -177,12 +176,10 @@ namespace ZealTravel.Front.Web.Helper.Flight
                             TaxandCharges = GetTaxandCharges(relatedFlight),
                             TotalCommission = ReturnCommission(relatedFlight, CompanyID),
                             TotalTds = ReturnTDS(relatedFlight, CompanyID),
-
                             GrossF = ReturnGrossFare(relatedFlight).ToString(),
                             FinalFare = ReturnFinalFare(relatedFlight, CompanyID),
                             TotalAmount = ReturnTotalFareAmount(relatedFlight),
                             TotalFare = ReturnTotalFareAmount(relatedFlight),
-
                             FlightName = relatedFlight.CarrierCode.ToString(),
                             DepartStationName = relatedFlight.DepartureStationName.ToString(),
                             ArrivalStationName = relatedFlight.ArrivalStationName.ToString(),
@@ -212,7 +209,6 @@ namespace ZealTravel.Front.Web.Helper.Flight
                             AvailableSeat = checkSeat(relatedFlight.SeatsAvailable.ToString()),
                             FareRules = rules,
                             RuleTarrif = relatedFlight.RuleTarrif.ToString(),
-
                             Class1 = ReturnCls(relatedFlight),
                             SRC1 = relatedFlight.DepartureStation.ToString(),
                             DEST1 = relatedFlight.ArrivalStation.ToString(),
@@ -234,7 +230,8 @@ namespace ZealTravel.Front.Web.Helper.Flight
                             FlightArrTime1 = relatedFlight.ArrivalTime.ToString(),
                             Layover1 = relatedFlight.JourneyTimeDesc.ToString(),
                             Duration1 = relatedFlight.DurationDesc.ToString(),
-                            FlightNumberCmb = relatedFlight.CarrierCode.ToString() + relatedFlight.FlightNumber.ToString()
+                            FlightNumberCmb = relatedFlight.CarrierCode.ToString() + relatedFlight.FlightNumber.ToString(),
+                            InboundOutbound = inboundOutboundValue // Set based on FltType
                         });
                     }
 
@@ -366,7 +363,8 @@ namespace ZealTravel.Front.Web.Helper.Flight
                                 FlightArrTime2 = relatedFlights[1].ArrivalTime.ToString(),
                                 Duration2 = relatedFlights[1].DurationDesc.ToString(),
                                 Layover1 = relatedFlights[1].JourneyTimeDesc.ToString(),
-                                FlightNumberCmb = relatedFlights[0].CarrierCode.ToString() + relatedFlights[0].FlightNumber.ToString()
+                                FlightNumberCmb = relatedFlights[0].CarrierCode.ToString() + relatedFlights[0].FlightNumber.ToString(),
+                                InboundOutbound = relatedFlights[0].FltType == "O" ? "OUTBOUND" : (relatedFlights[0].FltType == "I" ? "INBOUND" : "")
                             });
                         }
                     }
@@ -523,7 +521,8 @@ namespace ZealTravel.Front.Web.Helper.Flight
                                 FlightArrTime3 = relatedFlights[2].ArrivalTime.ToString(),
                                 Duration3 = relatedFlights[2].DurationDesc.ToString(),
                                 Layover2 = relatedFlights[2].JourneyTimeDesc.ToString(),
-                                FlightNumberCmb = relatedFlights[0].CarrierCode.ToString() + relatedFlights[0].FlightNumber.ToString() + "-" + relatedFlights[1].CarrierCode.ToString() + relatedFlights[1].FlightNumber.ToString() + "-" + relatedFlights[2].CarrierCode.ToString() + relatedFlights[2].FlightNumber.ToString()
+                                FlightNumberCmb = relatedFlights[0].CarrierCode.ToString() + relatedFlights[0].FlightNumber.ToString() + "-" + relatedFlights[1].CarrierCode.ToString() + relatedFlights[1].FlightNumber.ToString() + "-" + relatedFlights[2].CarrierCode.ToString() + relatedFlights[2].FlightNumber.ToString(),
+                                InboundOutbound = relatedFlights[0].FltType == "O" ? "OUTBOUND" : (relatedFlights[0].FltType == "I" ? "INBOUND" : "")
                             });
                         }
                         else if (relatedFlights.Count == 4)
@@ -532,46 +531,47 @@ namespace ZealTravel.Front.Web.Helper.Flight
                         }
                     }
                 }
-                if (flterType == "OUTBOUND")
-                {
-                    var drSelect = flightList.Where(x => x.Stops == 2).ToList();
-                    if (drSelect.Count > 0)
-                    {
-                        HttpContextHelper.Current.Session.SetString("StopCheck", "NonStop,OneStop,TwoStop");
-                    }
-                    else
-                    {
-                        drSelect = flightList.Where(x => x.Stops == 1).ToList();
-                        if (drSelect.Count > 0)
-                        {
-                            HttpContextHelper.Current.Session.SetString("StopCheck", "NonStop,OneStop");
-                        }
-                        else
-                        {
-                            HttpContextHelper.Current.Session.SetString("StopCheck", "NonStop");
-                        }
-                    }
-                }
-                else if (flterType == "INBOUND")
-                {
-                    var drSelect = flightList.Where(x => x.Stops == 2).ToList();
-                    if (drSelect.Count > 0)
-                    {
-                        HttpContextHelper.Current.Session.SetString("StopCheckR", "NonStop,OneStop,TwoStop");
-                    }
-                    else
-                    {
-                        drSelect = flightList.Where(x => x.Stops == 1).ToList();
-                        if (drSelect.Count > 0)
-                        {
-                            HttpContextHelper.Current.Session.SetString("StopCheckR", "NonStop,OneStop");
-                        }
-                        else
-                        {
-                            HttpContextHelper.Current.Session.SetString("StopCheckR", "NonStop");
-                        }
-                    }
-                }
+                // COMMENTED OUT: Stop check filtering - showing pairs now
+                // if (flterType == "OUTBOUND")
+                // {
+                //     var drSelect = flightList.Where(x => x.Stops == 2).ToList();
+                //     if (drSelect.Count > 0)
+                //     {
+                //         HttpContextHelper.Current.Session.SetString("StopCheck", "NonStop,OneStop,TwoStop");
+                //     }
+                //     else
+                //     {
+                //         drSelect = flightList.Where(x => x.Stops == 1).ToList();
+                //         if (drSelect.Count > 0)
+                //         {
+                //             HttpContextHelper.Current.Session.SetString("StopCheck", "NonStop,OneStop");
+                //         }
+                //         else
+                //         {
+                //             HttpContextHelper.Current.Session.SetString("StopCheck", "NonStop");
+                //         }
+                //     }
+                // }
+                // else if (flterType == "INBOUND")
+                // {
+                //     var drSelect = flightList.Where(x => x.Stops == 2).ToList();
+                //     if (drSelect.Count > 0)
+                //     {
+                //         HttpContextHelper.Current.Session.SetString("StopCheckR", "NonStop,OneStop,TwoStop");
+                //     }
+                //     else
+                //     {
+                //         drSelect = flightList.Where(x => x.Stops == 1).ToList();
+                //         if (drSelect.Count > 0)
+                //         {
+                //             HttpContextHelper.Current.Session.SetString("StopCheckR", "NonStop,OneStop");
+                //         }
+                //         else
+                //         {
+                //             HttpContextHelper.Current.Session.SetString("StopCheckR", "NonStop");
+                //         }
+                //     }
+                // }
 
             }
 
@@ -585,14 +585,18 @@ namespace ZealTravel.Front.Web.Helper.Flight
             List<k_ShowFlightOutBound> FlightOutBound = new List<k_ShowFlightOutBound>();
 
             var flightList = new List<AirlineAvailabilityInfo>();
-            if (flterType == "OUTBOUND")
-            {
-                flightList = GetSelec("O");
-            }
-            else if (flterType == "INBOUND")
-            {
-                flightList = GetSelec("I");
-            }
+            // COMMENTED OUT: Show RT results as pairs instead of splitting
+            // if (flterType == "OUTBOUND")
+            // {
+            //     flightList = GetSelec("O");
+            // }
+            // else if (flterType == "INBOUND")
+            // {
+            //     flightList = GetSelec("I");
+            // }
+            
+            // Get all flights (both O and I) to show as pairs
+            flightList = GetSelec();
 
             // Get distinct RefId values
             var distinctRefIds = flightList
@@ -616,6 +620,7 @@ namespace ZealTravel.Front.Web.Helper.Flight
                 int checkA_C = 0;
 
                 // Process each distinct RefId
+                // Process all flights for this RefID and set InboundOutbound based on FltType
                 foreach (var refId in distinctRefIds)
                 {
                     var relatedFlights = flightList
@@ -624,48 +629,42 @@ namespace ZealTravel.Front.Web.Helper.Flight
 
                     if (relatedFlights.Count == 1)
                     {
-                        // Perform necessary processing on relatedFlights
-
                         var relatedFlight = relatedFlights.FirstOrDefault();
                         rules = GetFareRules(relatedFlights);
-                        string departureDate = relatedFlight.DepartureDate.ToString(); // Assuming DepartureDate is a property of k_ShowFlightOutBound
+                        string departureDate = relatedFlight.DepartureDate.ToString();
                         string arrivalDate = relatedFlight.ArrivalDate.ToString();
                         if (departureDate != arrivalDate)
                         {
                             arrivalCheck = DateHelper.DayDiff(departureDate, arrivalDate);
                         }
+                        // Set InboundOutbound based on FltType
+                        string inboundOutboundValue = relatedFlight.FltType == "O" ? "OUTBOUND" : (relatedFlight.FltType == "I" ? "INBOUND" : "");
+                        
                         FlightOutBound.Add(new k_ShowFlightOutBound()
                         {
                             Curr = curr,
                             AgentType = checkA_C,
                             CompanyID = CompanyID,
                             FlightRefid = relatedFlight.RefID.ToString(),
-
                             NoOFAdult = relatedFlight.Adt,
                             NoOFChild = relatedFlight.Chd,
                             NoOFInfant = relatedFlight.Inf,
-
                             Adt_BASIC = GetConvert(relatedFlight.Adt_BASIC.ToString()),
                             Chd_BASIC = GetConvert(relatedFlight.Chd_BASIC.ToString()),
                             Inf_BASIC = GetConvert(relatedFlight.Inf_BASIC.ToString()),
-
                             AdultbaseFare = relatedFlight.Adt * GetConvert(relatedFlight.Adt_BASIC),
                             ChildbaseFare = relatedFlight.Chd * GetConvert(relatedFlight.Chd_BASIC),
                             InfantbaseFare = relatedFlight.Inf * GetConvert(relatedFlight.Inf_BASIC),
-
                             Adt_YQ = GetConvert(relatedFlight.Adt_YQ),
                             AdtTotalTax = GetConvert(relatedFlight.AdtTotalTax),
                             Chd_YQ = GetConvert(relatedFlight.Chd_YQ),
                             ChdTotalTax = GetConvert(relatedFlight.ChdTotalTax),
                             Inf_TAX = GetConvert(relatedFlight.Inf_TAX),
-
                             Adt_AcuTax = ReturnTAXADT(relatedFlight).ToString(),
                             Chd_AcuTax = ReturnTAXCHD(relatedFlight).ToString(),
                             Inf_AcuTax = ReturnTAXINF(relatedFlight).ToString(),
-
                             Yq = "Commission : " + String.Format("{0:N0}", GetConvert(relatedFlight.TotalCommission)),
                             PromoChek = promo,
-
                             TotalTax = GetTotalTax(relatedFlight),
                             TotalBasic = GetTotalBasic(relatedFlight),
                             TotalServiceFee = GetTotalServiceFee(relatedFlight),
@@ -674,12 +673,10 @@ namespace ZealTravel.Front.Web.Helper.Flight
                             TaxandCharges = GetTaxandCharges(relatedFlight),
                             TotalCommission = ReturnCommission(relatedFlight, CompanyID),
                             TotalTds = ReturnTDS(relatedFlight, CompanyID),
-
                             GrossF = ReturnGrossFare(relatedFlight).ToString(),
                             FinalFare = ReturnFinalFare(relatedFlight, CompanyID),
                             TotalAmount = ReturnTotalFareAmount(relatedFlight),
                             TotalFare = ReturnTotalFareAmount(relatedFlight),
-
                             FlightName = relatedFlight.CarrierCode,
                             DepartStationName = relatedFlight.DepartureStationName,
                             ArrivalStationName = relatedFlight.ArrivalStationName,
@@ -709,7 +706,6 @@ namespace ZealTravel.Front.Web.Helper.Flight
                             AvailableSeat = checkSeat(relatedFlight.SeatsAvailable.ToString()),
                             FareRules = rules,
                             RuleTarrif = relatedFlight.RuleTarrif ?? string.Empty,
-
                             Class1 = ReturnCls(relatedFlight),
                             SRC1 = relatedFlight.DepartureStation,
                             DEST1 = relatedFlight.ArrivalStation,
@@ -731,7 +727,8 @@ namespace ZealTravel.Front.Web.Helper.Flight
                             FlightArrTime1 = relatedFlight.ArrivalTime,
                             Layover1 = relatedFlight.JourneyTimeDesc,
                             Duration1 = relatedFlight.DurationDesc,
-                            FlightNumberCmb = relatedFlight.CarrierCode + relatedFlight.FlightNumber
+                            FlightNumberCmb = relatedFlight.CarrierCode + relatedFlight.FlightNumber,
+                            InboundOutbound = inboundOutboundValue // Set based on FltType
                         });
                     }
 
@@ -863,7 +860,8 @@ namespace ZealTravel.Front.Web.Helper.Flight
                                 FlightArrTime2 = relatedFlights[1].ArrivalTime,
                                 Duration2 = relatedFlights[1].DurationDesc,
                                 Layover1 = relatedFlights[1].JourneyTimeDesc,
-                                FlightNumberCmb = relatedFlights[0].CarrierCode + relatedFlights[0].FlightNumber + "-" + relatedFlights[1].CarrierCode + relatedFlights[1].FlightNumber
+                                FlightNumberCmb = relatedFlights[0].CarrierCode + relatedFlights[0].FlightNumber + "-" + relatedFlights[1].CarrierCode + relatedFlights[1].FlightNumber,
+                                InboundOutbound = relatedFlights[0].FltType == "O" ? "OUTBOUND" : (relatedFlights[0].FltType == "I" ? "INBOUND" : "")
                             });
                         }
                     }
@@ -1020,7 +1018,8 @@ namespace ZealTravel.Front.Web.Helper.Flight
                                 FlightArrTime3 = relatedFlights[2].ArrivalTime,
                                 Duration3 = relatedFlights[2].DurationDesc,
                                 Layover2 = relatedFlights[2].JourneyTimeDesc,
-                                FlightNumberCmb = relatedFlights[0].CarrierCode + relatedFlights[0].FlightNumber + "-" + relatedFlights[1].CarrierCode + relatedFlights[1].FlightNumber + "-" + relatedFlights[2].CarrierCode + relatedFlights[2].FlightNumber
+                                FlightNumberCmb = relatedFlights[0].CarrierCode + relatedFlights[0].FlightNumber + "-" + relatedFlights[1].CarrierCode + relatedFlights[1].FlightNumber + "-" + relatedFlights[2].CarrierCode + relatedFlights[2].FlightNumber,
+                                InboundOutbound = relatedFlights[0].FltType == "O" ? "OUTBOUND" : (relatedFlights[0].FltType == "I" ? "INBOUND" : "")
                             });
                         }
                         else if (relatedFlights.Count == 4)
@@ -1029,46 +1028,47 @@ namespace ZealTravel.Front.Web.Helper.Flight
                         }
                     }
                 }
-                if (flterType == "OUTBOUND")
-                {
-                    var drSelect = flightList.Where(x => x.Stops == 2).ToList();
-                    if (drSelect.Count > 0)
-                    {
-                        HttpContextHelper.Current.Session.SetString("StopCheck", "NonStop,OneStop,TwoStop");
-                    }
-                    else
-                    {
-                        drSelect = flightList.Where(x => x.Stops == 1).ToList();
-                        if (drSelect.Count > 0)
-                        {
-                            HttpContextHelper.Current.Session.SetString("StopCheck", "NonStop,OneStop");
-                        }
-                        else
-                        {
-                            HttpContextHelper.Current.Session.SetString("StopCheck", "NonStop");
-                        }
-                    }
-                }
-                else if (flterType == "INBOUND")
-                {
-                    var drSelect = flightList.Where(x => x.Stops == 2).ToList();
-                    if (drSelect.Count > 0)
-                    {
-                        HttpContextHelper.Current.Session.SetString("StopCheckR", "NonStop,OneStop,TwoStop");
-                    }
-                    else
-                    {
-                        drSelect = flightList.Where(x => x.Stops == 1).ToList();
-                        if (drSelect.Count > 0)
-                        {
-                            HttpContextHelper.Current.Session.SetString("StopCheckR", "NonStop,OneStop");
-                        }
-                        else
-                        {
-                            HttpContextHelper.Current.Session.SetString("StopCheckR", "NonStop");
-                        }
-                    }
-                }
+                // COMMENTED OUT: Stop check filtering - showing pairs now
+                // if (flterType == "OUTBOUND")
+                // {
+                //     var drSelect = flightList.Where(x => x.Stops == 2).ToList();
+                //     if (drSelect.Count > 0)
+                //     {
+                //         HttpContextHelper.Current.Session.SetString("StopCheck", "NonStop,OneStop,TwoStop");
+                //     }
+                //     else
+                //     {
+                //         drSelect = flightList.Where(x => x.Stops == 1).ToList();
+                //         if (drSelect.Count > 0)
+                //         {
+                //             HttpContextHelper.Current.Session.SetString("StopCheck", "NonStop,OneStop");
+                //         }
+                //         else
+                //         {
+                //             HttpContextHelper.Current.Session.SetString("StopCheck", "NonStop");
+                //         }
+                //     }
+                // }
+                // else if (flterType == "INBOUND")
+                // {
+                //     var drSelect = flightList.Where(x => x.Stops == 2).ToList();
+                //     if (drSelect.Count > 0)
+                //     {
+                //         HttpContextHelper.Current.Session.SetString("StopCheckR", "NonStop,OneStop,TwoStop");
+                //     }
+                //     else
+                //     {
+                //         drSelect = flightList.Where(x => x.Stops == 1).ToList();
+                //         if (drSelect.Count > 0)
+                //         {
+                //             HttpContextHelper.Current.Session.SetString("StopCheckR", "NonStop,OneStop");
+                //         }
+                //         else
+                //         {
+                //             HttpContextHelper.Current.Session.SetString("StopCheckR", "NonStop");
+                //         }
+                //     }
+                // }
 
             }
 
@@ -4576,6 +4576,7 @@ namespace ZealTravel.Front.Web.Helper.Flight
 
         }
 
+
         public static async Task<List<k_ShowFlightOutBound>> SeletRound(string refid, string refidR, string SearchType, string CompanyID, ClaimsPrincipal user, IHandlesQueryAsync<GetAirFareQuery, string> getAirFareHandler, IHandlesQueryAsync<GetAirFareRulesQuery, string> getAirFareRulesHandler, IHandlesQueryAsync<string, CompanyRegisterCorporateUserDetails> getCompanyRegisterCorporateUserDetailsQueryHandler, IHandlesQueryAsync<string, CompanyRegisterCorporateUserLimitDetails> getCompanyRegisterCorporateUserLimitQueryHandler)
         {
             List<k_ShowFlightOutBound> FlightOutBound = new List<k_ShowFlightOutBound>();
@@ -4643,52 +4644,40 @@ namespace ZealTravel.Front.Web.Helper.Flight
 
                 if (relatedFlightsOutbound.Count == 1)
                 {
-                    var relatedFlight = relatedFlightsOutbound.FirstOrDefault();
+                    var relatedFlight = relatedFlightsOutbound.First();
                     rules = GetFareRules(relatedFlightsOutbound);
-                    string departureDate = relatedFlight.DepartureDate.ToString(); // Assuming DepartureDate is a property of k_ShowFlightOutBound
+                    string departureDate = relatedFlight.DepartureDate.ToString();
                     string arrivalDate = relatedFlight.ArrivalDate.ToString();
                     if (departureDate != arrivalDate)
                     {
                         arrivalCheck = DateHelper.DayDiff(departureDate, arrivalDate);
                     }
 
-                    InboundOutboundFare = ReturnGrossFare(relatedFlight).ToString();
                     FlightOutBound.Add(new k_ShowFlightOutBound()
                     {
-                        F_Status = fStatus,
-                        F_Remark = fRemark,
-                        CompanyID = CompanyID,
-                        AgentType = ChekA_C,
-                        FlightRefid = relatedFlight.RefID.ToString(),
                         Curr = curr,
-                        FareUpdateMsg = msg,
-                        FareUpdateMsgChek = FareUpdateMsgCheks,
-                        InboundOutbound = InboundOutboundFare,
+                        AgentType = 0,
+                        CompanyID = CompanyID,
+                        FlightRefid = relatedFlight.RefID.ToString(),
                         NoOFAdult = relatedFlight.Adt,
                         NoOFChild = relatedFlight.Chd,
                         NoOFInfant = relatedFlight.Inf,
-
                         Adt_BASIC = GetConvert(relatedFlight.Adt_BASIC.ToString()),
                         Chd_BASIC = GetConvert(relatedFlight.Chd_BASIC.ToString()),
                         Inf_BASIC = GetConvert(relatedFlight.Inf_BASIC.ToString()),
-
                         AdultbaseFare = relatedFlight.Adt * GetConvert(relatedFlight.Adt_BASIC),
                         ChildbaseFare = relatedFlight.Chd * GetConvert(relatedFlight.Chd_BASIC),
                         InfantbaseFare = relatedFlight.Inf * GetConvert(relatedFlight.Inf_BASIC),
-
-                        Adt_YQ = GetConvert(relatedFlight.Adt_YQ),
-                        AdtTotalTax = GetConvert(relatedFlight.AdtTotalTax),
-                        Chd_YQ = GetConvert(relatedFlight.Chd_YQ),
-                        ChdTotalTax = GetConvert(relatedFlight.ChdTotalTax),
-                        Inf_TAX = GetConvert(relatedFlight.Inf_TAX),
-
+                        Adt_YQ = GetConvert(int.Parse(relatedFlight.Adt_YQ.ToString())),
+                        AdtTotalTax = GetConvert(int.Parse(relatedFlight.AdtTotalTax.ToString())),
+                        Chd_YQ = GetConvert(int.Parse(relatedFlight.Chd_YQ.ToString())),
+                        ChdTotalTax = GetConvert(int.Parse(relatedFlight.ChdTotalTax.ToString())),
+                        Inf_TAX = GetConvert(int.Parse(relatedFlight.Inf_TAX.ToString())),
                         Adt_AcuTax = ReturnTAXADT(relatedFlight).ToString(),
                         Chd_AcuTax = ReturnTAXCHD(relatedFlight).ToString(),
                         Inf_AcuTax = ReturnTAXINF(relatedFlight).ToString(),
-
-                        Yq = "Commission : " + String.Format("{0:N0}", GetConvert(relatedFlight.TotalCommission)),
-                        PromoChek = promo,
-
+                        Yq = "Commission : " + String.Format("{0:N0}", GetConvert(int.Parse(relatedFlight.TotalCommission.ToString()))),
+                        PromoChek = 0,
                         TotalTax = GetTotalTax(relatedFlight),
                         TotalBasic = GetTotalBasic(relatedFlight),
                         TotalServiceFee = GetTotalServiceFee(relatedFlight),
@@ -4697,803 +4686,222 @@ namespace ZealTravel.Front.Web.Helper.Flight
                         TaxandCharges = GetTaxandCharges(relatedFlight),
                         TotalCommission = ReturnCommission(relatedFlight, CompanyID),
                         TotalTds = ReturnTDS(relatedFlight, CompanyID),
-
                         GrossF = ReturnGrossFare(relatedFlight).ToString(),
                         FinalFare = ReturnFinalFare(relatedFlight, CompanyID),
                         TotalAmount = ReturnTotalFareAmount(relatedFlight),
                         TotalFare = ReturnTotalFareAmount(relatedFlight),
-                        //==============================================================================================================================
-
-                        FlightName = relatedFlight.CarrierCode,
-                        DepartStationName = relatedFlight.DepartureStationName,
-                        ArrivalStationName = relatedFlight.ArrivalStationName,
-                        DepartureStationAirport = relatedFlight.DepartureStationAirport,
-                        ArrivalStationAirport = relatedFlight.ArrivalStationAirport,
-                        Cabin = relatedFlight.Cabin,
-                        CarrierName = relatedFlight.CarrierName,
-                        FlightNumber = relatedFlight.FlightNumber,
-                        FlightDepDate = relatedFlight.DepartureDate,
-                        FlightDepTime = relatedFlight.DepartureTime,
-                        FlightArrDate = relatedFlight.ArrivalDate,
-                        FlightArrTime = relatedFlight.ArrivalTime,
-                        RuleTarrif = relatedFlight.RuleTarrif ?? string.Empty,
+                        FlightName = relatedFlight.CarrierCode.ToString(),
+                        DepartStationName = relatedFlight.DepartureStationName.ToString(),
+                        ArrivalStationName = relatedFlight.ArrivalStationName.ToString(),
+                        DepartureStationAirport = relatedFlight.DepartureStationAirport.ToString(),
+                        ArrivalStationAirport = relatedFlight.ArrivalStationAirport.ToString(),
+                        Cabin = relatedFlight.Cabin.ToString(),
+                        CarrierName = relatedFlight.CarrierName.ToString(),
+                        FlightNumber = relatedFlight.FlightNumber.ToString(),
+                        FlightDepDate = relatedFlight.DepartureDate.ToString(),
+                        FlightDepTime = relatedFlight.DepartureTime.ToString(),
+                        FlightArrDate = relatedFlight.ArrivalDate.ToString(),
+                        FlightArrTime = relatedFlight.ArrivalTime.ToString(),
                         CHECKINBaggage = ReturnCheckINBaggage(relatedFlight).ToString(),
                         CABINBaggage = ReturnCabinINBaggage(relatedFlight).ToString(),
-                        SRC = relatedFlight.Origin,
-                        DEST = relatedFlight.Destination,
-                        PrimarySRC = relatedFlight.Origin,
-                        PrimaryDEST = relatedFlight.Destination,
+                        SRC = relatedFlight.Origin.ToString(),
+                        DEST = relatedFlight.Destination.ToString(),
+                        PrimarySRC = relatedFlight.Origin.ToString(),
+                        PrimaryDEST = relatedFlight.Destination.ToString(),
                         Stop = "NonStop",
-                        logo = "/assets/img/airlogo_square/" + relatedFlight.CarrierCode + ".gif",
-                        Duration = relatedFlight.DurationDesc,
+                        logo = "/assets/img/airlogo_square/" + relatedFlight.CarrierCode.ToString() + ".gif",
+                        Duration = relatedFlight.DurationDesc.ToString(),
                         connection = 1,
                         SMSACTIVES = 0,
                         ArrivalNextDayCheck = arrivalCheck,
-                        PriceType = relatedFlight.PriceType,
+                        PriceType = relatedFlight.PriceType.ToString(),
                         RefundType = ReturnRefundType(relatedFlight).ToString(),
                         AvailableSeat = checkSeat(relatedFlight.SeatsAvailable.ToString()),
-                        FareRules = rules,
-
-                        Class1 = ReturnCls(relatedFlight),
-                        SRC1 = relatedFlight.DepartureStation,
-                        DEST1 = relatedFlight.ArrivalStation,
-                        DepartStationName1 = relatedFlight.DepartureStationName,
-                        ArrivalStationName1 = relatedFlight.ArrivalStationName,
-                        DepartureStationAirport1 = relatedFlight.DepartureStationAirport,
-                        ArrivalStationAirport1 = relatedFlight.ArrivalStationAirport,
-                        Via = checkVia(relatedFlight.Via),
-                        ViaName = checkViaName(relatedFlight.ViaName),
-                        TerminalSRC = checkTerminal(relatedFlight.DepartureTerminal),
-                        TerminalDEST = checkTerminal(relatedFlight.ArrivalTerminal),
-                        FlightName1 = relatedFlight.CarrierCode,
-                        Cabin1 = relatedFlight.Cabin,
-                        CarrierName1 = relatedFlight.CarrierName,
-                        FlightNumber1 = relatedFlight.FlightNumber,
-                        FlightDepDate1 = relatedFlight.DepartureDate,
-                        FlightDepTime1 = relatedFlight.DepartureTime,
-                        FlightArrDate1 = relatedFlight.ArrivalDate,
-                        FlightArrTime1 = relatedFlight.ArrivalTime,
-                        Layover1 = relatedFlight.JourneyTimeDesc,
-                        Duration1 = relatedFlight.DurationDesc,
+                        FareRules = rules
                     });
                 }
                 else if (relatedFlightsOutbound.Count == 2)
                 {
-                    
+                    // Handle 2-segment flights (one stop)
+                    var relatedFlight1 = relatedFlightsOutbound[0];
+                    var relatedFlight2 = relatedFlightsOutbound[1];
                     rules = GetFareRules(relatedFlightsOutbound);
-                    if (relatedFlightsOutbound[0].DepartureDate.ToString() != relatedFlightsOutbound[1].ArrivalDate.ToString())
-                    {
-                        arrivalCheck = DateHelper.DayDiff(relatedFlightsOutbound[0].DepartureDate.ToString(), relatedFlightsOutbound[1].ArrivalDate.ToString());
-                    }
-
-                    InboundOutboundFare = ReturnGrossFare(relatedFlightsOutbound[0]).ToString();
-                    FlightOutBound.Add(new k_ShowFlightOutBound()
-                    {
-                        F_Status = fStatus,
-                        F_Remark = fRemark,
-                        CompanyID = CompanyID,
-                        AgentType = ChekA_C,
-                        FlightRefid = relatedFlightsOutbound[0].RefID.ToString(),
-                        Curr = curr,
-                        FareUpdateMsg = msg,
-                        FareUpdateMsgChek = FareUpdateMsgCheks,
-                        InboundOutbound = InboundOutboundFare,
-
-                        NoOFAdult = relatedFlightsOutbound[0].Adt,
-                        NoOFChild = relatedFlightsOutbound[0].Chd,
-                        NoOFInfant = relatedFlightsOutbound[0].Inf,
-                        //==============================================================================================================================
-                        Adt_BASIC = GetConvert(relatedFlightsOutbound[0].Adt_BASIC).ToString(),
-                        Chd_BASIC = GetConvert(relatedFlightsOutbound[0].Chd_BASIC).ToString(),
-                        Inf_BASIC = GetConvert(relatedFlightsOutbound[0].Inf_BASIC).ToString(),
-
-                        AdultbaseFare = relatedFlightsOutbound[0].Adt * GetConvert(relatedFlightsOutbound[0].Adt_BASIC),
-                        ChildbaseFare = relatedFlightsOutbound[0].Chd * GetConvert(relatedFlightsOutbound[0].Chd_BASIC),
-                        InfantbaseFare = relatedFlightsOutbound[0].Inf * GetConvert(relatedFlightsOutbound[0].Inf_BASIC),
-
-
-                        Adt_YQ = GetConvert(relatedFlightsOutbound[0].Adt_YQ),
-                        AdtTotalTax = GetConvert(relatedFlightsOutbound[0].AdtTotalTax),
-                        Chd_YQ = GetConvert(relatedFlightsOutbound[0].Chd_YQ),
-                        ChdTotalTax = GetConvert(relatedFlightsOutbound[0].ChdTotalTax),
-                        Inf_TAX = GetConvert(relatedFlightsOutbound[0].Inf_TAX),
-
-                        Adt_AcuTax = ReturnTAXADT(relatedFlightsOutbound[0]),
-                        Chd_AcuTax = ReturnTAXCHD(relatedFlightsOutbound[0]),
-                        Inf_AcuTax = ReturnTAXINF(relatedFlightsOutbound[0]),
-
-                        Yq = "Commission : " + String.Format("{0:N0}", GetConvert(relatedFlightsOutbound[0].TotalCommission)),
-                        PromoChek = promo,
-
-                        TotalTax = GetTotalTax(relatedFlightsOutbound[0]),
-                        TotalBasic = GetTotalBasic(relatedFlightsOutbound[0]),
-                        TotalServiceFee = GetTotalServiceFee(relatedFlightsOutbound[0]),
-                        TotalMarkUp = GetTotalMarkUp(relatedFlightsOutbound[0]),
-                        TotalServiceTax = GetTotalServiceTax(relatedFlightsOutbound[0]),
-                        TaxandCharges = GetTaxandCharges(relatedFlightsOutbound[0]),
-                        TotalCommission = ReturnCommission(relatedFlightsOutbound[0], CompanyID),
-                        TotalTds = ReturnTDS(relatedFlightsOutbound[0], CompanyID),
-
-                        GrossF = ReturnGrossFare(relatedFlightsOutbound[0]),
-                        FinalFare = ReturnFinalFare(relatedFlightsOutbound[0], CompanyID),
-                        TotalAmount = ReturnTotalFareAmount(relatedFlightsOutbound[0]),
-                        TotalFare = ReturnTotalFareAmount(relatedFlightsOutbound[0]),
-                        //==============================================================================================================================
-
-                        FlightName = relatedFlightsOutbound[0].CarrierCode,
-                        Cabin = relatedFlightsOutbound[0].Cabin,
-                        DepartStationName = relatedFlightsOutbound[0].DepartureStationName,
-                        ArrivalStationName = relatedFlightsOutbound[1].ArrivalStationName,
-                        DepartureStationAirport = relatedFlightsOutbound[0].DepartureStationAirport,
-                        ArrivalStationAirport = relatedFlightsOutbound[1].ArrivalStationAirport,
-                        RuleTarrif = relatedFlightsOutbound[0].RuleTarrif ?? string.Empty,
-                        CarrierName = relatedFlightsOutbound[0].CarrierName,
-                        FlightNumber = relatedFlightsOutbound[0].FlightNumber,
-                        FlightDepDate = relatedFlightsOutbound[0].DepartureDate,
-                        FlightDepTime = relatedFlightsOutbound[0].DepartureTime,
-                        FlightArrDate = relatedFlightsOutbound[1].ArrivalDate,
-                        FlightArrTime = relatedFlightsOutbound[1].ArrivalTime,
-                        CHECKINBaggage = ReturnCheckINBaggage(relatedFlightsOutbound[0]),
-                        CABINBaggage = ReturnCabinINBaggage(relatedFlightsOutbound[0]),
-                        SRC = relatedFlightsOutbound[0].Origin,
-                        DEST = relatedFlightsOutbound[0].Destination,
-                        logo = "/assets/img/airlogo_square/" + relatedFlightsOutbound[0].CarrierCode + ".gif",
-                        Duration = relatedFlightsOutbound[0].DurationDesc,
-                        connection = 2,
-                        SMSACTIVES = 0,// SMSACTIVE,
-                        Class1 = ReturnCls(relatedFlightsOutbound[0]),
-                        Class2 = ReturnCls(relatedFlightsOutbound[1]),
-                        ArrivalNextDayCheck = arrvchack,
-                        PriceType = relatedFlightsOutbound[0].PriceType,
-                        RefundType = ReturnRefundType(relatedFlightsOutbound[0]),
-                        AvailableSeat = checkSeat(relatedFlightsOutbound[0].SeatsAvailable.ToString()),
-                        FareRules = rules,
-
-                        SRC1 = relatedFlightsOutbound[0].DepartureStation,
-                        DEST1 = relatedFlightsOutbound[0].ArrivalStation,
-                        DepartStationName1 = relatedFlightsOutbound[0].DepartureStationName,
-                        ArrivalStationName1 = relatedFlightsOutbound[0].ArrivalStationName,
-                        DepartureStationAirport1 = relatedFlightsOutbound[0].DepartureStationAirport,
-                        ArrivalStationAirport1 = relatedFlightsOutbound[0].ArrivalStationAirport,
-                        Stop = "OneStop",
-                        Via = checkVia(relatedFlightsOutbound[0].Via),
-                        ViaName = checkViaName(relatedFlightsOutbound[0].ViaName),
-                        TerminalSRC = checkTerminal(relatedFlightsOutbound[0].DepartureTerminal),
-                        TerminalDEST = checkTerminal(relatedFlightsOutbound[1].ArrivalTerminal),
-                        FlightName1 = relatedFlightsOutbound[0].CarrierCode,
-                        Cabin1 = relatedFlightsOutbound[0].Cabin,
-                        CarrierName1 = relatedFlightsOutbound[0].CarrierName,
-                        FlightNumber1 = relatedFlightsOutbound[0].FlightNumber,
-                        FlightDepDate1 = relatedFlightsOutbound[0].DepartureDate,
-                        FlightDepTime1 = relatedFlightsOutbound[0].DepartureTime,
-                        FlightArrDate1 = relatedFlightsOutbound[0].ArrivalDate,
-                        FlightArrTime1 = relatedFlightsOutbound[0].ArrivalTime,
-                        Duration1 = relatedFlightsOutbound[0].DurationDesc,
-
-                        SRC2 = relatedFlightsOutbound[1].DepartureStation,
-                        DEST2 = relatedFlightsOutbound[1].ArrivalStation,
-                        DepartStationName2 = relatedFlightsOutbound[1].DepartureStationName,
-                        ArrivalStationName2 = relatedFlightsOutbound[1].ArrivalStationName,
-                        DepartureStationAirport2 = relatedFlightsOutbound[1].DepartureStationAirport,
-                        ArrivalStationAirport2 = relatedFlightsOutbound[1].ArrivalStationAirport,
-                        Via1 = checkVia(relatedFlightsOutbound[1].Via),
-                        ViaName1 = checkViaName(relatedFlightsOutbound[1].ViaName),
-                        TerminalSRC1 = checkTerminal(relatedFlightsOutbound[1].DepartureTerminal),
-                        TerminalDEST1 = checkTerminal(relatedFlightsOutbound[1].ArrivalTerminal),
-                        logo1 = "/assets/img/airlogo_square/" + relatedFlightsOutbound[1].CarrierCode + ".gif",
-                        FlightName2 = relatedFlightsOutbound[1].CarrierCode,
-                        Cabin2 = relatedFlightsOutbound[1].Cabin,
-                        CarrierName2 = relatedFlightsOutbound[1].CarrierName,
-                        FlightNumber2 = relatedFlightsOutbound[1].FlightNumber,
-                        FlightDepDate2 = relatedFlightsOutbound[1].DepartureDate,
-                        FlightDepTime2 = relatedFlightsOutbound[1].DepartureTime,
-                        FlightArrDate2 = relatedFlightsOutbound[1].ArrivalDate,
-                        FlightArrTime2 = relatedFlightsOutbound[1].ArrivalTime,
-                        Duration2 = relatedFlightsOutbound[1].DurationDesc,
-                        Layover1 = relatedFlightsOutbound[1].JourneyTimeDesc,
-                    });
-                }
-                else if (relatedFlightsOutbound.Count == 3)
-                {
-
-                    rules = GetFareRules(relatedFlightsOutbound);
-                    if (relatedFlightsOutbound[0].DepartureDate.ToString() != relatedFlightsOutbound[2].ArrivalDate.ToString())
-                    {
-                        arrivalCheck = DateHelper.DayDiff(relatedFlightsOutbound[0].DepartureDate.ToString(), relatedFlightsOutbound[2].ArrivalDate.ToString());
-                    }
-
-                    InboundOutboundFare = ReturnGrossFare(relatedFlightsOutbound[0]).ToString();
-                    FlightOutBound.Add(new k_ShowFlightOutBound()
-                    {
-                        F_Status = fStatus,
-                        F_Remark = fRemark,
-                        CompanyID = CompanyID,
-                        AgentType = ChekA_C,
-                        FlightRefid = relatedFlightsOutbound[0].RefID.ToString(),
-                        Curr = curr,
-                        FareUpdateMsg = msg,
-                        FareUpdateMsgChek = FareUpdateMsgCheks,
-                        InboundOutbound = InboundOutboundFare,
-
-                        NoOFAdult = relatedFlightsOutbound[0].Adt,
-                        NoOFChild = relatedFlightsOutbound[0].Chd,
-                        NoOFInfant = relatedFlightsOutbound[0].Inf,
-                        //==============================================================================================================================
-                        Adt_BASIC = GetConvert(relatedFlightsOutbound[0].Adt_BASIC).ToString(),
-                        Chd_BASIC = GetConvert(relatedFlightsOutbound[0].Chd_BASIC).ToString(),
-                        Inf_BASIC = GetConvert(relatedFlightsOutbound[0].Inf_BASIC).ToString(),
-
-                        AdultbaseFare = relatedFlightsOutbound[0].Adt * GetConvert(relatedFlightsOutbound[0].Adt_BASIC),
-                        ChildbaseFare = relatedFlightsOutbound[0].Chd * GetConvert(relatedFlightsOutbound[0].Chd_BASIC),
-                        InfantbaseFare = relatedFlightsOutbound[0].Inf * GetConvert(relatedFlightsOutbound[0].Inf_BASIC),
-
-
-                        Adt_YQ = GetConvert(relatedFlightsOutbound[0].Adt_YQ),
-                        AdtTotalTax = GetConvert(relatedFlightsOutbound[0].AdtTotalTax),
-                        Chd_YQ = GetConvert(relatedFlightsOutbound[0].Chd_YQ),
-                        ChdTotalTax = GetConvert(relatedFlightsOutbound[0].ChdTotalTax),
-                        Inf_TAX = GetConvert(relatedFlightsOutbound[0].Inf_TAX),
-
-                        Adt_AcuTax = ReturnTAXADT(relatedFlightsOutbound[0]),
-                        Chd_AcuTax = ReturnTAXCHD(relatedFlightsOutbound[0]),
-                        Inf_AcuTax = ReturnTAXINF(relatedFlightsOutbound[0]),
-
-                        Yq = "Commission : " + String.Format("{0:N0}", GetConvert(relatedFlightsOutbound[0].TotalCommission)),
-                        PromoChek = promo,
-
-                        TotalTax = GetTotalTax(relatedFlightsOutbound[0]),
-                        TotalBasic = GetTotalBasic(relatedFlightsOutbound[0]),
-                        TotalServiceFee = GetTotalServiceFee(relatedFlightsOutbound[0]),
-                        TotalMarkUp = GetTotalMarkUp(relatedFlightsOutbound[0]),
-                        TotalServiceTax = GetTotalServiceTax(relatedFlightsOutbound[0]),
-                        TaxandCharges = GetTaxandCharges(relatedFlightsOutbound[0]),
-                        TotalCommission = ReturnCommission(relatedFlightsOutbound[0], CompanyID),
-                        TotalTds = ReturnTDS(relatedFlightsOutbound[0], CompanyID),
-
-                        GrossF = ReturnGrossFare(relatedFlightsOutbound[0]),
-                        FinalFare = ReturnFinalFare(relatedFlightsOutbound[0], CompanyID),
-                        TotalAmount = ReturnTotalFareAmount(relatedFlightsOutbound[0]),
-                        TotalFare = ReturnTotalFareAmount(relatedFlightsOutbound[0]),
-                        //==============================================================================================================================
-
-                        FlightName = relatedFlightsOutbound[0].CarrierCode,
-                        Cabin = relatedFlightsOutbound[0].Cabin,
-                        DepartStationName = relatedFlightsOutbound[0].DepartureStationName,
-                        ArrivalStationName = relatedFlightsOutbound[2].ArrivalStationName,
-                        RuleTarrif = relatedFlightsOutbound[0].RuleTarrif ?? string.Empty,
-                        DepartureStationAirport = relatedFlightsOutbound[0].DepartureStationAirport,
-                        ArrivalStationAirport = relatedFlightsOutbound[2].ArrivalStationAirport,
-
-                        CarrierName = relatedFlightsOutbound[0].CarrierName,
-                        FlightNumber = relatedFlightsOutbound[0].FlightNumber,
-                        FlightDepDate = relatedFlightsOutbound[0].DepartureDate,
-                        FlightDepTime = relatedFlightsOutbound[0].DepartureTime,
-                        FlightArrDate = relatedFlightsOutbound[2].ArrivalDate,
-                        FlightArrTime = relatedFlightsOutbound[2].ArrivalTime,
-                        SRC = relatedFlightsOutbound[0].Origin,
-                        DEST = relatedFlightsOutbound[0].Destination,
-                        logo = "/assets/img/airlogo_square/" + relatedFlightsOutbound[0].CarrierCode + ".gif",
-                        Duration = relatedFlightsOutbound[0].DurationDesc,
-                        Stop = "TwoStop",
-                        CHECKINBaggage = ReturnCheckINBaggage(relatedFlightsOutbound[0]),
-                        CABINBaggage = ReturnCabinINBaggage(relatedFlightsOutbound[0]),
-                        connection = 3,
-                        ArrivalNextDayCheck = arrvchack,
-                        PriceType = relatedFlightsOutbound[0].PriceType,
-                        RefundType = ReturnRefundType(relatedFlightsOutbound[0]),
-                        AvailableSeat = checkSeat(relatedFlightsOutbound[0].SeatsAvailable.ToString()),
-                        FareRules = rules,
-                        SMSACTIVES = 0,
-
-                        Class1 = ReturnCls(relatedFlightsOutbound[0]),
-                        SRC1 = relatedFlightsOutbound[0].DepartureStation,
-                        DEST1 = relatedFlightsOutbound[0].ArrivalStation,
-                        DepartStationName1 = relatedFlightsOutbound[0].DepartureStationName,
-                        ArrivalStationName1 = relatedFlightsOutbound[0].ArrivalStationName,
-                        DepartureStationAirport1 = relatedFlightsOutbound[0].DepartureStationAirport,
-                        ArrivalStationAirport1 = relatedFlightsOutbound[0].ArrivalStationAirport,
-                        Via = checkVia(relatedFlightsOutbound[0].Via),
-                        ViaName = checkViaName(relatedFlightsOutbound[0].ViaName),
-                        TerminalSRC = checkTerminal(relatedFlightsOutbound[0].DepartureTerminal),
-                        TerminalDEST = checkTerminal(relatedFlightsOutbound[1].ArrivalTerminal),
-                        FlightName1 = relatedFlightsOutbound[0].CarrierCode,
-                        Cabin1 = relatedFlightsOutbound[0].Cabin,
-                        CarrierName1 = relatedFlightsOutbound[0].CarrierName,
-                        FlightNumber1 = relatedFlightsOutbound[0].FlightNumber,
-                        FlightDepDate1 = relatedFlightsOutbound[0].DepartureDate,
-                        FlightDepTime1 = relatedFlightsOutbound[0].DepartureTime,
-                        FlightArrDate1 = relatedFlightsOutbound[0].ArrivalDate,
-                        FlightArrTime1 = relatedFlightsOutbound[0].ArrivalTime,
-                        FareRule = relatedFlightsOutbound[0].FareRule,
-                        Duration1 = relatedFlightsOutbound[0].DurationDesc,
-
-                        Class2 = ReturnCls(relatedFlightsOutbound[1]),
-                        SRC2 = relatedFlightsOutbound[1].DepartureStation,
-                        DEST2 = relatedFlightsOutbound[1].ArrivalStation,
-                        DepartStationName2 = relatedFlightsOutbound[1].DepartureStationName,
-                        ArrivalStationName2 = relatedFlightsOutbound[1].ArrivalStationName,
-                        DepartureStationAirport2 = relatedFlightsOutbound[1].DepartureStationAirport,
-                        ArrivalStationAirport2 = relatedFlightsOutbound[1].ArrivalStationAirport,
-                        Via1 = checkVia(relatedFlightsOutbound[1].Via),
-                        ViaName1 = checkViaName(relatedFlightsOutbound[1].ViaName),
-                        TerminalSRC1 = checkTerminal(relatedFlightsOutbound[1].DepartureTerminal),
-                        TerminalDEST1 = checkTerminal(relatedFlightsOutbound[1].ArrivalTerminal),
-                        logo1 = "/assets/img/airlogo_square/" + relatedFlightsOutbound[1].CarrierCode + ".gif",
-                        FlightName2 = relatedFlightsOutbound[1].CarrierCode,
-                        Cabin2 = relatedFlightsOutbound[1].Cabin,
-                        CarrierName2 = relatedFlightsOutbound[1].CarrierName,
-                        FlightNumber2 = relatedFlightsOutbound[1].FlightNumber,
-                        FlightDepDate2 = relatedFlightsOutbound[1].DepartureDate,
-                        FlightDepTime2 = relatedFlightsOutbound[1].DepartureTime,
-                        FlightArrDate2 = relatedFlightsOutbound[1].ArrivalDate,
-                        FlightArrTime2 = relatedFlightsOutbound[1].ArrivalTime,
-                        Duration2 = relatedFlightsOutbound[1].DurationDesc,
-                        Layover1 = relatedFlightsOutbound[1].JourneyTimeDesc,
-
-                        Class3 = ReturnCls(relatedFlightsOutbound[2]),
-                        SRC3 = relatedFlightsOutbound[2].DepartureStation,
-                        DEST3 = relatedFlightsOutbound[2].ArrivalStation,
-                        DepartStationName3 = relatedFlightsOutbound[2].DepartureStationName,
-                        ArrivalStationName3 = relatedFlightsOutbound[2].ArrivalStationName,
-                        DepartureStationAirport3 = relatedFlightsOutbound[2].DepartureStationAirport,
-                        ArrivalStationAirport3 = relatedFlightsOutbound[2].ArrivalStationAirport,
-                        Via2 = checkVia(relatedFlightsOutbound[2].Via),
-                        ViaName2 = checkViaName(relatedFlightsOutbound[2].ViaName),
-                        TerminalSRC2 = checkTerminal(relatedFlightsOutbound[2].DepartureTerminal),
-                        TerminalDEST2 = checkTerminal(relatedFlightsOutbound[2].ArrivalTerminal),
-                        logo2 = "/assets/img/airlogo_square/" + relatedFlightsOutbound[2].CarrierCode + ".gif",
-                        FlightName3 = relatedFlightsOutbound[2].CarrierCode,
-                        CarrierName3 = relatedFlightsOutbound[2].CarrierName,
-                        Cabin3 = relatedFlightsOutbound[2].Cabin,
-                        FlightNumber3 = relatedFlightsOutbound[2].FlightNumber,
-                        FlightDepDate3 = relatedFlightsOutbound[2].DepartureDate,
-                        FlightDepTime3 = relatedFlightsOutbound[2].DepartureTime,
-                        FlightArrDate3 = relatedFlightsOutbound[2].ArrivalDate,
-                        FlightArrTime3 = relatedFlightsOutbound[2].ArrivalTime,
-                        Duration3 = relatedFlightsOutbound[2].DurationDesc,
-                        Layover2 = relatedFlightsOutbound[2].JourneyTimeDesc,
-                    });
-                }
-                else if (relatedFlightsOutbound.Count == 4)
-                {
-
-                }
-                #endregion
-
-
-                relatedFlightsdtInbound = relatedFlightsdtInbound.OrderBy(x => x.TotalFare).ToList();
-                #region
-
-                if (relatedFlightsdtInbound.Count == 1)
-                {
-
-                    var relatedFlight = relatedFlightsdtInbound.FirstOrDefault();
-                    rules = GetFareRules(relatedFlightsdtInbound);
-                    string departureDate = relatedFlight.DepartureDate.ToString(); // Assuming DepartureDate is a property of k_ShowFlightOutBound
-                    string arrivalDate = relatedFlight.ArrivalDate.ToString();
+                    string departureDate = relatedFlight1.DepartureDate.ToString();
+                    string arrivalDate = relatedFlight2.ArrivalDate.ToString();
                     if (departureDate != arrivalDate)
                     {
                         arrivalCheck = DateHelper.DayDiff(departureDate, arrivalDate);
                     }
 
-
                     FlightOutBound.Add(new k_ShowFlightOutBound()
                     {
-                        F_Status = fStatus,
-                        F_Remark = fRemark,
-                        CompanyID = CompanyID,
-                        AgentType = ChekA_C,
-                        FlightRefid = relatedFlight.RefID.ToString(),
                         Curr = curr,
-                        FareUpdateMsg = msg,
-                        FareUpdateMsgChek = FareUpdateMsgCheks,
-                        InboundOutbound = String.Format("{0:N0}", int.Parse(InboundOutboundFare.ToString()) + int.Parse(ReturnGrossFare(relatedFlight).ToString())),
-
-                        NoOFAdult = relatedFlight.Adt,
-                        NoOFChild = relatedFlight.Chd,
-                        NoOFInfant = relatedFlight.Inf,
-
-                        Adt_BASIC = GetConvert(relatedFlight.Adt_BASIC.ToString()),
-                        Chd_BASIC = GetConvert(relatedFlight.Chd_BASIC.ToString()),
-                        Inf_BASIC = GetConvert(relatedFlight.Inf_BASIC.ToString()),
-
-                        AdultbaseFare = relatedFlight.Adt * GetConvert(relatedFlight.Adt_BASIC),
-                        ChildbaseFare = relatedFlight.Chd * GetConvert(relatedFlight.Chd_BASIC),
-                        InfantbaseFare = relatedFlight.Inf * GetConvert(relatedFlight.Inf_BASIC),
-
-                        Adt_YQ = GetConvert(relatedFlight.Adt_YQ),
-                        AdtTotalTax = GetConvert(relatedFlight.AdtTotalTax),
-                        Chd_YQ = GetConvert(relatedFlight.Chd_YQ),
-                        ChdTotalTax = GetConvert(relatedFlight.ChdTotalTax),
-                        Inf_TAX = GetConvert(relatedFlight.Inf_TAX),
-
-                        Adt_AcuTax = ReturnTAXADT(relatedFlight).ToString(),
-                        Chd_AcuTax = ReturnTAXCHD(relatedFlight).ToString(),
-                        Inf_AcuTax = ReturnTAXINF(relatedFlight).ToString(),
-
-                        Yq = "Commission : " + String.Format("{0:N0}", GetConvert(relatedFlight.TotalCommission)),
-                        PromoChek = promo,
-
-                        TotalTax = GetTotalTax(relatedFlight),
-                        TotalBasic = GetTotalBasic(relatedFlight),
-                        TotalServiceFee = GetTotalServiceFee(relatedFlight),
-                        TotalMarkUp = GetTotalMarkUp(relatedFlight),
-                        TotalServiceTax = GetTotalServiceTax(relatedFlight),
-                        TaxandCharges = GetTaxandCharges(relatedFlight),
-                        TotalCommission = ReturnCommission(relatedFlight, CompanyID),
-                        TotalTds = ReturnTDS(relatedFlight, CompanyID),
-
-                        GrossF = ReturnGrossFare(relatedFlight).ToString(),
-                        FinalFare = ReturnFinalFare(relatedFlight, CompanyID),
-                        TotalAmount = ReturnTotalFareAmount(relatedFlight),
-                        TotalFare = ReturnTotalFareAmount(relatedFlight),
-                        //==============================================================================================================================
-
-                        FlightName = relatedFlight.CarrierCode,
-                        DepartStationName = relatedFlight.DepartureStationName,
-                        ArrivalStationName = relatedFlight.ArrivalStationName,
-                        DepartureStationAirport = relatedFlight.DepartureStationAirport,
-                        ArrivalStationAirport = relatedFlight.ArrivalStationAirport,
-                        Cabin = relatedFlight.Cabin,
-                        CarrierName = relatedFlight.CarrierName,
-                        FlightNumber = relatedFlight.FlightNumber,
-                        FlightDepDate = relatedFlight.DepartureDate,
-                        FlightDepTime = relatedFlight.DepartureTime,
-                        FlightArrDate = relatedFlight.ArrivalDate,
-                        FlightArrTime = relatedFlight.ArrivalTime,
-                        RuleTarrif = relatedFlight.RuleTarrif ?? string.Empty,
-                        CHECKINBaggage = ReturnCheckINBaggage(relatedFlight).ToString(),
-                        CABINBaggage = ReturnCabinINBaggage(relatedFlight).ToString(),
-                        SRC = relatedFlight.Origin,
-                        DEST = relatedFlight.Destination,
-                        PrimarySRC = relatedFlight.Origin,
-                        PrimaryDEST = relatedFlight.Destination,
-                        Stop = "NonStop",
-                        logo = "/assets/img/airlogo_square/" + relatedFlight.CarrierCode + ".gif",
-                        Duration = relatedFlight.DurationDesc,
-                        connection = 1,
+                        AgentType = 0,
+                        CompanyID = CompanyID,
+                        FlightRefid = relatedFlight1.RefID.ToString(),
+                        NoOFAdult = relatedFlight1.Adt,
+                        NoOFChild = relatedFlight1.Chd,
+                        NoOFInfant = relatedFlight1.Inf,
+                        Adt_BASIC = GetConvert(relatedFlight1.Adt_BASIC.ToString()),
+                        Chd_BASIC = GetConvert(relatedFlight1.Chd_BASIC.ToString()),
+                        Inf_BASIC = GetConvert(relatedFlight1.Inf_BASIC.ToString()),
+                        AdultbaseFare = relatedFlight1.Adt * GetConvert(relatedFlight1.Adt_BASIC),
+                        ChildbaseFare = relatedFlight1.Chd * GetConvert(relatedFlight1.Chd_BASIC),
+                        InfantbaseFare = relatedFlight1.Inf * GetConvert(relatedFlight1.Inf_BASIC),
+                        Adt_YQ = GetConvert(int.Parse(relatedFlight1.Adt_YQ.ToString())),
+                        AdtTotalTax = GetConvert(int.Parse(relatedFlight1.AdtTotalTax.ToString())),
+                        Chd_YQ = GetConvert(int.Parse(relatedFlight1.Chd_YQ.ToString())),
+                        ChdTotalTax = GetConvert(int.Parse(relatedFlight1.ChdTotalTax.ToString())),
+                        Inf_TAX = GetConvert(int.Parse(relatedFlight1.Inf_TAX.ToString())),
+                        Adt_AcuTax = ReturnTAXADT(relatedFlight1).ToString(),
+                        Chd_AcuTax = ReturnTAXCHD(relatedFlight1).ToString(),
+                        Inf_AcuTax = ReturnTAXINF(relatedFlight1).ToString(),
+                        Yq = "Commission : " + String.Format("{0:N0}", GetConvert(int.Parse(relatedFlight1.TotalCommission.ToString()))),
+                        PromoChek = 0,
+                        TotalTax = GetTotalTax(relatedFlight1),
+                        TotalBasic = GetTotalBasic(relatedFlight1),
+                        TotalServiceFee = GetTotalServiceFee(relatedFlight1),
+                        TotalMarkUp = GetTotalMarkUp(relatedFlight1),
+                        TotalServiceTax = GetTotalServiceTax(relatedFlight1),
+                        TaxandCharges = GetTaxandCharges(relatedFlight1),
+                        TotalCommission = ReturnCommission(relatedFlight1, CompanyID),
+                        TotalTds = ReturnTDS(relatedFlight1, CompanyID),
+                        GrossF = ReturnGrossFare(relatedFlight1).ToString(),
+                        FinalFare = ReturnFinalFare(relatedFlight1, CompanyID),
+                        TotalAmount = ReturnTotalFareAmount(relatedFlight1),
+                        TotalFare = ReturnTotalFareAmount(relatedFlight1),
+                        FlightName = relatedFlight1.CarrierCode,
+                        DepartStationName = relatedFlight1.DepartureStationName,
+                        ArrivalStationName = relatedFlight2.ArrivalStationName,
+                        DepartureStationAirport = relatedFlight1.DepartureStationAirport,
+                        ArrivalStationAirport = relatedFlight2.ArrivalStationAirport,
+                        Cabin = relatedFlight1.Cabin,
+                        CarrierName = relatedFlight1.CarrierName,
+                        FlightNumber = relatedFlight1.FlightNumber,
+                        FlightDepDate = relatedFlight1.DepartureDate,
+                        FlightDepTime = relatedFlight1.DepartureTime,
+                        FlightArrDate = relatedFlight2.ArrivalDate,
+                        FlightArrTime = relatedFlight2.ArrivalTime,
+                        CHECKINBaggage = ReturnCheckINBaggage(relatedFlight1),
+                        CABINBaggage = ReturnCabinINBaggage(relatedFlight1),
+                        SRC = relatedFlight1.Origin,
+                        DEST = relatedFlight1.Destination,
+                        logo = "/assets/img/airlogo_square/" + relatedFlight1.CarrierCode + ".gif",
+                        Duration = relatedFlight1.DurationDesc,
+                        Stop = "OneStop",
+                        connection = 2,
                         SMSACTIVES = 0,
                         ArrivalNextDayCheck = arrivalCheck,
-                        PriceType = relatedFlight.PriceType,
-                        RefundType = ReturnRefundType(relatedFlight).ToString(),
-                        AvailableSeat = checkSeat(relatedFlight.SeatsAvailable.ToString()),
+                        PriceType = relatedFlight1.PriceType,
+                        RefundType = ReturnRefundType(relatedFlight1),
+                        AvailableSeat = checkSeat(relatedFlight1.SeatsAvailable.ToString()),
                         FareRules = rules,
-
-                        Class1 = ReturnCls(relatedFlight),
-                        SRC1 = relatedFlight.DepartureStation,
-                        DEST1 = relatedFlight.ArrivalStation,
-                        DepartStationName1 = relatedFlight.DepartureStationName,
-                        ArrivalStationName1 = relatedFlight.ArrivalStationName,
-                        DepartureStationAirport1 = relatedFlight.DepartureStationAirport,
-                        ArrivalStationAirport1 = relatedFlight.ArrivalStationAirport,
-                        Via = checkVia(relatedFlight.Via),
-                        ViaName = checkViaName(relatedFlight.ViaName),
-                        TerminalSRC = checkTerminal(relatedFlight.DepartureTerminal),
-                        TerminalDEST = checkTerminal(relatedFlight.ArrivalTerminal),
-                        FlightName1 = relatedFlight.CarrierCode,
-                        Cabin1 = relatedFlight.Cabin,
-                        CarrierName1 = relatedFlight.CarrierName,
-                        FlightNumber1 = relatedFlight.FlightNumber,
-                        FlightDepDate1 = relatedFlight.DepartureDate,
-                        FlightDepTime1 = relatedFlight.DepartureTime,
-                        FlightArrDate1 = relatedFlight.ArrivalDate,
-                        FlightArrTime1 = relatedFlight.ArrivalTime,
-                        Layover1 = relatedFlight.JourneyTimeDesc,
-                        Duration1 = relatedFlight.DurationDesc,
+                        Class1 = ReturnCls(relatedFlight1),
+                        SRC1 = relatedFlight1.DepartureStation,
+                        DEST1 = relatedFlight1.ArrivalStation,
+                        DepartStationName1 = relatedFlight1.DepartureStationName,
+                        ArrivalStationName1 = relatedFlight1.ArrivalStationName,
+                        DepartureStationAirport1 = relatedFlight1.DepartureStationAirport,
+                        ArrivalStationAirport1 = relatedFlight1.ArrivalStationAirport,
+                        Via = checkVia(relatedFlight1.Via),
+                        ViaName = checkViaName(relatedFlight1.ViaName),
+                        TerminalSRC = checkTerminal(relatedFlight1.DepartureTerminal),
+                        TerminalDEST = checkTerminal(relatedFlight1.ArrivalTerminal),
+                        FlightName1 = relatedFlight1.CarrierCode,
+                        Cabin1 = relatedFlight1.Cabin,
+                        CarrierName1 = relatedFlight1.CarrierName,
+                        FlightNumber1 = relatedFlight1.FlightNumber,
+                        FlightDepDate1 = relatedFlight1.DepartureDate,
+                        FlightDepTime1 = relatedFlight1.DepartureTime,
+                        FlightArrDate1 = relatedFlight1.ArrivalDate,
+                        FlightArrTime1 = relatedFlight1.ArrivalTime,
+                        Duration1 = relatedFlight1.DurationDesc,
+                        Layover1 = relatedFlight1.JourneyTimeDesc
                     });
                 }
-                else if (relatedFlightsdtInbound.Count == 2)
+                else if (relatedFlightsOutbound.Count == 3)
                 {
-                   
-                    rules = GetFareRules(relatedFlightsdtInbound);
-                    if (relatedFlightsdtInbound[0].DepartureDate.ToString() != relatedFlightsdtInbound[1].ArrivalDate.ToString())
+                    // Handle 3-segment flights (two stops) - similar logic
+                    var relatedFlight1 = relatedFlightsOutbound[0];
+                    var relatedFlight3 = relatedFlightsOutbound[2];
+                    rules = GetFareRules(relatedFlightsOutbound);
+                    string departureDate = relatedFlight1.DepartureDate.ToString();
+                    string arrivalDate = relatedFlight3.ArrivalDate.ToString();
+                    if (departureDate != arrivalDate)
                     {
-                        arrivalCheck = DateHelper.DayDiff(relatedFlightsdtInbound[0].DepartureDate.ToString(), relatedFlightsdtInbound[1].ArrivalDate.ToString());
+                        arrivalCheck = DateHelper.DayDiff(departureDate, arrivalDate);
                     }
 
                     FlightOutBound.Add(new k_ShowFlightOutBound()
                     {
-                        F_Status = fStatus,
-                        F_Remark = fRemark,
-                        CompanyID = CompanyID,
-                        AgentType = ChekA_C,
-                        FlightRefid = relatedFlightsdtInbound[0].RefID.ToString(),
                         Curr = curr,
-                        FareUpdateMsg = msg,
-                        FareUpdateMsgChek = FareUpdateMsgCheks,
-                        InboundOutbound = String.Format("{0:N0}", int.Parse(InboundOutboundFare.ToString()) + int.Parse(ReturnGrossFare(relatedFlightsdtInbound[0]).ToString())),
-
-                        NoOFAdult =  relatedFlightsdtInbound[0].Adt,
-                        NoOFChild =  relatedFlightsdtInbound[0].Chd,
-                        NoOFInfant =  relatedFlightsdtInbound[0].Inf,
-                        //==============================================================================================================================
-                        Adt_BASIC = GetConvert( relatedFlightsdtInbound[0].Adt_BASIC).ToString(),
-                        Chd_BASIC = GetConvert( relatedFlightsdtInbound[0].Chd_BASIC).ToString(),
-                        Inf_BASIC = GetConvert( relatedFlightsdtInbound[0].Inf_BASIC).ToString(),
-
-                        AdultbaseFare =  relatedFlightsdtInbound[0].Adt * GetConvert( relatedFlightsdtInbound[0].Adt_BASIC),
-                        ChildbaseFare =  relatedFlightsdtInbound[0].Chd * GetConvert( relatedFlightsdtInbound[0].Chd_BASIC),
-                        InfantbaseFare =  relatedFlightsdtInbound[0].Inf * GetConvert( relatedFlightsdtInbound[0].Inf_BASIC),
-
-
-                        Adt_YQ = GetConvert( relatedFlightsdtInbound[0].Adt_YQ),
-                        AdtTotalTax = GetConvert( relatedFlightsdtInbound[0].AdtTotalTax),
-                        Chd_YQ = GetConvert( relatedFlightsdtInbound[0].Chd_YQ),
-                        ChdTotalTax = GetConvert( relatedFlightsdtInbound[0].ChdTotalTax),
-                        Inf_TAX = GetConvert( relatedFlightsdtInbound[0].Inf_TAX),
-
-                        Adt_AcuTax = ReturnTAXADT( relatedFlightsdtInbound[0]),
-                        Chd_AcuTax = ReturnTAXCHD( relatedFlightsdtInbound[0]),
-                        Inf_AcuTax = ReturnTAXINF( relatedFlightsdtInbound[0]),
-
-                        Yq = "Commission : " + String.Format("{0:N0}", GetConvert( relatedFlightsdtInbound[0].TotalCommission)),
-                        PromoChek = promo,
-
-                        TotalTax = GetTotalTax( relatedFlightsdtInbound[0]),
-                        TotalBasic = GetTotalBasic( relatedFlightsdtInbound[0]),
-                        TotalServiceFee = GetTotalServiceFee( relatedFlightsdtInbound[0]),
-                        TotalMarkUp = GetTotalMarkUp( relatedFlightsdtInbound[0]),
-                        TotalServiceTax = GetTotalServiceTax( relatedFlightsdtInbound[0]),
-                        TaxandCharges = GetTaxandCharges( relatedFlightsdtInbound[0]),
-                        TotalCommission = ReturnCommission( relatedFlightsdtInbound[0], CompanyID),
-                        TotalTds = ReturnTDS( relatedFlightsdtInbound[0], CompanyID),
-
-                        GrossF = ReturnGrossFare( relatedFlightsdtInbound[0]),
-                        FinalFare = ReturnFinalFare( relatedFlightsdtInbound[0], CompanyID),
-                        TotalAmount = ReturnTotalFareAmount( relatedFlightsdtInbound[0]),
-                        TotalFare = ReturnTotalFareAmount( relatedFlightsdtInbound[0]),
-                        //==============================================================================================================================
-
-                        FlightName =  relatedFlightsdtInbound[0].CarrierCode,
-                        Cabin =  relatedFlightsdtInbound[0].Cabin,
-                        DepartStationName =  relatedFlightsdtInbound[0].DepartureStationName,
-                        ArrivalStationName = relatedFlightsdtInbound[1].ArrivalStationName,
-                        DepartureStationAirport =  relatedFlightsdtInbound[0].DepartureStationAirport,
-                        ArrivalStationAirport = relatedFlightsdtInbound[1].ArrivalStationAirport,
-                        RuleTarrif =  relatedFlightsdtInbound[0].RuleTarrif ?? string.Empty,
-                        CarrierName =  relatedFlightsdtInbound[0].CarrierName,
-                        FlightNumber =  relatedFlightsdtInbound[0].FlightNumber,
-                        FlightDepDate =  relatedFlightsdtInbound[0].DepartureDate,
-                        FlightDepTime =  relatedFlightsdtInbound[0].DepartureTime,
-                        FlightArrDate = relatedFlightsdtInbound[1].ArrivalDate,
-                        FlightArrTime = relatedFlightsdtInbound[1].ArrivalTime,
-                        CHECKINBaggage = ReturnCheckINBaggage( relatedFlightsdtInbound[0]),
-                        CABINBaggage = ReturnCabinINBaggage( relatedFlightsdtInbound[0]),
-                        SRC =  relatedFlightsdtInbound[0].Origin,
-                        DEST =  relatedFlightsdtInbound[0].Destination,
-                        logo = "/assets/img/airlogo_square/" +  relatedFlightsdtInbound[0].CarrierCode + ".gif",
-                        Duration =  relatedFlightsdtInbound[0].DurationDesc,
-                        connection = 2,
-                        SMSACTIVES = 0,// SMSACTIVE,
-                        ArrivalNextDayCheck = arrvchack,
-                        PriceType =  relatedFlightsdtInbound[0].PriceType,
-                        RefundType = ReturnRefundType( relatedFlightsdtInbound[0]),
-                        AvailableSeat = checkSeat( relatedFlightsdtInbound[0].SeatsAvailable.ToString()),
-                        FareRules = rules,
-
-                        Class1 = ReturnCls(relatedFlightsdtInbound[0]).ToString(),
-                        SRC1 = relatedFlightsdtInbound[0].DepartureStation,
-                        DEST1 =  relatedFlightsdtInbound[0].ArrivalStation,
-                        DepartStationName1 =  relatedFlightsdtInbound[0].DepartureStationName,
-                        ArrivalStationName1 =  relatedFlightsdtInbound[0].ArrivalStationName,
-                        DepartureStationAirport1 =  relatedFlightsdtInbound[0].DepartureStationAirport,
-                        ArrivalStationAirport1 =  relatedFlightsdtInbound[0].ArrivalStationAirport,
-                        Stop = "OneStop",
-                        Via = checkVia( relatedFlightsdtInbound[0].Via),
-                        ViaName = checkViaName( relatedFlightsdtInbound[0].ViaName),
-                        TerminalSRC = checkTerminal( relatedFlightsdtInbound[0].DepartureTerminal),
-                        TerminalDEST = checkTerminal(relatedFlightsdtInbound[1].ArrivalTerminal),
-                        FlightName1 =  relatedFlightsdtInbound[0].CarrierCode,
-                        Cabin1 =  relatedFlightsdtInbound[0].Cabin,
-                        CarrierName1 =  relatedFlightsdtInbound[0].CarrierName,
-                        FlightNumber1 =  relatedFlightsdtInbound[0].FlightNumber,
-                        FlightDepDate1 =  relatedFlightsdtInbound[0].DepartureDate,
-                        FlightDepTime1 =  relatedFlightsdtInbound[0].DepartureTime,
-                        FlightArrDate1 =  relatedFlightsdtInbound[0].ArrivalDate,
-                        FlightArrTime1 =  relatedFlightsdtInbound[0].ArrivalTime,
-                        Duration1 = relatedFlightsdtInbound[0].DurationDesc,
-
-                        Class2 = ReturnCls(relatedFlightsdtInbound[1]).ToString(),
-                        SRC2 = relatedFlightsdtInbound[1].DepartureStation,
-                        DEST2 =  relatedFlightsdtInbound[1].ArrivalStation,
-                        DepartStationName2 =  relatedFlightsdtInbound[1].DepartureStationName,
-                        ArrivalStationName2 =  relatedFlightsdtInbound[1].ArrivalStationName,
-                        DepartureStationAirport2 =  relatedFlightsdtInbound[1].DepartureStationAirport,
-                        ArrivalStationAirport2 =  relatedFlightsdtInbound[1].ArrivalStationAirport,
-                        Via1 = checkVia( relatedFlightsdtInbound[1].Via),
-                        ViaName1 = checkViaName( relatedFlightsdtInbound[1].ViaName),
-                        TerminalSRC1 = checkTerminal( relatedFlightsdtInbound[1].DepartureTerminal),
-                        TerminalDEST1 = checkTerminal( relatedFlightsdtInbound[1].ArrivalTerminal),
-                        logo1 = "/assets/img/airlogo_square/" +  relatedFlightsdtInbound[1].CarrierCode + ".gif",
-                        FlightName2 =  relatedFlightsdtInbound[1].CarrierCode,
-                        Cabin2 =  relatedFlightsdtInbound[1].Cabin,
-                        CarrierName2 =  relatedFlightsdtInbound[1].CarrierName,
-                        FlightNumber2 =  relatedFlightsdtInbound[1].FlightNumber,
-                        FlightDepDate2 =  relatedFlightsdtInbound[1].DepartureDate,
-                        FlightDepTime2 =  relatedFlightsdtInbound[1].DepartureTime,
-                        FlightArrDate2 =  relatedFlightsdtInbound[1].ArrivalDate,
-                        FlightArrTime2 =  relatedFlightsdtInbound[1].ArrivalTime,
-                        Duration2 =  relatedFlightsdtInbound[1].DurationDesc,
-                        Layover1 = relatedFlightsdtInbound[1].JourneyTimeDesc,
-                    });
-                }
-                else if (relatedFlightsdtInbound.Count == 3)
-                {
-
-                    rules = GetFareRules(relatedFlightsdtInbound);
-                    if (relatedFlightsdtInbound[0].DepartureDate.ToString() != relatedFlightsdtInbound[2].ArrivalDate.ToString())
-                    {
-                        arrivalCheck = DateHelper.DayDiff(relatedFlightsdtInbound[0].DepartureDate.ToString(), relatedFlightsdtInbound[2].ArrivalDate.ToString());
-                    }
-
-
-                    FlightOutBound.Add(new k_ShowFlightOutBound()
-                    {
-                        F_Status = fStatus,
-                        F_Remark = fRemark,
+                        AgentType = 0,
                         CompanyID = CompanyID,
-                        AgentType = ChekA_C,
-                        FlightRefid = relatedFlightsdtInbound[0].RefID.ToString(),
-                        Curr = curr,
-                        FareUpdateMsg = msg,
-                        FareUpdateMsgChek = FareUpdateMsgCheks,
-                        InboundOutbound = String.Format("{0:N0}", int.Parse(InboundOutboundFare.ToString()) + int.Parse(ReturnGrossFare(relatedFlightsdtInbound[0]).ToString())),
-                        NoOFAdult = relatedFlightsdtInbound[0].Adt,
-                        NoOFChild = relatedFlightsdtInbound[0].Chd,
-                        NoOFInfant = relatedFlightsdtInbound[0].Inf,
-                        //==============================================================================================================================
-                        Adt_BASIC = GetConvert(relatedFlightsdtInbound[0].Adt_BASIC).ToString(),
-                        Chd_BASIC = GetConvert(relatedFlightsdtInbound[0].Chd_BASIC).ToString(),
-                        Inf_BASIC = GetConvert(relatedFlightsdtInbound[0].Inf_BASIC).ToString(),
-
-                        AdultbaseFare = relatedFlightsdtInbound[0].Adt * GetConvert(relatedFlightsdtInbound[0].Adt_BASIC),
-                        ChildbaseFare = relatedFlightsdtInbound[0].Chd * GetConvert(relatedFlightsdtInbound[0].Chd_BASIC),
-                        InfantbaseFare = relatedFlightsdtInbound[0].Inf * GetConvert(relatedFlightsdtInbound[0].Inf_BASIC),
-
-
-                        Adt_YQ = GetConvert(relatedFlightsdtInbound[0].Adt_YQ),
-                        AdtTotalTax = GetConvert(relatedFlightsdtInbound[0].AdtTotalTax),
-                        Chd_YQ = GetConvert(relatedFlightsdtInbound[0].Chd_YQ),
-                        ChdTotalTax = GetConvert(relatedFlightsdtInbound[0].ChdTotalTax),
-                        Inf_TAX = GetConvert(relatedFlightsdtInbound[0].Inf_TAX),
-
-                        Adt_AcuTax = ReturnTAXADT(relatedFlightsdtInbound[0]),
-                        Chd_AcuTax = ReturnTAXCHD(relatedFlightsdtInbound[0]),
-                        Inf_AcuTax = ReturnTAXINF(relatedFlightsdtInbound[0]),
-
-                        Yq = "Commission : " + String.Format("{0:N0}", GetConvert(relatedFlightsdtInbound[0].TotalCommission)),
-                        PromoChek = promo,
-
-                        TotalTax = GetTotalTax(relatedFlightsdtInbound[0]),
-                        TotalBasic = GetTotalBasic(relatedFlightsdtInbound[0]),
-                        TotalServiceFee = GetTotalServiceFee(relatedFlightsdtInbound[0]),
-                        TotalMarkUp = GetTotalMarkUp(relatedFlightsdtInbound[0]),
-                        TotalServiceTax = GetTotalServiceTax(relatedFlightsdtInbound[0]),
-                        TaxandCharges = GetTaxandCharges(relatedFlightsdtInbound[0]),
-                        TotalCommission = ReturnCommission(relatedFlightsdtInbound[0], CompanyID),
-                        TotalTds = ReturnTDS(relatedFlightsdtInbound[0], CompanyID),
-
-                        GrossF = ReturnGrossFare(relatedFlightsdtInbound[0]),
-                        FinalFare = ReturnFinalFare(relatedFlightsdtInbound[0], CompanyID),
-                        TotalAmount = ReturnTotalFareAmount(relatedFlightsdtInbound[0]),
-                        TotalFare = ReturnTotalFareAmount(relatedFlightsdtInbound[0]),
-                        //==============================================================================================================================
-
-                        FlightName = relatedFlightsdtInbound[0].CarrierCode,
-                        Cabin = relatedFlightsdtInbound[0].Cabin,
-                        DepartStationName = relatedFlightsdtInbound[0].DepartureStationName,
-                        ArrivalStationName = relatedFlightsdtInbound[2].ArrivalStationName,
-                        DepartureStationAirport = relatedFlightsdtInbound[0].DepartureStationAirport,
-                        ArrivalStationAirport = relatedFlightsdtInbound[2].ArrivalStationAirport,
-                        RuleTarrif = relatedFlightsdtInbound[0].RuleTarrif ?? string.Empty,
-                        CarrierName = relatedFlightsdtInbound[0].CarrierName,
-                        FlightNumber = relatedFlightsdtInbound[0].FlightNumber,
-                        FlightDepDate = relatedFlightsdtInbound[0].DepartureDate,
-                        FlightDepTime = relatedFlightsdtInbound[0].DepartureTime,
-                        FlightArrDate = relatedFlightsdtInbound[2].ArrivalDate,
-                        FlightArrTime = relatedFlightsdtInbound[2].ArrivalTime,
-                        CHECKINBaggage = ReturnCheckINBaggage(relatedFlightsdtInbound[0]),
-                        CABINBaggage = ReturnCabinINBaggage(relatedFlightsdtInbound[0]),
-
-
-                        SRC = relatedFlightsdtInbound[0].Origin,
-                        DEST = relatedFlightsdtInbound[0].Destination,
-                        logo = "/assets/img/airlogo_square/" + relatedFlightsdtInbound[0].CarrierCode + ".gif",
-                        Duration = relatedFlightsdtInbound[0].DurationDesc,
+                        FlightRefid = relatedFlight1.RefID.ToString(),
+                        NoOFAdult = relatedFlight1.Adt,
+                        NoOFChild = relatedFlight1.Chd,
+                        NoOFInfant = relatedFlight1.Inf,
+                        Adt_BASIC = GetConvert(relatedFlight1.Adt_BASIC.ToString()),
+                        Chd_BASIC = GetConvert(relatedFlight1.Chd_BASIC.ToString()),
+                        Inf_BASIC = GetConvert(relatedFlight1.Inf_BASIC.ToString()),
+                        AdultbaseFare = relatedFlight1.Adt * GetConvert(relatedFlight1.Adt_BASIC),
+                        ChildbaseFare = relatedFlight1.Chd * GetConvert(relatedFlight1.Chd_BASIC),
+                        InfantbaseFare = relatedFlight1.Inf * GetConvert(relatedFlight1.Inf_BASIC),
+                        Adt_YQ = GetConvert(int.Parse(relatedFlight1.Adt_YQ.ToString())),
+                        AdtTotalTax = GetConvert(int.Parse(relatedFlight1.AdtTotalTax.ToString())),
+                        Chd_YQ = GetConvert(int.Parse(relatedFlight1.Chd_YQ.ToString())),
+                        ChdTotalTax = GetConvert(int.Parse(relatedFlight1.ChdTotalTax.ToString())),
+                        Inf_TAX = GetConvert(int.Parse(relatedFlight1.Inf_TAX.ToString())),
+                        Adt_AcuTax = ReturnTAXADT(relatedFlight1).ToString(),
+                        Chd_AcuTax = ReturnTAXCHD(relatedFlight1).ToString(),
+                        Inf_AcuTax = ReturnTAXINF(relatedFlight1).ToString(),
+                        Yq = "Commission : " + String.Format("{0:N0}", GetConvert(int.Parse(relatedFlight1.TotalCommission.ToString()))),
+                        PromoChek = 0,
+                        TotalTax = GetTotalTax(relatedFlight1),
+                        TotalBasic = GetTotalBasic(relatedFlight1),
+                        TotalServiceFee = GetTotalServiceFee(relatedFlight1),
+                        TotalMarkUp = GetTotalMarkUp(relatedFlight1),
+                        TotalServiceTax = GetTotalServiceTax(relatedFlight1),
+                        TaxandCharges = GetTaxandCharges(relatedFlight1),
+                        TotalCommission = ReturnCommission(relatedFlight1, CompanyID),
+                        TotalTds = ReturnTDS(relatedFlight1, CompanyID),
+                        GrossF = ReturnGrossFare(relatedFlight1).ToString(),
+                        FinalFare = ReturnFinalFare(relatedFlight1, CompanyID),
+                        TotalAmount = ReturnTotalFareAmount(relatedFlight1),
+                        TotalFare = ReturnTotalFareAmount(relatedFlight1),
+                        FlightName = relatedFlight1.CarrierCode,
+                        DepartStationName = relatedFlight1.DepartureStationName,
+                        ArrivalStationName = relatedFlight3.ArrivalStationName,
+                        DepartureStationAirport = relatedFlight1.DepartureStationAirport,
+                        ArrivalStationAirport = relatedFlight3.ArrivalStationAirport,
+                        Cabin = relatedFlight1.Cabin,
+                        CarrierName = relatedFlight1.CarrierName,
+                        FlightNumber = relatedFlight1.FlightNumber,
+                        FlightDepDate = relatedFlight1.DepartureDate,
+                        FlightDepTime = relatedFlight1.DepartureTime,
+                        FlightArrDate = relatedFlight3.ArrivalDate,
+                        FlightArrTime = relatedFlight3.ArrivalTime,
+                        CHECKINBaggage = ReturnCheckINBaggage(relatedFlight1),
+                        CABINBaggage = ReturnCabinINBaggage(relatedFlight1),
+                        SRC = relatedFlight1.Origin,
+                        DEST = relatedFlight1.Destination,
+                        logo = "/assets/img/airlogo_square/" + relatedFlight1.CarrierCode + ".gif",
+                        Duration = relatedFlight1.DurationDesc,
                         Stop = "TwoStop",
-                        PriceType = relatedFlightsdtInbound[0].PriceType,
-                        RefundType = ReturnRefundType(relatedFlightsdtInbound[0]),
-                        AvailableSeat = checkSeat(relatedFlightsdtInbound[0].SeatsAvailable.ToString()),
-                        FareRules = rules,
                         connection = 3,
-                        ArrivalNextDayCheck = arrvchack,
                         SMSACTIVES = 0,
-
-                        Class1 = ReturnCls(relatedFlightsdtInbound[0]).ToString(),
-                        SRC1 = relatedFlightsdtInbound[0].DepartureStation,
-                        DEST1 = relatedFlightsdtInbound[0].ArrivalStation,
-                        DepartStationName1 = relatedFlightsdtInbound[0].DepartureStationName,
-                        ArrivalStationName1 = relatedFlightsdtInbound[0].ArrivalStationName,
-                        DepartureStationAirport1 = relatedFlightsdtInbound[0].DepartureStationAirport,
-                        ArrivalStationAirport1 = relatedFlightsdtInbound[0].ArrivalStationAirport,
-                        Via = checkVia(relatedFlightsdtInbound[0].Via),
-                        ViaName = checkViaName(relatedFlightsdtInbound[0].ViaName),
-                        TerminalSRC = checkTerminal(relatedFlightsdtInbound[0].DepartureTerminal),
-                        TerminalDEST = checkTerminal(relatedFlightsdtInbound[2].ArrivalTerminal),
-                        FlightName1 = relatedFlightsdtInbound[0].CarrierCode,
-                        Cabin1 = relatedFlightsdtInbound[0].Cabin,
-                        CarrierName1 = relatedFlightsdtInbound[0].CarrierName,
-                        FlightNumber1 = relatedFlightsdtInbound[0].FlightNumber,
-                        FlightDepDate1 = relatedFlightsdtInbound[0].DepartureDate,
-                        FlightDepTime1 = relatedFlightsdtInbound[0].DepartureTime,
-                        FlightArrDate1 = relatedFlightsdtInbound[0].ArrivalDate,
-                        FlightArrTime1 = relatedFlightsdtInbound[0].ArrivalTime,
-                        Duration1 = relatedFlightsdtInbound[0].DurationDesc,
-
-                        Class2 = ReturnCls(relatedFlightsdtInbound[1]).ToString(),
-                        SRC2 = relatedFlightsdtInbound[1].DepartureStation,
-                        DEST2 = relatedFlightsdtInbound[1].ArrivalStation,
-                        DepartStationName2 = relatedFlightsdtInbound[1].DepartureStationName,
-                        ArrivalStationName2 = relatedFlightsdtInbound[1].ArrivalStationName,
-                        DepartureStationAirport2 = relatedFlightsdtInbound[1].DepartureStationAirport,
-                        ArrivalStationAirport2 = relatedFlightsdtInbound[1].ArrivalStationAirport,
-                        Via1 = checkVia(relatedFlightsdtInbound[1].Via),
-                        ViaName1 = checkViaName(relatedFlightsdtInbound[1].ViaName),
-                        TerminalSRC1 = checkTerminal(relatedFlightsdtInbound[1].DepartureTerminal),
-                        TerminalDEST1 = checkTerminal(relatedFlightsdtInbound[1].ArrivalTerminal),
-                        logo1 = "/assets/img/airlogo_square/" + relatedFlightsdtInbound[1].CarrierCode + ".gif",
-                        FlightName2 = relatedFlightsdtInbound[1].CarrierCode,
-                        Cabin2 = relatedFlightsdtInbound[1].Cabin,
-                        CarrierName2 = relatedFlightsdtInbound[1].CarrierName,
-                        FlightNumber2 = relatedFlightsdtInbound[1].FlightNumber,
-                        FlightDepDate2 = relatedFlightsdtInbound[1].DepartureDate,
-                        FlightDepTime2 = relatedFlightsdtInbound[1].DepartureTime,
-                        FlightArrDate2 = relatedFlightsdtInbound[1].ArrivalDate,
-                        FlightArrTime2 = relatedFlightsdtInbound[1].ArrivalTime,
-                        Duration2 = relatedFlightsdtInbound[1].DurationDesc,
-                        Layover1 = relatedFlightsdtInbound[1].JourneyTimeDesc,
-
-                        Class3 = ReturnCls(relatedFlightsdtInbound[2]),
-                        SRC3 = relatedFlightsdtInbound[2].DepartureStation,
-                        DEST3 =  relatedFlightsdtInbound[2].ArrivalStation,
-                        DepartStationName3 =  relatedFlightsdtInbound[2].DepartureStationName,
-                        ArrivalStationName3 = relatedFlightsdtInbound[2].ArrivalStationName,
-                        DepartureStationAirport3 =  relatedFlightsdtInbound[2].DepartureStationAirport,
-                        ArrivalStationAirport3 =  relatedFlightsdtInbound[2].ArrivalStationAirport,
-                        Via2 = checkVia( relatedFlightsdtInbound[2].Via),
-                        ViaName2 = checkViaName( relatedFlightsdtInbound[2].ViaName),
-                        TerminalSRC2 = checkTerminal( relatedFlightsdtInbound[2].DepartureTerminal),
-                        TerminalDEST2 = checkTerminal( relatedFlightsdtInbound[2].ArrivalTerminal),
-                        logo2 = "/assets/img/airlogo_square/" +  relatedFlightsdtInbound[2].CarrierCode + ".gif",
-                        FlightName3 =  relatedFlightsdtInbound[2].CarrierCode,
-                        CarrierName3 =  relatedFlightsdtInbound[2].CarrierName,
-                        Cabin3 =  relatedFlightsdtInbound[2].Cabin,
-                        FlightNumber3 =  relatedFlightsdtInbound[2].FlightNumber,
-                        FlightDepDate3 =  relatedFlightsdtInbound[2].DepartureDate,
-                        FlightDepTime3 =  relatedFlightsdtInbound[2].DepartureTime,
-                        FlightArrDate3 =  relatedFlightsdtInbound[2].ArrivalDate,
-                        FlightArrTime3 =  relatedFlightsdtInbound[2].ArrivalTime,
-                        Duration3 =  relatedFlightsdtInbound[2].DurationDesc,
-                        Layover2 = relatedFlightsdtInbound[2].JourneyTimeDesc,
+                        ArrivalNextDayCheck = arrivalCheck,
+                        PriceType = relatedFlight1.PriceType,
+                        RefundType = ReturnRefundType(relatedFlight1),
+                        AvailableSeat = checkSeat(relatedFlight1.SeatsAvailable.ToString()),
+                        FareRules = rules
                     });
-                }
-                else if (relatedFlightsdtInbound.Count == 4)
-                {
-
                 }
                 #endregion
             }
-            else
-            {
-                FlightOutBound.Add(new k_ShowFlightOutBound()
-                {
-                    FareUpdateMsg = msg,
-                    FareUpdateMsgChek = 2
-                });
-            }
+
             return FlightOutBound;
         }
-
         public static async Task<List<k_ShowFlightInternational>> SelectInt(string refid, string CompanyID, ClaimsPrincipal user, IHandlesQueryAsync<GetAirFareQuery, string> getAirFareHandler, IHandlesQueryAsync<GetAirFareRulesQuery, string> getAirFareRulesHandler, IHandlesQueryAsync<string, CompanyRegisterCorporateUserDetails> getCompanyRegisterCorporateUserDetailsQueryHandler, IHandlesQueryAsync<string, CompanyRegisterCorporateUserLimitDetails> getCompanyRegisterCorporateUserLimitQueryHandler)
         {
             List<k_ShowFlightInternational> FlightOutBound = new List<k_ShowFlightInternational>();

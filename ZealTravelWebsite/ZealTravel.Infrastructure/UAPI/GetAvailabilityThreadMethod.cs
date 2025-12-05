@@ -94,11 +94,15 @@ namespace ZealTravel.Infrastructure.UAPI
             //dt.TableName = "AvailabilityResponse";
             try
             {
+                Console.WriteLine($"[GET_FLT_Async] Starting GetOneWayAsync for SearchID: {SearchID}");
                 dtBound = await GetOneWayAsync("O");
+                Console.WriteLine($"[GET_FLT_Async] GetOneWayAsync completed - dtBound rows: {dtBound?.Rows?.Count ?? 0}, SearchID: {SearchID}");
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine($"[GET_FLT_Async] Exception in GetOneWayAsync: {ex.Message}");
+                Console.WriteLine($"[GET_FLT_Async] StackTrace: {ex.StackTrace}");
+                Console.WriteLine($"[GET_FLT_Async] SearchID: {SearchID}");
             }
             this.Done = "D";
             return this.Done;
@@ -218,8 +222,12 @@ namespace ZealTravel.Infrastructure.UAPI
                 GetAvailability objGA = new GetAvailability(TargetBranch);
                 reqq = objGA.GetAvailabilityRequest(SearchID, RQ_Flight, FltType, Sector, ref AdultBTR, ref ChildBTR, ref InfantBTR, UAPISME);
 
+                Console.WriteLine($"[GetOneWayAsync] Making API call - SearchID: {SearchID}, FltType: {FltType}, Sector: {Sector}, Request length: {reqq?.Length ?? 0}");
+                
                 CommonUapi objcuapi = new CommonUapi();
                 ress =await objcuapi.GetResponseUapiAsync(NetworkUserName, NetworkPassword, SearchID, reqq, "AirService", "AVAILABILITY");
+                
+                Console.WriteLine($"[GetOneWayAsync] API response received - Length: {ress?.Length ?? 0}, HasRefID: {(ress?.IndexOf("RefID") ?? -1) != -1}");
 
                 if (Is6E)
                 {
@@ -234,12 +242,14 @@ namespace ZealTravel.Infrastructure.UAPI
                     GetAvailabilityResponse2 objRes = new GetAvailabilityResponse2(NetworkUserName, NetworkPassword, TargetBranch, Adt, Chd, Inf, DepartureStation, ArrivalStation);
                     dtFltBound =objRes.SetAvailabilityResponse(SearchID, CompanyID, Sector, false, false, RQ_Flight, ress, FltType, AdultBTR, ChildBTR, InfantBTR, UAPISME);
                     
+                    Console.WriteLine($"[GetOneWayAsync] SetAvailabilityResponse returned - Rows: {dtFltBound?.Rows?.Count ?? 0}");
                 }
 
 
                 if (dtFltBound != null && dtFltBound.Rows.Count > 0)
                 {
                     dtFltBound = objcuapi.RemoveUncombinedDataOW(SearchID, RQ_Flight, ress, dtFltBound);
+                    Console.WriteLine($"[GetOneWayAsync] After RemoveUncombinedDataOW - Rows: {dtFltBound?.Rows?.Count ?? 0}");
                 }
 
 
@@ -254,10 +264,16 @@ namespace ZealTravel.Infrastructure.UAPI
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"[GetOneWayAsync] Exception in GetOneWayAsync: {ex.Message}");
+                Console.WriteLine($"[GetOneWayAsync] StackTrace: {ex.StackTrace}");
+                Console.WriteLine($"[GetOneWayAsync] SearchID: {SearchID}, FltType: {FltType}");
                 DBCommon.Logger.dbLogg(CompanyID, 0, "GET-" + FltType, "Availability-UAPI", "", SearchID, ex.Message);
             }
 
             DBCommon.Logger.WriteLogg(CompanyID, 0, "GET-" + FltType + "-UAPI", "Availability", reqq + Environment.NewLine + ress, "", SearchID);
+            
+            Console.WriteLine($"[GetOneWayAsync] Returning DataTable - Rows: {dtFltBound?.Rows?.Count ?? 0}, SearchID: {SearchID}, Response length: {ress?.Length ?? 0}");
+            
             return dtFltBound;
         }
         //======================================================================================================================
@@ -271,29 +287,26 @@ namespace ZealTravel.Infrastructure.UAPI
                 string ChildBTR = string.Empty;
                 string InfantBTR = string.Empty;
 
-                if (Sector.Equals("I"))
+                GetAvailability objGA = new GetAvailability(TargetBranch);
+                reqq = objGA.GetAvailabilityRequestRT(SearchID, RQ_Flight, Sector, ref AdultBTR, ref ChildBTR, ref InfantBTR, UAPISME);
+
+                CommonUapi objcuapi = new CommonUapi();
+                ress = objcuapi.GetResponseUapi(NetworkUserName, NetworkPassword, SearchID, reqq, "AirService", "AVAILABILITY");
+
+                if (Is6E)
                 {
-                    GetAvailability objGA = new GetAvailability(TargetBranch);
-                    reqq = objGA.GetAvailabilityRequestRT(SearchID, RQ_Flight, Sector, ref AdultBTR, ref ChildBTR, ref InfantBTR, UAPISME );
+                    GetAvailabilityResponse6ERT2 objRes = new GetAvailabilityResponse6ERT2(NetworkUserName, NetworkPassword, TargetBranch, Adt, Chd, Inf, DepartureStation, ArrivalStation);
+                    dtBound = objRes.SetAvailabilityResponse(SearchID, CompanyID, Sector, true, false, RQ_Flight, ress, "", AdultBTR, ChildBTR, InfantBTR);
+                }
+                else
+                {
+                    GetAvailabilityResponseRT2 objRes = new GetAvailabilityResponseRT2(NetworkUserName, NetworkPassword, TargetBranch, Adt, Chd, Inf, DepartureStation, ArrivalStation);
+                    dtBound = objRes.SetAvailabilityResponse(SearchID, CompanyID, Sector, true, false, RQ_Flight, ress, "", AdultBTR, ChildBTR, InfantBTR, UAPISME);
+                }
 
-                    CommonUapi objcuapi = new CommonUapi();
-                    ress = objcuapi.GetResponseUapi(NetworkUserName, NetworkPassword, SearchID, reqq, "AirService", "AVAILABILITY");
-
-                    if (Is6E)
-                    {
-                        GetAvailabilityResponse6ERT2 objRes = new GetAvailabilityResponse6ERT2(NetworkUserName, NetworkPassword, TargetBranch, Adt, Chd, Inf, DepartureStation, ArrivalStation);
-                        dtBound = objRes.SetAvailabilityResponse(SearchID, CompanyID, Sector, true, false, RQ_Flight, ress, "", AdultBTR, ChildBTR, InfantBTR);
-                    }
-                    else
-                    {
-                        GetAvailabilityResponseRT2 objRes = new GetAvailabilityResponseRT2(NetworkUserName, NetworkPassword, TargetBranch, Adt, Chd, Inf, DepartureStation, ArrivalStation);
-                        dtBound = objRes.SetAvailabilityResponse(SearchID, CompanyID, Sector, true, false, RQ_Flight, ress, "", AdultBTR, ChildBTR, InfantBTR, UAPISME);
-                    }
-
-                    if (dtBound != null && dtBound.Rows.Count > 0)
-                    {
-                        dtBound = objcuapi.RemoveUncombinedData(SearchID, RQ_Flight, ress, dtBound);
-                    }
+                if (dtBound != null && dtBound.Rows.Count > 0)
+                {
+                    dtBound = objcuapi.RemoveUncombinedData(SearchID, RQ_Flight, ress, dtBound);
                 }
             }
             catch (Exception ex)
@@ -315,29 +328,26 @@ namespace ZealTravel.Infrastructure.UAPI
                 string ChildBTR = string.Empty;
                 string InfantBTR = string.Empty;
 
-                if (Sector.Equals("I"))
+                GetAvailability objGA = new GetAvailability(TargetBranch);
+                reqq = objGA.GetAvailabilityRequestRT(SearchID, RQ_Flight, Sector, ref AdultBTR, ref ChildBTR, ref InfantBTR, UAPISME);
+
+                CommonUapi objcuapi = new CommonUapi();
+                ress = await objcuapi.GetResponseUapiAsync(NetworkUserName, NetworkPassword, SearchID, reqq, "AirService", "AVAILABILITY");
+
+                if (Is6E)
                 {
-                    GetAvailability objGA = new GetAvailability(TargetBranch);
-                    reqq = objGA.GetAvailabilityRequestRT(SearchID, RQ_Flight, Sector, ref AdultBTR, ref ChildBTR, ref InfantBTR, UAPISME);
+                    GetAvailabilityResponse6ERT2 objRes = new GetAvailabilityResponse6ERT2(NetworkUserName, NetworkPassword, TargetBranch, Adt, Chd, Inf, DepartureStation, ArrivalStation);
+                    dtBound = objRes.SetAvailabilityResponse(SearchID, CompanyID, Sector, true, false, RQ_Flight, ress, "", AdultBTR, ChildBTR, InfantBTR);
+                }
+                else
+                {
+                    GetAvailabilityResponseRT2 objRes = new GetAvailabilityResponseRT2(NetworkUserName, NetworkPassword, TargetBranch, Adt, Chd, Inf, DepartureStation, ArrivalStation);
+                    dtBound = objRes.SetAvailabilityResponse(SearchID, CompanyID, Sector, true, false, RQ_Flight, ress, "", AdultBTR, ChildBTR, InfantBTR, UAPISME);
+                }
 
-                    CommonUapi objcuapi = new CommonUapi();
-                    ress =await objcuapi.GetResponseUapiAsync(NetworkUserName, NetworkPassword, SearchID, reqq, "AirService", "AVAILABILITY");
-
-                    if (Is6E)
-                    {
-                        GetAvailabilityResponse6ERT2 objRes = new GetAvailabilityResponse6ERT2(NetworkUserName, NetworkPassword, TargetBranch, Adt, Chd, Inf, DepartureStation, ArrivalStation);
-                        dtBound = objRes.SetAvailabilityResponse(SearchID, CompanyID, Sector, true, false, RQ_Flight, ress, "", AdultBTR, ChildBTR, InfantBTR);
-                    }
-                    else
-                    {
-                        GetAvailabilityResponseRT2 objRes = new GetAvailabilityResponseRT2(NetworkUserName, NetworkPassword, TargetBranch, Adt, Chd, Inf, DepartureStation, ArrivalStation);
-                        dtBound = objRes.SetAvailabilityResponse(SearchID, CompanyID, Sector, true, false, RQ_Flight, ress, "", AdultBTR, ChildBTR, InfantBTR, UAPISME);
-                    }
-
-                    if (dtBound != null && dtBound.Rows.Count > 0)
-                    {
-                        dtBound = objcuapi.RemoveUncombinedData(SearchID, RQ_Flight, ress, dtBound);
-                    }
+                if (dtBound != null && dtBound.Rows.Count > 0)
+                {
+                    dtBound = objcuapi.RemoveUncombinedData(SearchID, RQ_Flight, ress, dtBound);
                 }
             }
             catch (Exception ex)

@@ -1,6 +1,17 @@
 var flagSort = "N";
 var SortCriteria = "N";
+var progressivePollingActive = false;
+var progressivePollInterval = null;
+
 $(document).ready(function () {
+  // Check if we have a progressive searchId
+  var urlParams = new URLSearchParams(window.location.search);
+  var searchId = urlParams.get('searchId') || sessionStorage.getItem('progressiveSearchId');
+  
+  if (searchId) {
+    // Start progressive polling
+    startProgressivePolling(searchId);
+  }
   $("body").tooltip({
     selector: "[data-toggle='tooltip']",
     container: "body",
@@ -710,11 +721,214 @@ function ShowMIDNightFlight() {
   //chkunchk();
 }
 window.ShowMIDNightFlight = ShowMIDNightFlight;
+
+/**
+ * Progressive Loading Functions
+ */
+function startProgressivePolling(searchId) {
+  if (progressivePollingActive) {
+    return; // Already polling
+  }
+  
+  progressivePollingActive = true;
+  console.log('[Progressive] Starting polling for searchId:', searchId);
+  
+  // Show progress bar
+  showProgressBar();
+  
+  // Start polling every 1.5 seconds for faster updates
+  progressivePollInterval = setInterval(function() {
+    pollProgressiveResults(searchId);
+  }, 1500);
+  
+  // Initial poll immediately
+  pollProgressiveResults(searchId);
+}
+
+var lastResultHash = null; // Track if results changed
+
+function pollProgressiveResults(searchId) {
+  $.ajax({
+    type: "GET",
+    url: "/Flight/GetProgressiveResults?searchId=" + encodeURIComponent(searchId),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function (result) {
+      if (result.status === "notfound") {
+        console.log('[Progressive] Search not found, stopping polling');
+        stopProgressivePolling();
+        return;
+      }
+      
+      // Update progress bar
+      updateProgressBar(result.completedApis, result.totalApis);
+      
+      // Check if we have results (even partial) - display immediately as they arrive
+      if (result.results && result.results.indexOf('RefID') !== -1) {
+        // Create hash based on completed APIs to detect when new API completes
+        var currentHash = result.completedApis.sort().join(',') + '-' + result.completedApis.length;
+        
+        // If results changed (new API completed), update display immediately
+        if (currentHash !== lastResultHash) {
+          console.log('[Progressive] ✅ New results available! Completed APIs:', result.completedApis.length, 'of', result.totalApis, '- APIs:', result.completedApis.join(', '));
+          console.log('[Progressive] Results length:', result.results.length, 'HasRefID:', result.results.indexOf('RefID') !== -1);
+          lastResultHash = currentHash;
+          
+          // Load and display results immediately (don't wait for all APIs)
+          // This will merge and show all available results so far
+          loadProgressiveResults();
+        }
+      } else if (result.completedApis && result.completedApis.length > 0) {
+        // Some APIs completed but no results yet - just update progress
+        console.log('[Progressive] APIs completed but no results yet:', result.completedApis.join(', '));
+      }
+      
+      // If search is complete, stop polling
+      if (result.isComplete) {
+        console.log('[Progressive] Search complete! All APIs finished. Final results:', result.completedApis.length, 'APIs completed');
+        stopProgressivePolling();
+        
+        // Hide progress bar
+        hideProgressBar();
+        
+        // Final check for results
+        if (!result.results || result.results.indexOf('RefID') === -1) {
+          // No results found - show message after all APIs complete
+          setTimeout(function() {
+            $("#flightNotFound").show();
+            $("#titleHeaddiv").hide();
+            $(".container.width1170px").hide();
+          }, 500);
+        } else {
+          // Final update with all results (in case any were missed)
+          loadProgressiveResults();
+        }
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('[Progressive] Polling error:', error);
+      // Continue polling on error
+    }
+  });
+}
+
+function stopProgressivePolling() {
+  if (progressivePollInterval) {
+    clearInterval(progressivePollInterval);
+    progressivePollInterval = null;
+  }
+  progressivePollingActive = false;
+  console.log('[Progressive] Polling stopped');
+}
+
+function showProgressBar() {
+  // Only show if not already shown
+  if ($('#progressiveProgressContainer').length > 0) {
+    return;
+  }
+  
+  var progressHtml = '<div id="progressiveProgressContainer" style="padding: 20px; text-align: center; background: #f5f5f5; margin: 20px 0; border-radius: 8px; position: relative; z-index: 1000;">' +
+    '<div style="font-size: 16px; color: #333; margin-bottom: 10px;">🔍 Searching flights...</div>' +
+    '<div style="background: #e0e0e0; height: 10px; border-radius: 5px; overflow: hidden; margin-bottom: 10px;">' +
+    '<div id="progressiveProgressBar" style="background: linear-gradient(90deg, #4CAF50, #45a049); height: 100%; width: 0%; transition: width 0.5s ease; box-shadow: 0 2px 4px rgba(76,175,80,0.3);"></div>' +
+    '</div>' +
+    '<div id="progressiveStatus" style="font-size: 14px; color: #666;">Initializing search...</div>' +
+    '</div>';
+  
+  // Insert at top of tempView (will be above results)
+  if ($('#tempView').length > 0) {
+    $('#tempView').prepend(progressHtml);
+  } else {
+    $('body').append(progressHtml);
+  }
+}
+
+function updateProgressBar(completedApis, totalApis) {
+  if (totalApis === 0) return;
+  
+  var percentage = Math.round((completedApis.length / totalApis) * 100);
+  $('#progressiveProgressBar').css('width', percentage + '%');
+  
+  var statusText = 'Searching flights... (' + completedApis.length + ' of ' + totalApis + ' APIs completed)';
+  if (completedApis.length > 0) {
+    statusText += ' - ' + completedApis.join(', ');
+  }
+  $('#progressiveStatus').text(statusText);
+}
+
+function hideProgressBar() {
+  $('#progressiveProgressContainer').fadeOut(500, function() {
+    $(this).remove();
+  });
+}
+
+function loadProgressiveResults() {
+  // Call ShowData which will get results from progressive cache
+  var CompnyID = $("#hdncmpid").val();
+  $.ajax({
+    type: "POST",
+    url: "/flight/ShowData",
+    data: '{CompanyID:"' + CompnyID + '"}',
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function (msg) {
+      if (msg.d && msg.d.length > 0) {
+        // Use EXACT same display logic as GetShow() to ensure consistency
+        sortF = null;
+        sortF = msg;
+        sortFCurrency = msg;
+        
+        var jsonResponse = msg;
+        var groupByFlightNumber = groupJson(jsonResponse);
+        
+        // Always rebuild from scratch to show latest merged results
+        // This ensures we show all flights from all completed APIs (not just new ones)
+        jQuery('#tempView').html('');
+        
+        // Display grouped results using EXACT same template as GetShow
+        Object.keys(groupByFlightNumber).forEach(function (key) {
+          var group = groupByFlightNumber[key];
+          // Use MyTemplate (same as GetShow)
+          $("#MyTemplate").tmpl(group[0]).appendTo("#tempView");
+          $("#multipleDetails").tmpl(groupByFlightNumber[key]).appendTo("#Price3-" + key);
+          $("#multipleDetails2").tmpl(groupByFlightNumber[key]).appendTo("#DR-" + key);
+        });
+        
+        console.log('[Progressive] ✅ Displayed', Object.keys(groupByFlightNumber).length, 'flight groups');
+        
+        // Show container
+        $("#titleHeaddiv").show();
+        $(".container.width1170px").show();
+        $("#flightNotFound").hide();
+        
+        // Hide waiting loader
+        $("#waitingload").css("display", "none");
+        $("#waitingloadbox").css("display", "none");
+        
+        // Keep progress bar visible at top (user can see progress)
+        // It will be hidden when search completes
+      }
+    },
+    error: function() {
+      // Continue polling on error
+      console.error('[Progressive] Error loading results');
+    }
+  });
+}
 var sortF;
 var sortFCurrency;
 //var groupByFlightNumber;
 
 function GetShow() {
+  // If progressive polling is active, wait for it to complete
+  if (progressivePollingActive) {
+    console.log('[GetShow] Progressive polling active, waiting...');
+    setTimeout(function() {
+      GetShow();
+    }, 2000);
+    return;
+  }
+  
   $("#waitingload").css("display", "Block");
   $("#waitingloadbox").css("display", "Block");
   var SortCriteria = "N";

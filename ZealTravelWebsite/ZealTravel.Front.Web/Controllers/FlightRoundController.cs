@@ -31,6 +31,14 @@ namespace ZealTravel.Front.Web.Controllers
         [Route("/flight/round")]
         public IActionResult Round()
         {
+            // Check for searchId in query parameter (for progressive loading)
+            var searchIdFromQuery = HttpContext.Request.Query["searchId"].ToString();
+            if (!string.IsNullOrEmpty(searchIdFromQuery))
+            {
+                // Set SearchID in session if provided in query parameter
+                HttpContext.Session.SetString("SearchID", searchIdFromQuery);
+            }
+            
             return View("~/Views/Flight/Round.cshtml");
         }
 
@@ -38,6 +46,13 @@ namespace ZealTravel.Front.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> RoundFlight()
         {
+            // Check for searchId in query parameter (for progressive loading)
+            var searchIdFromQuery = HttpContext.Request.Query["searchId"].ToString();
+            if (!string.IsNullOrEmpty(searchIdFromQuery))
+            {
+                // Set SearchID in session if provided in query parameter
+                HttpContext.Session.SetString("SearchID", searchIdFromQuery);
+            }
 
             if (HttpContext.Session.GetString("SearchID") == null || (User == null && HttpContext.Session.GetString("accidC") == null))
             {

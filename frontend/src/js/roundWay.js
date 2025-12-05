@@ -1,3 +1,8 @@
+// Progressive loading variables (must be at top)
+var progressivePollingActive = false;
+var progressivePollInterval = null;
+var lastResultHash = null; // Track if results changed
+
 function BookNow() {
   var Arrivaltimeonward;
   var departtimereturn;
@@ -299,6 +304,12 @@ $(window).load(function () {
 });
 
 $(document).ready(function () {
+  // Hide ALL circular loaders immediately on page load
+  $("#waitingload").css("display", "none");
+  $("#waitingloadbox").css("display", "none");
+  $("#CenterwaitingDiv").css("display", "none");
+  $("#CenterwaitingDiv").hide();
+  
   calculatenofpax();
   window.onscroll = function () {
     myFunction();
@@ -314,10 +325,45 @@ $(document).ready(function () {
     }
   }
   $("#top").hide();
-  GetShow();
-  showprogerss();
-  $("#waitingload").css("display", "Block");
-  $("#waitingloadbox").css("display", "Block");
+  
+  // Check if we have a progressive searchId
+  console.log('[Progressive RT] ========== PAGE LOADED ==========');
+  console.log('[Progressive RT] Current URL:', window.location.href);
+  console.log('[Progressive RT] URL Search:', window.location.search);
+  console.log('[Progressive RT] jQuery available:', typeof $ !== 'undefined');
+  console.log('[Progressive RT] Functions available:', {
+    startProgressivePolling: typeof startProgressivePolling !== 'undefined',
+    pollProgressiveResults: typeof pollProgressiveResults !== 'undefined'
+  });
+  
+  var urlParams = new URLSearchParams(window.location.search);
+  var searchIdFromUrl = urlParams.get('searchId');
+  var searchIdFromStorage = sessionStorage.getItem('progressiveSearchId');
+  var searchId = searchIdFromUrl || searchIdFromStorage;
+  
+  console.log('[Progressive RT] URL searchId:', searchIdFromUrl);
+  console.log('[Progressive RT] SessionStorage searchId:', searchIdFromStorage);
+  console.log('[Progressive RT] Final searchId:', searchId);
+  
+  if (searchId) {
+    console.log('[Progressive RT] ✅ searchId found! Starting progressive polling...');
+    // Start progressive polling
+    if (typeof startProgressivePolling === 'function') {
+      startProgressivePolling(searchId);
+    } else {
+      console.error('[Progressive RT] ❌ ERROR: startProgressivePolling function not found!');
+    }
+  } else {
+    console.log('[Progressive RT] ⚠️ No searchId found, using original flow');
+    // Use original flow
+    GetShow();
+    showprogerss();
+    // Hide ALL waiting loaders (circular spinner) - not needed with progress bar
+    $("#waitingload").css("display", "none");
+    $("#waitingloadbox").css("display", "none");
+    $("#CenterwaitingDiv").css("display", "none");
+    $("#CenterwaitingDiv").hide();
+  }
   //         GetShowR();
   $("#top").click(function () {
     $("#top").fadeOut();
@@ -381,7 +427,17 @@ var sortF;
 var sortFR;
 var SortCriteria;
 var flagSort = "N";
+
 function GetShow() {
+  // If progressive polling is active, wait for it to complete
+  if (progressivePollingActive) {
+    console.log('[GetShow RT] Progressive polling active, waiting...');
+    setTimeout(function() {
+      GetShow();
+    }, 2000);
+    return;
+  }
+  
   var CompnyID = $("#hdncmpid").val();
   $.ajax({
     type: "POST",
@@ -395,82 +451,262 @@ function GetShow() {
         $("#roundresultmaindiv").hide();
         // $(".container.width1170px").hide();
       } else {
+        // Backend now returns both O and I flights together (pairs)
+        // Group flights by RefID to pair outbound and inbound together
         sortF = null;
-        sortF = msg;
+        sortF = msg; // Store all flights
+        sortFR = null;
+        sortFR = msg; // Use same data for return (pairs)
+        
         jQuery("#tempView").html("");
         SortCriteria = "N";
         flagSort = "N";
         var jsonResponse = msg;
-        //iterating processed JSON response to get the single flight details
-        var groupByFlightNumber = groupJson(jsonResponse);
-        Object.keys(groupByFlightNumber).forEach(function (key) {
-          $("#MyTemplate")
-            .tmpl(groupByFlightNumber[key][0])
-            .appendTo("#tempView");
-          $("#MyTemplatePrice")
-            .tmpl(groupByFlightNumber[key])
-            .appendTo("#Price3-" + key);
-          $("#MyTemplateDetail")
-            .tmpl(groupByFlightNumber[key])
-            .appendTo("#DR-" + key);
+        
+        // Group flights by RefID to create pairs (outbound + inbound)
+        // RefID is the identifier that pairs outbound and inbound flights together
+        var groupByRefID = {};
+        if (jsonResponse.d && jsonResponse.d.length > 0) {
+          console.log('[RoundTrip] Total flights received:', jsonResponse.d.length);
+          jsonResponse.d.forEach(function(flight) {
+            // Backend returns FlightRefid, not RefID
+            var refID = flight.FlightRefid || flight.RefID || flight.RefId || 'unknown';
+            if (!groupByRefID[refID]) {
+              groupByRefID[refID] = { outbound: [], inbound: [] };
+            }
+            // Separate outbound and inbound flights
+            // Check InboundOutbound field (set by backend) or FltType as fallback
+            var inboundOutbound = (flight.InboundOutbound || '').toString().toUpperCase();
+            var fltType = (flight.FltType || '').toString().toUpperCase();
+            
+            if (inboundOutbound === 'OUTBOUND' || fltType === 'O') {
+              groupByRefID[refID].outbound.push(flight);
+            } else if (inboundOutbound === 'INBOUND' || fltType === 'I') {
+              groupByRefID[refID].inbound.push(flight);
+            } else {
+              // Debug: log flights that don't match
+              console.warn('[RoundTrip] Flight with unknown type - InboundOutbound:', inboundOutbound, 'FltType:', fltType, flight);
+            }
+          });
+          console.log('[RoundTrip] Grouped by RefID:', Object.keys(groupByRefID).length, 'pairs');
+          Object.keys(groupByRefID).forEach(function(refID) {
+            console.log('[RoundTrip] RefID', refID, '- Outbound:', groupByRefID[refID].outbound.length, 'Inbound:', groupByRefID[refID].inbound.length);
+          });
+        }
+        
+        // Since outbound and inbound have different RefIDs, we need to pair them differently
+        // Strategy: Get all outbound flights and all inbound flights, then pair them by index or other criteria
+        var allOutboundFlights = [];
+        var allInboundFlights = [];
+        Object.keys(groupByRefID).forEach(function (refID) {
+          var pair = groupByRefID[refID];
+          if (pair.outbound.length > 0) {
+            allOutboundFlights = allOutboundFlights.concat(pair.outbound);
+          }
+          if (pair.inbound.length > 0) {
+            allInboundFlights = allInboundFlights.concat(pair.inbound);
+          }
         });
+        
+        console.log('[RoundTrip GetShow] Total outbound flights:', allOutboundFlights.length);
+        console.log('[RoundTrip GetShow] Total inbound flights:', allInboundFlights.length);
+        
+        // Render pairs together - outbound and inbound in sequence
+        var totalRendered = 0;
+        var totalPairs = 0;
+        var minPairs = Math.min(allOutboundFlights.length, allInboundFlights.length);
+        
+        // Pair outbound and inbound flights by index (first outbound with first inbound, etc.)
+        for (var i = 0; i < minPairs; i++) {
+          var outboundFlight = allOutboundFlights[i];
+          var inboundFlight = allInboundFlights[i];
+          totalPairs++;
+          
+          // Only render if we have both outbound and inbound (complete pair)
+          if (outboundFlight && inboundFlight) {
+            // Use FlightNumberCmb as key for price/detail containers
+            var outboundKey = outboundFlight.FlightNumberCmb || outboundFlight.FlightNumber || 'outbound-' + i;
+            var inboundKey = inboundFlight.FlightNumberCmb || inboundFlight.FlightNumber || 'inbound-' + i;
+            
+            // Render outbound flight first - this creates the main card
+            var outboundCard = $($("#MyTemplate").tmpl(outboundFlight));
+            outboundCard.appendTo("#tempView");
+            
+            // Add price and details to outbound card
+            $("#MyTemplatePrice")
+              .tmpl([outboundFlight])
+              .appendTo("#Price3-" + outboundKey);
+            $("#MyTemplateDetail")
+              .tmpl([outboundFlight])
+              .appendTo("#DR-" + outboundKey);
+            
+            // Find the DR- div inside outboundCard and append inbound section after it
+            var drDiv = outboundCard.find("#DR-" + outboundKey);
+            if (drDiv.length === 0) {
+              // Fallback: find by class
+              drDiv = outboundCard.find(".boxbdrtp").last();
+            }
+            
+            // Render inbound flight as a section INSIDE the same outbound card
+            // Create inbound section with separator and label
+            var inboundSection = $('<div class="inbound-section" style="border-top: 2px solid #ddd; margin-top: 15px; padding-top: 15px; clear: both; width: 100%; background-color: #f9f9f9; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;"><div style="font-weight: bold; margin-bottom: 10px; color: #333; font-size: 12pt;">Return Flight:</div></div>');
+            
+            // Build inbound flight row HTML manually (similar to template structure)
+            var inboundRow = '<ul class="mainulboxop1" style="width: 100%; clear: both;">' +
+              '<li class="liboxmain1" style="float: left; margin: 0; padding: 1%; display: block; width: 9%;">' +
+              '<img alt="" src="' + (inboundFlight.logo || '') + '" style="position:absolute; width: 25px;height:25px;" class="borderade" />' +
+              '<br/><span style="display: block; margin: 0;padding-top: 15px; font-weight:bold" class="showfontsize padbot0 padleft0">' + (inboundFlight.FlightName || '') + '</span>' +
+              '<span style="font-weight: normal;float:left; margin-top: -15px;margin-left: 20px;" class="showfontsize padtop0 padleft0">' + (inboundFlight.FlightNumber || '') + '</span></li>' +
+              '<li class="liboxmain2 padleft0" style="float: left; margin: 0; padding: 1%; width: 10%;padding-left:4%">' +
+              '<span style="display: block; margin: 0; padding: 0;" class="showfontsize">' + (inboundFlight.SRC || '') + '</span>' +
+              '<span style="display: block; margin: 0; padding: 0;" class="showfontsize mobdevi">' + (inboundFlight.FlightDepDate || '') + '</span>' +
+              '<span style="font-weight: normal; float: left; padding-top: 0px;" class="showfontsize mobdevi1">' + (inboundFlight.FlightDepTime || '') + '</span></li>' +
+              '<li class="durationlin"><div class="duration-stop"><div class="stop-circle abs"><i class="tipsy white-circle"></i></div></div></li>' +
+              '<li class="liboxmain4 padleft0" style="float: left; margin: 0; padding: 1%;padding-right:1%; width: 13%;">' +
+              '<span style="display: block; margin: 0; padding: 0;" class="showfontsize">' + (inboundFlight.DEST || '') + '</span>' +
+              '<span style="display: block; margin: 0; padding: 0;" class="showfontsize mobdevi2">' + (inboundFlight.FlightArrDate || '') + '</span>' +
+              '<span style="font-weight: normal; float: left; padding-top: 0px;" class="showfontsize mobdevi3">' + (inboundFlight.FlightArrTime || '') + '</span>' +
+              (inboundFlight.ArrivalNextDayCheck == 1 ? '<span class="seatdiv plus1di" style="font-size: 8pt; color: red;">(+ 1)</span>' : '') +
+              '</li>' +
+              '<li class="minbox3" style="padding:1%; width: 13%;">' +
+              '<span style="display: block; margin: 0; padding: 0;" class="showfontsize">' + (inboundFlight.Stop || '') + '</span>' +
+              '<span style="font-weight: normal; padding-top: 0px;padding-left:0px" class="showfontsize mobdevi4">' + (inboundFlight.Layover1 || '') + '</span></li>' +
+              '<li class="liboxmain7" style="display:inline-block; margin: 0; padding: 1% ; width: 10%;" id="PriceT-' + inboundKey + '"></li>' +
+              '</ul>' +
+              '<div class="col-md-12 col-xs-12 offset-0 boxbdrtp" id="DRR-' + inboundKey + '"></div>';
+            
+            inboundSection.append(inboundRow);
+            
+            // Append inbound section after DR- div
+            if (drDiv.length > 0) {
+              drDiv.after(inboundSection);
+            } else {
+              // Fallback: append to outboundCard
+              outboundCard.append(inboundSection);
+            }
+            
+            // Add inbound price and details
+            $("#MyTemplatePriceR")
+              .tmpl([inboundFlight])
+              .appendTo("#PriceT-" + inboundKey);
+            $("#MyTemplateDetailR")
+              .tmpl([inboundFlight])
+              .appendTo("#DRR-" + inboundKey);
+            
+            totalRendered++;
+          }
+        }
+        
+        console.log('[RoundTrip GetShow] Rendering complete. Total pairs found:', totalPairs, 'Total rendered:', totalRendered);
+        
+        // FALLBACK: If no pairs rendered, render all flights individually
+        if (totalRendered === 0 && jsonResponse.d && jsonResponse.d.length > 0) {
+          console.warn('[RoundTrip GetShow] No complete pairs found! Rendering all flights individually as fallback.');
+          console.log('[RoundTrip GetShow] Rendering', jsonResponse.d.length, 'flights individually');
+          // Clear first (in case grouping code already rendered something)
+          jQuery("#tempView").html("");
+          // Render all flights
+          jsonResponse.d.forEach(function(flight, index) {
+            console.log('[RoundTrip GetShow] Rendering flight', index, ':', flight.FlightRefid, flight.InboundOutbound, flight.SRC, '->', flight.DEST);
+            try {
+              var rendered = $("#MyTemplate").tmpl(flight);
+              if (rendered && rendered.length > 0) {
+                rendered.appendTo("#tempView");
+                var flightKey = flight.FlightNumberCmb || flight.FlightNumber || 'flight-' + (flight.FlightRefid || 'unknown');
+                $("#MyTemplatePrice").tmpl([flight]).appendTo("#Price3-" + flightKey);
+                $("#MyTemplateDetail").tmpl([flight]).appendTo("#DR-" + flightKey);
+              } else {
+                console.error('[RoundTrip GetShow] Template rendering returned empty for flight:', flight);
+              }
+            } catch (e) {
+              console.error('[RoundTrip GetShow] Error rendering flight:', e, flight);
+            }
+          });
+          console.log('[RoundTrip GetShow] Fallback rendering complete');
+        }
+        
         var inboundContent = document.querySelector("#inbound-content");
-        inboundContent.classList.add("active");
-        GetShowR();
+        if (inboundContent) {
+          inboundContent.classList.add("active");
+        }
+
+        selectFlightbind();
+        GetMinMax();
+        GetMinMaxDepartureTime();
+        GetMinMaxArrivalTime();
+        GetFlightPreferAirlines();
+        GetFlightStops();
+        // Hide ALL waiting loaders
+        $("#waitingload").css("display", "none");
+        $("#waitingloadbox").css("display", "none");
+        $("#CenterwaitingDiv").css("display", "none");
+        $("#CenterwaitingDiv").hide();
+
+        var cmpid1 = document.getElementById("hdncmpid").value;
+        if (cmpid1.indexOf("C-") > -1 || cmpid1 == "") {
+          document.getElementById("chkdiscccfare").checked = true;
+          $(".hidchk2").css({ display: "none" });
+          $(".hidtdscus").css({ display: "none" });
+        }
+        chkunchk();
     }
     },
     error: function (msg) {},
   });
 }
-function GetShowR() {
-  var CompnyID = $("#hdncmpid").val();
-  $.ajax({
-    type: "POST",
-    url: "/flight/ShowDataR",
-    data: '{CompanyID:"' + CompnyID + '"}',
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: function (msg) {
-      sortFR = null;
-      sortFR = msg;
-      jQuery("#tempViewR").html("");
-      var jsonResponse = sortFR;
-      //iterating processed JSON response to get the single flight details
-      var groupByFlightNumber = groupJson(jsonResponse);
-      Object.keys(groupByFlightNumber).forEach(function (key) {
-        $("#MyTemplateR")
-          .tmpl(groupByFlightNumber[key][0])
-          .appendTo("#tempViewR");
-        $("#MyTemplatePriceR")
-          .tmpl(groupByFlightNumber[key])
-          .appendTo("#PriceT-" + key);
-        $("#MyTemplateDetailR")
-          .tmpl(groupByFlightNumber[key])
-          .appendTo("#DRR-" + key);
-      });
+// COMMENTED OUT: No longer needed - GetShow() now handles both O and I (pairs)
+// function GetShowR() {
+//   var CompnyID = $("#hdncmpid").val();
+//   $.ajax({
+//     type: "POST",
+//     url: "/flight/ShowDataR",
+//     data: '{CompanyID:"' + CompnyID + '"}',
+//     contentType: "application/json; charset=utf-8",
+//     dataType: "json",
+//     success: function (msg) {
+//       sortFR = null;
+//       sortFR = msg;
+//       jQuery("#tempViewR").html("");
+//       var jsonResponse = sortFR;
+//       //iterating processed JSON response to get the single flight details
+//       var groupByFlightNumber = groupJson(jsonResponse);
+//       Object.keys(groupByFlightNumber).forEach(function (key) {
+//         $("#MyTemplateR")
+//           .tmpl(groupByFlightNumber[key][0])
+//           .appendTo("#tempViewR");
+//         $("#MyTemplatePriceR")
+//           .tmpl(groupByFlightNumber[key])
+//           .appendTo("#PriceT-" + key);
+//         $("#MyTemplateDetailR")
+//           .tmpl(groupByFlightNumber[key])
+//           .appendTo("#DRR-" + key);
+//       });
 
-      selectFlightbind();
-      GetMinMax();
-      GetMinMaxDepartureTime();
-      GetMinMaxArrivalTime();
-      GetFlightPreferAirlines();
-      GetFlightStops();
-      $("#waitingload").css("display", "none");
-      $("#waitingloadbox").css("display", "none");
+//       selectFlightbind();
+//       GetMinMax();
+//       GetMinMaxDepartureTime();
+//       GetMinMaxArrivalTime();
+//       GetFlightPreferAirlines();
+//       GetFlightStops();
+//       // Hide ALL waiting loaders
+//       $("#waitingload").css("display", "none");
+//       $("#waitingloadbox").css("display", "none");
+//       $("#CenterwaitingDiv").css("display", "none");
+//       $("#CenterwaitingDiv").hide();
 
-      //                 GetFlightMatrix();
+//       //                 GetFlightMatrix();
 
-      var cmpid1 = document.getElementById("hdncmpid").value;
-      if (cmpid1.indexOf("C-") > -1 || cmpid1 == "") {
-        document.getElementById("chkdiscccfare").checked = true;
-        $(".hidchk2").css({ display: "none" });
-        $(".hidtdscus").css({ display: "none" });
-      }
-      chkunchk();
-    },
-    error: function (msg) {},
-  });
-}
+//       var cmpid1 = document.getElementById("hdncmpid").value;
+//       if (cmpid1.indexOf("C-") > -1 || cmpid1 == "") {
+//         document.getElementById("chkdiscccfare").checked = true;
+//         $(".hidchk2").css({ display: "none" });
+//         $(".hidtdscus").css({ display: "none" });
+//       }
+//       chkunchk();
+//     },
+//     error: function (msg) {},
+//   });
+// }
 
 function selectFlightbind() {
   var msg = sortF;
@@ -2291,13 +2527,13 @@ function getCheckedFiltersR(SortCriteria) {
 
   if (chkboxValueStops.length == 0 || chkboxValueAir.length == 0) {
     Object.keys(groupByFlightNumber).forEach(function (key) {
-      jQuery("#tempViewR").html("");
+      // Updated to use tempView instead of tempViewR (single partition)
       jQuery("#PriceT-" + key).html("");
       jQuery("#DRR-" + key).html("");
     });
   } else {
     Object.keys(groupByFlightNumber).forEach(function (key) {
-      jQuery("#tempViewR").html("");
+      // Updated to use tempView instead of tempViewR (single partition)
       jQuery("#PriceT-" + key).html("");
       jQuery("#DRR-" + key).html("");
     });
@@ -2353,7 +2589,8 @@ function getCheckedFiltersR(SortCriteria) {
 
       if (filteredGroup.length > 0) {
         // alert('grp')
-        $("#MyTemplateR").tmpl(filteredGroup[0]).appendTo("#tempViewR");
+        // Updated to use tempView instead of tempViewR (single partition)
+        $("#MyTemplateR").tmpl(filteredGroup[0]).appendTo("#tempView");
         $("#MyTemplatePriceR")
           .tmpl(filteredGroup)
           .appendTo("#PriceT-" + key);
@@ -2384,15 +2621,15 @@ function getCheckedFR() {
       }
     });
   if (chkboxValue.length == 0) {
-    jQuery("#tempViewR").html("");
+    // Updated: No need to clear tempViewR as we're using single partition
   } else {
     var c = 0;
-    jQuery("#tempViewR").html("");
+    // Updated: Render to tempView instead of tempViewR (single partition)
     for (c; c < chkboxValue.length; c++) {
       var msg = sortFR;
       for (var i = 0; i < msg.d.length; i++) {
         if (chkboxValue[c] == msg.d[i].Stop) {
-          $("#MyTemplateR").tmpl(msg.d[i]).appendTo("#tempViewR");
+          $("#MyTemplateR").tmpl(msg.d[i]).appendTo("#tempView");
         }
       }
     }
@@ -2747,3 +2984,439 @@ function prefer() {
   }
 }
 window.prefer = prefer;
+
+// ========== PROGRESSIVE LOADING FUNCTIONS (Round Trip) ==========
+
+function startProgressivePolling(searchId) {
+  if (progressivePollingActive) {
+    console.log('[Progressive RT] Already polling, skipping');
+    return; // Already polling
+  }
+  
+  if (!searchId) {
+    console.error('[Progressive RT] ERROR: searchId is empty!');
+    return;
+  }
+  
+  progressivePollingActive = true;
+  console.log('[Progressive RT] ✅ Starting polling for searchId:', searchId);
+  console.log('[Progressive RT] Polling will call: /Flight/GetProgressiveResults?searchId=' + encodeURIComponent(searchId));
+  
+  // Show progress bar
+  showProgressBar();
+  
+  // Hide ALL waiting loaders (circular spinner) - we use progress bar instead
+  $("#waitingload").css("display", "none");
+  $("#waitingloadbox").css("display", "none");
+  $("#CenterwaitingDiv").css("display", "none");
+  $("#CenterwaitingDiv").hide();
+  
+  // Start polling every 1.5 seconds for faster updates
+  progressivePollInterval = setInterval(function() {
+    console.log('[Progressive RT] 🔄 Interval triggered, calling pollProgressiveResults');
+    pollProgressiveResults(searchId);
+  }, 1500);
+  
+  // Initial poll immediately
+  console.log('[Progressive RT] 🚀 Making initial poll call');
+  pollProgressiveResults(searchId);
+}
+
+function pollProgressiveResults(searchId) {
+  if (!searchId) {
+    console.error('[Progressive RT] ERROR: pollProgressiveResults called with empty searchId!');
+    return;
+  }
+  
+  var url = "/Flight/GetProgressiveResults?searchId=" + encodeURIComponent(searchId);
+  console.log('[Progressive RT] 🔍 Polling GetProgressiveResults - URL:', url, 'searchId:', searchId);
+  
+  $.ajax({
+    type: "GET",
+    url: url,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function (result) {
+      console.log('[Progressive RT] ✅ Poll SUCCESS - Response received');
+      console.log('[Progressive RT] Poll response:', {
+        status: result.status,
+        isComplete: result.isComplete,
+        completedApis: result.completedApis,
+        totalApis: result.totalApis,
+        hasResults: result.results && result.results.indexOf('RefID') !== -1
+      });
+      if (result.status === "notfound") {
+        console.log('[Progressive RT] Search not found, stopping polling');
+        stopProgressivePolling();
+        return;
+      }
+      
+      // Update progress bar
+      updateProgressBar(result.completedApis, result.totalApis);
+      
+      // Check if we have results (even partial) - display immediately as they arrive
+      if (result.results && result.results.indexOf('RefID') !== -1) {
+        // Create hash based on completed APIs to detect when new API completes
+        var currentHash = result.completedApis.sort().join(',') + '-' + result.completedApis.length;
+        
+        // If results changed (new API completed), update display immediately
+        if (currentHash !== lastResultHash) {
+          console.log('[Progressive RT] ✅ New results available! Completed APIs:', result.completedApis.length, 'of', result.totalApis, '- APIs:', result.completedApis.join(', '));
+          console.log('[Progressive RT] Results length:', result.results.length, 'HasRefID:', result.results.indexOf('RefID') !== -1);
+          lastResultHash = currentHash;
+          
+          // Load and display results immediately (don't wait for all APIs)
+          // This will merge and show all available results so far (both outbound and inbound)
+          loadProgressiveResults();
+        }
+      } else if (result.completedApis && result.completedApis.length > 0) {
+        // Some APIs completed but no results yet - just update progress
+        console.log('[Progressive RT] APIs completed but no results yet:', result.completedApis.join(', '));
+      }
+      
+      // If search is complete, stop polling
+      if (result.isComplete) {
+        console.log('[Progressive RT] Search complete! All APIs finished. Final results:', result.completedApis.length, 'APIs completed');
+        stopProgressivePolling();
+        
+        // Hide progress bar
+        hideProgressBar();
+        
+        // Final check for results
+        if (!result.results || result.results.indexOf('RefID') === -1) {
+          // No results found - show message after all APIs complete
+          setTimeout(function() {
+            $("#flightNotFound").show();
+            $("#roundresultmaindiv").hide();
+          }, 500);
+        } else {
+          // Final update with all results (in case any were missed)
+          loadProgressiveResults();
+        }
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('[Progressive RT] ❌ Polling ERROR:', {
+        status: status,
+        error: error,
+        statusCode: xhr.status,
+        responseText: xhr.responseText,
+        url: url
+      });
+      // Continue polling on error (don't stop)
+      console.log('[Progressive RT] Will continue polling despite error...');
+    }
+  });
+}
+
+function stopProgressivePolling() {
+  if (progressivePollInterval) {
+    clearInterval(progressivePollInterval);
+    progressivePollInterval = null;
+  }
+  progressivePollingActive = false;
+  console.log('[Progressive RT] Polling stopped');
+}
+
+function showProgressBar() {
+  // Only show if not already shown
+  if ($('#progressiveProgressContainer').length > 0) {
+    return;
+  }
+  
+  var progressHtml = '<div id="progressiveProgressContainer" style="padding: 20px; text-align: center; background: #f5f5f5; margin: 20px 0; border-radius: 8px; position: relative; z-index: 1000;">' +
+    '<div style="font-size: 16px; color: #333; margin-bottom: 10px;">🔍 Searching flights...</div>' +
+    '<div style="background: #e0e0e0; height: 10px; border-radius: 5px; overflow: hidden; margin-bottom: 10px;">' +
+    '<div id="progressiveProgressBar" style="background: linear-gradient(90deg, #4CAF50, #45a049); height: 100%; width: 0%; transition: width 0.5s ease; box-shadow: 0 2px 4px rgba(76,175,80,0.3);"></div>' +
+    '</div>' +
+    '<div id="progressiveStatus" style="font-size: 14px; color: #666;">Initializing search...</div>' +
+    '</div>';
+  
+  // Insert at top of roundresultmaindiv (will be above results)
+  if ($('#roundresultmaindiv').length > 0) {
+    $('#roundresultmaindiv').prepend(progressHtml);
+  } else {
+    $('body').append(progressHtml);
+  }
+}
+
+function updateProgressBar(completedApis, totalApis) {
+  if (totalApis === 0) return;
+  
+  var percentage = Math.round((completedApis.length / totalApis) * 100);
+  $('#progressiveProgressBar').css('width', percentage + '%');
+  
+  var statusText = 'Searching flights... (' + completedApis.length + ' of ' + totalApis + ' APIs completed)';
+  if (completedApis.length > 0) {
+    statusText += ' - ' + completedApis.join(', ');
+  }
+  $('#progressiveStatus').text(statusText);
+}
+
+function hideProgressBar() {
+  $('#progressiveProgressContainer').fadeOut(500, function() {
+    $(this).remove();
+  });
+}
+
+function loadProgressiveResults() {
+  // Call ShowData which will get results from progressive cache (now returns pairs - both O and I)
+  var CompnyID = $("#hdncmpid").val();
+  
+  // Load flights once (backend returns pairs)
+  $.ajax({
+    type: "POST",
+    url: "/flight/ShowData",
+    data: '{CompanyID:"' + CompnyID + '"}',
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function (msg) {
+      if (msg.d && msg.d.length > 0) {
+        // Backend now returns both O and I flights together (pairs)
+        // Use EXACT same display logic as GetShow() to ensure consistency
+        sortF = null;
+        sortF = msg; // Store all flights
+        sortFR = null;
+        sortFR = msg; // Use same data for return (pairs)
+        
+        // Always rebuild from scratch to show latest merged results
+        jQuery("#tempView").html("");
+        SortCriteria = "N";
+        flagSort = "N";
+        var jsonResponse = msg;
+        
+        // Group flights by RefID to create pairs (outbound + inbound)
+        // RefID is the identifier that pairs outbound and inbound flights together
+        var groupByRefID = {};
+        if (jsonResponse.d && jsonResponse.d.length > 0) {
+          console.log('[Progressive RT] Total flights received:', jsonResponse.d.length);
+          // Log first 3 flights to debug backend data
+          if (jsonResponse.d.length > 0) {
+            for (var d = 0; d < Math.min(3, jsonResponse.d.length); d++) {
+              console.log('[Progressive RT] Flight', d, '- InboundOutbound:', jsonResponse.d[d].InboundOutbound, 'FltType:', jsonResponse.d[d].FltType, 'SRC:', jsonResponse.d[d].SRC, 'DEST:', jsonResponse.d[d].DEST, 'FlightRefid:', jsonResponse.d[d].FlightRefid);
+            }
+          }
+          jsonResponse.d.forEach(function(flight) {
+            // Backend returns FlightRefid, not RefID
+            var refID = flight.FlightRefid || flight.RefID || flight.RefId || 'unknown';
+            if (!groupByRefID[refID]) {
+              groupByRefID[refID] = { outbound: [], inbound: [] };
+            }
+            // Separate outbound and inbound flights
+            // Check InboundOutbound field (set by backend) or FltType as fallback
+            var inboundOutbound = (flight.InboundOutbound || '').toString().toUpperCase();
+            var fltType = (flight.FltType || '').toString().toUpperCase();
+            
+            if (inboundOutbound === 'OUTBOUND' || fltType === 'O') {
+              groupByRefID[refID].outbound.push(flight);
+            } else if (inboundOutbound === 'INBOUND' || fltType === 'I') {
+              groupByRefID[refID].inbound.push(flight);
+            } else {
+              // Debug: log flights that don't match
+              console.warn('[Progressive RT] Flight with unknown type - InboundOutbound:', inboundOutbound, 'FltType:', fltType, 'SRC:', flight.SRC, 'DEST:', flight.DEST);
+            }
+          });
+          console.log('[Progressive RT] Grouped by RefID:', Object.keys(groupByRefID).length, 'pairs');
+          Object.keys(groupByRefID).forEach(function(refID) {
+            console.log('[Progressive RT] RefID', refID, '- Outbound:', groupByRefID[refID].outbound.length, 'Inbound:', groupByRefID[refID].inbound.length);
+          });
+        }
+        
+        // Since outbound and inbound have different RefIDs, we need to pair them differently
+        // Strategy: Get all outbound flights and all inbound flights, then pair them by index
+        var allOutboundFlights = [];
+        var allInboundFlights = [];
+        Object.keys(groupByRefID).forEach(function (refID) {
+          var pair = groupByRefID[refID];
+          if (pair.outbound.length > 0) {
+            allOutboundFlights = allOutboundFlights.concat(pair.outbound);
+          }
+          if (pair.inbound.length > 0) {
+            allInboundFlights = allInboundFlights.concat(pair.inbound);
+          }
+        });
+        
+        console.log('[Progressive RT] Total outbound flights:', allOutboundFlights.length);
+        console.log('[Progressive RT] Total inbound flights:', allInboundFlights.length);
+        
+        // Render pairs together - outbound and inbound in sequence
+        var totalRenderedProgressive = 0;
+        var totalPairs = 0;
+        var minPairs = Math.min(allOutboundFlights.length, allInboundFlights.length);
+        
+        // Pair outbound and inbound flights by index (first outbound with first inbound, etc.)
+        for (var i = 0; i < minPairs; i++) {
+          var outboundFlight = allOutboundFlights[i];
+          var inboundFlight = allInboundFlights[i];
+          totalPairs++;
+          
+          // Only render if we have both outbound and inbound (complete pair)
+          if (outboundFlight && inboundFlight) {
+            // Use FlightNumberCmb as key for price/detail containers
+            var outboundKey = outboundFlight.FlightNumberCmb || outboundFlight.FlightNumber || 'outbound-' + i;
+            var inboundKey = inboundFlight.FlightNumberCmb || inboundFlight.FlightNumber || 'inbound-' + i;
+            
+            // Render outbound flight first - this creates the main card
+            var outboundCard = $($("#MyTemplate").tmpl(outboundFlight));
+            outboundCard.appendTo("#tempView");
+            
+            // Add price and details to outbound card
+            $("#MyTemplatePrice")
+              .tmpl([outboundFlight])
+              .appendTo("#Price3-" + outboundKey);
+            $("#MyTemplateDetail")
+              .tmpl([outboundFlight])
+              .appendTo("#DR-" + outboundKey);
+            
+            // Find the DR- div inside outboundCard and append inbound section after it
+            var drDiv = outboundCard.find("#DR-" + outboundKey);
+            if (drDiv.length === 0) {
+              // Fallback: find by class
+              drDiv = outboundCard.find(".boxbdrtp").last();
+            }
+            
+            // Render inbound flight as a section INSIDE the same outbound card
+            // Create inbound section with separator and label
+            var inboundSection = $('<div class="inbound-section" style="border-top: 2px solid #ddd; margin-top: 15px; padding-top: 15px; clear: both; width: 100%; background-color: #f9f9f9; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;"><div style="font-weight: bold; margin-bottom: 10px; color: #333; font-size: 12pt;">Return Flight:</div></div>');
+            
+            // Build inbound flight row HTML manually (similar to template structure)
+            var inboundRow = '<ul class="mainulboxop1" style="width: 100%; clear: both;">' +
+              '<li class="liboxmain1" style="float: left; margin: 0; padding: 1%; display: block; width: 9%;">' +
+              '<img alt="" src="' + (inboundFlight.logo || '') + '" style="position:absolute; width: 25px;height:25px;" class="borderade" />' +
+              '<br/><span style="display: block; margin: 0;padding-top: 15px; font-weight:bold" class="showfontsize padbot0 padleft0">' + (inboundFlight.FlightName || '') + '</span>' +
+              '<span style="font-weight: normal;float:left; margin-top: -15px;margin-left: 20px;" class="showfontsize padtop0 padleft0">' + (inboundFlight.FlightNumber || '') + '</span></li>' +
+              '<li class="liboxmain2 padleft0" style="float: left; margin: 0; padding: 1%; width: 10%;padding-left:4%">' +
+              '<span style="display: block; margin: 0; padding: 0;" class="showfontsize">' + (inboundFlight.SRC || '') + '</span>' +
+              '<span style="display: block; margin: 0; padding: 0;" class="showfontsize mobdevi">' + (inboundFlight.FlightDepDate || '') + '</span>' +
+              '<span style="font-weight: normal; float: left; padding-top: 0px;" class="showfontsize mobdevi1">' + (inboundFlight.FlightDepTime || '') + '</span></li>' +
+              '<li class="durationlin"><div class="duration-stop"><div class="stop-circle abs"><i class="tipsy white-circle"></i></div></div></li>' +
+              '<li class="liboxmain4 padleft0" style="float: left; margin: 0; padding: 1%;padding-right:1%; width: 13%;">' +
+              '<span style="display: block; margin: 0; padding: 0;" class="showfontsize">' + (inboundFlight.DEST || '') + '</span>' +
+              '<span style="display: block; margin: 0; padding: 0;" class="showfontsize mobdevi2">' + (inboundFlight.FlightArrDate || '') + '</span>' +
+              '<span style="font-weight: normal; float: left; padding-top: 0px;" class="showfontsize mobdevi3">' + (inboundFlight.FlightArrTime || '') + '</span>' +
+              (inboundFlight.ArrivalNextDayCheck == 1 ? '<span class="seatdiv plus1di" style="font-size: 8pt; color: red;">(+ 1)</span>' : '') +
+              '</li>' +
+              '<li class="minbox3" style="padding:1%; width: 13%;">' +
+              '<span style="display: block; margin: 0; padding: 0;" class="showfontsize">' + (inboundFlight.Stop || '') + '</span>' +
+              '<span style="font-weight: normal; padding-top: 0px;padding-left:0px" class="showfontsize mobdevi4">' + (inboundFlight.Layover1 || '') + '</span></li>' +
+              '<li class="liboxmain7" style="display:inline-block; margin: 0; padding: 1% ; width: 10%;" id="PriceT-' + inboundKey + '"></li>' +
+              '</ul>' +
+              '<div class="col-md-12 col-xs-12 offset-0 boxbdrtp" id="DRR-' + inboundKey + '"></div>';
+            
+            inboundSection.append(inboundRow);
+            
+            // Append inbound section after DR- div
+            if (drDiv.length > 0) {
+              drDiv.after(inboundSection);
+            } else {
+              // Fallback: append to outboundCard
+              outboundCard.append(inboundSection);
+            }
+            
+            // Add inbound price and details
+            $("#MyTemplatePriceR")
+              .tmpl([inboundFlight])
+              .appendTo("#PriceT-" + inboundKey);
+            $("#MyTemplateDetailR")
+              .tmpl([inboundFlight])
+              .appendTo("#DRR-" + inboundKey);
+            
+            totalRenderedProgressive++;
+          } else {
+            console.warn('[Progressive RT] Incomplete pair for index:', i, '- Outbound:', outboundFlight, 'Inbound:', inboundFlight);
+          }
+        }
+        
+        console.log('[Progressive RT] Rendering complete. Total pairs found:', totalPairs, 'Total rendered:', totalRenderedProgressive);
+        
+        // FALLBACK: If no pairs rendered, render all flights individually
+        if (totalRenderedProgressive === 0 && jsonResponse.d && jsonResponse.d.length > 0) {
+          console.warn('[Progressive RT] No complete pairs found! Rendering all flights individually as fallback.');
+          jQuery("#tempView").html("");
+          jsonResponse.d.forEach(function(flight) {
+            $("#MyTemplate").tmpl(flight).appendTo("#tempView");
+            var flightKey = flight.FlightNumberCmb || flight.FlightNumber || 'flight-' + (flight.FlightRefid || 'unknown');
+            $("#MyTemplatePrice").tmpl([flight]).appendTo("#Price3-" + flightKey);
+            $("#MyTemplateDetail").tmpl([flight]).appendTo("#DR-" + flightKey);
+          });
+        }
+        
+        var inboundContent = document.querySelector("#inbound-content");
+        if (inboundContent) {
+          inboundContent.classList.add("active");
+        }
+        
+        console.log('[Progressive RT] ✅ Displayed', totalRenderedProgressive, 'flight pairs');
+        
+        // Show container
+        $("#roundresultmaindiv").show();
+        $("#flightNotFound").hide();
+        
+        // Hide ALL waiting loaders
+        $("#waitingload").css("display", "none");
+        $("#waitingloadbox").css("display", "none");
+        $("#CenterwaitingDiv").css("display", "none");
+        $("#CenterwaitingDiv").hide();
+        
+        // Call functions that depend on flights being loaded
+        selectFlightbind();
+        GetMinMax();
+        GetMinMaxDepartureTime();
+        GetMinMaxArrivalTime();
+        GetFlightPreferAirlines();
+        GetFlightStops();
+      }
+      
+      // COMMENTED OUT: No longer need separate call - backend returns pairs
+      // // Now load inbound flights (ShowDataR)
+      // $.ajax({
+      //   type: "POST",
+      //   url: "/flight/ShowDataR",
+      //   data: '{CompanyID:"' + CompnyID + '"}',
+      //   contentType: "application/json; charset=utf-8",
+      //   dataType: "json",
+      //   success: function (msgR) {
+      //     if (msgR.d && msgR.d.length > 0) {
+      //       // Use EXACT same display logic as GetShowR() to ensure consistency
+      //       sortFR = null;
+      //       sortFR = msgR;
+      //       
+      //       // Always rebuild from scratch to show latest merged results
+      //       jQuery("#tempViewR").html("");
+      //       var jsonResponse = sortFR;
+      //       var groupByFlightNumber = groupJson(jsonResponse);
+      //       
+      //       // Display grouped results using EXACT same template as GetShowR
+      //       Object.keys(groupByFlightNumber).forEach(function (key) {
+      //         $("#MyTemplateR")
+      //           .tmpl(groupByFlightNumber[key][0])
+      //           .appendTo("#tempViewR");
+      //         $("#MyTemplatePriceR")
+      //           .tmpl(groupByFlightNumber[key])
+      //           .appendTo("#PriceT-" + key);
+      //         $("#MyTemplateDetailR")
+      //           .tmpl(groupByFlightNumber[key])
+      //           .appendTo("#DRR-" + key);
+      //       });
+      //       
+      //       console.log('[Progressive RT] ✅ Displayed', Object.keys(groupByFlightNumber).length, 'inbound flight groups');
+      //       
+      //       // Call functions that depend on both outbound and inbound being loaded
+      //       selectFlightbind();
+      //       GetMinMax();
+      //       GetMinMaxDepartureTime();
+      //       GetMinMaxArrivalTime();
+      //       GetFlightPreferAirlines();
+      //       GetFlightStops();
+      //     }
+      //   },
+      //   error: function() {
+      //     console.error('[Progressive RT] Error loading inbound results');
+      //   }
+      // });
+    },
+    error: function() {
+      console.error('[Progressive RT] Error loading results');
+    }
+  });
+}

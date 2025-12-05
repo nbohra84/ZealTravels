@@ -734,9 +734,54 @@ namespace ZealTravel.Infrastructure.UAPI
             }
             catch (WebException ex)
             {
-                DBCommon.Logger.dbLogg("", 0, "GetResponseUapi", requestData, responseXML, SearchID, Method + "-" + ServiceName + "-" + ex.Message);
+                Console.WriteLine($"[GetResponseUapiAsync] WebException: {ex.Message}, Status: {ex.Status}, SearchID: {SearchID}");
+                if (ex.Response != null)
+                {
+                    try
+                    {
+                        using (var errorResponse = ex.Response.GetResponseStream())
+                        {
+                            if (errorResponse != null)
+                            {
+                                using (var reader = new StreamReader(errorResponse))
+                                {
+                                    var errorText = await reader.ReadToEndAsync();
+                                    Console.WriteLine($"[GetResponseUapiAsync] Error response (first 500 chars): {errorText.Substring(0, Math.Min(500, errorText.Length))}");
+                                }
+                            }
+                        }
+                    }
+                    catch { }
+                }
+                DBCommon.Logger.dbLogg("", 0, "GetResponseUapiAsync", requestData, responseXML, SearchID, Method + "-" + ServiceName + "-" + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[GetResponseUapiAsync] Exception: {ex.Message}, StackTrace: {ex.StackTrace}, SearchID: {SearchID}");
+                DBCommon.Logger.dbLogg("", 0, "GetResponseUapiAsync", requestData, responseXML, SearchID, Method + "-" + ServiceName + "-" + ex.Message);
             }
 
+            Console.WriteLine($"[GetResponseUapiAsync] Returning response - Length: {responseJSON?.Length ?? 0}, HasRefID: {(responseJSON?.IndexOf("RefID") ?? -1) != -1}, SearchID: {SearchID}");
+            
+            // Log response preview to understand structure
+            if (responseJSON != null && responseJSON.Length > 0)
+            {
+                string preview = responseJSON.Length > 500 ? responseJSON.Substring(0, 500) : responseJSON;
+                Console.WriteLine($"[GetResponseUapiAsync] Response preview (first 500 chars): {preview}");
+                
+                // Check for common error indicators
+                if (responseJSON.IndexOf("faultstring") != -1 || responseJSON.IndexOf("Error") != -1 || responseJSON.IndexOf("error") != -1)
+                {
+                    Console.WriteLine($"[GetResponseUapiAsync] WARNING: Response may contain errors!");
+                }
+                
+                // Check for expected elements
+                bool hasFlightDetails = responseJSON.IndexOf("FlightDetailsList") != -1;
+                bool hasAirSegment = responseJSON.IndexOf("AirSegmentList") != -1;
+                bool hasAirPricePoint = responseJSON.IndexOf("AirPricePointList") != -1;
+                Console.WriteLine($"[GetResponseUapiAsync] Response structure - FlightDetailsList: {hasFlightDetails}, AirSegmentList: {hasAirSegment}, AirPricePointList: {hasAirPricePoint}");
+            }
+            
             WriteFileToxml(ServiceName, requestData, ServiceName + "_RQ");
             WriteFileToxml(ServiceName, responseJSON, ServiceName + "RS");
             return responseJSON;

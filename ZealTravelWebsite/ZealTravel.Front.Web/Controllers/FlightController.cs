@@ -50,6 +50,10 @@ using System.Reflection;
 using ZealTravel.Application.BankManagement.Handler;
 using DocumentFormat.OpenXml.Bibliography;
 using ZealTravel.Application.BookingManagement.Handler;
+using ZealTravel.Domain.Interfaces.AirelineManagement;
+using ZealTravel.Domain.Services.AirelineManagement;
+using AirAvaibilityModel = ZealTravel.Domain.Models.AirAvaibilityModel;
+using Microsoft.Extensions.DependencyInjection;
 
 [Authorize]
 public class FlightController : AgencyBaseController
@@ -82,6 +86,8 @@ public class FlightController : AgencyBaseController
     private readonly IHandlesCommandAsync<AddDBLogCommand> _addDbLogCommandHandler;
     private readonly IHandlesCommandAsync<AddDBSearchLogCommand> _addDbSearchLogCommandHandler;
     private readonly IHandlesQueryAsync<string, GSTDetails> _getGSTDetailbyCompanyQueryHandler;
+    private readonly IGetOneWayFlightService _oneWayFlightService;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
     private readonly ILogger<FlightController> _logger;
 
@@ -105,7 +111,9 @@ public class FlightController : AgencyBaseController
         IHandlesQueryAsync<string, GSTDetails> getGSTDetailbyCompanyQueryHandler,
         IHandlesCommandAsync<AddDBLogCommand> addDbLogCommandHandler,
         IHandlesQueryAsync<BookingDetailQuery, BookingDetailData> bookingTicketQueryHandler,
-        IHandlesCommandAsync<AddDBSearchLogCommand> addDbSearchLogCommandHandler,   
+        IHandlesCommandAsync<AddDBSearchLogCommand> addDbSearchLogCommandHandler,
+        IGetOneWayFlightService oneWayFlightService,
+        IServiceScopeFactory serviceScopeFactory,
         ILogger<FlightController> logger) : base(getAvailableBalanceQueryHandler)
     {
         _getAvailableBalanceQueryHandler = getAvailableBalanceQueryHandler;
@@ -137,6 +145,8 @@ public class FlightController : AgencyBaseController
         _addDbSearchLogCommandHandler = addDbSearchLogCommandHandler;
         _logger = logger;
         _bookingTicketQueryHandler = bookingTicketQueryHandler;
+        _oneWayFlightService = oneWayFlightService;
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     public async Task<IActionResult> Index()
@@ -344,47 +354,28 @@ public class FlightController : AgencyBaseController
                     }
                 }
                 var query = new SearchFlightAvailabilityQuery();
-                query.SearchID = Guid.NewGuid().ToString() + "-" + System.DateTime.Now.Minute.ToString() + "-" + System.DateTime.Now.Second.ToString() + "-" + accountID.ToString(); ;
-                var dataresult = string.Empty;
+                query.SearchID = Guid.NewGuid().ToString() + "-" + System.DateTime.Now.Minute.ToString() + "-" + System.DateTime.Now.Second.ToString() + "-" + accountID.ToString();
+                
+                // Determine journey type and search value
+                string journeyType = string.Empty;
                 if (searchType == "O")
                 {
-
                     query.CompanyID = companyId;
                     query.AirRQ = xmlstring;
                     query.JourneyType = "OW";
-                    dataresult = await _SearchFlightAvailabilityHandler.HandleAsync(query);
+                    journeyType = "OW";
                     result = "O";
                     searchValue = "OW";
-                    HttpContext.Session.SetString("SEARCH_TYPE" , "DOM");
+                    HttpContext.Session.SetString("SEARCH_TYPE", "DOM");
                 }
                 else if (searchType == "DRT" || searchType == "R")
                 {
-                    //if (searchType == "DRT" && sector == "D")
-                    //{
-                    //    query.CompanyID = companyId;
-                    //    query.AirRQ = xmlstring;
-                    //    query.JourneyType = "RTLCC";
-                    //    dataresult = await _SearchFlightAvailabilityHandler.HandleAsync(query);
-                    //    result = "DRT";
-                    //    searchValue = "RT";
-                    //    HttpContext.Session.SetString("SEARCH_TYPE", "DOM");
-                    //}
-                    //else if (searchType == "R" && sector == "D")
-                    //{
-                    //    query.CompanyID = companyId;
-                    //    query.AirRQ = xmlstring;
-                    //    query.JourneyType = "RW";
-                    //    dataresult = await _SearchFlightAvailabilityHandler.HandleAsync(query);
-                    //    result = sector;
-                    //    searchValue = "RW";
-                    //    HttpContext.Session.SetString("SEARCH_TYPE", "DOM");
-                    //}
                     if (sector == "D")
                     {
                         query.CompanyID = companyId;
                         query.AirRQ = xmlstring;
                         query.JourneyType = "RW";
-                        dataresult = await _SearchFlightAvailabilityHandler.HandleAsync(query);
+                        journeyType = "RW";
                         result = sector;
                         searchValue = "RW";
                         HttpContext.Session.SetString("SEARCH_TYPE", "DOM");
@@ -394,33 +385,459 @@ public class FlightController : AgencyBaseController
                         query.CompanyID = companyId;
                         query.AirRQ = xmlstring;
                         query.JourneyType = "RT";
-                        dataresult = await _SearchFlightAvailabilityHandler.HandleAsync(query);
+                        journeyType = "RT";
                         result = sector;
                         searchValue = "INT";
                         HttpContext.Session.SetString("SEARCH_TYPE", "INT");
                     }
                 }
 
+                // Store search parameters in session
                 HttpContext.Session.SetString("SearchID", query.SearchID);
-                if (!string.IsNullOrEmpty(dataresult) && dataresult.IndexOf("RefID") != -1)
+                HttpContext.Session.SetString("SearchValue", searchValue);
+                HttpContext.Session.SetString("PSQ", xmlstring);
+
+                // For ONE-WAY only: Start background search and return immediately
+                if (searchType == "O")
                 {
-                    HttpContext.Session.SetString("SearchValue", searchValue);
-                    HttpContext.Session.SetString("FinalResult", dataresult);
+                    var airModel = new ZealTravel.Domain.Models.AirAvaibilityModel
+                    {
+                        Searchid = query.SearchID,
+                        Companyid = companyId,
+                        AirRQ = xmlstring,
+                        JourneyType = journeyType,
+                        EndUserIp = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "125.63.102.34"
+                    };
+
+                    // Cache will be initialized in GetAvailableFightsAsync after SetAirRQ determines which APIs to call
+                    // Start background search (fire and forget)
+                    _ = Task.Run(async () =>
+                    {
+                        using (var scope = _serviceScopeFactory.CreateScope())
+                        {
+                            try
+                            {
+                                var oneWayFlightService = scope.ServiceProvider.GetRequiredService<IGetOneWayFlightService>();
+                                await oneWayFlightService.GetAvailableFightsAsync(airModel);
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger?.LogError(ex, "Error in background search for SearchID: {SearchID}", query.SearchID);
+                                ZealTravel.Domain.Services.AirelineManagement.ProgressiveSearchCache.MarkComplete(query.SearchID);
+                            }
+                        }
+                    });
+
+                    // Return immediately with searchId for progressive loading
+                    return Ok(new { 
+                        d = result,
+                        searchId = query.SearchID,
+                        progressive = true
+                    });
+                }
+                else if (searchType == "R" || searchType == "DRT")
+                {
+                    // For ROUND TRIP (RT/RW): Start background search and return immediately (same as one-way)
+                    var airModel = new ZealTravel.Domain.Models.AirAvaibilityModel
+                    {
+                        Searchid = query.SearchID,
+                        Companyid = companyId,
+                        AirRQ = xmlstring,
+                        JourneyType = journeyType,  // "RT" or "RW"
+                        EndUserIp = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "125.63.102.34"
+                    };
+
+                    // Cache will be initialized in GetAvailableFightsAsync after SetAirRQ determines which APIs to call
+                    // Start background search (fire and forget) - SAME PATTERN AS ONE-WAY
+                    _ = Task.Run(async () =>
+                    {
+                        using (var scope = _serviceScopeFactory.CreateScope())
+                        {
+                            try
+                            {
+                                var oneWayFlightService = scope.ServiceProvider.GetRequiredService<IGetOneWayFlightService>();
+                                await oneWayFlightService.GetAvailableFightsAsync(airModel);
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger?.LogError(ex, "Error in background search for SearchID: {SearchID}", query.SearchID);
+                                ZealTravel.Domain.Services.AirelineManagement.ProgressiveSearchCache.MarkComplete(query.SearchID);
+                            }
+                        }
+                    });
+
+                    // Return immediately with searchId for progressive loading
+                    return Ok(new { 
+                        d = result,
+                        searchId = query.SearchID,
+                        progressive = true
+                    });
                 }
                 else
                 {
-                    result = string.Empty;
+                    // For other search types (MC, etc.): Use original synchronous behavior
+                    var airModel = new ZealTravel.Domain.Models.AirAvaibilityModel
+                    {
+                        Searchid = query.SearchID,
+                        Companyid = companyId,
+                        AirRQ = xmlstring,
+                        JourneyType = journeyType,
+                        EndUserIp = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "125.63.102.34"
+                    };
+
+                    var dataresult = await _SearchFlightAvailabilityHandler.HandleAsync(query);
+
+                    HttpContext.Session.SetString("SearchID", query.SearchID);
+                    if (!string.IsNullOrEmpty(dataresult) && dataresult.IndexOf("RefID") != -1)
+                    {
+                        result = sector;
+                        HttpContext.Session.SetString("FinalResult", dataresult);
+                        HttpContext.Session.SetString("SearchValue", searchValue);
+                    }
+                    else
+                    {
+                        result = string.Empty;
+                    }
+
+                    return Ok(new { d = result });
                 }
+            }
+            else
+            {
+                // If model is null or empty, return error
+                return BadRequest(new { 
+                    error = "Invalid request",
+                    d = string.Empty
+                });
             }
         }
         catch (Exception ex)
         {
-            result = string.Empty;
-            //log error
-
+            _logger?.LogError(ex, "Error in GetvalueForRequest");
+            return BadRequest(new { 
+                error = ex.Message,
+                d = string.Empty
+            });
         }
-        return Ok(new { d = result });
     }
+
+    /// <summary>
+    /// Polling endpoint for progressive results (One-Way and Round Trip)
+    /// Returns current merged results as APIs complete
+    /// </summary>
+    [HttpGet]
+    [Route("Flight/GetProgressiveResults")]
+    public IActionResult GetProgressiveResults([FromQuery] string searchId)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(searchId))
+            {
+                return BadRequest(new { error = "SearchID is required" });
+            }
+
+            var cachedResult = ZealTravel.Domain.Services.AirelineManagement.ProgressiveSearchCache.GetResult(searchId);
+            
+            if (cachedResult == null)
+            {
+                return Ok(new 
+                { 
+                    searchId = searchId,
+                    status = "notfound",
+                    results = string.Empty,
+                    isComplete = false,
+                    completedApis = new string[0],
+                    totalApis = 0
+                });
+            }
+
+            // Get current merged results from cache
+            var qpResult = cachedResult.ApiResults.TryGetValue("Akasa", out var akasa) ? akasa : null;
+            var uapiResult = cachedResult.ApiResults.TryGetValue("Galileo", out var galileo) ? galileo : null;
+            var uapiSMEResult = cachedResult.ApiResults.TryGetValue("Galileo_SME", out var galileoSME) ? galileoSME : null;
+            var uapi6eResult = cachedResult.ApiResults.TryGetValue("IndiGo_6E", out var indigo) ? indigo : null;
+            var spicejetResult = cachedResult.ApiResults.TryGetValue("Spicejet", out var spicejet) ? spicejet : null;
+            var spicejetMaxResult = cachedResult.ApiResults.TryGetValue("Spicejet_MAX", out var spicejetMax) ? spicejetMax : null;
+            var spicejetCouponResult = cachedResult.ApiResults.TryGetValue("Spicejet_COUPON", out var spicejetCoupon) ? spicejetCoupon : null;
+            var spicejetCorporateResult = cachedResult.ApiResults.TryGetValue("Spicejet_CORPORATE", out var spicejetCorp) ? spicejetCorp : null;
+
+            // Get merged results from service (merges ALL available results immediately, not waiting for all APIs)
+            var responseString = _oneWayFlightService.GetProgressiveResults(searchId, cachedResult.JourneyType, cachedResult.CompanyId);
+
+            // Get completed API names - use ApiResults.Keys to ensure we get all APIs that have completed
+            // (even if they returned null/empty, they still count as "completed" for progress tracking)
+            var completedApis = cachedResult.ApiResults.Keys.ToArray();
+            
+
+            return Ok(new 
+            { 
+                searchId = searchId,
+                status = cachedResult.IsComplete ? "completed" : "inprogress",
+                results = responseString,
+                isComplete = cachedResult.IsComplete,
+                completedApis = completedApis,
+                totalApis = cachedResult.TotalApis
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger?.LogError(ex, "Error getting progressive results for SearchID: {SearchID}", searchId);
+            return BadRequest(new { error = ex.Message });
+        }
+    }
+
+    /// <summary>
+    /// TEST ENDPOINT: Verify route is accessible
+    /// GET /Flight/TestOldFunctionSimple
+    /// </summary>
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("Flight/TestOldFunctionSimple")]
+    public IActionResult TestOldFunctionSimpleGet()
+    {
+        return Ok(new { message = "Test endpoint is accessible!", timestamp = DateTime.Now });
+    }
+
+    /// <summary>
+    /// TEST ENDPOINT: Call old synchronous GetAvailableFights method directly
+    /// Simple version: POST /Flight/TestOldFunctionSimple
+    /// Body: { "from": "PNQ", "to": "DEL", "date": "19/12/2025", "adults": "1" }
+    /// </summary>
+    [AllowAnonymous]
+    [HttpPost]
+    [Route("Flight/TestOldFunctionSimple")]
+    public async Task<IActionResult> TestOldFunctionSimple([FromBody] TestFlightRequest request)
+    {
+        try
+        {
+            if (request == null || string.IsNullOrEmpty(request.from) || string.IsNullOrEmpty(request.to) || string.IsNullOrEmpty(request.date))
+            {
+                return BadRequest(new { error = "Missing required parameters: from, to, date" });
+            }
+
+            // Get company ID
+            string companyId = string.Empty;
+            int accountID = 0;
+            if (_configuration["Company:IsBO"].Equals("0"))
+            {
+                companyId = User != null && User.Identity.IsAuthenticated ? UserHelper.GetCompanyID(User) : string.Empty;
+                accountID = User != null && User.Identity.IsAuthenticated ? UserHelper.GetStaffAccountID(User) : 0;
+            }
+            else
+            {
+                companyId = "1"; // Default for testing
+                accountID = 1;
+            }
+
+            // Build XML request string manually
+            // Format: DD/MM/YYYY -> YYYYMMDD
+            string[] dateParts = request.date.Split('/');
+            string beginDate = dateParts[2] + dateParts[1] + dateParts[0]; // YYYYMMDD
+            
+            StringBuilder xmlBuilder = new StringBuilder();
+            xmlBuilder.Append("<AvailabilityRequest>");
+            xmlBuilder.Append("<DepartureStation>" + request.from + "</DepartureStation>");
+            xmlBuilder.Append("<ArrivalStation>" + request.to + "</ArrivalStation>");
+            xmlBuilder.Append("<Cabin>Y</Cabin>");
+            xmlBuilder.Append("<AirVAry></AirVAry>");
+            xmlBuilder.Append("<StartDate>" + beginDate + "</StartDate>");
+            xmlBuilder.Append("<EndDate>" + beginDate + "</EndDate>");
+            xmlBuilder.Append("<Adult>" + (request.adults ?? "1") + "</Adult>");
+            xmlBuilder.Append("<Child>" + (request.children ?? "0") + "</Child>");
+            xmlBuilder.Append("<Infant>" + (request.infants ?? "0") + "</Infant>");
+            xmlBuilder.Append("<SplFare>false</SplFare>");
+            xmlBuilder.Append("</AvailabilityRequest>");
+            
+            string xmlstring = xmlBuilder.ToString();
+            
+            // Determine sector
+            var isDomestic = await _isDomesticFlightSearchHandler.HandleAsync(new IsDomesticFlightSearchQuery { Origin = request.from, Destination = request.to });
+            string sector = isDomestic ? "D" : "I";
+            string journeyType = "OW";
+
+            // Create search ID
+            var searchId = Guid.NewGuid().ToString() + "-" + System.DateTime.Now.Minute.ToString() + "-" + System.DateTime.Now.Second.ToString() + "-" + accountID.ToString();
+
+            Console.WriteLine($"[TEST] ========================================");
+            Console.WriteLine($"[TEST] Testing OLD synchronous GetAvailableFights");
+            Console.WriteLine($"[TEST] SearchID: {searchId}");
+            Console.WriteLine($"[TEST] From: {request.from}, To: {request.to}");
+            Console.WriteLine($"[TEST] Date: {request.date} -> {beginDate}");
+            Console.WriteLine($"[TEST] JourneyType: {journeyType}, Sector: {sector}");
+            Console.WriteLine($"[TEST] XML Request length: {xmlstring.Length}");
+            Console.WriteLine($"[TEST] ========================================");
+
+            // Call OLD synchronous method directly
+            var airModel = new ZealTravel.Domain.Models.AirAvaibilityModel
+            {
+                Searchid = searchId,
+                Companyid = companyId,
+                AirRQ = xmlstring,
+                JourneyType = journeyType,
+                EndUserIp = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "125.63.102.34"
+            };
+
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            var result = _oneWayFlightService.GetAvailableFights(airModel);
+            sw.Stop();
+
+            Console.WriteLine($"[TEST] ========================================");
+            Console.WriteLine($"[TEST] Old function completed in {sw.ElapsedMilliseconds}ms");
+            Console.WriteLine($"[TEST] Result length: {result?.Length ?? 0}");
+            Console.WriteLine($"[TEST] HasRefID: {(result?.IndexOf("RefID") ?? -1) != -1}");
+            if (result != null && result.IndexOf("RefID") != -1)
+            {
+                var resultCount = (result.Length - result.Replace("<RefID>", "").Length) / "<RefID>".Length;
+                Console.WriteLine($"[TEST] Estimated flight count: {resultCount}");
+            }
+            Console.WriteLine($"[TEST] ========================================");
+
+            return Ok(new { 
+                success = true,
+                searchId = searchId,
+                resultLength = result?.Length ?? 0,
+                hasRefID = (result?.IndexOf("RefID") ?? -1) != -1,
+                timeMs = sw.ElapsedMilliseconds,
+                resultPreview = result != null && result.Length > 0 ? result.Substring(0, Math.Min(1000, result.Length)) : "",
+                result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[TEST] Error: {ex.Message}");
+            Console.WriteLine($"[TEST] StackTrace: {ex.StackTrace}");
+            return BadRequest(new { 
+                error = ex.Message,
+                stackTrace = ex.StackTrace
+            });
+        }
+    }
+
+    /// <summary>
+    /// Test request model for simple test
+    /// </summary>
+    public class TestFlightRequest
+    {
+        public string from { get; set; }  // e.g., "PNQ" for Pune
+        public string to { get; set; }      // e.g., "DEL" for Delhi
+        public string date { get; set; }    // e.g., "19/12/2025"
+        public string adults { get; set; } = "1";
+        public string children { get; set; } = "0";
+        public string infants { get; set; } = "0";
+    }
+
+    /// <summary>
+    /// TEST ENDPOINT: Call old synchronous GetAvailableFights method directly
+    /// Use this to test if old function still works
+    /// </summary>
+    [HttpPost]
+    public async Task<IActionResult> TestOldFunction([FromBody] clsPSQBORequest model)
+    {
+        try
+        {
+            if (model == null || model.objclsPSQ == null || !model.objclsPSQ.Any())
+            {
+                return BadRequest(new { error = "Invalid request - objclsPSQ is required" });
+            }
+
+            clsPSQBO objGetAllValue = model.objclsPSQ[0];
+            if (string.IsNullOrEmpty(objGetAllValue._SearchType))
+            {
+                return BadRequest(new { error = "Invalid request - SearchType is required" });
+            }
+
+            // Get company ID
+            string companyId = string.Empty;
+            int accountID = 0;
+            if (_configuration["Company:IsBO"].Equals("0"))
+            {
+                companyId = User != null && User.Identity.IsAuthenticated ? UserHelper.GetCompanyID(User) : string.Empty;
+                accountID = User != null && User.Identity.IsAuthenticated ? UserHelper.GetStaffAccountID(User) : 0;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(objGetAllValue._companyId))
+                {
+                    int.TryParse(objGetAllValue._companyId, out accountID);
+                    if (accountID > 0)
+                    {
+                        var companyIdByAccountIdQuery = new CompanyIdByAccountIdQuery { AccountId = accountID };
+                        companyId = await _getCompanyIDByAccountIDQueryHandler.HandleAsync(companyIdByAccountIdQuery);
+                    }
+                }
+            }
+
+            // Build XML request (same as GetvalueForRequest)
+            string xmlstring = SearchFlightRequestHelper.PSQXMLString(model.objclsPSQ);
+            
+            // Determine sector from departure/arrival stations
+            var arrdep = CommonFunction.GetStringInBetween(objGetAllValue._DepartureStation, "(", ")", false, false);
+            string departureStation = arrdep[0];
+            var arrArv = CommonFunction.GetStringInBetween(objGetAllValue._ArrivalStation, "(", ")", false, false);
+            string arrivalStation = arrArv[0];
+            var isDomestic = await _isDomesticFlightSearchHandler.HandleAsync(new IsDomesticFlightSearchQuery { Origin = departureStation, Destination = arrivalStation });
+            string sector = isDomestic ? "D" : "I";
+            
+            string searchType = objGetAllValue._SearchType;
+
+            // Determine journey type
+            string journeyType = string.Empty;
+            if (searchType == "O")
+            {
+                journeyType = "OW";
+            }
+            else if (searchType == "DRT" || searchType == "R")
+            {
+                journeyType = sector == "D" ? "RW" : "RT";
+            }
+
+            // Create search ID
+            var query = new SearchFlightAvailabilityQuery();
+            query.SearchID = Guid.NewGuid().ToString() + "-" + System.DateTime.Now.Minute.ToString() + "-" + System.DateTime.Now.Second.ToString() + "-" + accountID.ToString();
+            query.CompanyID = companyId;
+            query.AirRQ = xmlstring;
+            query.JourneyType = journeyType;
+
+            Console.WriteLine($"[TEST] Calling OLD synchronous GetAvailableFights method");
+            Console.WriteLine($"[TEST] SearchID: {query.SearchID}, JourneyType: {journeyType}, Sector: {sector}");
+
+            // Call OLD synchronous method directly
+            var airModel = new ZealTravel.Domain.Models.AirAvaibilityModel
+            {
+                Searchid = query.SearchID,
+                Companyid = companyId,
+                AirRQ = xmlstring,
+                JourneyType = journeyType,
+                EndUserIp = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "125.63.102.34"
+            };
+
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            var result = _oneWayFlightService.GetAvailableFights(airModel);
+            sw.Stop();
+
+            Console.WriteLine($"[TEST] Old function completed in {sw.ElapsedMilliseconds}ms");
+            Console.WriteLine($"[TEST] Result length: {result?.Length ?? 0}, HasRefID: {(result?.IndexOf("RefID") ?? -1) != -1}");
+
+            return Ok(new { 
+                success = true,
+                searchId = query.SearchID,
+                resultLength = result?.Length ?? 0,
+                hasRefID = (result?.IndexOf("RefID") ?? -1) != -1,
+                timeMs = sw.ElapsedMilliseconds,
+                result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[TEST] Error: {ex.Message}");
+            Console.WriteLine($"[TEST] StackTrace: {ex.StackTrace}");
+            return BadRequest(new { 
+                error = ex.Message,
+                stackTrace = ex.StackTrace
+            });
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> ShowData([FromBody] string CompanyID)//oneway,Roundway,rt
     {
@@ -433,11 +850,35 @@ public class FlightController : AgencyBaseController
                 CompanyID = User != null && User.Identity.IsAuthenticated ? UserHelper.GetCompanyID(User) : string.Empty;
 
             }
+            
+            // Check if FinalResult is in session (traditional flow)
+            var finalResult = HttpContext.Session.GetString("FinalResult");
+            var searchId = HttpContext.Session.GetString("SearchID");
+            
+            // If no FinalResult but we have a searchId, check progressive cache (OW, RT, RW)
+            if (string.IsNullOrEmpty(finalResult) && !string.IsNullOrEmpty(searchId))
+            {
+                var cachedResult = ZealTravel.Domain.Services.AirelineManagement.ProgressiveSearchCache.GetResult(searchId);
+                if (cachedResult != null && (cachedResult.JourneyType == "OW" || cachedResult.JourneyType == "RT" || cachedResult.JourneyType == "RW"))
+                {
+                    // Get results from progressive cache
+                    var progressiveResults = _oneWayFlightService.GetProgressiveResults(searchId, cachedResult.JourneyType, CompanyID);
+                    
+                    if (!string.IsNullOrEmpty(progressiveResults) && progressiveResults.IndexOf("RefID") != -1)
+                    {
+                        // Set in session so ShowFlightDataHelper can use it
+                        HttpContext.Session.SetString("FinalResult", progressiveResults);
+                        var searchValue = cachedResult.JourneyType == "OW" ? "OW" : (cachedResult.JourneyType == "RW" ? "RW" : "INT");
+                        HttpContext.Session.SetString("SearchValue", searchValue);
+                    }
+                }
+            }
+            
             FlightOutBound = await ShowFlightDataHelper.ResultDataAsync("OUTBOUND", "DOM", CompanyID);
         }
         catch (Exception ex)
         {
-
+            _logger?.LogError(ex, "Error in ShowData");
         }
 
         return Ok(new { d = FlightOutBound });
@@ -456,14 +897,39 @@ public class FlightController : AgencyBaseController
                 CompanyID = User != null && User.Identity.IsAuthenticated ? UserHelper.GetCompanyID(User) : string.Empty;
 
             }
+            
+            // Check if FinalResult is in session (traditional flow)
+            var finalResult = HttpContext.Session.GetString("FinalResult");
+            var searchId = HttpContext.Session.GetString("SearchID");
+            
+            // If no FinalResult but we have a searchId, check progressive cache (RT, RW only - for inbound flights)
+            if (string.IsNullOrEmpty(finalResult) && !string.IsNullOrEmpty(searchId))
+            {
+                var cachedResult = ZealTravel.Domain.Services.AirelineManagement.ProgressiveSearchCache.GetResult(searchId);
+                if (cachedResult != null && (cachedResult.JourneyType == "RT" || cachedResult.JourneyType == "RW"))
+                {
+                    // Get results from progressive cache (same results contain both outbound and inbound)
+                    var progressiveResults = _oneWayFlightService.GetProgressiveResults(searchId, cachedResult.JourneyType, CompanyID);
+                    
+                    if (!string.IsNullOrEmpty(progressiveResults) && progressiveResults.IndexOf("RefID") != -1)
+                    {
+                        // Set in session so ShowFlightDataHelper can use it
+                        HttpContext.Session.SetString("FinalResult", progressiveResults);
+                        var searchValue = cachedResult.JourneyType == "RW" ? "RW" : "INT";
+                        HttpContext.Session.SetString("SearchValue", searchValue);
+                    }
+                }
+            }
+            
             FlightOutBound = await ShowFlightDataHelper.ResultDataAsync("INBOUND", "DOM", CompanyID);
         }
         catch (Exception ex)
         {
-
+            _logger?.LogError(ex, "Error in ShowDataR");
         }
         return Ok(new { d = FlightOutBound });
     }
+
 
     [HttpPost]
     public async Task<IActionResult> ShowDataRoundInternational([FromBody] string CompanyID)//international
@@ -476,12 +942,13 @@ public class FlightController : AgencyBaseController
                 CompanyID = User != null && User.Identity.IsAuthenticated ? UserHelper.GetCompanyID(User) : string.Empty;
 
             }
+            
             FlightOutBound = await ShowFlightDataHelper.ResultDataIntAsync("OUTBOUND", "INT", CompanyID);
             
         }
         catch (Exception ex)
         {
-
+            _logger?.LogError(ex, "Error in ShowDataRoundInternational");
         }
 
         return Ok(new { d = FlightOutBound });

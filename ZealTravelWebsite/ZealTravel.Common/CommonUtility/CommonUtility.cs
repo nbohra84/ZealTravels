@@ -122,13 +122,28 @@ namespace ZealTravel.Common.CommonUtility
 
         public static bool IsCarrierActiveFromClient(string Carriercode, string TRequest)
         {
-            DataSet dsResponse = new DataSet();
-            dsResponse.ReadXml(new System.IO.StringReader(TRequest));
+            try
+            {
+                DataSet dsResponse = new DataSet();
+                dsResponse.ReadXml(new System.IO.StringReader(TRequest));
 
-            List<string> arCarrier = dsResponse.Tables["AirVInfo"].AsEnumerable()
-                .Select(row => row["AirV"].ToString().Trim()).ToList();
+                // Check if AirVInfo table exists and has rows
+                if (dsResponse.Tables["AirVInfo"] == null || dsResponse.Tables["AirVInfo"].Rows.Count == 0)
+                {
+                    // If no AirVInfo table or empty, return false (carrier not specified)
+                    return false;
+                }
 
-            return arCarrier.Contains(Carriercode);
+                List<string> arCarrier = dsResponse.Tables["AirVInfo"].AsEnumerable()
+                    .Select(row => row["AirV"].ToString().Trim()).ToList();
+
+                return arCarrier.Contains(Carriercode);
+            }
+            catch (Exception ex)
+            {
+                // If any error occurs (e.g., table doesn't exist), return false
+                return false;
+            }
         }
 
         public static string AddDefaultCarrierfromAvailabilityRequestMC(string TRequest)

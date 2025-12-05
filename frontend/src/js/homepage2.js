@@ -541,7 +541,8 @@ function getSearchType() {
 //    var rseultvalidation = validate()
 //    if (rseultvalidation == true) {
 //        var AirLines = "";
-//        $('#CenterwaitingDiv').css("display", "block");
+//        // Circular loader removed - using progress bar instead
+        // $('#CenterwaitingDiv').css("display", "block");
 //        $('#depCityWaiting').text($("#oricity").val());
 //        $('#ArrCityWaiting').text($("#desticity").val());
 //        var serchctydate = $("#oricity").val() + "!" + $("#desticity").val() + "#" + $("#depdate").val() + "," + $("#retdate").val();
@@ -643,7 +644,8 @@ function getresult() {
     var rseultvalidation = validate()
     if (rseultvalidation == true) {
         var AirLines = "";                
-        $('#CenterwaitingDiv').css("display", "block");
+        // Circular loader removed - using progress bar instead
+        // $('#CenterwaitingDiv').css("display", "block");
         $('#depCityWaiting').text($("#oricity").val());
         $('#ArrCityWaiting').text($("#desticity").val());
         var serchctydate = $("#oricity").val() + "!" + $("#desticity").val() + "#" + $("#depdate").val() + "," + $("#retdate").val();
@@ -707,15 +709,44 @@ function getresult() {
                
                 // var hostName = $('#hdnhostName').val();   
                 var obj = result.d;
+                
+                console.log('[Progressive] Search response received:', {
+                    d: obj,
+                    progressive: result.progressive,
+                    searchId: result.searchId,
+                    fullResult: result
+                });
+                
+                // Check if progressive loading is enabled (one-way and round trip)
                 if (obj != "") {
                     if (obj == "O") {
-                        location.href = "//" + hostName + "/Flight/OneWay";
+                        var url = "//" + hostName + "/Flight/OneWay";
+                        // For progressive loading: add searchId if available
+                        if (result.progressive && result.searchId) {
+                            url += "?searchId=" + encodeURIComponent(result.searchId);
+                            sessionStorage.setItem('progressiveSearchId', result.searchId);
+                        }
+                        location.href = url;
                     }
                     else if (obj == "D") {
-                        location.href = "//" + hostName + "/Flight/round";
+                        var url = "//" + hostName + "/flight/round";
+                        // For progressive loading: add searchId if available
+                        if (result.progressive && result.searchId) {
+                            url += "?searchId=" + encodeURIComponent(result.searchId);
+                            sessionStorage.setItem('progressiveSearchId', result.searchId);
+                            console.log('[Progressive RT] Redirecting to round trip with searchId:', result.searchId);
+                        }
+                        location.href = url;
                     }
                     else if (obj == "I") {
-                        location.href = "//" + hostName + "/Flight/Int";
+                        var url = "//" + hostName + "/flight/int";
+                        // For progressive loading: add searchId if available
+                        if (result.progressive && result.searchId) {
+                            url += "?searchId=" + encodeURIComponent(result.searchId);
+                            sessionStorage.setItem('progressiveSearchId', result.searchId);
+                            console.log('[Progressive RT] Redirecting to international round trip with searchId:', result.searchId);
+                        }
+                        location.href = url;
                     }
                     // else if (obj == "DRT") {
                     //     location.href = "//" + hostName + "/k_rt.aspx";
@@ -723,14 +754,34 @@ function getresult() {
                 }
                 else {
                     if (mySelection == "O") {
-                        location.href = "//" + hostName + "/Flight/OneWay";
+                        var url = "//" + hostName + "/Flight/OneWay";
+                        // For progressive loading: add searchId if available
+                        if (result.progressive && result.searchId) {
+                            url += "?searchId=" + encodeURIComponent(result.searchId);
+                            sessionStorage.setItem('progressiveSearchId', result.searchId);
+                        }
+                        location.href = url;
                     }
-                    else if (mySelection == "R") {
-                        location.href = "//" + hostName + "/Flight/round";
+                else if (mySelection == "R") {
+                    var url = "//" + hostName + "/flight/round";
+                    // Check if we have searchId in sessionStorage for progressive loading
+                    var storedSearchId = sessionStorage.getItem('progressiveSearchId');
+                    if (storedSearchId) {
+                        url += "?searchId=" + encodeURIComponent(storedSearchId);
+                        console.log('[Progressive RT] Error handler - Using stored searchId:', storedSearchId);
                     }
-                    else if (mySelection == "DRT") {
-                        location.href = "//" + hostName + "/Flight/Int";
+                    location.href = url;
+                }
+                else if (mySelection == "DRT") {
+                    var url = "//" + hostName + "/flight/int";
+                    // Check if we have searchId in sessionStorage for progressive loading
+                    var storedSearchId = sessionStorage.getItem('progressiveSearchId');
+                    if (storedSearchId) {
+                        url += "?searchId=" + encodeURIComponent(storedSearchId);
+                        console.log('[Progressive RT] Error handler - Using stored searchId:', storedSearchId);
                     }
+                    location.href = url;
+                }
                     // else if (mySelection == "MRT") {
                     //     location.href = "//" + hostName + "/k_int.aspx";
                     // }
@@ -813,7 +864,8 @@ window.getresult=getresult;
 //    var rseultvalidation = validate()
 //    if (rseultvalidation == true) {
 //        var AirLines = "";
-//        $('#CenterwaitingDiv').css("display", "block");
+//        // Circular loader removed - using progress bar instead
+        // $('#CenterwaitingDiv').css("display", "block");
 //        $('#depCityWaiting').text($("#oricity").val());
 //        $('#ArrCityWaiting').text($("#desticity").val());
 //        var serchctydate = $("#oricity").val() + "!" + $("#desticity").val() + "#" + $("#depdate").val() + "," + $("#retdate").val();
@@ -1121,7 +1173,8 @@ function getresultMulticity() {
    
     var rseultvalidation = validatemulticity()
     if (rseultvalidation == true) {
-        $("#CenterwaitingDivMulticity").css("display", "block");
+        // Circular loader removed - using progress bar instead
+        // $("#CenterwaitingDivMulticity").css("display", "block");
         $('#paxtyMcity').text($("#infant").val());
         $('#paxtyMcity1').text($("#adult").val());
         $('#paxtyMcity2').text($("#child").val());
@@ -1208,11 +1261,13 @@ function getresultMulticity() {
 	
     var rseultvalidation = validatemulticity()
     if (rseultvalidation == true) {
-        $("#CenterwaitingDivMulticity").css("display", "block");
+        // Circular loader removed - using progress bar instead
+        // $("#CenterwaitingDivMulticity").css("display", "block");
         $('#paxtyMcity').text($("#infant").val());
         $('#paxtyMcity1').text($("#adult").val());
         $('#paxtyMcity2').text($("#child").val());
-        $('#CenterwaitingDiv').css("display", "block");
+        // Circular loader removed - using progress bar instead
+        // $('#CenterwaitingDiv').css("display", "block");
         //debugger;
         var multirow = $(".multicityrow");
         

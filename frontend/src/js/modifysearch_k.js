@@ -461,7 +461,8 @@ function getModifyMulticityresult() {
   var hostName = $("#hdnhostName").val();
   var rseultvalidation = validatemulticity();
   if (rseultvalidation === true) {
-    $("#CenterwaitingDivMulticity").css("display", "block");
+    // Circular loader removed - using progress bar instead
+    // $("#CenterwaitingDivMulticity").css("display", "block");
     $("#paxtyMcity").text($("#infant").val());
     $("#paxtyMcity1").text($("#adult").val());
     $("#paxtyMcity2").text($("#child").val());
@@ -870,7 +871,8 @@ function getModifyresult() {
   var hostName = $("#hdnhostName").val();
   var rseultvalidation = validateModify();
   if (rseultvalidation === 0) {
-    $("#CenterwaitingDiv").css("display", "block");
+    // Circular loader removed - using progress bar instead
+    // $("#CenterwaitingDiv").css("display", "block");
     var travelClass = $("#ddlTravelClass").val();
     var Accid = $("#hdnAccountNo").val();
     var PreferedList = [];

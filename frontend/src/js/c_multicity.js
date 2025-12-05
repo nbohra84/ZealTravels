@@ -1740,7 +1740,8 @@ window.chkunchk = chkunchk;
             $("#paxty").text($("#numFLInfants").val());
       
 
-            $("#CenterwaitingDiv").css("display", "Block");
+            // Circular loader removed - using progress bar instead
+            // $("#CenterwaitingDiv").css("display", "Block");
             
             $.ajax({
                 type: "POST",

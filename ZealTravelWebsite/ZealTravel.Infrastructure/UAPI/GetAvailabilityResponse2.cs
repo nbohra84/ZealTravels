@@ -52,9 +52,13 @@ namespace ZealTravel.Infrastructure.UAPI
                 this.PSQRequest = PSQRequest;
                 this.UApiResponse = UApiResponse;
 
+                Console.WriteLine($"[SetAvailabilityResponse] Starting - SearchID: {SearchID}, Response length: {UApiResponse?.Length ?? 0}");
+                
                 XmlDocument xDocResponse = new XmlDocument();
                 xDocResponse.LoadXml(UApiResponse);
                 XmlNode ddd = xDocResponse.LastChild.LastChild.FirstChild;
+                
+                Console.WriteLine($"[SetAvailabilityResponse] XML loaded successfully, Root node: {ddd?.Name ?? "null"}");
 
                 string FlightDetailsList = "";
                 string AirSegmentList = "";
@@ -92,21 +96,42 @@ namespace ZealTravel.Infrastructure.UAPI
                     }
                 }
 
+                Console.WriteLine($"[SetAvailabilityResponse] Parsed sections - FlightDetailsList: {FlightDetailsList?.Length ?? 0}, AirSegmentList: {AirSegmentList?.Length ?? 0}, AirPricePointList: {AirPricePointList?.Length ?? 0}");
+
                 DataSet dsFlightDetailsList = new DataSet();
                 DataSet dsAirSegmentList = new DataSet();
                 DataSet dsFareInfoList = new DataSet();
                 DataSet dsRouteList = new DataSet();
                 DataSet dsBrandList = new DataSet();
-                dsFlightDetailsList.ReadXml(new System.IO.StringReader(FlightDetailsList));
-                dsAirSegmentList.ReadXml(new System.IO.StringReader(AirSegmentList));
-                dsFareInfoList.ReadXml(new System.IO.StringReader(FareInfoList));
-                dsRouteList.ReadXml(new System.IO.StringReader(RouteList));
-                dsBrandList.ReadXml(new System.IO.StringReader(BrandList));
+                
+                try
+                {
+                    if (!string.IsNullOrEmpty(FlightDetailsList))
+                        dsFlightDetailsList.ReadXml(new System.IO.StringReader(FlightDetailsList));
+                    if (!string.IsNullOrEmpty(AirSegmentList))
+                        dsAirSegmentList.ReadXml(new System.IO.StringReader(AirSegmentList));
+                    if (!string.IsNullOrEmpty(FareInfoList))
+                        dsFareInfoList.ReadXml(new System.IO.StringReader(FareInfoList));
+                    if (!string.IsNullOrEmpty(RouteList))
+                        dsRouteList.ReadXml(new System.IO.StringReader(RouteList));
+                    if (!string.IsNullOrEmpty(BrandList))
+                        dsBrandList.ReadXml(new System.IO.StringReader(BrandList));
+                    
+                    Console.WriteLine($"[SetAvailabilityResponse] DataSets loaded - FlightDetails: {dsFlightDetailsList.Tables.Count}, AirSegment: {dsAirSegmentList.Tables.Count}, FareInfo: {dsFareInfoList.Tables.Count}, Route: {dsRouteList.Tables.Count}, Brand: {dsBrandList.Tables.Count}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[SetAvailabilityResponse] ERROR loading DataSets: {ex.Message}");
+                    Console.WriteLine($"[SetAvailabilityResponse] StackTrace: {ex.StackTrace}");
+                }
 
                 string ORGG = "";
                 string DESS = "";
 
+                Console.WriteLine($"[SetAvailabilityResponse] Calling GetFlightReferences with AirPricePointList length: {AirPricePointList?.Length ?? 0}");
                 DataTable dtFlights = GetFlightReferences(AirPricePointList);
+                Console.WriteLine($"[SetAvailabilityResponse] GetFlightReferences returned - Rows: {dtFlights?.Rows?.Count ?? 0}, AirPricePointList length: {AirPricePointList?.Length ?? 0}");
+                
                 if (dtFlights != null && dtFlights.Rows.Count > 0)
                 {
                     foreach (DataRow dr in dtFlights.Rows)
@@ -596,8 +621,11 @@ namespace ZealTravel.Infrastructure.UAPI
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"[SetAvailabilityResponse] EXCEPTION - SearchID: {SearchID}, Error: {ex.Message}");
+                Console.WriteLine($"[SetAvailabilityResponse] StackTrace: {ex.StackTrace}");
                 DBCommon.Logger.dbLogg(CompanyID, 0, "GetAvailabilityResponse2" + "air_uapi", PSQRequest, UApiResponse, SearchID, ex.Message + "," + ex.StackTrace);
             }
+            Console.WriteLine($"[SetAvailabilityResponse] Returning DataTable - Rows: {dtBound?.Rows?.Count ?? 0}, SearchID: {SearchID}");
             return dtBound;
         }
         private DataTable GetFlightReferences(string AirPricePointList)
@@ -608,10 +636,19 @@ namespace ZealTravel.Infrastructure.UAPI
 
             try
             {
+                Console.WriteLine($"[GetFlightReferences] Starting - AirPricePointList length: {AirPricePointList?.Length ?? 0}");
+                
+                if (string.IsNullOrEmpty(AirPricePointList))
+                {
+                    Console.WriteLine($"[GetFlightReferences] ERROR: AirPricePointList is null or empty!");
+                    return dtFlights;
+                }
 
                 XmlDocument xDocAirPricePointList = new XmlDocument();
                 xDocAirPricePointList.LoadXml(AirPricePointList);
                 XmlNodeList XmlNodeListAirPricePointList = xDocAirPricePointList.LastChild.ChildNodes;
+                
+                Console.WriteLine($"[GetFlightReferences] XML loaded successfully, AirPricePoint nodes count: {XmlNodeListAirPricePointList?.Count ?? 0}");
 
               
                 int fltid = 0;
@@ -1066,16 +1103,25 @@ namespace ZealTravel.Infrastructure.UAPI
                     }
                 }
 
+                Console.WriteLine($"[GetFlightReferences] Processed - dtFlights rows: {dtFlights?.Rows?.Count ?? 0}, dtFlightReference rows: {dtFlightReference?.Rows?.Count ?? 0}");
+                
                 if (dtFlights != null && dtFlights.Rows.Count > 0)
                 {
-
+                    Console.WriteLine($"[GetFlightReferences] SUCCESS: Found {dtFlights.Rows.Count} flight references");
+                }
+                else
+                {
+                    Console.WriteLine($"[GetFlightReferences] WARNING: No flight references found. AirPricePointList preview: {(AirPricePointList?.Length > 500 ? AirPricePointList.Substring(0, 500) : AirPricePointList)}");
                 }
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"[GetFlightReferences] EXCEPTION - Error: {ex.Message}");
+                Console.WriteLine($"[GetFlightReferences] StackTrace: {ex.StackTrace}");
                 DBCommon.Logger.dbLogg(CompanyID, 0, "GetFlightReference" + "air_uapi", PSQRequest, UApiResponse, SearchID, ex.Message + "," + ex.StackTrace);
             }
 
+            Console.WriteLine($"[GetFlightReferences] Returning - Rows: {dtFlights?.Rows?.Count ?? 0}");
             return dtFlights;
         }
     }

@@ -51,14 +51,26 @@ namespace ZealTravel.Infrastructure.DBCommon
             {
                 CommonUtility.Collectdata(Resp_spicejet_corporate, dtBound);
             }
-            if (Resp_uapi != null && Resp_uapi.IndexOf("RefID") != -1)
+            
+            // Debug logging for UAPI responses
+            bool uapiHasRefID = Resp_uapi != null && Resp_uapi.IndexOf("RefID") != -1;
+            bool uapiSMEHasRefID = Resp_uapi_sme != null && Resp_uapi_sme.IndexOf("RefID") != -1;
+            
+            if (Resp_uapi != null)
             {
-                CommonUtility.Collectdata(Resp_uapi, dtBound);
+                if (uapiHasRefID)
+                {
+                    CommonUtility.Collectdata(Resp_uapi, dtBound);
+                }
             }
-            if (Resp_uapi_sme != null && Resp_uapi_sme.IndexOf("RefID") != -1)
+            if (Resp_uapi_sme != null)
             {
-                CommonUtility.Collectdata(Resp_uapi_sme, dtBound);
+                if (uapiSMEHasRefID)
+                {
+                    CommonUtility.Collectdata(Resp_uapi_sme, dtBound);
+                }
             }
+            
             if (Resp_6e != null && Resp_6e.IndexOf("RefID") != -1)
             {
                 CommonUtility.Collectdata(Resp_6e, dtBound);
@@ -102,6 +114,7 @@ namespace ZealTravel.Infrastructure.DBCommon
 
         public string ConvertDataTableToString(DataTable dtBound,string SearchID, string CompanyID)
         {
+            
             if (dtBound != null && dtBound.Rows.Count > 0)
             {
                 CommonFunction objCommonFunction = new CommonFunction();
@@ -116,7 +129,7 @@ namespace ZealTravel.Infrastructure.DBCommon
 
                 dsBound.DataSetName = "root";
                 string RS_Availability = DBCommon.CommonFunction.DataSetToString(dsBound);
-
+                
                 if (RS_Availability.IndexOf("RefID") != -1)
                 {
                     //air_db_cal.rr_Layer objC = new air_db_cal.rr_Layer();

@@ -44,7 +44,10 @@ namespace ZealTravel.Front.Web.Extensions
         public static IServiceCollection AddCustomDatabase(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<ZealdbNContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlServer(connectionString, sqlOptions =>
+                {
+                    sqlOptions.CommandTimeout(30); // 30 second command timeout
+                }));
 
             services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
             services.AddScoped<ICompanyRegisterRepository, Infrastructure.Repository.CompanyRegisterRepository>();
