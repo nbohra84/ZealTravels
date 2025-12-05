@@ -84,3 +84,5 @@ ZealTravelWebsite/DLL/*.dll
 # Sensitive configuration files
 **/appsettings.Production.json
 **/appsettings.Staging.json
+ZealTravelWebsite/ZealTravel.Backoffice.Web/appsettings.json
+ZealTravelWebsite/ZealTravel.Front.Web/appsettings.json
